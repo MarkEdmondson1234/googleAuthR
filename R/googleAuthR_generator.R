@@ -4,10 +4,12 @@
 #' 
 #' @param baseURI The stem of the API call.
 #' @param http_header Type of http request.
-#' @param path_args A named list with name=folder in request URI, value=the function variable.
+#' @param path_args A named list with name=folder in request URI, value=the function variable. 
 #' @param pars_args A named list with name=parameter in request URI, value=the function variable.
-#' @param the_body If a POST or PUT request needs a body put it here.
 #' @param data_parse_function A function that takes a request response, parses it and returns the data you need.
+#' 
+#' path_args and pars_args add default values to the baseURI.  
+#' You don't need to supply access_token for OAuth2 requests in pars_args, this is dealt with in gar_auth()
 #' 
 #' @returns A function that can fetch the Google API data you specify
 
@@ -62,7 +64,7 @@ googleAuth_fetch_generator <- function(baseURI,
 
       req_url <- paste0(baseURI, path, pars)
       
-      message(req_url)
+      message("request: ", req_url)
       
       req <- doHttrRequest(req_url, 
                            shiny_access_token, 
@@ -71,7 +73,7 @@ googleAuth_fetch_generator <- function(baseURI,
       
       if(!is.null(data_parse_function)){
         req <- data_parse_function(req$content, ...)
-      }
+      } 
       
     } else {
       stop("Invalid Token")
@@ -139,19 +141,7 @@ checkTokenAPI <- function(shiny_access_token=NULL, verbose=FALSE){
 doHttrRequest <- function(url,
                           shiny_access_token = NULL,
                           request_type="GET", 
-                          the_body=NULL, 
-                          params=NULL){
-  
-  ## add any other params
-  ## expects named character e.g. c(param1="foo", param2="bar")
-  if(!is.null(params)){ 
-    
-    param_string <- paste(names(params), params, 
-                          sep='=', collapse='&')
-    
-    url <- paste0(url, '?',param_string)
-    
-  }
+                          the_body=NULL){
   
   arg_list <- list(url = url, 
                    config = get_google_token(shiny_access_token), 
@@ -182,9 +172,7 @@ doHttrRequest <- function(url,
 #' @keywords internal
 checkGoogleAPIError <- function (req, 
                                  ok_content_types=getOption("googleAuthR.ok_content_types")) {
-  
 
-  
   ga.json <- httr::content(req, as = "text", type = "application/json")
   if(nchar(ga.json) > 0) {
     ga.json <- jsonlite::fromJSON(ga.json)

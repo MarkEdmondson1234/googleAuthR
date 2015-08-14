@@ -3,3 +3,7 @@
 .RData
 
 *.Rproj
+
+.httr-oauth
+
+googleAuthR-8ece4e02016b.json
