@@ -74,9 +74,10 @@ A non-definitive scope list to choose from will be attempted to be maintained vi
 2. Select and activate the API you want to use.
 3. Go to the documentation and find the API scope URL
 4. Set option in your R script for the scope e.g. 
+
 ```
 options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
-                                        ```
+```
 
 ## Building your own functions
 
