@@ -11,7 +11,7 @@
 #' path_args and pars_args add default values to the baseURI.  
 #' You don't need to supply access_token for OAuth2 requests in pars_args, this is dealt with in gar_auth()
 #' 
-#' @returns A function that can fetch the Google API data you specify
+#' @return A function that can fetch the Google API data you specify
 
 ## testing on https://developers.google.com/tag-manager/api/v1/reference/
 googleAuth_fetch_generator <- function(baseURI,

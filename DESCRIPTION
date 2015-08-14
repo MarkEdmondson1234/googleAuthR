@@ -1,0 +1,15 @@
+Package: googleAuthR
+Title: Easy Authentication with Google OAuth2 APIs
+Version: 0.0.0.9000
+Authors@R: person("Mark", "Edmondson", email = "m@sunholo.com", role = c("aut", "cre"))
+Description: Create R functions that interact with OAuth2 Google APIs easily, with auto-refresh 
+    and Shiny compatibility.
+Depends: R (>= 3.2.0)
+License: MIT + file LICENSE
+LazyData: true
+Imports:
+    httr (>= 1.0.0),
+    R6 (>= 2.1.0)
+Suggests:
+    shiny (>= 0.12.1),
+    knitr

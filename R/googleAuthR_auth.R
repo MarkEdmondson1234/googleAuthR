@@ -1,8 +1,6 @@
-#' R6 environment to store credentials
+#' R6 environment to store authenticationcredentials
 #' 
-#' In search of an object to refer from within package and shiny session
-#' 
-#' @export
+#' Used to keep persistent state.
 Authentication <- R6::R6Class(
   "Authentication",
   public = list(
@@ -84,15 +82,11 @@ Authentication <- R6::R6Class(
 #'   want to wipe the slate clean and re-authenticate with the same or different
 #'   Google account. This deletes the \code{.httr-oauth} file in current working
 #'   directory.
-#' @param key,secret the "Client ID" and "Client secret" for the application;
-#'   defaults to the ID and secret built into the \code{googleAuthR} package
-#' @param cache logical indicating if \code{googleAuthR} should cache
-#'   credentials in the default cache file \code{.httr-oauth}
+#' @param verbose Increase feedback messages of the function.   
 #'   
-#' @param shiny_session Set to shiny session object if authentication needed in a Shiny application.
 #'
 #' @return an OAuth token object, specifically a
-#'   \code{\link[=Token-class]{Token2.0}}, invisibly or if shiny_session is a Shiny object, a list.
+#'   \code{\link[=Token-class]{Token2.0}}, invisibly
 #'
 #' @export
 gar_auth <- function(token = NULL,
