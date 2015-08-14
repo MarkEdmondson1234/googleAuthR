@@ -12,6 +12,7 @@
 #' You don't need to supply access_token for OAuth2 requests in pars_args, this is dealt with in gar_auth()
 #' 
 #' @return A function that can fetch the Google API data you specify
+#' @export
 
 ## testing on https://developers.google.com/tag-manager/api/v1/reference/
 googleAuth_fetch_generator <- function(baseURI,
@@ -182,7 +183,8 @@ checkGoogleAPIError <- function (req,
     }
     
     if (!is.null(ga.json$error$message)) {
-      stop("JSON fetch error: ",ga.json$error$message, " str(req) is: ", str(req))
+      message(" str(req) is: ", str(req))
+      stop("JSON fetch error: ",paste(ga.json$error$message))
     }
     
     if (grepl("Error 400 (Bad Request)",ga.json[[1]][1])) {

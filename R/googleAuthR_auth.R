@@ -1,6 +1,7 @@
 #' R6 environment to store authenticationcredentials
 #' 
 #' Used to keep persistent state.
+#' @export
 Authentication <- R6::R6Class(
   "Authentication",
   public = list(
