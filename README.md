@@ -76,7 +76,8 @@ A non-definitive scope list to choose from will be attempted to be maintained vi
 4. Set option in your R script for the scope e.g. 
 
 ```
-options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+options("googleAuthR.scopes.selected" = 
+      c("https://www.googleapis.com/auth/urlshortener"))
 ```
 
 ## Building your own functions
@@ -158,11 +159,14 @@ A lot of Google APIs look for you to send data in the Body of the request.  This
 
 Not all API calls return data, but if they do:
 
-If you have no `data_parse_function` then the function returns the whole request object.  The content is available in $content.  You can then parse this yourself, or pass a function in to do it for you.
+If you have no `data_parse_function` then the function returns the whole request object.  The content is available in `$content`.  You can then parse this yourself, or pass a function in to do it for you.
 
-If you parse in a function into `data_parse_function`, it works on the response$content.
+If you parse in a function into `data_parse_function`, it works on the response's `$content`.
+
+Example below of the differences between having a data parsing function and not:
 
 ```
+  ## the body object that will be passed in
   body = list(
     longUrl = "http://www.google.com"
   )
@@ -228,6 +232,12 @@ shorten_url <- function(url){
   f(the_body = body)
   
 }
+
+## to use:
+
+gar_auth()
+shorten_url("http://www.google.com")
+
 ```
 
 ### Using with Shiny
@@ -244,7 +254,7 @@ Below is an example building a link shortner R package using `googleAuthR`.
 
 It was done referring to the [documentation for Google URL shortener](https://developers.google.com/url-shortener/v1/getting_started).
 
-Note the help docs specifies the steps outlined above:
+Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.
 
 1. Creating a project
 2. Activate API
@@ -254,13 +264,13 @@ Note the help docs specifies the steps outlined above:
 6. Constructing a body request
 7. Giving the response format
 
-These are in general the steps for every Google API.
-
+### Example goo.gl R library
 ```
 library(googleAuthR)
 
 ## change the native googleAuthR scopes to the one needed.
-options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+options("googleAuthR.scopes.selected" = 
+        c("https://www.googleapis.com/auth/urlshortener"))
 
 #' Shortens a url using goo.gl
 #'
@@ -302,7 +312,8 @@ expand_url <- function(shortUrl){
 #' @param timespan The time period for the analytics data
 #' 
 #' @return a dataframe of the goo.gl Url analytics
-analytics_url <- function(shortUrl, timespan = c("allTime", "month","week","day","twoHours")){
+analytics_url <- function(shortUrl, 
+                          timespan = c("allTime", "month", "week","day","twoHours")){
   
   timespan <- match.arg(timespan)
     
@@ -343,7 +354,7 @@ s
 
 expand_url(s)
 
-analytics_url(s)
+analytics_url(s, timespan = "month")
 
 user_history()
 ```

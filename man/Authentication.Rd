@@ -4,7 +4,7 @@
 \name{Authentication}
 \alias{Authentication}
 \title{R6 environment to store authenticationcredentials}
-\format{\preformatted{Class 'R6ClassGenerator' <environment: 0x7fde85906110> 
+\format{\preformatted{Class 'R6ClassGenerator' <environment: 0x7fdf5c867510> 
  - attr(*, "name")= chr "Authentication_generator"
 }}
 \usage{
