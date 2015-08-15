@@ -15,9 +15,5 @@ boolean if it works.
 \description{
 Check API data token
 }
-\seealso{
-Other data fetching functions: \code{\link{delete_website}};
-  \code{\link{list_sitemaps}}
-}
 \keyword{internal}
 

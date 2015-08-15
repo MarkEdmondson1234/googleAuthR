@@ -73,8 +73,6 @@ Authentication <- R6::R6Class(
 #' More detail is available from
 #' \href{https://developers.google.com/identity/protocols/OAuth2}{Using OAuth
 #' 2.0 to Access Google APIs}. This function executes the "installed
-#' application" flow. See \code{\link{scr_webapp_auth_url}} and
-#' \code{\link{scr_webapp_get_token}} for functions that execute the "web server
 #' application" flow.
 #'
 #' @param token an actual token object or the path to a valid token stored as an
@@ -211,31 +209,6 @@ token_exists <- function(verbose = TRUE) {
     if(verbose) message("Token exists.")
     TRUE      
   }
-}
-
-#' Suspend authorization
-#'
-#' This unexported function exists so we can suspend authorization for
-#' testing purposes.
-#'
-#' @keywords internal
-scr_auth_suspend <- function(disable_httr_oauth = TRUE, verbose = TRUE) {
-  
-  if(disable_httr_oauth && file.exists(".httr-oauth")) {
-    if(verbose) {
-      message("Disabling .httr-oauth by renaming to .httr-oauth-SUSPENDED")
-    }
-    file.rename(".httr-oauth", ".httr-oauth-SUSPENDED")
-  }
-  
-  if(!is.null(Authentication$public_fields$token)) {
-    if(verbose) {
-      message(paste("Removing google token stashed in googleAuthR's",
-                    "internal environment"))
-    }
-    rm("token", envir = .state)
-  }
-  
 }
 
 #' Check that token appears to be legitimate

@@ -64,7 +64,7 @@ authReturnCode <- function(session,
 #' @family shiny auth functions
 #' @export
 gar_shiny_getAuthUrl <- 
-  function(redirect.uri = gar_shiny_getUrl(session),
+  function(redirect.uri,
            state = getOption("googleAuthR.securitycode"),
            client.id     = getOption("googleAuthR.webapp.client_id"),
            client.secret = getOption("googleAuthR.webapp.client_secret"),
@@ -160,7 +160,8 @@ get_google_token_shiny <-
 #' Uses the same client.id and client.secret as ShinyGetTokenURL.
 #' 
 #' @param code The code returned from a successful Google authentication.
-#' @param redirect.uri Where a user will go after authentication.
+#' @param redirect.uri Where a user will go after authentication, 
+#'     from \code{gar_shiny_getUrl(session)}
 #' @param client.id From the Google API console.
 #' @param client.secret From the Google API console.
 #' 
@@ -168,11 +169,10 @@ get_google_token_shiny <-
 #' 
 #' @keywords internal
 #' @family shiny auth functions
-
 gar_shiny_getToken <- function(code,
-                            redirect.uri  = gar_shiny_getUrl(session),
-                            client.id     = getOption("googleAuthR.webapp.client_id"),
-                            client.secret = getOption("googleAuthR.webapp.client_secret")){
+                               redirect.uri,
+                               client.id     = getOption("googleAuthR.webapp.client_id"),
+                               client.secret = getOption("googleAuthR.webapp.client_secret")){
   
   scr_app <- httr::oauth_app("google", key = client.id, secret = client.secret)
   

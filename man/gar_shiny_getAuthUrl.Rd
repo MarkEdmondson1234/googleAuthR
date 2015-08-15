@@ -4,7 +4,7 @@
 \alias{gar_shiny_getAuthUrl}
 \title{Returns the Google authentication URL}
 \usage{
-gar_shiny_getAuthUrl(redirect.uri = gar_shiny_getUrl(session),
+gar_shiny_getAuthUrl(redirect.uri,
   state = getOption("googleAuthR.securitycode"),
   client.id = getOption("googleAuthR.webapp.client_id"),
   client.secret = getOption("googleAuthR.webapp.client_secret"),

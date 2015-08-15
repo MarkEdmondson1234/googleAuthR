@@ -141,7 +141,7 @@ check.Url <- function(url, checkProtocol=TRUE){
       stop("URL must include protocol, e.g. http://example.com - got:", url) 
     }
     
-    url <- URLencode(url, reserved = TRUE)
+    url <- utils::URLencode(url, reserved = TRUE)
     message("Encoding URL to ", url)
 
     url    

@@ -183,7 +183,6 @@ checkGoogleAPIError <- function (req,
     }
     
     if (!is.null(ga.json$error$message)) {
-      message(" str(req) is: ", str(req))
       stop("JSON fetch error: ",paste(ga.json$error$message))
     }
     

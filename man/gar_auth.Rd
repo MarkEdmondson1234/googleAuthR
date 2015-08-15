@@ -73,8 +73,6 @@ implications thereof.
 More detail is available from
 \href{https://developers.google.com/identity/protocols/OAuth2}{Using OAuth
 2.0 to Access Google APIs}. This function executes the "installed
-application" flow. See \code{\link{scr_webapp_auth_url}} and
-\code{\link{scr_webapp_get_token}} for functions that execute the "web server
 application" flow.
 }
 
