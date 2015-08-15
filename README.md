@@ -55,8 +55,8 @@ A non-definitive scope list to choose from will be attempted to be maintained vi
 2. Click 'Create a new Client ID', and choose "Installed Application".
 3. Note your Client ID and secret.
 4. Modify these options after `googleAuthR` has been loaded:
-  + `options("searchConsoleR.client_id" = "YOUR_CLIENT_ID")`
-  + `options("searchConsoleR.client_secret" = "YOUR_CLIENT_SECRET")`
+  + `options("googleAuthR.client_id" = "YOUR_CLIENT_ID")`
+  + `options("googleAuthR.client_secret" = "YOUR_CLIENT_SECRET")`
 
 #### For Shiny use
 2. Click 'Create a new Client ID', and choose "Web Application".
