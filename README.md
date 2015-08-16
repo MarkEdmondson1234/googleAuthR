@@ -160,8 +160,8 @@ Creating your own API should then be a matter of consulting the Google API docum
 Example below for generating a function:
 ```
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                             "POST",
-                             data_parse_function = function(x) x$id)
+                         "POST",
+                         data_parse_function = function(x) x$id)
 
 ```
 
@@ -176,9 +176,9 @@ If a name in `path_args` is present in `path_arguments`, then it is substituted 
 ```
 ## Create a function that requires a path argument /accounts/{accountId}
   f <- gar_api_generator("https://www.googleapis.com/example",
-                             "POST",
-                             path_args = list(accounts = "defaultAccountId")
-                             data_parse_function = function(x) x$id)
+                         "POST",
+                         path_args = list(accounts = "defaultAccountId")
+                         data_parse_function = function(x) x$id)
                              
 ## When using f(), pass the path_arguments function to it 
 ## with the same name to modify "defaultAccountId":
@@ -219,8 +219,8 @@ Example below of the differences between having a data parsing function and not:
   
   ## parsed data, only taking request$content$id
   f2 <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                             "POST",
-                             data_parse_function = function(x) x$id)
+                          "POST",
+                          data_parse_function = function(x) x$id)
   
   parsed <- f2(the_body = body)
   
@@ -264,8 +264,8 @@ shorten_url <- function(url){
   ## POST https://www.googleapis.com/urlshortener/v1/url
   ## response has 4 objects $kind, $id, $longUrl, and $status, but we only want $id
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                             "POST",
-                             data_parse_function = function(x) x$id)
+                         "POST",
+                         data_parse_function = function(x) x$id)
                              
                              
   ## now the function has been generated, pass in the body.
@@ -362,8 +362,8 @@ shorten_url <- function(url){
   )
   
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                             "POST",
-                             data_parse_function = function(x) x$id)
+                         "POST",
+                         data_parse_function = function(x) x$id)
   
   f(the_body = body)
   
@@ -377,9 +377,10 @@ shorten_url <- function(url){
 expand_url <- function(shortUrl){
   
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                                  "GET",
-                                  pars_args = list(shortUrl = "shortUrl"),
-                                  data_parse_function = function(x) x)
+                         "GET",
+                         pars_args = list(shortUrl = "shortUrl"),
+                         data_parse_function = function(x) x)
+                         
   f(pars_arguments = list(shortUrl = shortUrl))
   
 }
@@ -396,10 +397,10 @@ analytics_url <- function(shortUrl,
   timespan <- match.arg(timespan)
     
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                                  "GET",
-                                  pars_args = list(shortUrl = "shortUrl",
-                                                   projection = "FULL"),
-                                  data_parse_function = function(x) { 
+                         "GET",
+                         pars_args = list(shortUrl = "shortUrl",
+                                          projection = "FULL"),
+                         data_parse_function = function(x) { 
                                     a <- x$analytics 
                                     return(a[timespan][[1]])
                                     })
@@ -412,8 +413,8 @@ analytics_url <- function(shortUrl,
 #' @return a dataframe of the goo.gl user's history
 user_history <- function(){
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
-                                  "GET",
-                                  data_parse_function = function(x) x$items)
+                         "GET",
+                         data_parse_function = function(x) x$items)
   
   f()
 }
