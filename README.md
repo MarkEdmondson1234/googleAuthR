@@ -104,7 +104,46 @@ If for some reason you need authentication without access to a browser (for exam
 
 ### Authentication with Shiny
 
-TBD
+If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.
+
+If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, read on:
+
+googleAuthR provides these functions to help make the Google login process as easy as possible:
+
+* `loginOutput()` - creates the client side login button for users to authenticate with.
+* `renderLogin()` - creates the server side login button for users to authenticate with.
+* `reactiveAccessToken()` - creates the user's authentication token.
+* `with_shiny()` - wraps your API functions so they can be passed the user's authentication token.
+
+#### Shiny authentication example
+
+```
+## in server.R
+shinyServer(function(input, output, session)){
+
+  ## Get auth code from return URL
+  access_token  <- reactiveAccessToken(session)
+
+  ## Make a loginButton to display using loginOutput
+  output$loginButton <- renderLogin(session, access_token())
+
+  output$websites <- renderTable({
+
+    ## using with_shiny adds a shiny_access_token parameter to pass access_token()
+    list_websites <- with_shiny(list_websites,
+                                access_token())
+
+    })
+
+}
+
+## in ui.R
+shinyUI(fluidPage(
+  loginOutput("loginButton"),
+  renderTable("websites)
+  ))
+
+```
 
 ## Generating your function
 
@@ -244,7 +283,44 @@ shorten_url("http://www.google.com")
 
 ### Using with Shiny
 
-TBD
+If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.
+
+If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, googleAuthR provides these functions to help make the Google login process as easy as possible:
+
+* `loginOutput()` - creates the client side login button for users to authenticate with.
+* `renderLogin()` - creates the server side login button for users to authenticate with.
+* `reactiveAccessToken()` - creates the user's authentication token.
+* `with_shiny()` - wraps your API functions so they can be passed the user's authentication token.
+
+#### Shiny authentication example
+
+```
+## in server.R
+shinyServer(function(input, output, session)){
+
+  ## Get auth code from return URL
+  access_token  <- reactiveAccessToken(session)
+
+  ## Make a loginButton to display using loginOutput
+  output$loginButton <- renderLogin(session, access_token())
+
+  output$websites <- renderTable({
+
+    ## using with_shiny adds a shiny_access_token parameter to pass access_token()
+    list_websites <- with_shiny(list_websites,
+                                access_token())
+
+    })
+
+}
+
+## in ui.R
+shinyUI(fluidPage(
+  loginOutput("loginButton"),
+  renderTable("websites)
+  ))
+
+```
  
 ### More info
 
