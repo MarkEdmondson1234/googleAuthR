@@ -1,4 +1,4 @@
-#' R6 environment to store authenticationcredentials
+#' R6 environment to store authentication credentials
 #' 
 #' Used to keep persistent state.
 #' @export

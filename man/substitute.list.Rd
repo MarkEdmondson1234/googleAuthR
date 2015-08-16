@@ -13,10 +13,21 @@ substitute.list(template, replace_me)
 }
 \value{
 The template with the values substituted.
-
-If replace_me has list names not in template, the value stays the same.
 }
 \description{
 Substitute in a (nested) list
 }
+\keyword{If}
+\keyword{has}
+\keyword{in}
+\keyword{internal}
+\keyword{list}
+\keyword{names}
+\keyword{not}
+\keyword{replace_me}
+\keyword{same.}
+\keyword{stays}
+\keyword{template,}
+\keyword{the}
+\keyword{value}
 

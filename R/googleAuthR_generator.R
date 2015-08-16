@@ -15,7 +15,7 @@
 #' @export
 
 ## testing on https://developers.google.com/tag-manager/api/v1/reference/
-googleAuth_fetch_generator <- function(baseURI,
+gar_api_generator <- function(baseURI,
                                        http_header = c("GET","POST","PUT","DELETE", "PATCH"),
                                        path_args = NULL,
                                        pars_args = NULL,

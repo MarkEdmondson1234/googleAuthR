@@ -32,6 +32,9 @@ Other shiny auth functions: \code{\link{authReturnCode}};
   \code{\link{createCode}};
   \code{\link{gar_shiny_getToken}};
   \code{\link{gar_shiny_getUrl}};
-  \code{\link{get_google_token_shiny}}
+  \code{\link{loginOutput}};
+  \code{\link{reactiveAccessToken}};
+  \code{\link{renderLogin}}; \code{\link{with_shiny}}
 }
+\keyword{internal}
 

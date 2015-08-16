@@ -18,4 +18,5 @@ the function acting on x or an inner element of x
 If passed an object such as a nested list, will apply function
   on inner elements that are not lists.
 }
+\keyword{internal}
 

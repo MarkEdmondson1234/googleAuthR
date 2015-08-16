@@ -21,13 +21,13 @@ library(googleAuthR)
 
 ## Overview
 
-The main two functions are `gar_auth()` and `googleAuth_fetch_generator()`.
+The main two functions are `gar_auth()` and `gar_api_generator()`.
 
 ### `gar_auth`
 This takes care of getting the authentication token, storing it and refreshing. 
 Use it before any call to a Google library.
 
-### `googleAuth_fetch_generator`
+### `gar_api_generator`
 This creates functions for you to use to interact with Google APIs.
 Use it within your own function definitions, to query the Google API you want.
 
@@ -110,7 +110,7 @@ TBD
 
 Creating your own API should then be a matter of consulting the Google API documentation, and filling in the required details.
 
-`googleAuth_fetch_generator` has these components:
+`gar_api_generator` has these components:
 
 * `baseURI` - all APIs have a base for every API call
 * `http_header` - what type of request, most common are GET and POST
@@ -120,7 +120,7 @@ Creating your own API should then be a matter of consulting the Google API docum
 
 Example below for generating a function:
 ```
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url",
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                              "POST",
                              data_parse_function = function(x) x$id)
 
@@ -136,7 +136,7 @@ If a name in `path_args` is present in `path_arguments`, then it is substituted 
 
 ```
 ## Create a function that requires a path argument /accounts/{accountId}
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/example",
+  f <- gar_api_generator("https://www.googleapis.com/example",
                              "POST",
                              path_args = list(accounts = "defaultAccountId")
                              data_parse_function = function(x) x$id)
@@ -174,12 +174,12 @@ Example below of the differences between having a data parsing function and not:
   )
   
   ## no data parsing function
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url",
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                              "POST")
   no_parse <- f(the_body = body)
   
   ## parsed data, only taking request$content$id
-  f2 <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url",
+  f2 <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                              "POST",
                              data_parse_function = function(x) x$id)
   
@@ -224,7 +224,7 @@ shorten_url <- function(url){
   ## generate the API call function
   ## POST https://www.googleapis.com/urlshortener/v1/url
   ## response has 4 objects $kind, $id, $longUrl, and $status, but we only want $id
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url",
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                              "POST",
                              data_parse_function = function(x) x$id)
                              
@@ -248,7 +248,7 @@ TBD
  
 ### More info
 
-See more at `?googleAuth_fetch_generator` once the documentation has caught up.
+See more at `?gar_api_generator` once the documentation has caught up.
 
 ## Example with goo.gl
 
@@ -285,7 +285,7 @@ shorten_url <- function(url){
     longUrl = url
   )
   
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url",
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                              "POST",
                              data_parse_function = function(x) x$id)
   
@@ -300,7 +300,7 @@ shorten_url <- function(url){
 #' @return a string of the expanded URL
 expand_url <- function(shortUrl){
   
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url",
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                                   "GET",
                                   pars_args = list(shortUrl = "shortUrl"),
                                   data_parse_function = function(x) x)
@@ -319,7 +319,7 @@ analytics_url <- function(shortUrl,
   
   timespan <- match.arg(timespan)
     
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url",
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                                   "GET",
                                   pars_args = list(shortUrl = "shortUrl",
                                                    projection = "FULL"),
@@ -335,7 +335,7 @@ analytics_url <- function(shortUrl,
 #' 
 #' @return a dataframe of the goo.gl user's history
 user_history <- function(){
-  f <- googleAuth_fetch_generator("https://www.googleapis.com/urlshortener/v1/url/history",
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
                                   "GET",
                                   data_parse_function = function(x) x$items)
   
