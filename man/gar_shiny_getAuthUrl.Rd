@@ -8,7 +8,7 @@ gar_shiny_getAuthUrl(redirect.uri,
   state = getOption("googleAuthR.securitycode"),
   client.id = getOption("googleAuthR.webapp.client_id"),
   client.secret = getOption("googleAuthR.webapp.client_secret"),
-  scope = getOption("googleAuthR.scope"))
+  scope = getOption("googleAuthR.scopes.selected"))
 }
 \arguments{
 \item{redirect.uri}{App URL, from \code{gar_shiny_getUrl}}

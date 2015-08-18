@@ -8,18 +8,17 @@
 #' @param pars_args A named list with name=parameter in request URI, value=the function variable.
 #' @param data_parse_function A function that takes a request response, parses it and returns the data you need.
 #' 
-#' path_args and pars_args add default values to the baseURI.  
-#' You don't need to supply access_token for OAuth2 requests in pars_args, this is dealt with in gar_auth()
+#' \strong{path_args} and \strong{pars_args} add default values to the baseURI.  
+#' You don't need to supply access_token for OAuth2 requests in pars_args, 
+#'   this is dealt with in gar_auth()
 #' 
 #' @return A function that can fetch the Google API data you specify
 #' @export
-
-## testing on https://developers.google.com/tag-manager/api/v1/reference/
 gar_api_generator <- function(baseURI,
-                                       http_header = c("GET","POST","PUT","DELETE", "PATCH"),
-                                       path_args = NULL,
-                                       pars_args = NULL,
-                                       data_parse_function=NULL){
+                              http_header = c("GET","POST","PUT","DELETE", "PATCH"),
+                              path_args = NULL,
+                              pars_args = NULL,
+                              data_parse_function=NULL){
   
   http_header <- match.arg(http_header)
   if(substr(baseURI,nchar(baseURI),nchar(baseURI))!="/") baseURI <- paste0(baseURI, "/")
@@ -37,11 +36,27 @@ gar_api_generator <- function(baseURI,
     pars <- 
       paste(names(pars_args), pars_args, sep='=', collapse='&')
     
-  } 
+  }
+  
+  # wizardry to extract the shiny token from the right environments
+  ## gets the environments
+  all_envs <- as.character(sys.calls())
+  ## gets the one with_shiny
+  with_shiny_env <- which(grepl("with_shiny", all_envs))
+  ## gets the arguments of with_shiny
+  call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
+                                  call = sys.call(with_shiny_env),
+                                  expand.dots = F)[-1])
+  ## gets the calling function of with_shiny to evaluate the reactive token in
+  f <- do.call("parent.frame", args = list(), envir = sys.frame(with_shiny_env))
+  ## evaluates the shiny_access_token in the correct environment
+  shiny_access_token <- eval(call_args$shiny_access_token, 
+                             envir = f)
+
+  if(!is.null(shiny_access_token)) message("Found Shiny Token") else {message("No Shiny Token")}
   
   func <- function(path_arguments=NULL, 
-                   pars_arguments=NULL, 
-                   shiny_access_token = NULL, 
+                   pars_arguments=NULL,
                    the_body=NULL,
                    ...){
     
@@ -96,17 +111,17 @@ gar_api_generator <- function(baseURI,
 #' 
 #' @keywords internal
 #' @family data fetching functions
-checkTokenAPI <- function(shiny_access_token=NULL, verbose=FALSE){
+checkTokenAPI <- function(shiny_access_token=NULL, verbose=F){
   
   if(is.null(shiny_access_token)){
     ## local token
     token <- Authentication$public_fields$token
     
     if(token_exists(verbose = verbose) && is_legit_token(token, verbose=verbose)) {
-      if(verbose) message("Valid token")
+      if(verbose) message("Valid local token")
       TRUE
     } else {
-      if(verbose) message("Invalid token")
+      if(verbose) message("Invalid local token")
       FALSE
     }
     

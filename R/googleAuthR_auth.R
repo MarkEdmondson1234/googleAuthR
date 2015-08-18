@@ -218,10 +218,10 @@ token_exists <- function(verbose = TRUE) {
 #' credentials.
 #'
 #' @keywords internal
-is_legit_token <- function(x, verbose = FALSE) {
+is_legit_token <- function(x, verbose = F) {
   
   if(!inherits(x, "Token2.0")) {
-    if(verbose) message("Not a Token2.0 object.")
+    if(verbose) message("Not a Token2.0 object. Found:", class(x))
     return(FALSE)
   }
   

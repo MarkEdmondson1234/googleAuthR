@@ -63,16 +63,17 @@ gar_shiny_getAuthUrl <-
            state = getOption("googleAuthR.securitycode"),
            client.id     = getOption("googleAuthR.webapp.client_id"),
            client.secret = getOption("googleAuthR.webapp.client_secret"),
-           scope         = getOption("googleAuthR.scope")) {
+           scope         = getOption("googleAuthR.scopes.selected")) {
+
+    scopeEnc <- paste(scope, sep='', collapse=' ')
     
     ## httr friendly version
-    
     url <- httr::modify_url(
       httr::oauth_endpoints("google")$authorize,
       query = list(response_type = "code",
                    client_id = client.id,
                    redirect_uri = redirect.uri,
-                   scope = scope,
+                   scope = scopeEnc,
                    state = state,
                    access_type = "online",
                    approval_prompt = "auto"))
@@ -111,7 +112,7 @@ gar_shiny_getUrl <- function(session){
                          ":",
                          pathname),
                   session$clientData$url_port)
-    message("Shiny URL detected as: ", url)
+#     message("Shiny URL detected as: ", url)
     url
   } else {
     NULL
@@ -183,7 +184,32 @@ gar_shiny_getToken <- function(code,
 #' @export
 #' @examples
 #' \dontrun{
+#' ## in global.R
+#' 
+#' ## create the API call function, example with goo.gl URL shortner
+#' library(googleAuthR)
+#' options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+#' 
+#' shorten_url <- function(url){
+#' 
+#'   body = list(
+#'     longUrl = url
+#'  )
+#'  
+#'  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                         "POST",
+#'                         data_parse_function = function(x) x$id)
+#'                         
+#'  f(the_body = body)
+#'  
+#'  }
+#' 
+#' 
 #' ## in server.R
+#' library(shiny)
+#' library(googleAuthR)
+#' source('global.R')
+#' 
 #' shinyServer(function(input, output, session)){
 #'   
 #'   ## Get auth code from return URL
@@ -192,21 +218,34 @@ gar_shiny_getToken <- function(code,
 #'   ## Make a loginButton to display using loginOutput
 #'   output$loginButton <- renderLogin(session, access_token())
 #'
-#'   output$websites <- renderTable({
-#'     
-#'     ## using with_shiny adds a shiny_access_token parameter to pass access_token()
-#'     list_websites <- with_shiny(list_websites, 
-#'                                 access_token())
-#'       
-#'     })
-#' 
-#' }
+#'   short_url_output <- eventReactive(input$submit, {
+#'   ## wrap existing function with_shiny
+#'   ## pass the reactive token in shiny_access_token
+#'   ## pass other named arguments
+#'     short_url <- with_shiny(f = shorten_url, 
+#'                            shiny_access_token = access_token(),
+#'                            url=input$url)
+#'                            
+#'    })
+#'    
+#'    output$short_url <- renderText({
+#'    
+#'      short_url_output()
+#'      
+#'    })
+#'  }
 #' 
 #' ## in ui.R
-#' shinyUI(fluidPage(
-#'   loginOutput("loginButton"),
-#'   renderTable("websites)
-#'   ))
+#' library(shiny)
+#' library(googleAuthR)
+#' 
+#' shinyUI(
+#'   fluidPage(
+#'     loginOutput("loginButton"),
+#'     textInput("url", "Enter URL"),
+#'     actionButton("submit", "Shorten URL"),
+#'     textOutput("short_url")
+#'     ))
 #' }
 reactiveAccessToken <- function(session){
   shiny::reactive({
@@ -241,7 +280,32 @@ reactiveAccessToken <- function(session){
 #' @family shiny auth functions
 #' @examples
 #' \dontrun{
+#' ## in global.R
+#' 
+#' ## create the API call function, example with goo.gl URL shortner
+#' library(googleAuthR)
+#' options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+#' 
+#' shorten_url <- function(url){
+#' 
+#'   body = list(
+#'     longUrl = url
+#'  )
+#'  
+#'  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                         "POST",
+#'                         data_parse_function = function(x) x$id)
+#'                         
+#'  f(the_body = body)
+#'  
+#'  }
+#' 
+#' 
 #' ## in server.R
+#' library(shiny)
+#' library(googleAuthR)
+#' source('global.R')
+#' 
 #' shinyServer(function(input, output, session)){
 #'   
 #'   ## Get auth code from return URL
@@ -250,21 +314,34 @@ reactiveAccessToken <- function(session){
 #'   ## Make a loginButton to display using loginOutput
 #'   output$loginButton <- renderLogin(session, access_token())
 #'
-#'   output$websites <- renderTable({
-#'     
-#'     ## using with_shiny adds a shiny_access_token parameter to pass access_token()
-#'     list_websites <- with_shiny(list_websites, 
-#'                                 access_token())
-#'       
-#'     })
-#' 
-#' }
+#'   short_url_output <- eventReactive(input$submit, {
+#'   ## wrap existing function with_shiny
+#'   ## pass the reactive token in shiny_access_token
+#'   ## pass other named arguments
+#'     short_url <- with_shiny(f = shorten_url, 
+#'                            shiny_access_token = access_token(),
+#'                            url=input$url)
+#'                            
+#'    })
+#'    
+#'    output$short_url <- renderText({
+#'    
+#'      short_url_output()
+#'      
+#'    })
+#'  }
 #' 
 #' ## in ui.R
-#' shinyUI(fluidPage(
-#'   loginOutput("loginButton"),
-#'   renderTable("websites)
-#'   ))
+#' library(shiny)
+#' library(googleAuthR)
+#' 
+#' shinyUI(
+#'   fluidPage(
+#'     loginOutput("loginButton"),
+#'     textInput("url", "Enter URL"),
+#'     actionButton("submit", "Shorten URL"),
+#'     textOutput("short_url")
+#'     ))
 #' }
 loginOutput <- function(output_name){
   shiny::uiOutput(output_name)
@@ -288,7 +365,32 @@ loginOutput <- function(output_name){
 #' @family shiny auth functions
 #' @examples
 #' \dontrun{
+#' ## in global.R
+#' 
+#' ## create the API call function, example with goo.gl URL shortner
+#' library(googleAuthR)
+#' options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+#' 
+#' shorten_url <- function(url){
+#' 
+#'   body = list(
+#'     longUrl = url
+#'  )
+#'  
+#'  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                         "POST",
+#'                         data_parse_function = function(x) x$id)
+#'                         
+#'  f(the_body = body)
+#'  
+#'  }
+#' 
+#' 
 #' ## in server.R
+#' library(shiny)
+#' library(googleAuthR)
+#' source('global.R')
+#' 
 #' shinyServer(function(input, output, session)){
 #'   
 #'   ## Get auth code from return URL
@@ -297,21 +399,34 @@ loginOutput <- function(output_name){
 #'   ## Make a loginButton to display using loginOutput
 #'   output$loginButton <- renderLogin(session, access_token())
 #'
-#'   output$websites <- renderTable({
-#'     
-#'     ## using with_shiny adds a shiny_access_token parameter to pass access_token()
-#'     list_websites <- with_shiny(list_websites, 
-#'                                 access_token())
-#'       
-#'     })
-#' 
-#' }
+#'   short_url_output <- eventReactive(input$submit, {
+#'   ## wrap existing function with_shiny
+#'   ## pass the reactive token in shiny_access_token
+#'   ## pass other named arguments
+#'     short_url <- with_shiny(f = shorten_url, 
+#'                            shiny_access_token = access_token(),
+#'                            url=input$url)
+#'                            
+#'    })
+#'    
+#'    output$short_url <- renderText({
+#'    
+#'      short_url_output()
+#'      
+#'    })
+#'  }
 #' 
 #' ## in ui.R
-#' shinyUI(fluidPage(
-#'   loginOutput("loginButton"),
-#'   renderTable("websites)
-#'   ))
+#' library(shiny)
+#' library(googleAuthR)
+#' 
+#' shinyUI(
+#'   fluidPage(
+#'     loginOutput("loginButton"),
+#'     textInput("url", "Enter URL"),
+#'     actionButton("submit", "Shorten URL"),
+#'     textOutput("short_url")
+#'     ))
 #' }
 renderLogin <- function(session, 
                         access_token, 
@@ -337,16 +452,41 @@ renderLogin <- function(session,
 
 #' Turn a googleAuthR data fetch function into a Shiny compatible one
 #' 
-#' @param f A function generated by \code{googleAuth_fetch_generator}
-#' @param shiny_access_token A token generated within a \code{gar_shiny_getToken}
-#' 
-#' @return the function f with an extra parameter, shiny_access_token=NULL
+#' @param f A function generated by \code{googleAuth_fetch_generator}.
+#' @param shiny_access_token A token generated within a \code{gar_shiny_getToken}.
+#' @param ... Other arguments passed to f.
+#' @return the function f with an extra parameter, shiny_access_token=NULL.
 #' @family shiny auth functions
 #' @export
 #' 
 #' @examples
 #' \dontrun{
+#' ## in global.R
+#' 
+#' ## create the API call function, example with goo.gl URL shortner
+#' library(googleAuthR)
+#' options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+#' 
+#' shorten_url <- function(url){
+#' 
+#'   body = list(
+#'     longUrl = url
+#'  )
+#'  
+#'  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                         "POST",
+#'                         data_parse_function = function(x) x$id)
+#'                         
+#'  f(the_body = body)
+#'  
+#'  }
+#' 
+#' 
 #' ## in server.R
+#' library(shiny)
+#' library(googleAuthR)
+#' source('global.R')
+#' 
 #' shinyServer(function(input, output, session)){
 #'   
 #'   ## Get auth code from return URL
@@ -355,26 +495,41 @@ renderLogin <- function(session,
 #'   ## Make a loginButton to display using loginOutput
 #'   output$loginButton <- renderLogin(session, access_token())
 #'
-#'   output$websites <- renderTable({
-#'     
-#'     ## using with_shiny adds a shiny_access_token parameter to pass access_token()
-#'     list_websites <- with_shiny(list_websites, 
-#'                                 access_token())
-#'       
-#'     })
-#' 
-#' }
+#'   short_url_output <- eventReactive(input$submit, {
+#'   ## wrap existing function with_shiny
+#'   ## pass the reactive token in shiny_access_token
+#'   ## pass other named arguments
+#'     short_url <- with_shiny(f = shorten_url, 
+#'                            shiny_access_token = access_token(),
+#'                            url=input$url)
+#'                            
+#'    })
+#'    
+#'    output$short_url <- renderText({
+#'    
+#'      short_url_output()
+#'      
+#'    })
+#'  }
 #' 
 #' ## in ui.R
-#' shinyUI(fluidPage(
-#'   loginOutput("loginButton"),
-#'   renderTable("websites)
-#'   ))
+#' library(shiny)
+#' library(googleAuthR)
+#' 
+#' shinyUI(
+#'   fluidPage(
+#'     loginOutput("loginButton"),
+#'     textInput("url", "Enter URL"),
+#'     actionButton("submit", "Shorten URL"),
+#'     textOutput("short_url")
+#'     ))
 #' }
-with_shiny <- function(f, shiny_access_token=NULL){
-  fargs <- formals(f)
-  
-  formals(f) <- c(fargs, list(shiny_access_token=shiny_access_token))
-  
-  f
+with_shiny <- function(f, shiny_access_token=NULL, ...){
+
+  if(is.null(shiny_access_token)) 
+    stop("Need to provide the reactive access token in shiny_access_token")
+
+  formals(f) <- c(formals(f), list(shiny_access_token=shiny_access_token))
+
+  f(...)
 }

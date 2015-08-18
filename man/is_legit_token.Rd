@@ -4,7 +4,7 @@
 \alias{is_legit_token}
 \title{Check that token appears to be legitimate}
 \usage{
-is_legit_token(x, verbose = FALSE)
+is_legit_token(x, verbose = F)
 }
 \description{
 This unexported function exists to catch tokens that are technically valid,

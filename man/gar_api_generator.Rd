@@ -19,8 +19,9 @@ gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
 
 \item{data_parse_function}{A function that takes a request response, parses it and returns the data you need.
 
-path_args and pars_args add default values to the baseURI.
-You don't need to supply access_token for OAuth2 requests in pars_args, this is dealt with in gar_auth()}
+\strong{path_args} and \strong{pars_args} add default values to the baseURI.
+You don't need to supply access_token for OAuth2 requests in pars_args,
+  this is dealt with in gar_auth()}
 }
 \value{
 A function that can fetch the Google API data you specify
