@@ -483,7 +483,7 @@ To use the above functions:
 ```
 library(googleAuthR)
 
-# got through authentication flow
+# go through authentication flow
 gar_auth()
 
 s <- shorten_url("http://markedmondson.me")
