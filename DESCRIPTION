@@ -12,8 +12,7 @@ Depends:
 Imports: 
     httr (>= 1.0.0),
     jsonlite (>= 0.9.16),
-    R6 (>= 2.1.0),
-    pryr (>= 0.1.2)
+    R6 (>= 2.1.0)
 Suggests: 
     shiny (>= 0.12.1),
     knitr
