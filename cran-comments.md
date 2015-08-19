@@ -6,7 +6,11 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
-There were 2 NOTEs:
+There were 3 NOTEs:
+
+* Days since last update: 1
+
+A critical run-time error was found and patched. Sorry.
 
 * checking dependencies in R code ... NOTE
   Namespace in Imports field not imported from: 'R6'
