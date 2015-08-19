@@ -7,7 +7,7 @@ Here is a list of [available Google APIs.](https://developers.google.com/apis-ex
 
 ## Install
 
-GoogleAuthR version 0.1.0 is now available on CRAN
+GoogleAuthR version 0.1.1 is now available on CRAN
 ```
 install.packages("googleAuthR")
 ```
