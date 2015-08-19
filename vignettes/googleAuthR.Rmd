@@ -73,7 +73,7 @@ A non-definitive scope list to choose from will be attempted to be maintained vi
 #### For Shiny use
 2. Click 'Create a new Client ID', and choose "Web Application".
 3. Note your Client ID and secret.
-4. Add the URL of where your Shiny app will run, as well as your local host for testing including a port number.  e.g. https://mark.shinyapps.io/searchConsoleRDemo/ and http://127.0.0.1:4624
+4. Add the URL of where your Shiny app will run, as well as your local host for testing including a port number.  e.g. `https://mark.shinyapps.io/searchConsoleRDemo/` and `http://127.0.0.1:4624`
 5. In your Shiny script modify these options:
   + `options("googleAuthR.webapp.client_id" = "YOUR_CLIENT_ID")`
   + `options("googleAuthR.webapp.client_secret" = "YOUR_CLIENT_SECRET")`
