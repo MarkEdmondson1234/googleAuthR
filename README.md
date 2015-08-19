@@ -27,6 +27,8 @@ library(googleAuthR)
 
 ## Overview
 
+This guide is available at: `vignette("googleAuthR")`
+
 The main two functions are `gar_auth()` and `gar_api_generator()`.
 
 ### `gar_auth`
