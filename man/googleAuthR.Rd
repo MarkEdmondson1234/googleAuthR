@@ -6,6 +6,9 @@
 \alias{googleAuthR-package}
 \title{googleAuthR: Easy Authentication with Google OAuth2 APIs}
 \description{
+Get a startup guide by viewing the vignette: \code{vignette("googleAuthR")}
+}
+\details{
 There are two main functions in the googleAuthR package:
 \itemize{
   \item \code{\link{gar_auth}} provides local authentication token.

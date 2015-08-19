@@ -44,14 +44,18 @@ gar_api_generator <- function(baseURI,
   ## gets the one with_shiny
   with_shiny_env <- which(grepl("with_shiny", all_envs))
   ## gets the arguments of with_shiny
-  call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
-                                  call = sys.call(with_shiny_env),
-                                  expand.dots = F)[-1])
-  ## gets the calling function of with_shiny to evaluate the reactive token in
-  f <- do.call("parent.frame", args = list(), envir = sys.frame(with_shiny_env))
-  ## evaluates the shiny_access_token in the correct environment
-  shiny_access_token <- eval(call_args$shiny_access_token, 
-                             envir = f)
+  if(any(with_shiny_env)){
+    call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
+                                    call = sys.call(with_shiny_env),
+                                    expand.dots = F)[-1])
+    ## gets the calling function of with_shiny to evaluate the reactive token in
+    f <- do.call("parent.frame", args = list(), envir = sys.frame(with_shiny_env))
+    ## evaluates the shiny_access_token in the correct environment
+    shiny_access_token <- eval(call_args$shiny_access_token, 
+                               envir = f)
+  } else {
+    shiny_access_token <- NULL
+  }
 
   if(!is.null(shiny_access_token)) message("Found Shiny Token") else {message("No Shiny Token")}
   
