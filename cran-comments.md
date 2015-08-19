@@ -6,12 +6,7 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
-There were 3 NOTEs:
-
-* Maintainer: ‘Mark Edmondson <m@sunholo.com>’
-  New submission
-
-  My first submission
+There were 2 NOTEs:
 
 * checking dependencies in R code ... NOTE
   Namespace in Imports field not imported from: 'R6'
