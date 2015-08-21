@@ -5,6 +5,12 @@ Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 
 Here is a list of [available Google APIs.](https://developers.google.com/apis-explorer/#p/)
 
+## Thanks to:
+
+* Jenny Bryan and her work on the [googlesheets](https://github.com/jennybc/googlesheets) package that this work derives from.
+* Hadley Wickham for [httr's OAuth2](https://github.com/hadley/httr) excellence
+* RStudio team for [Shiny](http://shiny.rstudio.com/)
+
 ## Install
 
 GoogleAuthR version 0.1.1 is now available on CRAN
