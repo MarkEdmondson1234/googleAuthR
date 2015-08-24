@@ -65,7 +65,7 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
 A non-definitive scope list to choose from will be attempted to be maintained via `getOption("googleAuthR.scopes")`
 
 ### Set up steps
-1. Set up your project in the [Google API Console](https://code.google.com/apis/console) to use the search console v3 API.
+1. Set up your project in the [Google API Console](https://code.google.com/apis/console) to use the Google API you want.
 
 #### For local use
 2. Click 'Create a new Client ID', and choose "Installed Application".
