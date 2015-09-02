@@ -8,7 +8,9 @@
 #' @param pars_args A named list with name=parameter in request URI, value=the function variable.
 #' @param data_parse_function A function that takes a request response, parses it and returns the data you need.
 #' 
-#' \strong{path_args} and \strong{pars_args} add default values to the baseURI.  
+#' \strong{path_args} and \strong{pars_args} add default values to the baseURI. 
+#'   NULL entries are removed. Use "" if you want an empty argument.
+#'   
 #' You don't need to supply access_token for OAuth2 requests in pars_args, 
 #'   this is dealt with in gar_auth()
 #' 
@@ -38,42 +40,44 @@ gar_api_generator <- function(baseURI,
     
   }
   
-  # wizardry to extract the shiny token from the right environments
-  ## gets the environments
-  all_envs <- as.character(sys.calls())
-  ## gets the one with_shiny
-  with_shiny_env <- which(grepl("with_shiny", all_envs))
-  ## gets the arguments of with_shiny
-  if(any(with_shiny_env)){
-    call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
-                                    call = sys.call(with_shiny_env),
-                                    expand.dots = F)[-1])
-    ## gets the calling function of with_shiny to evaluate the reactive token in
-    f <- do.call("parent.frame", args = list(), envir = sys.frame(with_shiny_env))
-    ## evaluates the shiny_access_token in the correct environment
-    shiny_access_token <- eval(call_args$shiny_access_token, 
-                               envir = f)
-  } else {
-    shiny_access_token <- NULL
-  }
 
-  if(!is.null(shiny_access_token)) message("Found Shiny Token") else {message("No Shiny Token")}
   
   func <- function(path_arguments=NULL, 
                    pars_arguments=NULL,
                    the_body=NULL,
                    ...){
     
+    # extract the shiny token from the right environments
+    ## gets the environments
+    all_envs <- as.character(sys.calls())
+    ## gets the one with_shiny
+    with_shiny_env <- which(grepl("with_shiny", all_envs))
+    ## gets the arguments of with_shiny
+    if(any(with_shiny_env)){
+      call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
+                                      call = sys.call(with_shiny_env),
+                                      expand.dots = F)[-1])
+      ## gets the calling function of with_shiny to evaluate the reactive token in
+      f <- do.call("parent.frame", args = list(), envir = sys.frame(with_shiny_env))
+      ## evaluates the shiny_access_token in the correct environment
+      shiny_access_token <- eval(call_args$shiny_access_token, 
+                                 envir = f)
+    } else {
+      shiny_access_token <- NULL
+    }
+    
     if(checkTokenAPI(shiny_access_token)){
       
       ## for path_arguments present, change path_args
       if(!is.null(path_arguments)){
+        
         path_args <- substitute.list(path_args, path_arguments)
         path <- paste(names(path_args), path_args, sep="/", collapse="/" )        
       }
       
       ## for pars_arguments present, change pars_args
       if(!is.null(pars_arguments)){
+        
         pars_args <- substitute.list(pars_args, pars_arguments)
         pars <- paste(names(pars_args), pars_args, sep='=', collapse='&')
       }
@@ -106,6 +110,39 @@ gar_api_generator <- function(baseURI,
   func
   
 }
+
+
+
+
+
+#' ReTry API requests for certain errors using exponential backoff.
+#' 
+#' @param f A function of a http request
+#' 
+#' @keywords internal
+retryRequest <- function(f){
+  the_request <- try(f)
+  if(is.error(the_request)){
+    message("Failed request: ", error.message(the_request))
+
+    if(grepl('userRateLimitExceeded|quotaExceeded|internalServerError|backendError', error.message(the_request))){
+      for(i in 1:getOption("googleAuthR.tryAttempts")){
+        message("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"))
+        Sys.sleep((2 ^ i) + runif(n = 1, min = 0, max = 1))
+        the_request <- try(f)
+        if(!is.error(the_request)) break
+      }
+      warning("All attempts failed.")
+    } else {
+      stop(error.message(the_request))
+    }
+    
+  }
+  
+  the_request
+}
+
+
 
 #' Check API data token
 #' 
@@ -172,9 +209,9 @@ doHttrRequest <- function(url,
     message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T)) 
   }
   
-  req <- do.call(request_type, 
-                 args = arg_list,
-                 envir = asNamespace("httr"))
+  req <- retryRequest(do.call(request_type, 
+                              args = arg_list,
+                              envir = asNamespace("httr")))
   
   if(checkGoogleAPIError(req)){
     content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")

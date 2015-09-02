@@ -20,6 +20,8 @@ gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
 \item{data_parse_function}{A function that takes a request response, parses it and returns the data you need.
 
 \strong{path_args} and \strong{pars_args} add default values to the baseURI.
+  NULL entries are removed. Use "" if you want an empty argument.
+
 You don't need to supply access_token for OAuth2 requests in pars_args,
   this is dealt with in gar_auth()}
 }

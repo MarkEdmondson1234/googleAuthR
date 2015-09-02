@@ -1,3 +1,18 @@
+#' A helper function that tests whether an object is either NULL _or_
+#' a list of NULLs
+#'
+#' @keywords internal
+is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
+
+#' Recursively step down into list, removing all such objects
+#'
+#' @keywords internal
+rmNullObs <- function(x) {
+  x <- Filter(Negate(is.NullOb), x)
+  lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)
+}
+
+
 #' Substitute in a (nested) list
 #' 
 #' @param template A template named list
@@ -7,6 +22,10 @@
 #' @keywords internal
 #' If replace_me has list names not in template, the value stays the same.
 substitute.list <- function(template, replace_me){
+  
+  ## remove possible NULL entries
+  template <- rmNullObs(template)
+  replace_me <- rmNullObs(replace_me)
 
   postwalk(template, function(x) replace.kv(x,replace_me))
   
@@ -72,6 +91,18 @@ is_shiny <- function(shiny_session){
 is.error <- function(test_me){
   inherits(test_me, "try-error")
 }
+
+#' Get the error message
+#'
+#' @param test_me an object that has failed is.error
+#'
+#' @return The error message
+#'
+#' @keywords internal
+error.message <- function(test_me){
+  if(is.error(test_me)) attr(test_me, "condition")$message
+}
+
 
 #' Checks Urls are in right format for API request
 #' 

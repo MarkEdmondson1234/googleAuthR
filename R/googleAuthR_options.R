@@ -32,18 +32,7 @@
     googleAuthR.ok_content_types=c("application/json; charset=UTF-8", ("text/html; charset=UTF-8")),
     googleAuthR.securitycode = 
       paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse=''),
-    googleAuthR.valid.categories = c('authPermissions', 
-                                     'manyToOneRedirect',
-                                     'notFollowed',
-                                     'notFound',
-                                     'other',
-                                     'roboted',
-                                     'serverError',
-                                     'soft404'),
-    
-    googleAuthR.valid.platforms = c('mobile',
-                                    'smartphoneOnly',
-                                    'web')
+    googleAuthR.tryAttempts = 5
   )
   toset <- !(names(op.googleAuthR) %in% names(op))
   if(any(toset)) options(op.googleAuthR[toset])

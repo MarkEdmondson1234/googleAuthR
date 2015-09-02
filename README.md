@@ -10,6 +10,7 @@ Here is a list of [available Google APIs.](https://developers.google.com/apis-ex
 * Jenny Bryan and her work on the [googlesheets](https://github.com/jennybc/googlesheets) package that this work derives from.
 * Hadley Wickham for [httr's OAuth2](https://github.com/hadley/httr) excellence
 * RStudio team for [Shiny](http://shiny.rstudio.com/)
+* [Johann de Boer](https://github.com/jdeboer) for some code contributions.
 
 ## Install
 
