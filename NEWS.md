@@ -8,6 +8,7 @@
 * Remove possible NULL entries from path and pars argument lists
 * Reduced some unnecessary message feedback
 * moved `with_shiny` environment lookup to within generated function
+* added gzip to headers
 
 # v1.1 - CRAN
 

@@ -200,10 +200,13 @@ doHttrRequest <- function(url,
                           request_type="GET", 
                           the_body=NULL){
   
+  
   arg_list <- list(url = url, 
                    config = get_google_token(shiny_access_token), 
                    body = the_body,
-                   encode = "json")
+                   encode = "json",
+                   httr::add_headers("Accept-Encoding" = "gzip"),
+                   httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"))
   
   if(!is.null(the_body)){
     message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T)) 
