@@ -4,3 +4,4 @@
 ^\.travis\.yml$
 cran-comments.md
 ^NEWS\.md$
+test_batch.R

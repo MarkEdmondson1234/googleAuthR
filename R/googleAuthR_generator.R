@@ -27,6 +27,7 @@ gar_api_generator <- function(baseURI,
   
   path <- NULL
   pars <- NULL
+  batch <- FALSE
   
   if(!is.null(path_args)) {
     path <- 
@@ -89,15 +90,30 @@ gar_api_generator <- function(baseURI,
       req_url <- paste0(baseURI, path, pars)
       
       message("request: ", req_url)
+      message("Batch:", batch)
+      batch_i <<- batch
+      message("batch_i:",batch_i)
       
-      req <- doHttrRequest(req_url, 
-                           shiny_access_token, 
-                           http_header, 
-                           the_body)
+      if(!batch_i){
+        req <- doHttrRequest(req_url, 
+                             shiny_access_token, 
+                             http_header, 
+                             the_body)   
+        
+        if(!is.null(data_parse_function)){
+          req <- data_parse_function(req$content, ...)
+        } 
+        
+      } else {
+        message("Batch request")
+        req <- list(req_url = req_url, 
+                    shiny_access_token = shiny_access_token, 
+                    http_header = http_header, 
+                    the_body = the_body) 
+        
+      }
       
-      if(!is.null(data_parse_function)){
-        req <- data_parse_function(req$content, ...)
-      } 
+
       
     } else {
       stop("Invalid Token")
@@ -199,7 +215,6 @@ doHttrRequest <- function(url,
                           shiny_access_token = NULL,
                           request_type="GET", 
                           the_body=NULL){
-  
   
   arg_list <- list(url = url, 
                    config = get_google_token(shiny_access_token), 
