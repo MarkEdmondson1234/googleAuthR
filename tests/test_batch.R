@@ -1,6 +1,6 @@
 list_websites <- function() {
   
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
+  l <- gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
                                       "GET",
                                       data_parse_function = function(x) x$siteEntry)
   l()
@@ -8,7 +8,7 @@ list_websites <- function() {
 
 list_websites2 <- function() {
   
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
+  l <- gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
                                       "GET",
                                       data_parse_function = function(x) x$siteEntry)
   l()
@@ -17,3 +17,4 @@ list_websites2 <- function() {
 source('~/dev/R/googleAuthR/R/googleAuthR_batch.R')
 gar_auth()
 ggg <- httr::with_verbose(gar_batch(list(list_websites(), list_websites2())))
+httr::content(ggg, as = "text")

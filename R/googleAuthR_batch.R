@@ -3,27 +3,11 @@
 #'
 gar_batch <- function(function_list){
   
-  ## call functions that return just request URL and body with batch turned on
-  # funcs <- eval(substitute(alist(function_list)))
-  boundary <- "--gar_batch"
   
   ## construct batch POST request
-  names(function_list) <- 1:length(function_list)
-  str(function_list[1])
-  parsed <- paste0(boundary, "\r\n",
-                  "Content-Type: application/http","\r\n",
-                  "Content-ID: ",names(function_list[1]),"\r\n",
-                  "Content-Length: 141", "\r\n",
-                  "\r\n", ## header boundary
-                  function_list[[1]]$http_header," ", 
-                  gsub("https://www.googleapis.com","",function_list[[1]]$req_url),"\r\n")
+  parse_list <- lapply(function_list, makeBatchRequest)
   
-  if(!is.null(function_list[[1]]$the_body)){
-    parsed <- paste0(parsed, jsonlite::toJSON(function_list[[1]]$the_body), "\r\n")
-  }
-  
-  ## end line
-  parsed <- paste0(parsed,"\r\n", boundary, "--", "\r\n")
+  parsed <- paste(c(parse_list, "--gar_batch--"), collapse="")
   
   l <- list(parsed = parsed,
             shiny_access_token = function_list[[1]]$shiny_access_token)
@@ -33,6 +17,39 @@ gar_batch <- function(function_list){
   
 }
 
+#' Make the batch request inner content
+#' 
+#' 
+makeBatchRequest <- function(f){
+  
+  boundary <- "--gar_batch"
+  url_stem <- gsub("https://www.googleapis.com","",f$req_url)
+  
+  ## construct batch POST request
+  header <- paste(boundary,
+                  "Content-Type: application/http",
+                  paste0("Content-ID: ",f$name),
+                  "\r\n",
+                  sep = "\r\n")
+  
+  content <- paste0(f$http_header," ", 
+                    url_stem, "\r\n")
+  
+  if(!is.null(f$the_body)){
+    batch_body <- paste0(jsonlite::toJSON(f$the_body), "\r\n")
+    part_content_length <- nchar(batch_body)
+    header <- paste(header, 
+                    paste0("Content-Length: ", part_content_length),
+                    sep = "\r\n")
+  } else {
+    batch_body <- NULL
+  }
+  
+  parsed <- paste(header, content, batch_body, sep = "\r\n")
+  
+  parsed
+  
+}
 
 #' Batch Requests
 #' 
@@ -53,7 +70,7 @@ doBatchRequest <- function(batched){
   
   arg_list <- list(config = get_google_token(batched$shiny_access_token), 
                    # url = "http://www.httpbin.org/post", 
-                   url = "http://www.googleapis.com/batch", 
+                   url = "https://www.googleapis.com/batch", 
                    body = batched$parsed,
                    encode = "multipart",
                    # httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"),

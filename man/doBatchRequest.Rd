@@ -2,11 +2,26 @@
 % Please edit documentation in R/googleAuthR_batch.R
 \name{doBatchRequest}
 \alias{doBatchRequest}
-\title{doBatchRequest}
+\title{Batch Requests}
 \usage{
-doBatchRequest(req_url, shiny_access_token, http_header, the_body)
+doBatchRequest(batched)
+}
+\arguments{
+\item{url}{the url of the page to retrieve}
+
+\item{session}{a shiny session object if in a shiny app.}
+
+\item{request_type}{the type of httr request function: GET, POST, PUT, DELETE etc.}
+
+\item{the_body}{body of POST request}
+
+\item{params}{A named character vector of other parameters to add to request.}
 }
 \description{
-Returns whats necessary for a batch request
+Batch requests to Google APIs that support it
 }
+\details{
+Example of params: c(param1="foo", param2="bar")
+}
+\keyword{internal}
 
