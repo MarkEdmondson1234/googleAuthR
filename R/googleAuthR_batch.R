@@ -7,25 +7,29 @@ gar_batch <- function(function_list){
   # funcs <- eval(substitute(alist(function_list)))
   boundary <- "--gar_batch"
   
+  ## construct batch POST request
   names(function_list) <- 1:length(function_list)
   str(function_list[1])
-  parsed <- paste(boundary, 
-                  "Content-Type: application/http",
-                  "Content-ID:",names(function_list[1]),
-                  function_list[[1]]$http_header, 
-                  gsub("https://www.googleapis.com","",function_list[[1]]$req_url),
-                  jsonlite::toJSON(function_list[[1]]$the_body))
+  parsed <- paste0(boundary, "\r\n",
+                  "Content-Type: application/http","\r\n",
+                  "Content-ID: ",names(function_list[1]),"\r\n",
+                  "Content-Length: 141", "\r\n",
+                  "\r\n", ## header boundary
+                  function_list[[1]]$http_header," ", 
+                  gsub("https://www.googleapis.com","",function_list[[1]]$req_url),"\r\n")
   
-  parsed <- paste(parsed, boundary, "--")
+  if(!is.null(function_list[[1]]$the_body)){
+    parsed <- paste0(parsed, jsonlite::toJSON(function_list[[1]]$the_body), "\r\n")
+  }
   
-  list(parsed = parsed,
-       shiny_access_token = function_list[[1]]$shiny_access_token)
-
-                  
+  ## end line
+  parsed <- paste0(parsed,"\r\n", boundary, "--", "\r\n")
   
-  ## construct batch POST request
+  l <- list(parsed = parsed,
+            shiny_access_token = function_list[[1]]$shiny_access_token)
   
   ## call doHttrRequest with batched together functions
+  doBatchRequest(l)
   
 }
 
@@ -47,13 +51,14 @@ gar_batch <- function(function_list){
 #' @keywords internal
 doBatchRequest <- function(batched){
   
-  arg_list <- list(url = "http://www.googleapis.com/batch", 
-                   config = get_google_token(batched$shiny_access_token), 
+  arg_list <- list(config = get_google_token(batched$shiny_access_token), 
+                   # url = "http://www.httpbin.org/post", 
+                   url = "http://www.googleapis.com/batch", 
                    body = batched$parsed,
-                   encode = "json",
-                   httr::add_headers("Accept-Encoding" = "gzip",
-                                     "Content-Type" = "multipart/mixed; boundary=gar_batch"),
-                   httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"))
+                   encode = "multipart",
+                   # httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"),
+                   httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
+                   )
   
   
   req <- retryRequest(do.call("POST", 
