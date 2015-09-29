@@ -4,7 +4,7 @@
 \alias{gar_batch}
 \title{Turn a vector of gar_fetch_functions into batch functions}
 \usage{
-gar_batch(...)
+gar_batch(function_list)
 }
 \description{
 Turn a vector of gar_fetch_functions into batch functions

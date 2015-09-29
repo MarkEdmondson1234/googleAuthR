@@ -27,7 +27,6 @@ gar_api_generator <- function(baseURI,
   
   path <- NULL
   pars <- NULL
-  batch <- FALSE
   
   if(!is.null(path_args)) {
     path <- 
@@ -46,6 +45,7 @@ gar_api_generator <- function(baseURI,
   func <- function(path_arguments=NULL, 
                    pars_arguments=NULL,
                    the_body=NULL,
+                   batch=FALSE,
                    ...){
     
     # extract the shiny token from the right environments
@@ -65,6 +65,12 @@ gar_api_generator <- function(baseURI,
                                  envir = f)
     } else {
       shiny_access_token <- NULL
+    }
+    
+    ## if called with gar_batch wrapper set batch to TRUE
+    with_gar_batch <- which(grepl("gar_batch", all_envs))
+    if(any(with_gar_batch)){
+      batch <- TRUE
     }
     
     if(checkTokenAPI(shiny_access_token)){
@@ -90,11 +96,8 @@ gar_api_generator <- function(baseURI,
       req_url <- paste0(baseURI, path, pars)
       
       message("request: ", req_url)
-      message("Batch:", batch)
-      batch_i <<- batch
-      message("batch_i:",batch_i)
       
-      if(!batch_i){
+      if(!batch){
         req <- doHttrRequest(req_url, 
                              shiny_access_token, 
                              http_header, 
@@ -110,6 +113,9 @@ gar_api_generator <- function(baseURI,
                     shiny_access_token = shiny_access_token, 
                     http_header = http_header, 
                     the_body = the_body) 
+        if(!is.null(data_parse_function)){
+          req <- c(req, data_parse_function = data_parse_function)
+        } 
         
       }
       
