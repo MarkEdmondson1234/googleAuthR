@@ -1,5 +1,9 @@
 # News Updates
 
+# v1.1.9002
+
+* Batch Google API requests 
+
 # v1.1.9001
 
 * Missed Jenny credit now corrected

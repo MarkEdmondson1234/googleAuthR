@@ -17,4 +17,4 @@ list_websites2 <- function() {
 source('~/dev/R/googleAuthR/R/googleAuthR_batch.R')
 gar_auth()
 ggg <- httr::with_verbose(gar_batch(list(list_websites(), list_websites2())))
-httr::content(ggg, as = "text")
+ggg <- gar_batch(list(list_websites(), list_websites2()))

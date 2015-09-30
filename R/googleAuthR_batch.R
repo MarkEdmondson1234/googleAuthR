@@ -13,9 +13,63 @@ gar_batch <- function(function_list){
             shiny_access_token = function_list[[1]]$shiny_access_token)
   
   ## call doHttrRequest with batched together functions
-  doBatchRequest(l)
+  str(function_list)
+  req <- doBatchRequest(l)
+  batch_content <-  parseBatchResponse(req)
   
 }
+
+#' Apply parsing function if a good response
+#' 
+#' 
+applyDataParseFunction <- function(batch_content){
+  id <- batch_content$meta[[1]][2]
+  status <- batch_content$header[[1]][1]
+  
+  content <- batch_content$content[[1]]
+  
+  ## check that its the right response
+  ## apply data parse function from function_list$data_parse_function
+  
+}
+
+#' Parse batch request
+#' 
+#' 
+parseBatchResponse <- function(batch_response){
+  
+  b_content <- textConnection(httr::content(batch_response, as="text"))
+  r <- readLines(b_content)
+  
+  index <- which(grepl(r[1], r))
+  responses <- split_vector(r, index)
+  
+  responses_content <- lapply(responses, function(x){
+    index <- which(grepl("^(\\{|\\})$", x))
+    jsonlite::fromJSON(unlist(split_vector(x, index, remove_splits = FALSE)))
+  })
+  
+  responses_meta <- lapply(responses, function(x){
+    index <- c(1:2)
+    unlist(split_vector(x, index, remove_splits = FALSE))
+  })
+  
+  responses_header <- lapply(responses, function(x){
+    index <- which(grepl("HTTP|Content-Length", x))
+    unlist(split_vector(x, index, remove_splits = FALSE))
+  })
+  
+  batch_list <- lapply(1:length(responses), 
+                       function(x) {
+                         list(meta = responses_meta[x], 
+                              header = responses_header[x], 
+                              content = responses_content[x])
+                         })
+  names(batch_list) <- gsub("(Content-ID: )|-", "", Reduce(c, lapply(response_meta, function(x) x[2])))
+  
+  batch_list
+}
+
 
 #' Make the batch request inner content
 #' 
@@ -36,11 +90,11 @@ makeBatchRequest <- function(f){
                     url_stem, "\r\n")
   
   if(!is.null(f$the_body)){
-    batch_body <- paste0(jsonlite::toJSON(f$the_body), "\r\n")
+    batch_body <- jsonlite::toJSON(f$the_body)
     part_content_length <- nchar(batch_body)
-    header <- paste(header, 
-                    paste0("Content-Length: ", part_content_length),
-                    sep = "\r\n")
+    header <- paste(c(header, 
+                      paste0("Content-Length: ", part_content_length, "\r\n")),
+                    collapse = "")
   } else {
     batch_body <- NULL
   }
