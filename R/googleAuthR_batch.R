@@ -24,7 +24,7 @@
 #'   l()
 #'   }
 #'  
-#'  from goo.gl API
+#'  # from goo.gl API
 #'  user_history <- function(){
 #'    f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
 #'                           "GET",
@@ -34,7 +34,7 @@
 #'   }
 #' 
 #' gar_auth()
-#' ggg <- gar_batch(list(list_websites(), user_history())))
+#' ggg <- gar_batch(list(list_websites(), user_history()))
 #' ggg
 #' 
 #' 

@@ -2,7 +2,8 @@
 
 # v1.1.9002
 
-* Batch Google API requests 
+* Batch Google API requests now implemented.  See readme or `?gar_batch` for details.
+* If data parsing fails, return the raw content so you can test and modify your data parsing function 
 
 # v1.1.9001
 
