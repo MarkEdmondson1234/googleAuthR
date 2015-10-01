@@ -133,10 +133,12 @@ gar_api_generator <- function(baseURI,
                              the_body)   
         
         if(!is.null(data_parse_function)){
-          req <- try(data_parse_function(req$content, ...))
-          if(any(is.error(req))){
+          reqtry <- try(data_parse_function(req$content, ...))
+          if(any(is.error(reqtry), is.na(reqtry), is.null(reqtry))){
             warning("API Data failed to parse.  Returning raw content.  Use this to test against your data_parse_function.")
-            req <- req$content
+            reqtry <- req$content
+          } else {
+            req <- reqtry
           }
         } 
         
