@@ -1,6 +1,6 @@
 #' Turn a vector of gar_fetch_functions into batch functions
 #' 
-#'
+#' @export
 gar_batch <- function(function_list){
   
   
@@ -17,18 +17,36 @@ gar_batch <- function(function_list){
   req <- doBatchRequest(l)
   batch_content <-  parseBatchResponse(req)
   
+  parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content)
+  
 }
 
 #' Apply parsing function if a good response
 #' 
 #' 
-applyDataParseFunction <- function(batch_content){
-  id <- batch_content$meta[[1]][2]
-  status <- batch_content$header[[1]][1]
+applyDataParseFunction <- function(function_entry, batch_content){
   
-  content <- batch_content$content[[1]]
+  x <- batch_content[paste0("response",function_entry$name)]
+  message("str(x): ",str(x))
+  
+  id <- x$meta[2]
+#   status <- x$header[[1]][1]
+#   content <- x$content[[1]]
+#   
+#   message(id, status, content)
+#   
+#   f <- function_entry$data_parse_function
+#   contentp <- f(content)
+#   if(is.null(contentp)){
+#     contentp <- content
+#   }
+#   
+#   contentp
   
   ## check that its the right response
+#   if(grepl("200",status)){
+#     
+#   }
   ## apply data parse function from function_list$data_parse_function
   
 }
@@ -65,7 +83,7 @@ parseBatchResponse <- function(batch_response){
                               header = responses_header[x], 
                               content = responses_content[x])
                          })
-  names(batch_list) <- gsub("(Content-ID: )|-", "", Reduce(c, lapply(response_meta, function(x) x[2])))
+  names(batch_list) <- gsub("(Content-ID: )|-", "", Reduce(c, lapply(responses_meta, function(x) x[2])))
   
   batch_list
 }
