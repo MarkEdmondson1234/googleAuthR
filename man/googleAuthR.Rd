@@ -15,6 +15,14 @@ There are two main functions in the googleAuthR package:
   \item \code{\link{gar_api_generator}} A function factory for easy enabling of Google API functions.
 }
 }
+\section{Batching}{
+
+
+If you have many API calls, you can save a lot of time by using batching.
+  This takes your many calls and sends them in one POST request to /batch,
+  returning a list of any responses.  See \code{\link{gar_batch}} for details.
+}
+
 \section{Shiny functions}{
 
 

@@ -8,6 +8,12 @@
 #'   \item \code{\link{gar_api_generator}} A function factory for easy enabling of Google API functions.
 #' }
 #' 
+#' @section Batching:
+#' 
+#' If you have many API calls, you can save a lot of time by using batching.  
+#'   This takes your many calls and sends them in one POST request to /batch, 
+#'   returning a list of any responses.  See \code{\link{gar_batch}} for details.
+#' 
 #' @section Shiny functions:
 #' 
 #' If you need Shiny authentication, then these functions work together to give a smooth authentication flow.

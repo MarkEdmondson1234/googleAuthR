@@ -6,14 +6,13 @@ list_websites <- function() {
   l()
 }
 
-list_websites2 <- function() {
+user_history <- function(){
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
+                         "GET",
+                         data_parse_function = function(x) x$items)
   
-  l <- gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
-                                      "GET",
-                                      data_parse_function = function(x) x$siteEntry)
-  l()
+  f()
 }
-
-googleAuthR::gar_auth()
+googleAuthR::gar_auth(new_user=T)
 # (ggg <- httr::with_verbose(gar_batch(list(list_websites(), list_websites2()))))
-(ggg <- gar_batch(list(list_websites(), list_websites2())))
+(ggg <- gar_batch(list(list_websites(), user_history())))

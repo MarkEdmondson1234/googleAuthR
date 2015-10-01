@@ -273,6 +273,39 @@ Example below of the differences between having a data parsing function and not:
 ```
 The response is turned from JSON to a dataframe if possible, via `jsonlite::fromJSON`
 
+### Batching API requests
+
+If you are doing many API calls, you can speed this up a lot by using the batch option.
+
+This takes the API functions you have created and wraps them in the `gar_batch` function to request them all in one POST call.  You then recieve the responses in a list.
+
+Note that this does not count as one call for API limits purposes, it just speeds up the processing.
+
+The example below queries from two different APIs and returns them in a list: IT lists websites in your Google Search Console, and shows your goo.gl link history.
+
+```
+## from search console API
+list_websites <- function() {
+  
+  l <- gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
+                                      "GET",
+                                      data_parse_function = function(x) x$siteEntry)
+  l()
+}
+
+## from goo.gl API
+user_history <- function(){
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
+                         "GET",
+                         data_parse_function = function(x) x$items)
+  
+  f()
+}
+googleAuthR::gar_auth(new_user=T)
+
+ggg <- gar_batch(list(list_websites(), user_history()))
+```
+
 ### Putting it together
 
 Below is an example for a link shortner API call to goo.gl:

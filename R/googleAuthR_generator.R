@@ -13,6 +13,35 @@
 #'   
 #' You don't need to supply access_token for OAuth2 requests in pars_args, 
 #'   this is dealt with in gar_auth()
+#'   
+#' @examples 
+#' \dontrun{
+#' library(googleAuthR)
+#' ## change the native googleAuthR scopes to the one needed.
+#' options("googleAuthR.scopes.selected" = 
+#'   c("https://www.googleapis.com/auth/urlshortener"))
+#' 
+#' shorten_url <- function(url){
+#' 
+#'   body = list(
+#'     longUrl = url
+#'     )
+#'   
+#'   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                       "POST",
+#'                       data_parse_function = function(x) x$id)
+#'                       
+#'    f(the_body = body)
+#'  }
+#'  
+#' To use the above functions:
+#' library(googleAuthR)
+#' # go through authentication flow
+#' gar_auth()
+#' s <- shorten_url("http://markedmondson.me")
+#' s
+#' }
+#' 
 #' 
 #' @return A function that can fetch the Google API data you specify
 #' @export
@@ -252,41 +281,53 @@ doHttrRequest <- function(url,
 #' 
 #' @param req a httr request
 #' @param ok_content_types Expected content type of request
+#' @param batched called from gar_batch or not
+#' 
 #' @keywords internal
 checkGoogleAPIError <- function (req, 
-                                 ok_content_types=getOption("googleAuthR.ok_content_types")) {
-
-  ga.json <- httr::content(req, as = "text", type = "application/json")
-  if(nchar(ga.json) > 0) {
-    ga.json <- jsonlite::fromJSON(ga.json)
+                                 ok_content_types=getOption("googleAuthR.ok_content_types"),
+                                 batched=FALSE) {
   
-    if (is.null(ga.json)) { 
-      stop('data fetching did not output correct format') 
+  ## from a batched request, we already have content
+  if(!batched){
+    ga.json <- httr::content(req, as = "text", type = "application/json")
+    if(nchar(ga.json) > 0) {
+      ga.json <- jsonlite::fromJSON(ga.json)
+    } else {
+      warning("No JSON content detected")
+      return(FALSE)
     }
     
-    if (!is.null(ga.json$error$message)) {
-      stop("JSON fetch error: ",paste(ga.json$error$message))
+    if(!is.null(req$headers$`content-type`)){
+      if(!(req$headers$`content-type` %in% ok_content_types)) {
+        
+        stop(sprintf(paste("Not expecting content-type to be:\n%s"),
+                     req$headers[["content-type"]]))
+        
+      }
+    } else {
+      message("No content-type returned.")
+      return(FALSE)
     }
     
-    if (grepl("Error 400 (Bad Request)",ga.json[[1]][1])) {
-      stop('JSON fetch error: Bad request URL - 400. Fetched: ', url)
-    }
-  }
-  
-  if(!is.null(req$headers$`content-type`)){
-    if(!(req$headers$`content-type` %in% ok_content_types)) {
-      
-      stop(sprintf(paste("Not expecting content-type to be:\n%s"),
-                   req$headers[["content-type"]]))
-      
-    }
   } else {
-    message("No content-type returned.")
-    return(FALSE)
+    message("Batched check Google API")
+    ga.json <- req
   }
 
+  if (is.null(ga.json)) { 
+    stop('data fetching did not output correct format') 
+  }
   
-  httr::stop_for_status(req)
+  if (!is.null(ga.json$error$message)) {
+    stop("JSON fetch error: ",paste(ga.json$error$message))
+  }
+  
+  if (grepl("Error 400 (Bad Request)",ga.json[[1]][1])) {
+    stop('JSON fetch error: Bad request URL - 400. Fetched: ', url)
+  }
+
+  if(!batched) httr::stop_for_status(req)
   
   TRUE
 }

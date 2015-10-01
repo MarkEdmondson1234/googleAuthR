@@ -7,21 +7,15 @@
 doBatchRequest(batched)
 }
 \arguments{
-\item{url}{the url of the page to retrieve}
-
-\item{session}{a shiny session object if in a shiny app.}
-
-\item{request_type}{the type of httr request function: GET, POST, PUT, DELETE etc.}
-
-\item{the_body}{body of POST request}
-
-\item{params}{A named character vector of other parameters to add to request.}
+\item{batched}{an element of a list of parsed batch requests}
 }
 \description{
 Batch requests to Google APIs that support it
 }
-\details{
-Example of params: c(param1="foo", param2="bar")
+\seealso{
+Other batch functions: \code{\link{applyDataParseFunction}};
+  \code{\link{gar_batch}}; \code{\link{makeBatchRequest}};
+  \code{\link{parseBatchResponse}}
 }
 \keyword{internal}
 
