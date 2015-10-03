@@ -145,7 +145,7 @@ shinyServer(function(input, output, session){
    ## Make a loginButton to display using loginOutput
    output$loginButton <- renderLogin(session, access_token())
 
-   your_api_function <- eventReactive(input$submit, {
+   api_output <- eventReactive(input$submit, {
      ## with_shiny() wraps your your_api_function to provide the arguments
      ## requires you to pass "shiny_access_token"
      short_url <- with_shiny(f = your_api_function, 
@@ -158,7 +158,7 @@ shinyServer(function(input, output, session){
    
    output$short_url <- renderText({
 
-    short_url_output()
+    api_output()
      
     })
 
