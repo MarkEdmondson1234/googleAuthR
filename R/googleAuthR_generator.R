@@ -124,9 +124,8 @@ gar_api_generator <- function(baseURI,
 
       req_url <- paste0(baseURI, path, pars)
       
-      message("request: ", req_url)
-      
       if(!batch){
+        message("Request: ", req_url)
         req <- doHttrRequest(req_url, 
                              shiny_access_token, 
                              http_header, 
@@ -145,7 +144,6 @@ gar_api_generator <- function(baseURI,
         } 
         
       } else {
-        message("Batch request")
         req <- list(req_url = req_url, 
                     shiny_access_token = shiny_access_token, 
                     http_header = http_header, 
@@ -318,17 +316,16 @@ checkGoogleAPIError <- function (req,
       return(FALSE)
     }
     
+    if (!is.null(ga.json$error$message)) {
+      stop("JSON fetch error: ",paste(ga.json$error$message))
+    }
+    
   } else {
-    message("Batched check Google API")
     ga.json <- req
   }
 
-  if (is.null(ga.json)) { 
-    stop('data fetching did not output correct format') 
-  }
-  
-  if (!is.null(ga.json$error$message)) {
-    stop("JSON fetch error: ",paste(ga.json$error$message))
+  if(is.null(ga.json)) { 
+    stop('JSON parsing was NULL') 
   }
   
   if (grepl("Error 400 (Bad Request)",ga.json[[1]][1])) {

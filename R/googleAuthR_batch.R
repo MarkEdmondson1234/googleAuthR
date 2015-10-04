@@ -42,8 +42,10 @@
 #' 
 #' @export
 #' @family batch functions
-gar_batch <- function(function_list){
+gar_batch <- function(call_list){
   
+  # function_list <- lapply(call_list, eval)
+  function_list <- call_list
   ## construct batch POST request
   parse_list <- lapply(function_list, makeBatchRequest)
   
@@ -57,7 +59,7 @@ gar_batch <- function(function_list){
   batch_content <-  parseBatchResponse(req)
   
   parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content)
-  
+  message("Batched API request successful")
   parsed_batch_content
   
 }
@@ -72,7 +74,6 @@ gar_batch <- function(function_list){
 applyDataParseFunction <- function(function_entry, batch_content){
   
   x <- batch_content[paste0("response",function_entry$name)][[1]]
-  message("str(x): ",str(x))
   
   id <- x$meta[[1]][2]
   status <- x$header[[1]][1]
@@ -80,8 +81,6 @@ applyDataParseFunction <- function(function_entry, batch_content){
  
   ## check that its the right response 
   if(checkGoogleAPIError(content, batched = TRUE)){
-    message(id, status, content)
-
     ## apply data parse function from function_list$data_parse_function    
     f <- function_entry$data_parse_function
     contentp <- f(content)
@@ -108,6 +107,7 @@ applyDataParseFunction <- function(function_entry, batch_content){
 #' @keywords internal
 #' @family batch functions
 parseBatchResponse <- function(batch_response){
+
   
   b_content <- textConnection(httr::content(batch_response, as="text"))
   r <- readLines(b_content)
@@ -116,7 +116,13 @@ parseBatchResponse <- function(batch_response){
   responses <- split_vector(r, index)
   
   responses_content <- lapply(responses, function(x){
-    index <- which(grepl("^(\\{|\\})$", x))
+    # index <- which(grepl("^(\\{|\\})$", x))
+    index <- which(grepl("Content-Length:", x))
+    index <- c(index+1, length(x))
+    if(any(is.na(index))){
+      warning("Index has an NA. Not splitting JSON")
+      return(unlist(split_vector(x, index, remove_splits = FALSE)))
+    }
     jsonlite::fromJSON(unlist(split_vector(x, index, remove_splits = FALSE)))
   })
   
@@ -127,8 +133,15 @@ parseBatchResponse <- function(batch_response){
   
   responses_header <- lapply(responses, function(x){
     index <- which(grepl("HTTP|Content-Length", x))
-    unlist(split_vector(x, index, remove_splits = FALSE))
+    rh <- unlist(split_vector(x, index, remove_splits = FALSE))
+    if(grepl("400", rh[2])){
+      warning("400 in response")
+    }
+    rh
+    
   })
+  
+
   
   batch_list <- lapply(1:length(responses), 
                        function(x) {
@@ -137,6 +150,7 @@ parseBatchResponse <- function(batch_response){
                               content = responses_content[x])
                          })
   names(batch_list) <- gsub("(Content-ID: )|-", "", Reduce(c, lapply(responses_meta, function(x) x[2])))
+
   
   batch_list
 }
@@ -149,10 +163,12 @@ parseBatchResponse <- function(batch_response){
 #' @keywords internal
 #' @family batch functions
 makeBatchRequest <- function(f){
+
   
   boundary <- "--gar_batch"
   url_stem <- gsub("https://www.googleapis.com","",f$req_url)
-  
+
+  message("Constructing batch request URL for: ", url_stem)  
   ## construct batch POST request
   header <- paste(boundary,
                   "Content-Type: application/http",
@@ -199,7 +215,7 @@ doBatchRequest <- function(batched){
                    httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
                    )
   
-  
+  message("Making Batch API call")
   req <- retryRequest(do.call("POST", 
                               args = arg_list,
                               envir = asNamespace("httr")))

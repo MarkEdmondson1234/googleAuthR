@@ -11,7 +11,10 @@ split_vector <- function(vector, index, remove_splits=TRUE){
   
   l <- list()
   for(i in 2:length(index)){
-    
+    if(is.na(index[i])){
+      warning("No index found")
+      return(c("{", '"error":"no index"', "}"))
+    }
     s <- vector[index[i-1]:index[i]] 
     
     if(remove_splits){
@@ -28,7 +31,6 @@ split_vector <- function(vector, index, remove_splits=TRUE){
     } else {
       l <- list(s)
     }
-    
   }
   l
 }
