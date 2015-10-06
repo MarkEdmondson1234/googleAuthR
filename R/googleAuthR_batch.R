@@ -77,6 +77,7 @@ gar_batch <- function(call_list){
 #' @param batch_size size of each request to Google /batch API
 #' @param batch_function a function that will act on the result list of each batch API call
 #' @param data_frame_output if the list of lists are dataframes, you can bind them all by setting to TRUE
+#' @param ... further arguments passed to f
 #' 
 #' @details
 #' You can modify more than one parameter or path arg, 
@@ -93,11 +94,12 @@ gar_batch <- function(call_list){
 #' @family batch functions
 gar_batch_walk <- function(f,
                            walk_vector,
-                           gar_pars=NULL, gar_paths=NULL,
-                           pars_walk=NULL, path_walk=NULL, 
+                           gar_pars=NULL, gar_paths=NULL, the_body=NULL,
+                           pars_walk=NULL, path_walk=NULL, body_walk=NULL, 
                            batch_size=10,
                            batch_function=NULL,
-                           data_frame_output=TRUE){
+                           data_frame_output=TRUE,
+                           ...){
   
   limit_batch <- split(walk_vector, ceiling(seq_along(walk_vector) / batch_size))
   message("Batch API limited to [", batch_size ,"] calls at once.")
@@ -112,12 +114,18 @@ gar_batch_walk <- function(f,
       names(pars_walk_list) <- pars_walk
       path_walk_list <- lapply(path_walk, function(z) z = x)
       names(path_walk_list) <- path_walk
+      body_walk_list <- lapply(body_walk, function(z) z = x)
+      names(body_walk_list) <- body_walk
       
       if(length(pars_walk) > 0) gar_pars <- modifyList(gar_pars, pars_walk_list)
       if(length(path_walk) > 0) gar_paths <- modifyList(gar_paths, path_walk_list)
-      
+      if(length(body_walk) > 0) the_body <- modifyList(the_body, body_walk_list)      
       ## create the API call
-      f(pars_arguments = gar_pars, path_arguments = gar_paths, batch = TRUE)
+      f(pars_arguments = gar_pars, 
+        path_arguments = gar_paths, 
+        the_body = the_body, 
+        batch = TRUE,
+        ...)
     })
     names(fl) <- as.character(y)
     
@@ -201,6 +209,8 @@ parseBatchResponse <- function(batch_response){
   b_content <- textConnection(httr::content(batch_response, as="text"))
   r <- readLines(b_content)
   
+  if(grepl("Error",r[1])) stop("Error in API response.  Got: ", r) 
+
   index <- which(grepl(r[1], r))
   responses <- split_vector(r, index)
   
@@ -269,7 +279,8 @@ makeBatchRequest <- function(f){
                     url_stem, "\r\n")
   
   if(!is.null(f$the_body)){
-    batch_body <- jsonlite::toJSON(f$the_body)
+    batch_body <- jsonlite::toJSON(f$the_body, auto_unbox = TRUE)
+    message("Batch Body JSON parsed to:", batch_body)
     part_content_length <- nchar(batch_body)
     header <- paste(c(header, 
                       paste0("Content-Length: ", part_content_length, "\r\n")),
@@ -300,7 +311,7 @@ doBatchRequest <- function(batched){
                    url = "https://www.googleapis.com/batch", 
                    body = batched$parsed,
                    encode = "multipart",
-                   # httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"),
+                   httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"),
                    httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
                    )
   

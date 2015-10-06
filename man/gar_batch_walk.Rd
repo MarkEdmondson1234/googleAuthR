@@ -5,8 +5,8 @@
 \title{Walk data through batches}
 \usage{
 gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
-  pars_walk = NULL, path_walk = NULL, batch_size = 10,
-  batch_function = NULL, data_frame_output = TRUE)
+  the_body = NULL, pars_walk = NULL, path_walk = NULL, body_walk = NULL,
+  batch_size = 10, batch_function = NULL, data_frame_output = TRUE, ...)
 }
 \arguments{
 \item{f}{a function from \code{\link{gar_api_generator}}}
@@ -26,6 +26,8 @@ gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
 \item{batch_function}{a function that will act on the result list of each batch API call}
 
 \item{data_frame_output}{if the list of lists are dataframes, you can bind them all by setting to TRUE}
+
+\item{...}{further arguments passed to f}
 }
 \value{
 \strong{if data_frame_output is FALSE}: A list of lists.
