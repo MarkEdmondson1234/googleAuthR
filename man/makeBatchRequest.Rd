@@ -14,7 +14,8 @@ Make the batch request inner content
 }
 \seealso{
 Other batch functions: \code{\link{applyDataParseFunction}};
-  \code{\link{doBatchRequest}}; \code{\link{gar_batch}};
+  \code{\link{doBatchRequest}};
+  \code{\link{gar_batch_walk}}; \code{\link{gar_batch}};
   \code{\link{parseBatchResponse}}
 }
 \keyword{internal}

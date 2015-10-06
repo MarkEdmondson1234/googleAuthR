@@ -16,7 +16,8 @@ Apply parsing function if a good response
 }
 \seealso{
 Other batch functions: \code{\link{doBatchRequest}};
-  \code{\link{gar_batch}}; \code{\link{makeBatchRequest}};
+  \code{\link{gar_batch_walk}}; \code{\link{gar_batch}};
+  \code{\link{makeBatchRequest}};
   \code{\link{parseBatchResponse}}
 }
 \keyword{internal}

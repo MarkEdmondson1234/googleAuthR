@@ -306,6 +306,60 @@ googleAuthR::gar_auth(new_user=T)
 ggg <- gar_batch(list(list_websites(), user_history()))
 ```
 
+#### Walking through batch requests
+
+A common batch task is to walk through the same API call, modifying only one parameter.  An example includes walking through Google Analytics API calls by date to avoid sampling.
+
+A function to enable this is implemented at `gar_batch_walk`, with an example below:
+
+```
+walkData <- function(ga, ga_pars, start, end){
+  dates <- as.character(
+    seq(as.Date(start, format="%Y-%m-%d"),
+        as.Date(end, format="%Y-%m-%d"),
+        by=1))
+
+  ga_pars$samplingLevel <- "HIGHER_PRECISION"
+
+  anyBatchSampled <- FALSE
+  samplePercent   <- 0
+  
+  
+  ## this is applied to each batch to keep tally of meta data
+  bf <- function(batch_data){
+    lapply(batch_data, function(the_data) {
+      if(attr(the_data, 'containsSampledData')) anyBatchSampled <<- TRUE
+      samplePercent <<- samplePercent + attr(the_data, "samplePercent")
+    })
+    batch_data
+  }
+
+  ## the walk through batch function. 
+  ## In this case both start-date and end-date are set to the date iteration
+  ## if the output is parsed as a dataframe, it also includes a rbind function
+  ## otherwise, it will return a list of lists
+  walked_data <- googleAuthR::gar_batch_walk(ga,
+                                             dates,
+                                             gar_pars = ga_pars,
+                                             pars_walk = c("start-date", "end-date"),
+                                             batch_function = bf,
+                                             data_frame_output = TRUE)
+
+  message("Walked through all dates. Total Results: [", NROW(walked_data), "]")
+  attr(walked_data, "dateRange") <- list(startDate = start, endDate = end)
+  attr(walked_data, "totalResults") <- NROW(walked_data)
+  attr(walked_data, "samplingLevel") <- "HIGHER_PRECISION, WALKED"
+  attr(walked_data, "containsSampledData") <- anyBatchSampled
+  attr(walked_data, "samplePercent") <- samplePercent / length(dates)
+
+  walked_data
+
+}
+
+```
+
+
+
 ### Putting it together
 
 Below is an example for a link shortner API call to goo.gl:
