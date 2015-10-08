@@ -5,12 +5,15 @@
 \title{Get Google API errors}
 \usage{
 checkGoogleAPIError(req,
-  ok_content_types = getOption("googleAuthR.ok_content_types"))
+  ok_content_types = getOption("googleAuthR.ok_content_types"),
+  batched = FALSE)
 }
 \arguments{
 \item{req}{a httr request}
 
 \item{ok_content_types}{Expected content type of request}
+
+\item{batched}{called from gar_batch or not}
 }
 \description{
 Get Google API errors

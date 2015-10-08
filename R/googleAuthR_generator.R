@@ -13,6 +13,35 @@
 #'   
 #' You don't need to supply access_token for OAuth2 requests in pars_args, 
 #'   this is dealt with in gar_auth()
+#'   
+#' @examples 
+#' \dontrun{
+#' library(googleAuthR)
+#' ## change the native googleAuthR scopes to the one needed.
+#' options("googleAuthR.scopes.selected" = 
+#'   c("https://www.googleapis.com/auth/urlshortener"))
+#' 
+#' shorten_url <- function(url){
+#' 
+#'   body = list(
+#'     longUrl = url
+#'     )
+#'   
+#'   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                       "POST",
+#'                       data_parse_function = function(x) x$id)
+#'                       
+#'    f(the_body = body)
+#'  }
+#'  
+#' To use the above functions:
+#' library(googleAuthR)
+#' # go through authentication flow
+#' gar_auth()
+#' s <- shorten_url("http://markedmondson.me")
+#' s
+#' }
+#' 
 #' 
 #' @return A function that can fetch the Google API data you specify
 #' @export
@@ -45,6 +74,7 @@ gar_api_generator <- function(baseURI,
   func <- function(path_arguments=NULL, 
                    pars_arguments=NULL,
                    the_body=NULL,
+                   batch=FALSE,
                    ...){
     
     # extract the shiny token from the right environments
@@ -64,6 +94,12 @@ gar_api_generator <- function(baseURI,
                                  envir = f)
     } else {
       shiny_access_token <- NULL
+    }
+    
+    ## if called with gar_batch wrapper set batch to TRUE
+    with_gar_batch <- which(grepl("gar_batch", all_envs))
+    if(any(with_gar_batch)){
+      batch <- TRUE
     }
     
     if(checkTokenAPI(shiny_access_token)){
@@ -88,16 +124,39 @@ gar_api_generator <- function(baseURI,
 
       req_url <- paste0(baseURI, path, pars)
       
-      message("request: ", req_url)
+      if(!batch){
+        message("Request: ", req_url)
+        req <- doHttrRequest(req_url, 
+                             shiny_access_token, 
+                             http_header, 
+                             the_body)   
+        
+        if(!is.null(data_parse_function)){
+#           reqtry <- try(data_parse_function(req$content, ...))
+#           if(any(is.error(reqtry), is.na(reqtry), is.null(reqtry))){
+#             warning("API Data failed to parse.  Returning raw content.  Use this to test against your data_parse_function.")
+#             reqtry <- req$content
+#           } else {
+#             req <- reqtry
+#           }
+          
+          req <- data_parse_function(req$content, ...)
+        } 
+        
+      } else {
+        req <- list(req_url = req_url, 
+                    shiny_access_token = shiny_access_token, 
+                    http_header = http_header, 
+                    the_body = the_body,
+                    name = gsub("/|var/folders/","",tempfile()))
+        
+        if(!is.null(data_parse_function)){
+          req <- c(req, data_parse_function = data_parse_function)
+        } 
+        
+      }
       
-      req <- doHttrRequest(req_url, 
-                           shiny_access_token, 
-                           http_header, 
-                           the_body)
-      
-      if(!is.null(data_parse_function)){
-        req <- data_parse_function(req$content, ...)
-      } 
+
       
     } else {
       stop("Invalid Token")
@@ -200,7 +259,6 @@ doHttrRequest <- function(url,
                           request_type="GET", 
                           the_body=NULL){
   
-  
   arg_list <- list(url = url, 
                    config = get_google_token(shiny_access_token), 
                    body = the_body,
@@ -229,41 +287,52 @@ doHttrRequest <- function(url,
 #' 
 #' @param req a httr request
 #' @param ok_content_types Expected content type of request
+#' @param batched called from gar_batch or not
+#' 
 #' @keywords internal
 checkGoogleAPIError <- function (req, 
-                                 ok_content_types=getOption("googleAuthR.ok_content_types")) {
-
-  ga.json <- httr::content(req, as = "text", type = "application/json")
-  if(nchar(ga.json) > 0) {
-    ga.json <- jsonlite::fromJSON(ga.json)
+                                 ok_content_types=getOption("googleAuthR.ok_content_types"),
+                                 batched=FALSE) {
   
-    if (is.null(ga.json)) { 
-      stop('data fetching did not output correct format') 
+  ## from a batched request, we already have content
+  if(!batched){
+    ga.json <- httr::content(req, as = "text", type = "application/json")
+    if(nchar(ga.json) > 0) {
+      ga.json <- jsonlite::fromJSON(ga.json)
+    } else {
+      warning("No JSON content detected")
+      return(FALSE)
+    }
+    
+    if(!is.null(req$headers$`content-type`)){
+      if(!(req$headers$`content-type` %in% ok_content_types)) {
+        
+        stop(sprintf(paste("Not expecting content-type to be:\n%s"),
+                     req$headers[["content-type"]]))
+        
+      }
+    } else {
+      message("No content-type returned.")
+      return(FALSE)
     }
     
     if (!is.null(ga.json$error$message)) {
       stop("JSON fetch error: ",paste(ga.json$error$message))
     }
     
-    if (grepl("Error 400 (Bad Request)",ga.json[[1]][1])) {
-      stop('JSON fetch error: Bad request URL - 400. Fetched: ', url)
-    }
-  }
-  
-  if(!is.null(req$headers$`content-type`)){
-    if(!(req$headers$`content-type` %in% ok_content_types)) {
-      
-      stop(sprintf(paste("Not expecting content-type to be:\n%s"),
-                   req$headers[["content-type"]]))
-      
-    }
   } else {
-    message("No content-type returned.")
-    return(FALSE)
+    ga.json <- req
   }
 
+  if(is.null(ga.json)) { 
+    stop('JSON parsing was NULL') 
+  }
   
-  httr::stop_for_status(req)
+  if (grepl("Error 400 (Bad Request)",ga.json[[1]][1])) {
+    stop('JSON fetch error: Bad request URL - 400. Fetched: ', url)
+  }
+
+  if(!batched) httr::stop_for_status(req)
   
   TRUE
 }

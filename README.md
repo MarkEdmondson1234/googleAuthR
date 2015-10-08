@@ -50,11 +50,9 @@ Use it within your own function definitions, to query the Google API you want.
 
 `googleAuthR` has a default project setup with APIs activated for several APIs, but it is recommended you use your own Client IDs as the login screen will be big and scary for users with so many APIs to approve.  
 
-It is preferred to configure your functions to only use the scopes they need.
+It is preferred to configure your functions to only use the scopes they need.  Scopes you need will be specified in the Google API documentation. 
 
 Set scopes via the option `googleAuthR.scopes.selected`.
-
-
 
 The below example sets scopes for Search Console, Google Analytics and Tag Manager:
 ```
@@ -62,8 +60,6 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
                                           "https://www.googleapis.com/auth/analytics",
                                           "https://www.googleapis.com/auth/tagmanager.readonly"))
 ```
-
-A non-definitive scope list to choose from will be attempted to be maintained via `getOption("googleAuthR.scopes")`
 
 ### Set up steps
 1. Set up your project in the [Google API Console](https://code.google.com/apis/console) to use the Google API you want.
@@ -272,6 +268,93 @@ Example below of the differences between having a data parsing function and not:
                              
 ```
 The response is turned from JSON to a dataframe if possible, via `jsonlite::fromJSON`
+
+### Batching API requests
+
+If you are doing many API calls, you can speed this up a lot by using the batch option.
+
+This takes the API functions you have created and wraps them in the `gar_batch` function to request them all in one POST call.  You then recieve the responses in a list.
+
+Note that this does not count as one call for API limits purposes, it just speeds up the processing.
+
+The example below queries from two different APIs and returns them in a list: IT lists websites in your Google Search Console, and shows your goo.gl link history.
+
+```
+## from search console API
+list_websites <- function() {
+  
+  l <- gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
+                                      "GET",
+                                      data_parse_function = function(x) x$siteEntry)
+  l()
+}
+
+## from goo.gl API
+user_history <- function(){
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
+                         "GET",
+                         data_parse_function = function(x) x$items)
+  
+  f()
+}
+googleAuthR::gar_auth(new_user=T)
+
+ggg <- gar_batch(list(list_websites(), user_history()))
+```
+
+#### Walking through batch requests
+
+A common batch task is to walk through the same API call, modifying only one parameter.  An example includes walking through Google Analytics API calls by date to avoid sampling.
+
+A function to enable this is implemented at `gar_batch_walk`, with an example below:
+
+```
+walkData <- function(ga, ga_pars, start, end){
+  dates <- as.character(
+    seq(as.Date(start, format="%Y-%m-%d"),
+        as.Date(end, format="%Y-%m-%d"),
+        by=1))
+
+  ga_pars$samplingLevel <- "HIGHER_PRECISION"
+
+  anyBatchSampled <- FALSE
+  samplePercent   <- 0
+  
+  
+  ## this is applied to each batch to keep tally of meta data
+  bf <- function(batch_data){
+    lapply(batch_data, function(the_data) {
+      if(attr(the_data, 'containsSampledData')) anyBatchSampled <<- TRUE
+      samplePercent <<- samplePercent + attr(the_data, "samplePercent")
+    })
+    batch_data
+  }
+
+  ## the walk through batch function. 
+  ## In this case both start-date and end-date are set to the date iteration
+  ## if the output is parsed as a dataframe, it also includes a rbind function
+  ## otherwise, it will return a list of lists
+  walked_data <- googleAuthR::gar_batch_walk(ga,
+                                             dates,
+                                             gar_pars = ga_pars,
+                                             pars_walk = c("start-date", "end-date"),
+                                             batch_function = bf,
+                                             data_frame_output = TRUE)
+
+  message("Walked through all dates. Total Results: [", NROW(walked_data), "]")
+  attr(walked_data, "dateRange") <- list(startDate = start, endDate = end)
+  attr(walked_data, "totalResults") <- NROW(walked_data)
+  attr(walked_data, "samplingLevel") <- "HIGHER_PRECISION, WALKED"
+  attr(walked_data, "containsSampledData") <- anyBatchSampled
+  attr(walked_data, "samplePercent") <- samplePercent / length(dates)
+
+  walked_data
+
+}
+
+```
+
+
 
 ### Putting it together
 

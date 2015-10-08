@@ -31,4 +31,32 @@ A function that can fetch the Google API data you specify
 \description{
 This function generates other functions for use with Google APIs
 }
+\examples{
+\dontrun{
+library(googleAuthR)
+## change the native googleAuthR scopes to the one needed.
+options("googleAuthR.scopes.selected" =
+  c("https://www.googleapis.com/auth/urlshortener"))
+
+shorten_url <- function(url){
+
+  body = list(
+    longUrl = url
+    )
+
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                      "POST",
+                      data_parse_function = function(x) x$id)
+
+   f(the_body = body)
+ }
+
+To use the above functions:
+library(googleAuthR)
+# go through authentication flow
+gar_auth()
+s <- shorten_url("http://markedmondson.me")
+s
+}
+}
 

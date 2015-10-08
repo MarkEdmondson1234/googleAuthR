@@ -3,6 +3,8 @@
 export(Authentication)
 export(gar_api_generator)
 export(gar_auth)
+export(gar_batch)
+export(gar_batch_walk)
 export(loginOutput)
 export(reactiveAccessToken)
 export(renderLogin)

@@ -1,3 +1,41 @@
+#' split a vector on an element
+#' 
+#' Why doesn't this exist?
+#' @param vector a vector
+#' @param index where to split the vector
+#' @param remove_splits to return with or without the index points
+#' 
+#' @return a list of vectors split not including split point
+#' @keywords internal
+split_vector <- function(vector, index, remove_splits=TRUE){
+  
+  l <- list()
+  for(i in 2:length(index)){
+    if(is.na(index[i])){
+      warning("No index found")
+      return(c("{", '"error":"no index"', "}"))
+    }
+    s <- vector[index[i-1]:index[i]] 
+    
+    if(remove_splits){
+      s <- s[-1]
+      s <- s[-length(s)]
+    }
+    
+    # remove leading or trailing empty strings
+    if(s[1] == "") s <- s[-1]
+    if(s[length(s)] == "") s <- s[-length(s)]
+    
+    if(exists("l")){
+      l <- c(l, list(s))
+    } else {
+      l <- list(s)
+    }
+  }
+  l
+}
+
+
 #' A helper function that tests whether an object is either NULL _or_
 #' a list of NULLs
 #'
