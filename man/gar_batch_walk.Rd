@@ -27,7 +27,7 @@ gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
 
 \item{data_frame_output}{if the list of lists are dataframes, you can bind them all by setting to TRUE}
 
-\item{...}{further arguments passed to f}
+\item{...}{further arguments passed to the data parse function of f}
 }
 \value{
 \strong{if data_frame_output is FALSE}: A list of lists.

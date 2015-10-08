@@ -50,11 +50,9 @@ Use it within your own function definitions, to query the Google API you want.
 
 `googleAuthR` has a default project setup with APIs activated for several APIs, but it is recommended you use your own Client IDs as the login screen will be big and scary for users with so many APIs to approve.  
 
-It is preferred to configure your functions to only use the scopes they need.
+It is preferred to configure your functions to only use the scopes they need.  Scopes you need will be specified in the Google API documentation. 
 
 Set scopes via the option `googleAuthR.scopes.selected`.
-
-
 
 The below example sets scopes for Search Console, Google Analytics and Tag Manager:
 ```
@@ -62,8 +60,6 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
                                           "https://www.googleapis.com/auth/analytics",
                                           "https://www.googleapis.com/auth/tagmanager.readonly"))
 ```
-
-A non-definitive scope list to choose from will be attempted to be maintained via `getOption("googleAuthR.scopes")`
 
 ### Set up steps
 1. Set up your project in the [Google API Console](https://code.google.com/apis/console) to use the Google API you want.
