@@ -276,7 +276,7 @@ doHttrRequest <- function(url,
   if(checkGoogleAPIError(req)){
     content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
     content <- jsonlite::fromJSON(content, 
-                                  simplifyVector = FALSE,
+                                  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"),
                                   simplifyDataFrame = TRUE,
                                   simplifyMatrix = TRUE)
     req$content <- content

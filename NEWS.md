@@ -2,7 +2,7 @@
 
 # v1.1.9002
 
-* Add `simplifyVector = FALSE` to content parsing for compatibility for some APIs
+* Added option for `googleAuthR.jsonlite.simplifyVector` for content parsing for compatibility for some APIs
 * Batch Google API requests now implemented.  See readme or `?gar_batch` and `?gar_batch_walk` for details.
 * If data parsing fails, return the raw content so you can test and modify your data parsing function 
 
