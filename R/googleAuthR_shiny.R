@@ -63,7 +63,8 @@ gar_shiny_getAuthUrl <-
            state = getOption("googleAuthR.securitycode"),
            client.id     = getOption("googleAuthR.webapp.client_id"),
            client.secret = getOption("googleAuthR.webapp.client_secret"),
-           scope         = getOption("googleAuthR.scopes.selected")) {
+           scope         = getOption("googleAuthR.scopes.selected"),
+           access_type   = "online") {
 
     scopeEnc <- paste(scope, sep='', collapse=' ')
     
@@ -75,7 +76,7 @@ gar_shiny_getAuthUrl <-
                    redirect_uri = redirect.uri,
                    scope = scopeEnc,
                    state = state,
-                   access_type = "online",
+                   access_type = access_type,
                    approval_prompt = "auto"))
     message("Auth Token URL: ", url)
     url
@@ -89,7 +90,6 @@ gar_shiny_getAuthUrl <-
 #' @param session The shiny session object.
 #' 
 #' @return The URL of the Shiny App its called from.
-#' @keywords internal
 #' @family shiny auth functions
 gar_shiny_getUrl <- function(session){
   
@@ -435,12 +435,14 @@ renderLogin <- function(session,
                         login_text="Login via Google",
                         logout_text="Logout",
                         login_class="btn btn-primary",
-                        logout_class="btn btn-default"){
+                        logout_class="btn btn-default",
+                        access_type = "online"){
   shiny::renderUI({
     if(is.null(shiny::isolate(access_token))) {
       shiny::actionLink("signed_in",
                  shiny::a(login_text, 
-                          href = gar_shiny_getAuthUrl(gar_shiny_getUrl(session)), 
+                          href = gar_shiny_getAuthUrl(gar_shiny_getUrl(session), 
+                                                      access_type = access_type), 
                    class=login_class, 
                    role="button"))
     } else {
