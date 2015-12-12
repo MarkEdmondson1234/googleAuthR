@@ -6,7 +6,8 @@
 \usage{
 renderLogin(session, access_token, login_text = "Login via Google",
   logout_text = "Logout", login_class = "btn btn-primary",
-  logout_class = "btn btn-default", access_type = "online")
+  logout_class = "btn btn-default", access_type = c("online", "offline"),
+  revoke = TRUE)
 }
 \arguments{
 \item{session}{A Shiny session object}
@@ -20,6 +21,8 @@ renderLogin(session, access_token, login_text = "Login via Google",
 \item{login_class}{The Bootstrap class for the login link}
 
 \item{logout_class}{The Bootstrap class for the logout link}
+
+\item{revoke}{If TRUE a user on logout will need to re-authenticate.}
 }
 \value{
 An object to assign to output e.g. output$login
