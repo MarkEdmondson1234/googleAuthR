@@ -451,17 +451,17 @@ renderLogin <- function(session,
                    role="button"))
     } else {
       if(revoke && !is.null(shiny::isolate(access_token))){
-        message("Revoked access")
         
-        logout_url <- httr::modify_url("https://accounts.google.com/o/oauth2/revoke",
-                                       query = list(token = shiny::isolate(access_token)$credentials$access_token))
-      } else {
-        logout_url <- gar_shiny_getUrl(session)
+        ## GETS the revoke URL for this user's access_token
+        httr::GET(httr::modify_url("https://accounts.google.com/o/oauth2/revoke",
+                                   query = 
+                                     list(token = 
+                                            shiny::isolate(access_token)$credentials$access_token)))
+        message("Revoked access")
       }
 
-      
       shiny::a(logout_text, 
-        href = logout_url, 
+        href = gar_shiny_getUrl(session), 
         class=logout_class, 
         role="button")
     }
