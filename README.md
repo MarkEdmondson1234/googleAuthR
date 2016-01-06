@@ -408,6 +408,45 @@ shorten_url("http://www.google.com")
 
 ```
 
+### Authentication with a JSON file via Service Accounts
+
+You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow.  The end user could supply this JSON file, or you can upload your own JSON file to your applications. 
+
+This involves downloading a secret JSON key with the authentication details.  More details are available from Google here: Using OAuth2.0 for Server to Server Applications[https://developers.google.com/identity/protocols/OAuth2ServiceAccount]
+
+To use, go to your Project in the [Google Developement Console](https://console.developers.google.com/apis/credentials/serviceaccountkey) and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
+`gar_auth_service()`
+  
+Navigate to the JSON file from the Google Developer Console via: 
+
+Credentials > New credentials > Service account Key > Select service account > Key type = JSON
+      
+An example using a service account JSON file for authentication is shown below:
+
+```
+library(googleAuthR)
+service_token <- gar_auth_service(json_file="~/location/of/the/json/secret.json")
+
+analytics_url <- function(shortUrl, 
+                          timespan = c("allTime", "month", "week","day","twoHours")){
+  
+  timespan <- match.arg(timespan)
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "GET",
+                         pars_args = list(shortUrl = "shortUrl",
+                                          projection = "FULL"),
+                         data_parse_function = function(x) { 
+                           a <- x$analytics 
+                           return(a[timespan][[1]])
+                         })
+  
+  f(pars_arguments = list(shortUrl = shortUrl))
+}
+
+analytics_url("https://goo.gl/2FcFVQbk")
+
+```
 ### Using with Shiny
 
 If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.

@@ -244,20 +244,64 @@ is_legit_token <- function(x, verbose = F) {
   TRUE
 }
 
-#' Create a service account authentication
+#' JSON service account authentication
 #' 
-#' @param secrets the JSON file downloaded from Google search console
+#' @description As well as OAuth2 authentication, you can authenticate without user interaction
+#'   via Service accounts.  This involves downloading a secret JSON key with the authentication
+#'   details.
+#'   
+#'   To use, go to your Project in the \href{https://console.developers.google.com/apis/credentials/serviceaccountkey}{Google Developement Console} and select JSON Key type.  Save the file 
+#'   to your computer and call it via supplying the file path to the \code{json_file} parameter.
+#'   
+#'   Navigate to it via: 
+#'     Google Dev Console > Credentials > New credentials > Service account Key > 
+#'        Select service account > Key type = JSON
+#' 
+#' @param json_file the JSON file downloaded from Google Developer Console
+#' 
+#' @seealso https://developers.google.com/identity/protocols/OAuth2ServiceAccount
 #' 
 #' @return (Invisible) Sets authentication token
 #' 
 #' @seealso \code{\link{https://developers.google.com/identity/protocols/OAuth2ServiceAccount}}
 #' @export
+#' 
+#' @examples 
+#' 
+#' \dontrun{
+#' library(googleAuthR)
+#' 
+#' ## secrets is the JSON file downloaded from theGoogle Dev Console
+#' ##   Credentials > New credentials > Service account Key > 
+#' ##     Select service account > Key type = JSON
+#' service_token <- gar_auth_service(secrets)
+#' 
+#' analytics_url <- function(shortUrl, 
+#'                        timespan = c("allTime", "month", "week","day","twoHours")){
+#'        timespan <- match.arg(timespan)
+#'        
+#'        f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                       "GET",
+#'                       pars_args = list(shortUrl = "shortUrl",
+#'                                        projection = "FULL"),
+#'                                       data_parse_function = function(x) { 
+#'                                       a <- x$analytics 
+#'                                       return(a[timespan][[1]])
+#'                    })
+#'                    
+#'        f(pars_arguments = list(shortUrl = shortUrl))
+#'        }
+#'  
+#'  analytics_url("https%3A%2F%2Fgoo.gl%2FcFVQbk")
+#' }
+#' 
 #'
-gar_auth_service <- function(secrets){
-  endpoint <- httr::oauth_endpoints("google")
-  scope <- getOption("googleAuthR.scopes.selected")
-  secrets <- jsonlite::fromJSON(secrets)
+gar_auth_service <- function(json_file){
   
+  endpoint <- httr::oauth_endpoints("google")
+  scope    <- getOption("googleAuthR.scopes.selected")
+  
+  secrets  <- jsonlite::fromJSON(json_file)
   scope <- paste(scope, collapse=" ")
   
   google_token <- httr::oauth_service_token(endpoint, secrets, scope)
