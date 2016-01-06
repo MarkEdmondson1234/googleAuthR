@@ -1,7 +1,13 @@
 # News Updates
 
+# v1.1.9003
+
+* Exposed `gar_shiny_getUrl` and the authentication type (online/offline) in `renderLogin`
+* `renderLogin` : logout now has option `revoke` to revoke authentication token
+
 # v1.1.9002
 
+* Added option for `googleAuthR.jsonlite.simplifyVector` for content parsing for compatibility for some APIs
 * Batch Google API requests now implemented.  See readme or `?gar_batch` and `?gar_batch_walk` for details.
 * If data parsing fails, return the raw content so you can test and modify your data parsing function 
 

@@ -2,6 +2,9 @@
 ^\.Rproj\.user$
 .httr-oauth
 ^\.travis\.yml$
-cran-comments.md
+cran-comments\.md
 ^NEWS\.md$
 test_batch.R
+inst/doc
+.Rhistory
+.RData

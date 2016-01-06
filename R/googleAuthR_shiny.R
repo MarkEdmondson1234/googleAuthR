@@ -63,7 +63,10 @@ gar_shiny_getAuthUrl <-
            state = getOption("googleAuthR.securitycode"),
            client.id     = getOption("googleAuthR.webapp.client_id"),
            client.secret = getOption("googleAuthR.webapp.client_secret"),
-           scope         = getOption("googleAuthR.scopes.selected")) {
+           scope         = getOption("googleAuthR.scopes.selected"),
+           access_type   = c("online","offline")) {
+    
+    access_type <- match.arg(access_type)
 
     scopeEnc <- paste(scope, sep='', collapse=' ')
     
@@ -75,7 +78,7 @@ gar_shiny_getAuthUrl <-
                    redirect_uri = redirect.uri,
                    scope = scopeEnc,
                    state = state,
-                   access_type = "online",
+                   access_type = access_type,
                    approval_prompt = "auto"))
     message("Auth Token URL: ", url)
     url
@@ -89,7 +92,6 @@ gar_shiny_getAuthUrl <-
 #' @param session The shiny session object.
 #' 
 #' @return The URL of the Shiny App its called from.
-#' @keywords internal
 #' @family shiny auth functions
 gar_shiny_getUrl <- function(session){
   
@@ -157,7 +159,7 @@ gar_shiny_getToken <- function(code,
   # content of req will contain access_token, token_type, expires_in
   token <- httr::content(req, type = "application/json")
   
-  # Create a Token2.0 object consistent with the token obtained from scr_auth()
+  # Create a Token2.0 object consistent with the token obtained from gar_auth()
   token_formatted <-
     httr::Token2.0$new(app = gar_app,
                        endpoint = httr::oauth_endpoints("google"),
@@ -251,7 +253,6 @@ reactiveAccessToken <- function(session){
   shiny::reactive({
     ## gets all the parameters in the URL. The auth code should be one of them.
     
-    # if(length(pars$code) > 0) {
     if(!is.null(authReturnCode(session))){
       ## extract the authorization token
       app_url <- gar_shiny_getUrl(session)    
@@ -360,6 +361,7 @@ loginOutput <- function(output_name){
 #' @param logout_text What the logout text will read on the button
 #' @param login_class The Bootstrap class for the login link
 #' @param logout_class The Bootstrap class for the logout link
+#' @param revoke If TRUE a user on logout will need to re-authenticate.
 #' 
 #' @return An object to assign to output e.g. output$login
 #' 
@@ -435,15 +437,29 @@ renderLogin <- function(session,
                         login_text="Login via Google",
                         logout_text="Logout",
                         login_class="btn btn-primary",
-                        logout_class="btn btn-default"){
+                        logout_class="btn btn-default",
+                        access_type = c("online","offline"),
+                        revoke = TRUE){
+  access_type <- match.arg(access_type)
   shiny::renderUI({
     if(is.null(shiny::isolate(access_token))) {
       shiny::actionLink("signed_in",
                  shiny::a(login_text, 
-                          href = gar_shiny_getAuthUrl(gar_shiny_getUrl(session)), 
+                          href = gar_shiny_getAuthUrl(gar_shiny_getUrl(session), 
+                                                      access_type = access_type), 
                    class=login_class, 
                    role="button"))
     } else {
+      if(revoke && !is.null(shiny::isolate(access_token))){
+        
+        ## GETS the revoke URL for this user's access_token
+        httr::GET(httr::modify_url("https://accounts.google.com/o/oauth2/revoke",
+                                   query = 
+                                     list(token = 
+                                            shiny::isolate(access_token)$credentials$access_token)))
+        message("Revoked access")
+      }
+
       shiny::a(logout_text, 
         href = gar_shiny_getUrl(session), 
         class=logout_class, 

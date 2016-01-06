@@ -264,5 +264,7 @@ gar_auth_service <- function(secrets){
   
   Authentication$set("public", "token", google_token, overwrite=TRUE)
   
+  return(invisible(Authentication$public_fields$token))
+  
 }
 
