@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 cran-comments\.md
 \.travis\.yml
+.httr-oauth
+.httr-oauth-SUSPENDED

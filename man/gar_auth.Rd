@@ -75,4 +75,9 @@ More detail is available from
 2.0 to Access Google APIs}. This function executes the "installed
 application" flow.
 }
+\seealso{
+Other authentication functions: \code{\link{gar_auth_service}},
+  \code{\link{get_google_token}},
+  \code{\link{is_legit_token}}, \code{\link{token_exists}}
+}
 

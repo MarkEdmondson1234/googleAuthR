@@ -11,5 +11,10 @@ This unexported function exists to catch tokens that are technically valid,
 i.e. `inherits(token, "Token2.0")` is TRUE, but that have dysfunctional
 credentials.
 }
+\seealso{
+Other authentication functions: \code{\link{gar_auth_service}},
+  \code{\link{gar_auth}}, \code{\link{get_google_token}},
+  \code{\link{token_exists}}
+}
 \keyword{internal}
 

@@ -88,6 +88,7 @@ Authentication <- R6::R6Class(
 #'   \code{\link[=Token-class]{Token2.0}}, invisibly
 #'
 #' @export
+#' @family authentication functions
 gar_auth <- function(token = NULL,
                      new_user = FALSE,
                      verbose = TRUE) {
@@ -157,6 +158,7 @@ gar_auth <- function(token = NULL,
 #' For shiny the token is passed from reactive session
 #'
 #' @keywords internal
+#' @family authentication functions
 get_google_token <- function(shiny_return_token=NULL) {
   
   if(is.null(shiny_return_token)){
@@ -184,6 +186,7 @@ get_google_token <- function(shiny_return_token=NULL) {
 #' @return logical
 #'
 #' @keywords internal
+#' @family authentication functions
 token_exists <- function(verbose = TRUE) {
   
   token <- Authentication$public_fields$token
@@ -218,6 +221,7 @@ token_exists <- function(verbose = TRUE) {
 #' credentials.
 #'
 #' @keywords internal
+#' @family authentication functions
 is_legit_token <- function(x, verbose = F) {
   
   if(!inherits(x, "Token2.0")) {
@@ -246,12 +250,17 @@ is_legit_token <- function(x, verbose = F) {
 
 #' JSON service account authentication
 #' 
-#' @description As well as OAuth2 authentication, you can authenticate without user interaction
-#'   via Service accounts.  This involves downloading a secret JSON key with the authentication
+#' @description As well as OAuth2 authentication, 
+#'   you can authenticate without user interaction via Service accounts.  
+#'   This involves downloading a secret JSON key with the authentication
 #'   details.
 #'   
-#'   To use, go to your Project in the \href{https://console.developers.google.com/apis/credentials/serviceaccountkey}{Google Developement Console} and select JSON Key type.  Save the file 
-#'   to your computer and call it via supplying the file path to the \code{json_file} parameter.
+#'   To use, go to your Project in 
+#'     the https://console.developers.google.com/apis/credentials/serviceaccountkey
+#'     
+#'     and select JSON Key type.  Save the file 
+#'   to your computer and call it via supplying 
+#'   the file path to the \code{json_file} parameter.
 #'   
 #'   Navigate to it via: 
 #'     Google Dev Console > Credentials > New credentials > Service account Key > 
@@ -263,39 +272,11 @@ is_legit_token <- function(x, verbose = F) {
 #' 
 #' @return (Invisible) Sets authentication token
 #' 
-#' @seealso \code{\link{https://developers.google.com/identity/protocols/OAuth2ServiceAccount}}
+#' @seealso 
+#' https://developers.google.com/identity/protocols/OAuth2ServiceAccount
+#' 
 #' @export
-#' 
-#' @examples 
-#' 
-#' \dontrun{
-#' library(googleAuthR)
-#' 
-#' ## secrets is the JSON file downloaded from theGoogle Dev Console
-#' ##   Credentials > New credentials > Service account Key > 
-#' ##     Select service account > Key type = JSON
-#' service_token <- gar_auth_service(secrets)
-#' 
-#' analytics_url <- function(shortUrl, 
-#'                        timespan = c("allTime", "month", "week","day","twoHours")){
-#'        timespan <- match.arg(timespan)
-#'        
-#'        f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-#'                       "GET",
-#'                       pars_args = list(shortUrl = "shortUrl",
-#'                                        projection = "FULL"),
-#'                                       data_parse_function = function(x) { 
-#'                                       a <- x$analytics 
-#'                                       return(a[timespan][[1]])
-#'                    })
-#'                    
-#'        f(pars_arguments = list(shortUrl = shortUrl))
-#'        }
-#'  
-#'  analytics_url("https%3A%2F%2Fgoo.gl%2FcFVQbk")
-#' }
-#' 
-#'
+#' @family authentication functions
 gar_auth_service <- function(json_file){
   
   endpoint <- httr::oauth_endpoints("google")

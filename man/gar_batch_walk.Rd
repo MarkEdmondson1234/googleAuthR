@@ -17,9 +17,13 @@ gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
 
 \item{gar_paths}{a list of path arguments for f}
 
+\item{the_body}{a list of body arguments for f}
+
 \item{pars_walk}{a character vector of the parameter(s) to modify for each walk of f}
 
 \item{path_walk}{a character vector of the path(s) to modify for each walk of f}
+
+\item{body_walk}{a character vector of the body(s) to modify for each walk of f}
 
 \item{batch_size}{size of each request to Google /batch API}
 

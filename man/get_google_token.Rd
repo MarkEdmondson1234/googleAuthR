@@ -16,5 +16,10 @@ For shiny the token is passed from reactive session
 \description{
 Get token if it's previously stored, else prompt user to get one.
 }
+\seealso{
+Other authentication functions: \code{\link{gar_auth_service}},
+  \code{\link{gar_auth}}, \code{\link{is_legit_token}},
+  \code{\link{token_exists}}
+}
 \keyword{internal}
 

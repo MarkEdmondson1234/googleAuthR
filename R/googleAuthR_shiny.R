@@ -361,6 +361,7 @@ loginOutput <- function(output_name){
 #' @param logout_text What the logout text will read on the button
 #' @param login_class The Bootstrap class for the login link
 #' @param logout_class The Bootstrap class for the logout link
+#' @param access_type Online or offline access for the authentication URL. 
 #' @param revoke If TRUE a user on logout will need to re-authenticate.
 #' 
 #' @return An object to assign to output e.g. output$login

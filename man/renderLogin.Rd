@@ -22,6 +22,8 @@ renderLogin(session, access_token, login_text = "Login via Google",
 
 \item{logout_class}{The Bootstrap class for the logout link}
 
+\item{access_type}{Online or offline access for the authentication URL.}
+
 \item{revoke}{If TRUE a user on logout will need to re-authenticate.}
 }
 \value{
