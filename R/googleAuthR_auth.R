@@ -244,3 +244,27 @@ is_legit_token <- function(x, verbose = F) {
   TRUE
 }
 
+#' Create a service account authentication
+#' 
+#' @param secrets the JSON file downloaded from Google search console
+#' 
+#' @return (Invisible) Sets authentication token
+#' 
+#' @seealso \code{\link{https://developers.google.com/identity/protocols/OAuth2ServiceAccount}}
+#' @export
+#'
+gar_auth_service <- function(secrets){
+  endpoint <- httr::oauth_endpoints("google")
+  scope <- getOption("googleAuthR.scopes.selected")
+  secrets <- jsonlite::fromJSON(secrets)
+  
+  scope <- paste(scope, collapse=" ")
+  
+  google_token <- httr::oauth_service_token(endpoint, secrets, scope)
+  
+  Authentication$set("public", "token", google_token, overwrite=TRUE)
+  
+  return(invisible(Authentication$public_fields$token))
+  
+}
+
