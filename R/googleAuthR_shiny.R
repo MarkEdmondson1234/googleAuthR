@@ -110,7 +110,7 @@ gar_shiny_getUrl <- function(session){
     url <- paste0(session$clientData$url_protocol,
                   "//",
                   hostname,
-                  ifelse(hostname == "127.0.0.1",
+                  ifelse(hostname %in% c("127.0.0.1","localhost"),
                          ":",
                          pathname),
                   session$clientData$url_port)
