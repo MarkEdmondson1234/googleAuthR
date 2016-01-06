@@ -2,6 +2,7 @@
 
 # v1.1.9003
 
+* Add 'localhost' to shiny URL detection. 
 * Google Service accounts now supported.  Authenticate via "Service Account Key" JSON.
 * Exposed `gar_shiny_getUrl` and the authentication type (online/offline) in `renderLogin`
 * `renderLogin` : logout now has option `revoke` to revoke authentication token
