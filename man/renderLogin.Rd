@@ -7,7 +7,7 @@
 renderLogin(session, access_token, login_text = "Login via Google",
   logout_text = "Logout", login_class = "btn btn-primary",
   logout_class = "btn btn-default", access_type = c("online", "offline"),
-  revoke = TRUE)
+  revoke = FALSE)
 }
 \arguments{
 \item{session}{A Shiny session object}
@@ -69,7 +69,11 @@ shinyServer(function(input, output, session)){
   access_token  <- reactiveAccessToken(session)
 
   ## Make a loginButton to display using loginOutput
-  output$loginButton <- renderLogin(session, access_token())
+  ## revoke=TRUE means upon logout a user will need to reauthenticate
+  output$loginButton <- renderLogin(session, access_token(), revoke=TRUE)
+  
+  ## Needed if revoke=TRUE above
+  revokeEventObserver(access_token())
 
   short_url_output <- eventReactive(input$submit, {
   ## wrap existing function with_shiny
@@ -102,6 +106,8 @@ shinyUI(
 }
 }
 \seealso{
+\link{revokeEventObserver}
+
 Other shiny auth functions: \code{\link{authReturnCode}},
   \code{\link{createCode}},
   \code{\link{gar_shiny_getAuthUrl}},
@@ -109,6 +115,7 @@ Other shiny auth functions: \code{\link{authReturnCode}},
   \code{\link{gar_shiny_getUrl}},
   \code{\link{loginOutput}},
   \code{\link{reactiveAccessToken}},
+  \code{\link{revokeEventObserver}},
   \code{\link{with_shiny}}
 }
 

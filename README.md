@@ -59,6 +59,8 @@ library(googleAuthR)
 
 This guide is available at: `vignette("googleAuthR")`
 
+This library allows you to authenticate easily via local use in an OAuth2 flow; within a Shiny app; or via service accounts. 
+
 The main two functions are `gar_auth()` and `gar_api_generator()`.
 
 ### `gar_auth`
@@ -136,7 +138,7 @@ Authentication token is cached in a hidden file called `.httr-oauth` in the work
 
 If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the `.httr-oauth` file to the folder of your script.
 
-### Authentication with Shiny
+## Authentication with Shiny
 
 If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.
 
@@ -195,6 +197,84 @@ shinyUI(
    textOutput("short_url")
    ))
 
+```
+
+## Authentication with a JSON file via Service Accounts
+
+You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow.  The end user could supply this JSON file, or you can upload your own JSON file to your applications. 
+
+This involves downloading a secret JSON key with the authentication details.  More details are available from Google here: Using OAuth2.0 for Server to Server Applications[https://developers.google.com/identity/protocols/OAuth2ServiceAccount]
+
+To use, go to your Project in the [Google Developement Console](https://console.developers.google.com/apis/credentials/serviceaccountkey) and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
+`gar_auth_service()`
+  
+Navigate to the JSON file from the Google Developer Console via: 
+
+Credentials > New credentials > Service account Key > Select service account > Key type = JSON
+      
+An example using a service account JSON file for authentication is shown below:
+
+```
+library(googleAuthR)
+service_token <- gar_auth_service(json_file="~/location/of/the/json/secret.json")
+
+analytics_url <- function(shortUrl, 
+                          timespan = c("allTime", "month", "week","day","twoHours")){
+  
+  timespan <- match.arg(timespan)
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "GET",
+                         pars_args = list(shortUrl = "shortUrl",
+                                          projection = "FULL"),
+                         data_parse_function = function(x) { 
+                           a <- x$analytics 
+                           return(a[timespan][[1]])
+                         })
+  
+  f(pars_arguments = list(shortUrl = shortUrl))
+}
+
+analytics_url("https://goo.gl/2FcFVQbk")
+
+```
+
+## Revoking Authentication
+
+For local use, delete the `.httr-oauth` file.
+
+For service level accounts delete the JSON file.
+
+For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through.  To force this every time, activate the parameter `revoke=TRUE` within the `renderLogin` function.  Example below:
+
+```
+ shinyServer(function(input, output, session)){
+   
+   ## Get auth code from return URL
+   access_token  <- reactiveAccessToken(session)
+ 
+   ## Make a loginButton to display using loginOutput
+   ## revoke=TRUE means upon logout a user will need to reauthenticate
+   output$loginButton <- renderLogin(session, access_token(), revoke=TRUE)
+   
+   ## Needed if revoke=TRUE above
+   revokeEventObserver(access_token())
+   
+   ...
+
+  }
+ 
+ ## in ui.R
+ library(shiny)
+ library(googleAuthR)
+ 
+ shinyUI(
+   fluidPage(
+     loginOutput("loginButton"),
+     ....
+     )
+     ))
+ } 
 ```
 
 ## Generating your function
@@ -421,45 +501,7 @@ shorten_url("http://www.google.com")
 
 ```
 
-### Authentication with a JSON file via Service Accounts
 
-You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow.  The end user could supply this JSON file, or you can upload your own JSON file to your applications. 
-
-This involves downloading a secret JSON key with the authentication details.  More details are available from Google here: Using OAuth2.0 for Server to Server Applications[https://developers.google.com/identity/protocols/OAuth2ServiceAccount]
-
-To use, go to your Project in the [Google Developement Console](https://console.developers.google.com/apis/credentials/serviceaccountkey) and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
-`gar_auth_service()`
-  
-Navigate to the JSON file from the Google Developer Console via: 
-
-Credentials > New credentials > Service account Key > Select service account > Key type = JSON
-      
-An example using a service account JSON file for authentication is shown below:
-
-```
-library(googleAuthR)
-service_token <- gar_auth_service(json_file="~/location/of/the/json/secret.json")
-
-analytics_url <- function(shortUrl, 
-                          timespan = c("allTime", "month", "week","day","twoHours")){
-  
-  timespan <- match.arg(timespan)
-  
-  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                         "GET",
-                         pars_args = list(shortUrl = "shortUrl",
-                                          projection = "FULL"),
-                         data_parse_function = function(x) { 
-                           a <- x$analytics 
-                           return(a[timespan][[1]])
-                         })
-  
-  f(pars_arguments = list(shortUrl = shortUrl))
-}
-
-analytics_url("https://goo.gl/2FcFVQbk")
-
-```
 ### Using with Shiny
 
 If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.

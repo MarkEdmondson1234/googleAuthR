@@ -35,7 +35,9 @@ Other shiny auth functions: \code{\link{authReturnCode}},
   \code{\link{gar_shiny_getUrl}},
   \code{\link{loginOutput}},
   \code{\link{reactiveAccessToken}},
-  \code{\link{renderLogin}}, \code{\link{with_shiny}}
+  \code{\link{renderLogin}},
+  \code{\link{revokeEventObserver}},
+  \code{\link{with_shiny}}
 }
 \keyword{internal}
 

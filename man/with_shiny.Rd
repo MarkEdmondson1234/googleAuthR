@@ -93,6 +93,7 @@ Other shiny auth functions: \code{\link{authReturnCode}},
   \code{\link{gar_shiny_getUrl}},
   \code{\link{loginOutput}},
   \code{\link{reactiveAccessToken}},
-  \code{\link{renderLogin}}
+  \code{\link{renderLogin}},
+  \code{\link{revokeEventObserver}}
 }
 
