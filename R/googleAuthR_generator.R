@@ -188,10 +188,24 @@ gar_api_generator <- function(baseURI,
 #' @keywords internal
 retryRequest <- function(f){
   the_request <- try(f)
-  if(is.error(the_request)){
-    warning("Failed request: ", error.message(the_request))
-
-    if(grepl('userRateLimitExceeded|quotaExceeded|internalServerError|backendError', error.message(the_request))){
+  
+  if(the_request$status_code != 200){
+    warning("Request Status Code: ", the_request$status_code)
+    
+    content <- jsonlite::fromJSON(httr::content(the_request, 
+                                              as = "text", 
+                                              type = "application/json", 
+                                              encoding = "UTF-8"))
+    
+    if (exists("error", where=content)) {
+      error <- content$error$message
+      warning("JSON fetch error: ",paste(error))
+    } else {
+      error <- "Unspecified Error"
+    }
+    
+    if(grepl('userRateLimitExceeded|quotaExceeded|internalServerError|backendError', 
+             error)){
       for(i in 1:getOption("googleAuthR.tryAttempts")){
         warning("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"))
         Sys.sleep((2 ^ i) + runif(n = 1, min = 0, max = 1))
@@ -200,7 +214,7 @@ retryRequest <- function(f){
       }
       warning("All attempts failed.")
     } else {
-      stop(error.message(the_request))
+      stop("No retry attempted: ", error)
     }
     
   }
