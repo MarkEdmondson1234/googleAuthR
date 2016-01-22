@@ -7,12 +7,18 @@
 #' @param path_args A named list with name=folder in request URI, value=the function variable. 
 #' @param pars_args A named list with name=parameter in request URI, value=the function variable.
 #' @param data_parse_function A function that takes a request response, parses it and returns the data you need.
+#' @param customConfig list of httr options such as \code{httr::use_proxy} 
+#'   or \code{httr::add_headers} that will be added to the request.
 #' 
+#' @details 
 #' \strong{path_args} and \strong{pars_args} add default values to the baseURI. 
 #'   NULL entries are removed. Use "" if you want an empty argument.
 #'   
 #' You don't need to supply access_token for OAuth2 requests in pars_args, 
 #'   this is dealt with in gar_auth()
+#'   
+#' Add custom configurations to the request in this syntax:
+#'  \code{customConfig = list(httr::add_headers("From" = "mark@example.com")}
 #'   
 #' @examples 
 #' \dontrun{
@@ -49,7 +55,8 @@ gar_api_generator <- function(baseURI,
                               http_header = c("GET","POST","PUT","DELETE", "PATCH"),
                               path_args = NULL,
                               pars_args = NULL,
-                              data_parse_function=NULL){
+                              data_parse_function=NULL,
+                              customConfig=NULL){
   
   http_header <- match.arg(http_header)
   if(substr(baseURI,nchar(baseURI),nchar(baseURI))!="/") baseURI <- paste0(baseURI, "/")
@@ -129,7 +136,8 @@ gar_api_generator <- function(baseURI,
         req <- doHttrRequest(req_url, 
                              shiny_access_token, 
                              http_header, 
-                             the_body)   
+                             the_body,
+                             customConfig)   
         
         if(!is.null(data_parse_function)){
           reqtry <- try(data_parse_function(req$content, ...))
@@ -248,6 +256,8 @@ checkTokenAPI <- function(shiny_access_token=NULL, verbose=F){
 #' @param request_type the type of httr request function: GET, POST, PUT, DELETE etc.
 #' @param the_body body of POST request
 #' @param params A named character vector of other parameters to add to request.
+#' @param customConfig list of httr options such as \code{httr::use_proxy} 
+#'   or \code{httr::add_headers} that will be added to the request.
 #' 
 #' @details Example of params: c(param1="foo", param2="bar")
 #' 
@@ -256,14 +266,25 @@ checkTokenAPI <- function(shiny_access_token=NULL, verbose=F){
 doHttrRequest <- function(url,
                           shiny_access_token = NULL,
                           request_type="GET", 
-                          the_body=NULL){
+                          the_body=NULL,
+                          customConfig=NULL){
   
   arg_list <- list(url = url, 
                    config = get_google_token(shiny_access_token), 
                    body = the_body,
                    encode = "json",
                    httr::add_headers("Accept-Encoding" = "gzip"),
-                   httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"))
+                   httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)")
+                   )
+  
+  if(!is.null(customConfig)){
+    stopifnot(inherits(customConfig, "list"))
+    
+    arg_list <- c(arg_list, customConfig)
+    
+  }
+  
+  str(arg_list)
   
   if(!is.null(the_body)){
     message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T)) 

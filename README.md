@@ -16,11 +16,12 @@ Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 * [Authentication with Shiny](https://github.com/MarkEdmondson1234/googleAuthR#using-with-shiny)
 * [Complete Example making a goo.gl R library](https://github.com/MarkEdmondson1234/googleAuthR#example-with-googl)
 
-Here is a list of [available Google APIs.](https://developers.google.com/apis-explorer/#p/)
 
 ## R Google API libraries using googleAuthR
 
-These libraries are all compatible as a result e.g. can use just one OAuth2 login flow and are Shiny compatible. 
+Here is a list of [available Google APIs.](https://developers.google.com/apis-explorer/#p/) this library can be used with.
+
+These libraries are all compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and are Shiny compatible. 
 
 * [searchConsoleR](https://github.com/MarkEdmondson1234/searchConsoleR) - Search Console API
 * [bigQueryR](https://github.com/MarkEdmondson1234/bigQueryR) - BigQuery API
@@ -41,6 +42,8 @@ GoogleAuthR version 0.1.1 is now available on CRAN
 ```
 install.packages("googleAuthR")
 ```
+
+Check out [News](NEWS.md) to see the features of the development version.
 
 If you want to use the development version on Github, install via:
 ```

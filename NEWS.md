@@ -2,6 +2,7 @@
 
 # v1.1.9003
 
+* Added ability to add your own custom headers to requests via `customConfig` in `gar_api_generator`
 * Add 'localhost' to shiny URL detection. 
 * Google Service accounts now supported.  Authenticate via "Service Account Key" JSON.
 * Exposed `gar_shiny_getUrl` and the authentication type (online/offline) in `renderLogin`

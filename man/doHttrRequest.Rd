@@ -5,7 +5,7 @@
 \title{Get URL content based on if its Shiny or local}
 \usage{
 doHttrRequest(url, shiny_access_token = NULL, request_type = "GET",
-  the_body = NULL)
+  the_body = NULL, customConfig = NULL)
 }
 \arguments{
 \item{url}{the url of the page to retrieve}
@@ -13,6 +13,9 @@ doHttrRequest(url, shiny_access_token = NULL, request_type = "GET",
 \item{request_type}{the type of httr request function: GET, POST, PUT, DELETE etc.}
 
 \item{the_body}{body of POST request}
+
+\item{customConfig}{list of httr options such as \code{httr::use_proxy} 
+or \code{httr::add_headers} that will be added to the request.}
 
 \item{session}{a shiny session object if in a shiny app.}
 

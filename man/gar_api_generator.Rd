@@ -6,7 +6,7 @@
 \usage{
 gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
   "PATCH"), path_args = NULL, pars_args = NULL,
-  data_parse_function = NULL)
+  data_parse_function = NULL, customConfig = NULL)
 }
 \arguments{
 \item{baseURI}{The stem of the API call.}
@@ -17,19 +17,26 @@ gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
 
 \item{pars_args}{A named list with name=parameter in request URI, value=the function variable.}
 
-\item{data_parse_function}{A function that takes a request response, parses it and returns the data you need.
+\item{data_parse_function}{A function that takes a request response, parses it and returns the data you need.}
 
-\strong{path_args} and \strong{pars_args} add default values to the baseURI. 
-  NULL entries are removed. Use "" if you want an empty argument.
-  
-You don't need to supply access_token for OAuth2 requests in pars_args, 
-  this is dealt with in gar_auth()}
+\item{customConfig}{list of httr options such as \code{httr::use_proxy} 
+or \code{httr::add_headers} that will be added to the request.}
 }
 \value{
 A function that can fetch the Google API data you specify
 }
 \description{
 This function generates other functions for use with Google APIs
+}
+\details{
+\strong{path_args} and \strong{pars_args} add default values to the baseURI. 
+  NULL entries are removed. Use "" if you want an empty argument.
+  
+You don't need to supply access_token for OAuth2 requests in pars_args, 
+  this is dealt with in gar_auth()
+  
+Add custom configurations to the request in this syntax:
+ \code{customConfig = list(httr::add_headers("From" = "mark@example.com")}
 }
 \examples{
 \dontrun{
