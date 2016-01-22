@@ -261,7 +261,7 @@ makeBatchRequest <- function(f){
   if(!is.null(f$the_body)){
     batch_body <- jsonlite::toJSON(f$the_body, auto_unbox = TRUE)
     message("Batch Body JSON parsed to:", batch_body)
-    part_content_length <- nchar(batch_body)
+    part_content_length <- nchar(batch_body, type="bytes")
     
     header <- paste(boundary,
                     "Content-Type: application/http",

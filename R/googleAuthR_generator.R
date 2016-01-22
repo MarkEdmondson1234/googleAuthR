@@ -284,8 +284,6 @@ doHttrRequest <- function(url,
     
   }
   
-  str(arg_list)
-  
   if(!is.null(the_body)){
     message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T)) 
   }
