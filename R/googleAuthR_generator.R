@@ -189,11 +189,11 @@ gar_api_generator <- function(baseURI,
 retryRequest <- function(f){
   the_request <- try(f)
   if(is.error(the_request)){
-    message("Failed request: ", error.message(the_request))
+    warning("Failed request: ", error.message(the_request))
 
     if(grepl('userRateLimitExceeded|quotaExceeded|internalServerError|backendError', error.message(the_request))){
       for(i in 1:getOption("googleAuthR.tryAttempts")){
-        message("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"))
+        warning("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"))
         Sys.sleep((2 ^ i) + runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
         if(!is.error(the_request)) break
@@ -315,7 +315,7 @@ checkGoogleAPIError <- function (req,
   
   ## from a batched request, we already have content
   if(!batched){
-    ga.json <- httr::content(req, as = "text", type = "application/json")
+    ga.json <- httr::content(req, as = "text", type = "application/json", encoding = "UTF-8")
     if(nchar(ga.json) > 0) {
       ga.json <- jsonlite::fromJSON(ga.json)
     } else {
