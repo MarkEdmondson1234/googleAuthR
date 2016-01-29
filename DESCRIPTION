@@ -1,6 +1,6 @@
 Package: googleAuthR
 Type: Package
-Version: 0.1.2
+Version: 0.2.0
 Title: Easy Authentication with Google OAuth2 APIs
 Description: Create R functions that interact with OAuth2 Google APIs easily,
     with auto-refresh and Shiny compatibility.
