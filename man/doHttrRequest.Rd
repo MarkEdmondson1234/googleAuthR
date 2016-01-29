@@ -14,7 +14,7 @@ doHttrRequest(url, shiny_access_token = NULL, request_type = "GET",
 
 \item{the_body}{body of POST request}
 
-\item{customConfig}{list of httr options such as \code{httr::use_proxy} 
+\item{customConfig}{list of httr options such as \code{httr::use_proxy}
 or \code{httr::add_headers} that will be added to the request.}
 
 \item{session}{a shiny session object if in a shiny app.}

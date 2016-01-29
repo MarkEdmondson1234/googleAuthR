@@ -19,7 +19,7 @@ gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
 
 \item{data_parse_function}{A function that takes a request response, parses it and returns the data you need.}
 
-\item{customConfig}{list of httr options such as \code{httr::use_proxy} 
+\item{customConfig}{list of httr options such as \code{httr::use_proxy}
 or \code{httr::add_headers} that will be added to the request.}
 }
 \value{
@@ -29,12 +29,12 @@ A function that can fetch the Google API data you specify
 This function generates other functions for use with Google APIs
 }
 \details{
-\strong{path_args} and \strong{pars_args} add default values to the baseURI. 
+\strong{path_args} and \strong{pars_args} add default values to the baseURI.
   NULL entries are removed. Use "" if you want an empty argument.
-  
-You don't need to supply access_token for OAuth2 requests in pars_args, 
+
+You don't need to supply access_token for OAuth2 requests in pars_args,
   this is dealt with in gar_auth()
-  
+
 Add custom configurations to the request in this syntax:
  \code{customConfig = list(httr::add_headers("From" = "mark@example.com")}
 }
@@ -42,7 +42,7 @@ Add custom configurations to the request in this syntax:
 \dontrun{
 library(googleAuthR)
 ## change the native googleAuthR scopes to the one needed.
-options("googleAuthR.scopes.selected" = 
+options("googleAuthR.scopes.selected" =
   c("https://www.googleapis.com/auth/urlshortener"))
 
 shorten_url <- function(url){
@@ -50,14 +50,14 @@ shorten_url <- function(url){
   body = list(
     longUrl = url
     )
-  
+
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                       "POST",
                       data_parse_function = function(x) x$id)
-                      
+
    f(the_body = body)
  }
- 
+
 To use the above functions:
 library(googleAuthR)
 # go through authentication flow
