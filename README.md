@@ -1,6 +1,5 @@
 # googleAuthR - Google API Client Library for R
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
-
 [![Analytics](https://ga-beacon.appspot.com/UA-73050356-1/googleAuthR/readme)](https://github.com/MarkEdmondson1234/googleAuthR)
 
 Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
