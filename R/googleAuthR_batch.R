@@ -98,9 +98,9 @@ gar_batch_walk <- function(f,
       body_walk_list <- lapply(body_walk, function(z) z = x)
       names(body_walk_list) <- body_walk
       
-      if(length(pars_walk) > 0) gar_pars <- modifyList(gar_pars, pars_walk_list)
-      if(length(path_walk) > 0) gar_paths <- modifyList(gar_paths, path_walk_list)
-      if(length(body_walk) > 0) the_body <- modifyList(the_body, body_walk_list)      
+      if(length(pars_walk) > 0) gar_pars <- utils::modifyList(gar_pars, pars_walk_list)
+      if(length(path_walk) > 0) gar_paths <- utils::modifyList(gar_paths, path_walk_list)
+      if(length(body_walk) > 0) the_body <- utils::modifyList(the_body, body_walk_list)      
       ## create the API call
       f(pars_arguments = gar_pars, 
         path_arguments = gar_paths, 

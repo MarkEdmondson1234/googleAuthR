@@ -208,7 +208,7 @@ retryRequest <- function(f){
              error)){
       for(i in 1:getOption("googleAuthR.tryAttempts")){
         warning("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"))
-        Sys.sleep((2 ^ i) + runif(n = 1, min = 0, max = 1))
+        Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
         if(the_request$status_code %in% c(200, 201)) break
       }
