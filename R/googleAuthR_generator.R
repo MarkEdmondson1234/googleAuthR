@@ -132,7 +132,7 @@ gar_api_generator <- function(baseURI,
       req_url <- paste0(baseURI, path, pars)
 
       if(!batch){
-        message("Request: ", req_url)
+        myMessage("Request: ", req_url, level = 2)
         req <- doHttrRequest(req_url,
                              shiny_access_token,
                              http_header,
@@ -187,7 +187,15 @@ gar_api_generator <- function(baseURI,
 #'
 #' @keywords internal
 retryRequest <- function(f){
-  the_request <- try(f)
+  
+  verbose <- getOption("googleAuthR.verbose")
+  
+  if(verbose <= 1){
+    the_request <- try(httr::with_verbose(f))
+  } else {
+    the_request <- try(f)
+  }
+
 
   if(!the_request$status_code %in% c(200, 201)){
     warning("Request Status Code: ", the_request$status_code)
@@ -232,27 +240,27 @@ retryRequest <- function(f){
 #'
 #' @keywords internal
 #' @family data fetching functions
-checkTokenAPI <- function(shiny_access_token=NULL, verbose=F){
+checkTokenAPI <- function(shiny_access_token=NULL){
 
   if(is.null(shiny_access_token)){
     ## local token
     token <- Authentication$public_fields$token
 
-    if(token_exists(verbose = verbose) && is_legit_token(token, verbose=verbose)) {
-      if(verbose) message("Valid local token")
+    if(token_exists() && is_legit_token(token)) {
+      myMessage("Valid local token", level = 1)
       TRUE
     } else {
-      if(verbose) message("Invalid local token")
+      warning("Invalid local token")
       FALSE
     }
 
   } else {
     ## is it a valid shiny token passed?
     if(is_legit_token(shiny_access_token)){
-      if(verbose) message("Valid Shiny token")
+      myMessage("Valid Shiny token", level = 1)
       TRUE
     } else {
-      if(verbose) message("Invalid Shiny token")
+      warning("Invalid Shiny token")
       FALSE
     }
   }
@@ -299,8 +307,10 @@ doHttrRequest <- function(url,
   }
 
   if(!is.null(the_body)){
-    message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T))
+    myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T), level = 2)
   }
+  
+
 
   req <- retryRequest(do.call(request_type,
                               args = arg_list,
@@ -345,7 +355,7 @@ checkGoogleAPIError <- function (req,
 
       }
     } else {
-      message("No content-type returned.")
+      myMessage("No content-type returned.", level=1)
       return(FALSE)
     }
 

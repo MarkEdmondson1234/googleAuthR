@@ -2,7 +2,8 @@
 
 # v1.2.9000
 
-* ...
+* Remove scopes option as not used. 
+* Added `googleAuthR.verbose` to control feedback. 0 = everything, 1 = debug, 2=normal, 3=important
 
 # v1.2 - CRAN
 

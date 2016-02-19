@@ -81,7 +81,6 @@ Authentication <- R6::R6Class(
 #'   want to wipe the slate clean and re-authenticate with the same or different
 #'   Google account. This deletes the \code{.httr-oauth} file in current working
 #'   directory.
-#' @param verbose Increase feedback messages of the function.   
 #'   
 #'
 #' @return an OAuth token object, specifically a
@@ -90,14 +89,13 @@ Authentication <- R6::R6Class(
 #' @export
 #' @family authentication functions
 gar_auth <- function(token = NULL,
-                     new_user = FALSE,
-                     verbose = TRUE) {
+                     new_user = FALSE) {
   
   if(new_user) {
     Authentication$set("public", "token", NULL, overwrite=TRUE)
     Authentication$set("public", "websites", data.frame(siteURL="None", permissionLevel="N/A"), overwrite=TRUE)
     if(file.exists(".httr-oauth")){
-      if(verbose) message("Removing old credentials ...")
+      myMessage("Removing old credentials ...", level=2)
       file.remove(".httr-oauth")     
     }
     
@@ -118,7 +116,7 @@ gar_auth <- function(token = NULL,
 
     
     
-    stopifnot(is_legit_token(google_token, verbose = TRUE))
+    stopifnot(is_legit_token(google_token))
     
     Authentication$set("public", "token", google_token, overwrite=TRUE)
     
@@ -129,15 +127,12 @@ gar_auth <- function(token = NULL,
     } else {
       google_token <- try(suppressWarnings(readRDS(token)), silent = TRUE)
       if(is.error(google_token)) {
-        if(verbose) {
-          message(sprintf("Cannot read token from alleged .rds file:\n%s",
-                          token))
-        }
+        myMessage(sprintf("Cannot read token from alleged .rds file:\n%s",
+                          token), level=3)
         return(invisible(NULL))
-      } else if(!is_legit_token(google_token, verbose = TRUE)) {
-        if(verbose) {
-          message(sprintf("File does not contain a proper token:\n%s", token))
-        }
+      } else if(!is_legit_token(google_token)) {
+          
+        myMessage(sprintf("File does not contain a proper token:\n%s", token), level=3)
         return(invisible(NULL))
       }
     }
@@ -187,29 +182,27 @@ get_google_token <- function(shiny_return_token=NULL) {
 #'
 #' @keywords internal
 #' @family authentication functions
-token_exists <- function(verbose = TRUE) {
+token_exists <- function() {
   
   token <- Authentication$public_fields$token
   
   if(is.null(token)) {
-    if(verbose) {
-      message("No authorization yet in this session!")
-      
-      if(file.exists(".httr-oauth")) {
-        message(paste("NOTE: a .httr-oauth file exists in current working",
-                      "directory.\n Run scr_auth() to use the",
-                      "credentials cached in .httr-oauth for this session."))
-      } else {
-        message(paste("No .httr-oauth file exists in current working directory.",
-                      "Run scr_auth() to provide credentials."))
-      }
-      
+    
+    myMessage("No authorization yet in this session!", level=3)
+    
+    if(file.exists(".httr-oauth")) {
+      myMessage(paste("NOTE: a .httr-oauth file exists in current working",
+                    "directory.\n Run gar_auth() to use the",
+                    "credentials cached in .httr-oauth for this session."), level=3)
+    } else {
+      myMessage(paste("No .httr-oauth file exists in current working directory.",
+                    "Run scr_auth() to provide credentials."), level=3)
     }
     
-    if(verbose) message("Token doesn't exist")
+    myMessage("Token doesn't exist", level=3)
     FALSE
   } else {
-    if(verbose) message("Token exists.")
+    myMessage("Token exists.", level=2)
     TRUE      
   }
 }
@@ -222,26 +215,25 @@ token_exists <- function(verbose = TRUE) {
 #'
 #' @keywords internal
 #' @family authentication functions
-is_legit_token <- function(x, verbose = F) {
+is_legit_token <- function(x) {
   
   if(!inherits(x, "Token2.0")) {
-    if(verbose) message("Not a Token2.0 object. Found:", class(x))
+    myMessage("Not a Token2.0 object. Found:", class(x), level=3)
     return(FALSE)
   }
   
   if("invalid_client" %in% unlist(x$credentials)) {
     # check for validity so error is found before making requests
     # shouldn't happen if id and secret don't change
-    if(verbose) {
-      message("Authorization error. Please check client_id and client_secret.")
-    }
+    myMessage("Authorization error. Please check client_id and client_secret.", level=3)
+    
     return(FALSE)
   }
   
   if("invalid_request" %in% unlist(x$credentials)) {
     # known example: if user clicks "Cancel" instead of "Accept" when OAuth2
     # flow kicks to browser
-    if(verbose) message("Authorization error. No access token obtained.")
+    myMessage("Authorization error. No access token obtained.", level=3)
     return(FALSE)
   }
   
@@ -279,6 +271,7 @@ is_legit_token <- function(x, verbose = F) {
 #' @family authentication functions
 gar_auth_service <- function(json_file){
   
+  
   endpoint <- httr::oauth_endpoints("google")
   scope    <- getOption("googleAuthR.scopes.selected")
   
@@ -288,6 +281,8 @@ gar_auth_service <- function(json_file){
   google_token <- httr::oauth_service_token(endpoint, secrets, scope)
   
   Authentication$set("public", "token", google_token, overwrite=TRUE)
+  
+  myMessage("Returning service token", level=1)
   
   return(invisible(Authentication$public_fields$token))
   

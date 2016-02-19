@@ -4,7 +4,7 @@
 \alias{gar_auth}
 \title{Authorize \code{googleAuthR}}
 \usage{
-gar_auth(token = NULL, new_user = FALSE, verbose = TRUE)
+gar_auth(token = NULL, new_user = FALSE)
 }
 \arguments{
 \item{token}{an actual token object or the path to a valid token stored as an
@@ -14,8 +14,6 @@ gar_auth(token = NULL, new_user = FALSE, verbose = TRUE)
 want to wipe the slate clean and re-authenticate with the same or different
 Google account. This deletes the \code{.httr-oauth} file in current working
 directory.}
-
-\item{verbose}{Increase feedback messages of the function.}
 }
 \value{
 an OAuth token object, specifically a

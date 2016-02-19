@@ -1,6 +1,6 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Best practices for writing an API package}
+%\VignetteIndexEntry{googleAuthR user guide}
 -->
 
 # googleAuthR - Google API Client Library for R

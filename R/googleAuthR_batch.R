@@ -38,7 +38,8 @@ gar_batch <- function(call_list, ...){
   batch_content <-  parseBatchResponse(req)
   
   parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content, ...)
-  message("Batched API request successful")
+  myMessage("Batched API request successful", level=2)
+  
   parsed_batch_content
   
 }
@@ -83,7 +84,9 @@ gar_batch_walk <- function(f,
                            ...){
   
   limit_batch <- split(walk_vector, ceiling(seq_along(walk_vector) / batch_size))
-  message("Batch API limited to [", batch_size ,"] calls at once.")
+
+  myMessage("Batch API limited to [", batch_size ,"] calls at once.", level=2)
+  
   ## lapply for each batch
   bl <- lapply(limit_batch, function(y){
     if(length(limit_batch) > 1) message("Request #: ", paste(y, collapse=" : "))
@@ -121,7 +124,7 @@ gar_batch_walk <- function(f,
   
   ## rbind all the dataframes if TRUE
   if(data_frame_output){
-    message("Binding dataframes into one.")
+    myMessage("Binding dataframes into one.", level=1)
     the_data <- Reduce(rbind,
                        lapply(bl,
                               function(x) {
@@ -251,7 +254,8 @@ makeBatchRequest <- function(f){
   boundary <- "--gar_batch"
   url_stem <- gsub("https://www.googleapis.com","",f$req_url)
 
-  message("Constructing batch request URL for: ", url_stem)  
+  myMessage("Constructing batch request URL for: ", url_stem, level = 2)  
+  
   ## construct batch POST request
   
   req <- paste0("\r\n",
@@ -260,7 +264,7 @@ makeBatchRequest <- function(f){
   
   if(!is.null(f$the_body)){
     batch_body <- jsonlite::toJSON(f$the_body, auto_unbox = TRUE)
-    message("Batch Body JSON parsed to:", batch_body)
+    myMessage("Batch Body JSON parsed to:", batch_body, level=1)
     part_content_length <- nchar(batch_body, type="bytes")
     
     header <- paste(boundary,
@@ -310,7 +314,7 @@ doBatchRequest <- function(batched){
                    httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
                    )
   
-  message("Making Batch API call")
+  myMessage("Making Batch API call", level=2)
   req <- retryRequest(do.call("POST", 
                               args = arg_list,
                               envir = asNamespace("httr")))

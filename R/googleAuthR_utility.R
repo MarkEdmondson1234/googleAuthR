@@ -1,3 +1,19 @@
+#' Customer message log level
+#' 
+#' @param ... The message(s)
+#' @param level The severity
+#' 
+#' @details 0 = everything, 1 = debug, 2=normal, 3=important
+myMessage <- function(..., level = 2){
+  
+  compare_level <- getOption("googleAuthR.verbose")
+  
+  if(level >= compare_level){
+    message(...)
+  }
+
+}
+
 #' split a vector on an element
 #' 
 #' Why doesn't this exist?

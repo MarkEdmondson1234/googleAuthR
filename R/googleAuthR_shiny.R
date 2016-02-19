@@ -80,7 +80,7 @@ gar_shiny_getAuthUrl <-
                    state = state,
                    access_type = access_type,
                    approval_prompt = "auto"))
-    message("Auth Token URL: ", url)
+    myMessage("Auth Token URL: ", url, level=2)
     url
   }
 
@@ -114,7 +114,7 @@ gar_shiny_getUrl <- function(session){
                          ":",
                          pathname),
                   session$clientData$url_port)
-#     message("Shiny URL detected as: ", url)
+    myMessage("Shiny URL detected as: ", url, level=1)
     url
   } else {
     NULL
@@ -572,7 +572,7 @@ revokeEventObserver <- function(access_token, input){
                                    query = 
                                    list(token = 
                                         shiny::isolate(access_token)$credentials$access_token)))
-        message("Revoked access")
+        myMessage("Revoked access", level=2)
   })
 
 }
@@ -654,7 +654,7 @@ revokeEventObserver <- function(access_token, input){
 with_shiny <- function(f, shiny_access_token=NULL, ...){
 
   if(is.null(shiny_access_token)) 
-    stop("Need to provide the reactive access token in shiny_access_token")
+    stop("Need to provide the reactive access token in shiny_access_token argument. e.g. shiny_access_token=access_token()")
 
   formals(f) <- c(formals(f), list(shiny_access_token=shiny_access_token))
 
