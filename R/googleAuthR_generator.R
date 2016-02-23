@@ -99,6 +99,7 @@ gar_api_generator <- function(baseURI,
       ## evaluates the shiny_access_token in the correct environment
       shiny_access_token <- eval(call_args$shiny_access_token,
                                  envir = f)
+      myMessage("Shiny Token found in environment", level=1)
     } else {
       shiny_access_token <- NULL
     }
