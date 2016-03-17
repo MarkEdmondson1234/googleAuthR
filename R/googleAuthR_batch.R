@@ -190,7 +190,7 @@ applyDataParseFunction <- function(function_entry, batch_content, ...){
 parseBatchResponse <- function(batch_response){
 
   
-  b_content <- textConnection(httr::content(batch_response, as="text"))
+  b_content <- textConnection(httr::content(batch_response, as="text", encoding = "UTF-8"))
   r <- readLines(b_content)
   
   if(grepl("Error",r[1])) stop("Error in API response.  Got: ", r) 

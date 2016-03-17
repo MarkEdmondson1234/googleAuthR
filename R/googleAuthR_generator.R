@@ -339,6 +339,14 @@ checkGoogleAPIError <- function (req,
                                  batched=FALSE) {
 
   ## from a batched request, we already have content
+  
+  ## if ok_content_types is a csv for example, skip the checks as it won't work
+  if("text/csv; charset=UTF-8" %in% ok_content_types){
+    myMessage("Skipping API checks for text/csv content_type")
+    batched <- TRUE
+  }
+  
+
   if(!batched){
     ga.json <- httr::content(req, as = "text", type = "application/json", encoding = "UTF-8")
     if(nchar(ga.json) > 0) {
