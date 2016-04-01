@@ -27,6 +27,8 @@ These libraries are all compatible as they use `googleAuthR` for authentication 
 * [searchConsoleR](https://github.com/MarkEdmondson1234/searchConsoleR) - Search Console API
 * [bigQueryR](https://github.com/MarkEdmondson1234/bigQueryR) - BigQuery API
 * [googleAnalyticsR](https://github.com/MarkEdmondson1234/googleAnalyticsR_public) - Google Analytics API
+* [gtmR](https://github.com/MarkEdmondson1234/gtmR) - Google Tag Manager API (in progress)
+* [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
 
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
 
