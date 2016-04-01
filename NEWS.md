@@ -4,6 +4,7 @@
 
 * Remove scopes option as not used. 
 * Added `googleAuthR.verbose` to control feedback. 0 = everything, 1 = debug, 2=normal, 3=important
+* Allow customConfig to change all httr paramters, including encode, config etc.
 
 # v1.2 - CRAN
 

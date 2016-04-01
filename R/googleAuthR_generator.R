@@ -303,7 +303,7 @@ doHttrRequest <- function(url,
   if(!is.null(customConfig)){
     stopifnot(inherits(customConfig, "list"))
 
-    arg_list <- c(arg_list, customConfig)
+    arg_list <- substitute.list(arg_list, customConfig)
 
   }
 
