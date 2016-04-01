@@ -307,7 +307,7 @@ doHttrRequest <- function(url,
 
   }
 
-  if(!is.null(the_body)){
+  if(!is.null(the_body) && arg_list$encode == "json"){
     myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T), level = 2)
   }
   
