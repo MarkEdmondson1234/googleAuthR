@@ -80,10 +80,6 @@ substitute.list <- function(template, replace_me){
   ## remove possible NULL entries
   template <- rmNullObs(template)
   replace_me <- rmNullObs(replace_me)
-  
-  if(!all(names(replace_me) %in% names(template))){
-    warning("Not all names in replacement list in template list")
-  }
 
   postwalk(template, function(x) replace.kv(x,replace_me))
   
