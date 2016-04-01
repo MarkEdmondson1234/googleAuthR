@@ -29,6 +29,7 @@ These libraries are all compatible as they use `googleAuthR` for authentication 
 * [googleAnalyticsR](https://github.com/MarkEdmondson1234/googleAnalyticsR_public) - Google Analytics API
 * [gtmR](https://github.com/MarkEdmondson1234/gtmR) - Google Tag Manager API (in progress)
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
+* [googleCloudStorageR](https://github.com/MarkEdmondson1234/googleCloudStorageR) - Google Cloud Storage API (in progress)
 
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
 
