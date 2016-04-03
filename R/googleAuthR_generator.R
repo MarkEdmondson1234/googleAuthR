@@ -213,17 +213,18 @@ retryRequest <- function(f){
       error <- "Unspecified Error"
     }
 
-    if(grepl('userRateLimitExceeded|quotaExceeded|internalServerError|backendError',
-             error)){
+    if(grepl("^5|429",the_request$status_code)){
       for(i in 1:getOption("googleAuthR.tryAttempts")){
-        warning("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"))
+        myMessage("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"), level = 2)
         Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
         if(the_request$status_code %in% c(200, 201)) break
       }
       warning("All attempts failed.")
+      myMessage("All attempts failed.", level = 2)
     } else {
       warning("No retry attempted: ", error)
+      myMessage("No retry attempted: ", error, level = 2)
     }
 
   }

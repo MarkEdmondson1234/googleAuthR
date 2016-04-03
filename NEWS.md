@@ -1,11 +1,12 @@
 # News Updates
 
-# v1.2.9000
+# v0.2.9000
 
 * Remove scopes option as not used. 
 * Added `googleAuthR.verbose` to control feedback. 0 = everything, 1 = debug, 2=normal, 3=important
+* Make the retry kick in more often for every 5** and 429 status error
 
-# v1.2 - CRAN
+# v0.2 - CRAN
 
 * Added ability to add your own custom headers to requests via `customConfig` in `gar_api_generator`
 * Add 'localhost' to shiny URL detection. 
@@ -23,7 +24,7 @@
 * moved `with_shiny` environment lookup to within generated function
 * added gzip to headers
 
-# v1.1 - CRAN
+# v0.1 - CRAN
 
 * Shiny compatibility
 * Local authentication compatibility
