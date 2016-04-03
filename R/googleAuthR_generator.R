@@ -199,7 +199,7 @@ retryRequest <- function(f){
 
 
   if(!the_request$status_code %in% c(200, 201)){
-    warning("Request Status Code: ", the_request$status_code)
+    myMessage("Request Status Code: ", the_request$status_code, level = 2)
 
     content <- jsonlite::fromJSON(httr::content(the_request,
                                               as = "text",
@@ -208,7 +208,7 @@ retryRequest <- function(f){
 
     if (exists("error", where=content)) {
       error <- content$error$message
-      warning("JSON fetch error: ",paste(error))
+      myMessage("JSON fetch error: ",paste(error), level = 2)
     } else {
       error <- "Unspecified Error"
     }
@@ -220,10 +220,8 @@ retryRequest <- function(f){
         the_request <- try(f)
         if(the_request$status_code %in% c(200, 201)) break
       }
-      warning("All attempts failed.")
       myMessage("All attempts failed.", level = 2)
     } else {
-      warning("No retry attempted: ", error)
       myMessage("No retry attempted: ", error, level = 2)
     }
 
