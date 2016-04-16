@@ -29,23 +29,8 @@ Authentication <- R6::R6Class(
 #' \code{.httr-oauth} in the current working directory, from where they can be
 #' automatically refreshed, as necessary.
 #'
-#' Most users, most of the time, do not need to call this function
-#' explicitly -- it will be triggered by the first action that
-#' requires authorization. Even when called, the default arguments will often
-#' suffice. However, when necessary, this function allows the user to
 #'
-#' \itemize{
-#'   \item store a token -- the token is invisibly returned and can be assigned
-#'   to an object or written to an \code{.rds} file
-#'   \item read the token from an \code{.rds} file or pre-existing object in the
-#'   workspace
-#'   \item provide your own app key and secret -- this requires setting up a new
-#'   project in
-#'   \href{https://console.developers.google.com}{Google Developers Console}
-#'   \item prevent caching of credentials in \code{.httr-oauth}
-#' }
-#'
-#' In a call to \code{scr_auth}, the user can provide the token, app key and
+#' In a call to \code{gar_auth}, the user can provide the token, app key and
 #' secret explicitly and can dictate whether credentials will be cached in
 #' \code{.httr_oauth}. If unspecified, these arguments are controlled via
 #' options, which, if undefined at the time \code{googleAuthR} is loaded, are
@@ -58,6 +43,8 @@ Authentication <- R6::R6Class(
 #'   defaults to a client secret that ships with the package}
 #'   \item{cache}{Set to option \code{googleAuthR.httr_oauth_cache}, which
 #'   defaults to TRUE}
+#'   \item{scopes}{Set to option \code{googleAuthR.scopes.selected}, which
+#'   defaults to demo scopes.}
 #' }
 #'
 #' To override these defaults in persistent way, predefine one or more of
@@ -259,6 +246,7 @@ is_legit_token <- function(x) {
 #'        Select service account > Key type = JSON
 #' 
 #' @param json_file the JSON file downloaded from Google Developer Console
+#' @param scope Scope of the JSON file auth if needed
 #' 
 #' @seealso https://developers.google.com/identity/protocols/OAuth2ServiceAccount
 #' 
@@ -269,11 +257,10 @@ is_legit_token <- function(x) {
 #' 
 #' @export
 #' @family authentication functions
-gar_auth_service <- function(json_file){
+gar_auth_service <- function(json_file, scope = getOption("googleAuthR.scopes.selected")){
   
   
   endpoint <- httr::oauth_endpoints("google")
-  scope    <- getOption("googleAuthR.scopes.selected")
   
   secrets  <- jsonlite::fromJSON(json_file)
   scope <- paste(scope, collapse=" ")

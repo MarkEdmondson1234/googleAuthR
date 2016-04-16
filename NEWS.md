@@ -5,6 +5,9 @@
 * Remove scopes option as not used. 
 * Added `googleAuthR.verbose` to control feedback. 0 = everything, 1 = debug, 2=normal, 3=important
 * Make the retry kick in more often for every 5** and 429 status error
+* Support non-JSON uploads (#28)
+* Add option to force user consent screen on Shiny login
+* Move specification of scope for `gar_auth_service` to param for more flexibility
 
 # v0.2 - CRAN
 

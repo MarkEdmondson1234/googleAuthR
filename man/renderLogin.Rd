@@ -7,7 +7,7 @@
 renderLogin(session, access_token, login_text = "Login via Google",
   logout_text = "Logout", login_class = "btn btn-primary",
   logout_class = "btn btn-default", access_type = c("online", "offline"),
-  revoke = FALSE)
+  approval_prompt = c("auto", "force"), revoke = FALSE)
 }
 \arguments{
 \item{session}{A Shiny session object}
@@ -23,6 +23,8 @@ renderLogin(session, access_token, login_text = "Login via Google",
 \item{logout_class}{The Bootstrap class for the logout link}
 
 \item{access_type}{Online or offline access for the authentication URL.}
+
+\item{approval_prompt}{Whether to show the consent screen on authentication.}
 
 \item{revoke}{If TRUE a user on logout will need to re-authenticate.}
 }
