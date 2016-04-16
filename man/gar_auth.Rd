@@ -27,23 +27,7 @@ grant \code{googleAuthR} access to user data for Google Search Console. These us
 automatically refreshed, as necessary.
 }
 \details{
-Most users, most of the time, do not need to call this function
-explicitly -- it will be triggered by the first action that
-requires authorization. Even when called, the default arguments will often
-suffice. However, when necessary, this function allows the user to
-
-\itemize{
-  \item store a token -- the token is invisibly returned and can be assigned
-  to an object or written to an \code{.rds} file
-  \item read the token from an \code{.rds} file or pre-existing object in the
-  workspace
-  \item provide your own app key and secret -- this requires setting up a new
-  project in
-  \href{https://console.developers.google.com}{Google Developers Console}
-  \item prevent caching of credentials in \code{.httr-oauth}
-}
-
-In a call to \code{scr_auth}, the user can provide the token, app key and
+In a call to \code{gar_auth}, the user can provide the token, app key and
 secret explicitly and can dictate whether credentials will be cached in
 \code{.httr_oauth}. If unspecified, these arguments are controlled via
 options, which, if undefined at the time \code{googleAuthR} is loaded, are
@@ -56,6 +40,8 @@ defined like so:
   defaults to a client secret that ships with the package}
   \item{cache}{Set to option \code{googleAuthR.httr_oauth_cache}, which
   defaults to TRUE}
+  \item{scopes}{Set to option \code{googleAuthR.scopes.selected}, which
+  defaults to demo scopes.}
 }
 
 To override these defaults in persistent way, predefine one or more of

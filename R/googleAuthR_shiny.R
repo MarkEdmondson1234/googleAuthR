@@ -64,9 +64,11 @@ gar_shiny_getAuthUrl <-
            client.id     = getOption("googleAuthR.webapp.client_id"),
            client.secret = getOption("googleAuthR.webapp.client_secret"),
            scope         = getOption("googleAuthR.scopes.selected"),
-           access_type   = c("online","offline")) {
+           access_type   = c("online","offline"),
+           approval_prompt = c("auto","force")) {
     
     access_type <- match.arg(access_type)
+    approval_prompt <- match.arg(approval_prompt)
 
     scopeEnc <- paste(scope, sep='', collapse=' ')
     
@@ -79,7 +81,7 @@ gar_shiny_getAuthUrl <-
                    scope = scopeEnc,
                    state = state,
                    access_type = access_type,
-                   approval_prompt = "auto"))
+                   approval_prompt = approval_prompt))
     myMessage("Auth Token URL: ", url, level=2)
     url
   }
@@ -363,7 +365,7 @@ loginOutput <- function(output_name){
 #' @param logout_class The Bootstrap class for the logout link
 #' @param access_type Online or offline access for the authentication URL. 
 #' @param revoke If TRUE a user on logout will need to re-authenticate.
-#' 
+#' @param approval_prompt Whether to show the consent screen on authentication.
 #' @return An object to assign to output e.g. output$login
 #' 
 #' @seealso \link{revokeEventObserver}
@@ -446,23 +448,23 @@ renderLogin <- function(session,
                         login_class="btn btn-primary",
                         logout_class="btn btn-default",
                         access_type = c("online","offline"),
+                        approval_prompt = c("auto","force"),
                         revoke = FALSE){
+  
   access_type <- match.arg(access_type)
+  approval_prompt <- match.arg(approval_prompt)
+  
   shiny::renderUI({
     if(is.null(shiny::isolate(access_token))) {
       shiny::actionLink("signed_in",
                  shiny::a(login_text, 
                           href = gar_shiny_getAuthUrl(gar_shiny_getUrl(session), 
-                                                      access_type = access_type), 
+                                                      access_type = access_type,
+                                                      approval_prompt = approval_prompt), 
                    class=login_class, 
                    role="button"))
     } else {
       if(revoke){
-#         logout_button <- shiny::actionLink("revoke",
-#                                            shiny::a(logout_text, 
-#                                                     href = '#', 
-#                                                     class=logout_class, 
-#                                                     role="button")           )
         
         logout_button <- shiny::actionButton("revoke", "Revoke Access", 
                                              href = gar_shiny_getUrl(session), 

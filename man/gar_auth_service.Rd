@@ -4,10 +4,12 @@
 \alias{gar_auth_service}
 \title{JSON service account authentication}
 \usage{
-gar_auth_service(json_file)
+gar_auth_service(json_file, scope = getOption("googleAuthR.scopes.selected"))
 }
 \arguments{
 \item{json_file}{the JSON file downloaded from Google Developer Console}
+
+\item{scope}{Scope of the JSON file auth if needed}
 }
 \value{
 (Invisible) Sets authentication token
