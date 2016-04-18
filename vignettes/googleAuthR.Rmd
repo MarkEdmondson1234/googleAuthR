@@ -144,7 +144,7 @@ As of 0.3.0 googleAuthR uses [Shiny Modules](http://shiny.rstudio.com/articles/m
 
 #### Shiny authentication example
 
-```
+```r
 library(shiny)
 library(googleAuthR)
 options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
