@@ -514,23 +514,23 @@ shorten_url("http://www.google.com")
 
 If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.
 
-If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, googleAuthR provides these functions to help make the Google login process as easy as possible:
+If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, googleAuthR provides these functions to help make the Google login process as easy as possible.
 
-* `loginOutput()` - creates the client side login button for users to authenticate with.
-* `renderLogin()` - creates the server side login button for users to authenticate with.
-* `reactiveAccessToken()` - creates the user's authentication token.
+As of 0.3.0 googleAuthR uses [Shiny Modules](http://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
+
+* `googleAuth` - creates the authentication token and login button styling
+* `googleAuthUI` - creates the server side login button for users to authenticate with.
 * `with_shiny()` - wraps your API functions so they can be passed the user's authentication token.
 
 #### Shiny authentication example
 
 ```
-## in global.R
+library(shiny)
 library(googleAuthR)
 options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
 
-
 shorten_url <- function(url){
-
+  
   body = list(
     longUrl = url
   )
@@ -543,50 +543,39 @@ shorten_url <- function(url){
   
 }
 
-
-## in server.R
-library(shiny)
-library(googleAuthR)
-source('global.R')
-
-shinyServer(function(input, output, session){
- 
-   ## Get auth code from return URL
-   access_token  <- reactiveAccessToken(session)
- 
-   ## Make a loginButton to display using loginOutput
-   output$loginButton <- renderLogin(session, access_token())
-
-   short_url_output <- eventReactive(input$submit, {
-     ## wrap existing function with_shiny
-     ## pass the reactive token in shiny_access_token
-     ## pass other named arguments
-     short_url <- with_shiny(f = shorten_url, 
-                             shiny_access_token = access_token(),
-                             url=input$url)
-     
-     
-   })
-   
-   output$short_url <- renderText({
-
+## server.R
+server <- function(input, output, session){
+  
+  ## Create access token and render login button
+  access_token <- callModule(googleAuth, "loginButton")
+  
+  short_url_output <- eventReactive(input$submit, {
+    ## wrap existing function with_shiny
+    ## pass the reactive token in shiny_access_token
+    ## pass other named arguments
+    with_shiny(f = shorten_url, 
+               shiny_access_token = access_token(),
+               url=input$url)
+    
+  })
+  
+  output$short_url <- renderText({
+    
     short_url_output()
-     
-    })
+    
+  })
+}
 
-})
+## ui.R
+ui <- fluidPage(
+  googleAuthUI("loginButton"),
+  textInput("url", "Enter URL"),
+  actionButton("submit", "Shorten URL"),
+  textOutput("short_url")
+)
 
-## in ui.R
-library(shiny)
-library(googleAuthR)
 
-shinyUI(
-  fluidPage(
- loginOutput("loginButton"),
-   textInput("url", "Enter URL"),
-   actionButton("submit", "Shorten URL"),
-   textOutput("short_url")
-   ))
+shinyApp(ui = ui, server = server)
 
 ```
  

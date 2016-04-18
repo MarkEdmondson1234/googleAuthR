@@ -8,6 +8,7 @@
 * Support non-JSON uploads (#28)
 * Add option to force user consent screen on Shiny login
 * Move specification of scope for `gar_auth_service` to param for more flexibility
+* Migrated shiny functions to Shiny Modules (#27)
 
 # v0.2 - CRAN
 
