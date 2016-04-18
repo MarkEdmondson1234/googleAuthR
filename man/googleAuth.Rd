@@ -10,6 +10,12 @@ googleAuth(input, output, session, login_text = "Login via Google",
   approval_prompt = c("auto", "force"), revoke = FALSE)
 }
 \arguments{
+\item{input}{shiny input}
+
+\item{output}{shiny output}
+
+\item{session}{shiny session}
+
 \item{login_text}{What the login text will read on the button}
 
 \item{logout_text}{What the logout text will read on the button}
