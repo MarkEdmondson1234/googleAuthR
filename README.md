@@ -20,9 +20,9 @@ Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 
 ## R Google API libraries using googleAuthR
 
-Here is a list of [available Google APIs.](https://developers.google.com/apis-explorer/#p/) this library can be used with.
+Here is a list of [available Google APIs](https://developers.google.com/apis-explorer/#p/) to make with this library.
 
-These libraries are all compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and are Shiny compatible. 
+The below libraries are all cross-compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and can be used in multi-user Shiny apps. 
 
 * [searchConsoleR](https://github.com/MarkEdmondson1234/searchConsoleR) - Search Console API
 * [bigQueryR](https://github.com/MarkEdmondson1234/bigQueryR) - BigQuery API
