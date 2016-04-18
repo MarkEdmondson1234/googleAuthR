@@ -14,7 +14,7 @@ Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 * [Building your own Google API functions](https://github.com/MarkEdmondson1234/googleAuthR#generating-your-function)
 * [Batching API Calls](https://github.com/MarkEdmondson1234/googleAuthR#batching-api-requests)
 * [Service Account Authentication with JSON](https://github.com/MarkEdmondson1234/googleAuthR#authentication-with-a-json-file-via-service-accounts)
-* [Authentication with Shiny](https://github.com/MarkEdmondson1234/googleAuthR#using-with-shiny)
+* [Authentication with Shiny](https://github.com/MarkEdmondson1234/googleAuthR#authentication-with-shiny)
 * [Complete Example making a goo.gl R library](https://github.com/MarkEdmondson1234/googleAuthR#example-with-googl)
 
 
