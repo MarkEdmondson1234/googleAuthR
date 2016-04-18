@@ -509,7 +509,11 @@ googleAuthUI <- function(id){
 #' Server part of shiny module, use with \link{googleAuthUI}
 #' 
 #' Call via \code{shiny::callModule(googleAuth, "your_ui_name", login_text = "Login")}
-#'
+#' 
+#' 
+#' @param input shiny input
+#' @param output shiny output
+#' @param session shiny session
 #' @param login_text What the login text will read on the button
 #' @param logout_text What the logout text will read on the button
 #' @param login_class The CSS class for the login link
