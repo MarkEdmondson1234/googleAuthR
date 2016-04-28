@@ -255,6 +255,14 @@ analytics_url("https://goo.gl/2FcFVQbk")
 
 ```
 
+## Authentication via RStudio Addin
+
+From version `0.2.9000` a RStudio Addin is available via the RStudio Addin menu once you load the package, or via `googleAuthR:::gar_gadget()`
+
+It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.
+
+![googleAuthRGadget](https://storage.googleapis.com/mark-edmondson-public-files/myObject)
+
 ## Revoking Authentication
 
 For local use, delete the `.httr-oauth` file.
