@@ -1,0 +1,4 @@
+Name: Google API Auth
+Description: Authenticate with Google APIs
+Binding: gar_gadget
+Interactive: true

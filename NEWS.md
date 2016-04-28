@@ -2,6 +2,8 @@
 
 # v0.2.9000
 
+* Add an [RStudio Addin](https://rstudio.github.io/rstudioaddins/) for easy authentication.  Run via menu or `googleAuthR:::gar_gadget()`
+* Move simplifyVector option to be able to be passed in generated function, defaults to `getOption("googleAuthR.jsonlite.simplifyVector")`
 * Remove scopes option as not used. 
 * Added `googleAuthR.verbose` to control feedback. 0 = everything, 1 = debug, 2=normal, 3=important
 * Make the retry kick in more often for every 5** and 429 status error

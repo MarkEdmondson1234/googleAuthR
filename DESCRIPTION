@@ -18,6 +18,7 @@ Imports:
     R6 (>= 2.1.0)
 Suggests:
     shiny (>= 0.12.1),
+    miniUI (>= 0.1.1),
     knitr
 License: MIT + file LICENSE
 LazyData: true

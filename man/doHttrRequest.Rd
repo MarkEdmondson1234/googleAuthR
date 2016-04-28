@@ -5,7 +5,8 @@
 \title{Get URL content based on if its Shiny or local}
 \usage{
 doHttrRequest(url, shiny_access_token = NULL, request_type = "GET",
-  the_body = NULL, customConfig = NULL)
+  the_body = NULL, customConfig = NULL,
+  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"))
 }
 \arguments{
 \item{url}{the url of the page to retrieve}
@@ -16,6 +17,8 @@ doHttrRequest(url, shiny_access_token = NULL, request_type = "GET",
 
 \item{customConfig}{list of httr options such as \code{httr::use_proxy}
 or \code{httr::add_headers} that will be added to the request.}
+
+\item{simplifyVector}{Passed to jsonlite::fromJSON}
 
 \item{session}{a shiny session object if in a shiny app.}
 

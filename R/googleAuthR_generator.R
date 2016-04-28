@@ -82,6 +82,7 @@ gar_api_generator <- function(baseURI,
                    pars_arguments=NULL,
                    the_body=NULL,
                    batch=FALSE,
+                   simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector"),
                    ...){
 
     # extract the shiny token from the right environments
@@ -135,10 +136,11 @@ gar_api_generator <- function(baseURI,
       if(!batch){
         myMessage("Request: ", req_url, level = 2)
         req <- doHttrRequest(req_url,
-                             shiny_access_token,
-                             http_header,
-                             the_body,
-                             customConfig)
+                             shiny_access_token=shiny_access_token,
+                             request_type=http_header,
+                             the_body=the_body,
+                             customConfig=customConfig,
+                             simplifyVector=simplifyVector)
 
         if(!is.null(data_parse_function)){
           reqtry <- try(data_parse_function(req$content, ...))
@@ -280,6 +282,7 @@ checkTokenAPI <- function(shiny_access_token=NULL){
 #' @param params A named character vector of other parameters to add to request.
 #' @param customConfig list of httr options such as \code{httr::use_proxy}
 #'   or \code{httr::add_headers} that will be added to the request.
+#' @param simplifyVector Passed to jsonlite::fromJSON
 #'
 #' @details Example of params: c(param1="foo", param2="bar")
 #'
@@ -289,7 +292,8 @@ doHttrRequest <- function(url,
                           shiny_access_token = NULL,
                           request_type="GET",
                           the_body=NULL,
-                          customConfig=NULL){
+                          customConfig=NULL,
+                          simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
 
   arg_list <- list(url = url,
                    config = get_google_token(shiny_access_token),
@@ -319,7 +323,7 @@ doHttrRequest <- function(url,
   if(checkGoogleAPIError(req)){
     content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
     content <- jsonlite::fromJSON(content,
-                                  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"))
+                                  simplifyVector = simplifyVector)
     req$content <- content
   }
 
