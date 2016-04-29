@@ -9,7 +9,8 @@
 #' @param data_parse_function A function that takes a request response, parses it and returns the data you need.
 #' @param customConfig list of httr options such as \code{httr::use_proxy}
 #'   or \code{httr::add_headers} that will be added to the request.
-#'
+#' @param simplifyVector Passed to jsonlite::fromJSON for response parsing
+#' 
 #' @details
 #' \strong{path_args} and \strong{pars_args} add default values to the baseURI.
 #'   NULL entries are removed. Use "" if you want an empty argument.
@@ -56,7 +57,8 @@ gar_api_generator <- function(baseURI,
                               path_args = NULL,
                               pars_args = NULL,
                               data_parse_function=NULL,
-                              customConfig=NULL){
+                              customConfig=NULL,
+                              simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
 
   http_header <- match.arg(http_header)
   if(substr(baseURI,nchar(baseURI),nchar(baseURI))!="/") baseURI <- paste0(baseURI, "/")
@@ -82,7 +84,6 @@ gar_api_generator <- function(baseURI,
                    pars_arguments=NULL,
                    the_body=NULL,
                    batch=FALSE,
-                   simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector"),
                    ...){
 
     # extract the shiny token from the right environments
@@ -337,9 +338,9 @@ doHttrRequest <- function(url,
 #' @param batched called from gar_batch or not
 #'
 #' @keywords internal
-checkGoogleAPIError <- function (req,
-                                 ok_content_types=getOption("googleAuthR.ok_content_types"),
-                                 batched=FALSE) {
+checkGoogleAPIError <- function(req,
+                                ok_content_types=getOption("googleAuthR.ok_content_types"),
+                                batched=FALSE) {
 
   ## from a batched request, we already have content
   

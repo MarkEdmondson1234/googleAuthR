@@ -2,6 +2,7 @@
 
 # v0.2.9000
 
+* Add an example Shiny app in `/inst/shiny/shiny-example.R`
 * Add an [RStudio Addin](https://rstudio.github.io/rstudioaddins/) for easy authentication.  Run via menu or `googleAuthR:::gar_gadget()`
 * Move simplifyVector option to be able to be passed in generated function, defaults to `getOption("googleAuthR.jsonlite.simplifyVector")`
 * Remove scopes option as not used. 

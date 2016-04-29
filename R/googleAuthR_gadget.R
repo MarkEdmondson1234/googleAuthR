@@ -36,7 +36,10 @@ gar_gadget <- function(){
                              width = "100%"),
           shiny::textInput("add_scopes","New scopes", width = "100%"),
           shiny::actionButton("do_add_scopes","Add scopes", icon = shiny::icon("plus")),
-          shiny::helpText("Google API scopes are listed ", shiny::a(href="https://developers.google.com/identity/protocols/googlescopes", "here", target="_blank"))
+          shiny::helpText("Google API scopes are listed ", 
+                          shiny::a(href="https://developers.google.com/identity/protocols/googlescopes", 
+                                   "here", 
+                                   target="_blank"))
           
         )
         } else {
@@ -53,16 +56,19 @@ gar_gadget <- function(){
       }
 
       token <- shiny::callModule(googleAuth, 
-                                  "gadget", 
-                                  login_text = "Login",
-                                  approval_prompt="force")
+                                 "gadget", 
+                                 login_text = "Login",
+                                 approval_prompt="force")
       
       token <- token()
       
       if(!is.null(token)){
         googleAuthR::gar_auth(token)
         message("Authentication complete for: ", 
-                paste(getOption("googleAuthR.scopes.selected"), sep=",", collapse =" "))
+                paste(getOption("googleAuthR.scopes.selected"), 
+                      sep=",", 
+                      collapse =" ")
+                )
         message("You can safely close the browser window.")
         shiny::stopApp()
       }

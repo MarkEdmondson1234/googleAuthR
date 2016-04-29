@@ -6,7 +6,8 @@
 \usage{
 gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
   "PATCH"), path_args = NULL, pars_args = NULL,
-  data_parse_function = NULL, customConfig = NULL)
+  data_parse_function = NULL, customConfig = NULL,
+  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"))
 }
 \arguments{
 \item{baseURI}{The stem of the API call.}
@@ -21,6 +22,8 @@ gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
 
 \item{customConfig}{list of httr options such as \code{httr::use_proxy}
 or \code{httr::add_headers} that will be added to the request.}
+
+\item{simplifyVector}{Passed to jsonlite::fromJSON for response parsing}
 }
 \value{
 A function that can fetch the Google API data you specify
