@@ -39,8 +39,16 @@ gar_gadget <- function(){
           shiny::helpText("Google API scopes are listed ", 
                           shiny::a(href="https://developers.google.com/identity/protocols/googlescopes", 
                                    "here", 
-                                   target="_blank"))
-          
+                                   target="_blank")),
+          shiny::strong("googleAuthR.client_id"),
+          shiny::helpText(getOption("googleAuthR.client_id")),
+          shiny::strong("googleAuthR.webapp.client_id"),
+          shiny::helpText(getOption("googleAuthR.webapp.client_id")),
+          shiny::strong("shiny.port"),
+          shiny::helpText(getOption("shiny.port")),
+          shiny::hr(),
+          shiny::helpText("Ensure above settings match your", shiny::a(href="https://console.developers.google.com/apis/credentials", "Google console API credentials"), "for successful authentication."),
+          shiny::helpText("googleAuthR defaults for example purposes only.")
         )
         } else {
           NULL
