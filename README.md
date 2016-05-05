@@ -160,10 +160,14 @@ As of 0.3.0 googleAuthR uses [Shiny Modules](http://shiny.rstudio.com/articles/m
 
 #### Shiny authentication example
 
-```
-library(shiny)
+```r
+## in global.R
 library(googleAuthR)
-options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+library(shiny)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/urlshortener")
+options(googleAnalyticsR.webapp.client_id = "YOUR_PROJECT_KEY")
+options(googleAnalyticsR.webapp.client_secret = "YOUR_CLIENT_SECRET")
 
 shorten_url <- function(url){
   
@@ -180,6 +184,8 @@ shorten_url <- function(url){
 }
 
 ## server.R
+source("global.R")
+
 server <- function(input, output, session){
   
   ## Create access token and render login button
@@ -211,7 +217,17 @@ ui <- fluidPage(
 )
 
 
-shinyApp(ui = ui, server = server)
+### If the above global.R, server.R and ui.R files are in folder "test" like so:
+## /home
+##    |->/test/
+##            /global.R
+##            /ui.R
+##            /server.R
+##
+## Port 1221 has been set in your Google Project options as the port to listen to
+## as explained in authentication setup section
+## run below in /home directory
+shiny::runApp("./test/", launch.browser=T, port=1221)
 
 ```
  
