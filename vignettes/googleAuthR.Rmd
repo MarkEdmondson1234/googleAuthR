@@ -7,6 +7,8 @@
 
 Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 
+This guide is also available at the [googleAuthR website](http://code.markedmondson.me/googleAuthR/)
+
 ## R Google API libraries using googleAuthR
 
 Here is a list of [available Google APIs.](https://developers.google.com/apis-explorer/#p/) this library can be used with.
@@ -78,7 +80,7 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
 ```
 
 ### Set up steps
-1. Set up your project in the [Google API Console](https://code.google.com/apis/console) to use the Google API you want.
+1. Set up your project in the Google API Console to use the Google API you want.
 
 #### For local use
 2. Click 'Create a new Client ID', and choose "Installed Application".
@@ -205,7 +207,7 @@ You can also authenticate single users via a server side JSON file rather than g
 
 This involves downloading a secret JSON key with the authentication details.  More details are available from Google here: Using OAuth2.0 for Server to Server Applications[https://developers.google.com/identity/protocols/OAuth2ServiceAccount]
 
-To use, go to your Project in the [Google Developement Console](https://console.developers.google.com/apis/credentials/serviceaccountkey) and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
+To use, go to your Project in the Google Developement Console and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
 `gar_auth_service()`
   
 Navigate to the JSON file from the Google Developer Console via: 
@@ -238,6 +240,12 @@ analytics_url <- function(shortUrl,
 analytics_url("https://goo.gl/2FcFVQbk")
 
 ```
+
+## Authentication via RStudio Addin
+
+From version `0.3.0` a RStudio Addin is available via the RStudio Addin menu once you load the package, or via `googleAuthR:::gar_gadget()`
+
+It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.
 
 ## Revoking Authentication
 
@@ -371,6 +379,12 @@ Example below of the differences between having a data parsing function and not:
                              
 ```
 The response is turned from JSON to a dataframe if possible, via `jsonlite::fromJSON`
+
+### Skip parsing
+
+In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.
+
+For these cases, you can use the option `option("googleAuthR.rawResponse" = TRUE)` to skip all tests and return the raw response.
 
 ### Batching API requests
 
