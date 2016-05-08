@@ -345,6 +345,7 @@ checkGoogleAPIError <- function(req,
   ## from a batched request, we already have content
   
   rawResponse <- getOption("googleAuthR.rawResponse")
+  skip_checks <- FALSE
   
   if(rawResponse){
     myMessage("Skipping API checks due to googleAuthR.rawResponse=TRUE", level=2)
@@ -356,7 +357,6 @@ checkGoogleAPIError <- function(req,
     skip_checks <- TRUE
   }
   
-
   if(!skip_checks){
     
     ga.json <- httr::content(req, 
