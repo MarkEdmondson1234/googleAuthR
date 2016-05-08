@@ -22,15 +22,14 @@ an OAuth token object, specifically a
 \description{
 Authorize \code{googleAuthR} to access your Google user data. You will be
 directed to a web browser, asked to sign in to your Google account, and to
-grant \code{googleAuthR} access to user data for Google Search Console. These user credentials are cached in a file named
+grant \code{googleAuthR} access to user data for Google Search Console. 
+These user credentials are cached in a file named
 \code{.httr-oauth} in the current working directory, from where they can be
 automatically refreshed, as necessary.
 }
 \details{
-In a call to \code{gar_auth}, the user can provide the token, app key and
-secret explicitly and can dictate whether credentials will be cached in
-\code{.httr_oauth}. If unspecified, these arguments are controlled via
-options, which, if undefined at the time \code{googleAuthR} is loaded, are
+These arguments are controlled via options, which, 
+if undefined at the time \code{googleAuthR} is loaded, are
 defined like so:
 
 \describe{

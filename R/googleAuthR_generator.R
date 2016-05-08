@@ -344,15 +344,31 @@ checkGoogleAPIError <- function(req,
 
   ## from a batched request, we already have content
   
-  ## if ok_content_types is a csv for example, skip the checks as it won't work
-  if("text/csv; charset=UTF-8" %in% ok_content_types){
-    myMessage("Skipping API checks for text/csv content_type")
-    batched <- TRUE
+  rawResponse <- getOption("googleAuthR.rawResponse")
+  
+  if(rawResponse){
+    myMessage("Skipping API checks due to googleAuthR.rawResponse=TRUE", level=2)
+    skip_checks <- TRUE
+  }
+  
+  if(batched){
+    myMessage("Skipping API checks for batch content_type", level=2)
+    skip_checks <- TRUE
   }
   
 
-  if(!batched){
-    ga.json <- httr::content(req, as = "text", type = "application/json", encoding = "UTF-8")
+  if(!skip_checks){
+    
+    ga.json <- httr::content(req, 
+                             as = "text", 
+                             type = "application/json", 
+                             encoding = "UTF-8")
+    
+    if(is.null(ga.json)) {
+      warning('JSON parsing was NULL')
+      return(FALSE)
+    }
+    
     if(nchar(ga.json) > 0) {
       ga.json <- jsonlite::fromJSON(ga.json)
     } else {
@@ -372,23 +388,16 @@ checkGoogleAPIError <- function(req,
       return(FALSE)
     }
 
+    ## get error message from API
     if (!is.null(ga.json$error$message)) {
-      stop("JSON fetch error: ",paste(ga.json$error$message))
+      stop("JSON fetch error: ", paste(ga.json$error$message))
     }
 
   } else {
     ga.json <- req
   }
 
-  if(is.null(ga.json)) {
-    stop('JSON parsing was NULL')
-  }
-
-  if (grepl("Error 400 (Bad Request)",ga.json[[1]][1])) {
-    stop('JSON fetch error: Bad request URL - 400. Fetched: ', url)
-  }
-
-  if(!batched) httr::stop_for_status(req)
+  if(!skip_checks) httr::stop_for_status(req)
 
   TRUE
 }

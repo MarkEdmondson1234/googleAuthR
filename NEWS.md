@@ -2,6 +2,8 @@
 
 # v0.2.9000
 
+* Document default options in `?googleAuthR`
+* Add `option(googleAuthR.rawResponse)` - skip API checks on response.
 * Add an example Shiny app in `/inst/shiny/shiny-example.R`
 * Add an [RStudio Addin](https://rstudio.github.io/rstudioaddins/) for easy authentication.  Run via menu or `googleAuthR:::gar_gadget()`
 * Move simplifyVector option to be able to be passed in generated function, defaults to `getOption("googleAuthR.jsonlite.simplifyVector")`

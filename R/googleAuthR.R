@@ -29,6 +29,34 @@
 #'       with this so you can pass the \code{\link{reactiveAccessToken}}
 #' }
 #' 
+#' @section Default options:
+#' 
+#' These are the default options that you can override via \code{options()}
+#' 
+#' \itemize{
+#'   \item \code{googleAuthR.rawResponse = FALSE}
+#'   \item \code{googleAuthR.httr_oauth_cache = TRUE}
+#'   \item \code{googleAuthR.verbose = 3}
+#'   \item \code{googleAuthR.client_id = "201908948134-rm1ij8ursrfcbkv9koc0aqver84b04r7.apps.googleusercontent.com"}
+#'   \item \code{googleAuthR.client_secret = "nksRJZ5K3nm9FUWsAtBoBArz"}
+#'   \item \code{googleAuthR.webapp.client_id = "201908948134-cjjs89cffh3k429vi7943ftpk3jg36ed.apps.googleusercontent.com"}
+#'   \item \code{googleAuthR.webapp.client_secret = "mE7rHl0-iNtzyI1MQia-mg1o"}
+#'   \item \code{googleAuthR.webapp.port = 1221}
+#'   \item \code{googleAuthR.jsonlite.simplifyVector = TRUE}
+#'   \item \code{googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/webmasters",
+#'                                       "https://www.googleapis.com/auth/analytics",
+#'                                       "https://www.googleapis.com/auth/analytics.readonly",
+#'                                       "https://www.googleapis.com/auth/analytics.manage.users.readonly",
+#'                                       "https://www.googleapis.com/auth/tagmanager.readonly",
+#'                                       "https://www.googleapis.com/auth/urlshortener")}
+#'   \item \code{googleAuthR.ok_content_types=c("application/json; charset=UTF-8", ("text/html; charset=UTF-8"))}
+#'   \item \code{googleAuthR.securitycode = paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse='')}
+#'   \item \code{googleAuthR.tryAttempts = 5}
+#'  }
+#'
+#' 
+#' 
+#' 
 #' @docType package
 #' @name googleAuthR
 #' 
