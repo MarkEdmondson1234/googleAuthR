@@ -412,6 +412,12 @@ Example below of the differences between having a data parsing function and not:
 ```
 The response is turned from JSON to a dataframe if possible, via `jsonlite::fromJSON`
 
+### Skip parsing
+
+In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.
+
+For these cases, you can use the option `option("googleAuthR.rawResponse" = TRUE)` to skip all tests and return the raw response.
+
 ### Batching API requests
 
 If you are doing many API calls, you can speed this up a lot by using the batch option.

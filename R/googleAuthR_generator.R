@@ -392,12 +392,12 @@ checkGoogleAPIError <- function(req,
     if (!is.null(ga.json$error$message)) {
       stop("JSON fetch error: ", paste(ga.json$error$message))
     }
+    
+    httr::stop_for_status(req)
 
   } else {
     ga.json <- req
   }
-
-  if(!skip_checks) httr::stop_for_status(req)
 
   TRUE
 }
