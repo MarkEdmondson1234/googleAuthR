@@ -29,3 +29,15 @@ There were 2 NOTEs:
 
   R6 is a build-time dependency.
   
+* Found the following (possibly) invalid URLs:
+  URL: https://code.google.com/apis/console (moved to https://console.developers.google.com/dcredirect)
+    From: inst/doc/googleAuthR.html
+    Status: 404
+    Message: Not Found
+  URL: https://console.developers.google.com/apis/credentials/serviceaccountkey
+    From: inst/doc/googleAuthR.html
+    Status: 404
+    Message: Not Found
+    
+    These URLs are correct but are behind a login that can't be crawled by the CRAN checker.
+  
