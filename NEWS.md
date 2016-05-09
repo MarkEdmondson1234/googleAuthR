@@ -1,6 +1,10 @@
 # News Updates
 
-# v0.2.9000
+# v0.3.0.90000
+
+*
+
+# v0.3.0
 
 * Document default options in `?googleAuthR`
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response.
