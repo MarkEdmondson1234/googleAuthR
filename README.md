@@ -44,7 +44,7 @@ Feel free to add your own via email or a pull request if you have used googleAut
 
 ## Install
 
-GoogleAuthR version 0.2.0 is now available on CRAN
+GoogleAuthR version 0.3.0 is now available on CRAN
 ```r
 install.packages("googleAuthR")
 ```
