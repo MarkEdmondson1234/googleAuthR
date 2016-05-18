@@ -32,6 +32,7 @@ The below libraries are all cross-compatible as they use `googleAuthR` for authe
 * [gtmR](https://github.com/MarkEdmondson1234/gtmR) - Google Tag Manager API (in progress)
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
 * [googleCloudStorageR](https://github.com/MarkEdmondson1234/googleCloudStorageR) - Google Cloud Storage API (in progress)
+* [RoogleVision](https://github.com/flovv/RoogleVision) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
 
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
 
