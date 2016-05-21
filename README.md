@@ -36,6 +36,10 @@ The below libraries are all cross-compatible as they use `googleAuthR` for authe
 
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
 
+## Example Shiny app
+
+An example shiny app with Google authentication is [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/).   It uses the example app that is available in `system.file("shiny","shiny-example.R", package="googleAuthR")`
+
 ## Thanks to:
 
 * Jenny Bryan and her work on the [googlesheets](https://github.com/jennybc/googlesheets) package that this work derives from.
