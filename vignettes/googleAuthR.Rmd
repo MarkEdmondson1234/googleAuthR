@@ -27,7 +27,7 @@ Feel free to add your own via email or a pull request if you have used googleAut
 
 ## Example Shiny app
 
-An example shiny app with Google authentication is [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/).   It uses the example app that is available in `system.file("shiny","shiny-example.R", package="googleAuthR")`
+An example shiny app with Google authentication is [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/).   It uses the example app that is available in `system.file("shiny", package="googleAuthR")`
 
 ## Thanks to:
 
