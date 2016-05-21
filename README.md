@@ -167,6 +167,8 @@ As of 0.3.0 googleAuthR uses [Shiny Modules](http://shiny.rstudio.com/articles/m
 
 #### Shiny authentication example
 
+This is the example [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/)
+
 ```r
 ## in global.R
 library(googleAuthR)
@@ -292,37 +294,7 @@ For local use, delete the `.httr-oauth` file.
 
 For service level accounts delete the JSON file.
 
-For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through.  To force this every time, activate the parameter `revoke=TRUE` within the `renderLogin` function.  Example below:
-
-```r
- shinyServer(function(input, output, session)){
-   
-   ## Get auth code from return URL
-   access_token  <- reactiveAccessToken(session)
- 
-   ## Make a loginButton to display using loginOutput
-   ## revoke=TRUE means upon logout a user will need to reauthenticate
-   output$loginButton <- renderLogin(session, access_token(), revoke=TRUE)
-   
-   ## Needed if revoke=TRUE above
-   revokeEventObserver(access_token())
-   
-   ...
-
-  }
- 
- ## in ui.R
- library(shiny)
- library(googleAuthR)
- 
- shinyUI(
-   fluidPage(
-     loginOutput("loginButton"),
-     ....
-     )
-     ))
- } 
-```
+For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through.  To force this every time, activate the parameter `revoke=TRUE` within the `googleAuth` function.
 
 ## Generating your function
 

@@ -2,7 +2,7 @@
 
 # v0.3.0.90000
 
-*
+* Add link to [example shiny app](https://mark.shinyapps.io/googleAuthRexample/)
 
 # v0.3.0
 

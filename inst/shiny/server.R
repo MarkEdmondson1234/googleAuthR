@@ -1,6 +1,6 @@
 library(shiny)
 library(googleAuthR)
-options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/urlshortener")
 
 shorten_url <- function(url){
   
@@ -20,7 +20,7 @@ shorten_url <- function(url){
 server <- function(input, output, session){
   
   ## Create access token and render login button
-  access_token <- callModule(googleAuth, "loginButton")
+  access_token <- callModule(googleAuth, "loginButton", approval_prompt = "force")
   
   short_url_output <- eventReactive(input$submit, {
     ## wrap existing function with_shiny
@@ -38,14 +38,3 @@ server <- function(input, output, session){
     
   })
 }
-
-## ui.R
-ui <- fluidPage(
-  googleAuthUI("loginButton"),
-  textInput("url", "Enter URL"),
-  actionButton("submit", "Shorten URL"),
-  textOutput("short_url")
-)
-
-
-shinyApp(ui = ui, server = server)
