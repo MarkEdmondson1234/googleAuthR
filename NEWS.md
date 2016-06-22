@@ -3,6 +3,7 @@
 # v0.3.0.90000
 
 * Add link to [example shiny app](https://mark.shinyapps.io/googleAuthRexample/)
+* Add `option(googleAuthR.rawResponse)` - skip API checks on response - should now work
 
 # v0.3.0
 

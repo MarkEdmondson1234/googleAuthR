@@ -321,12 +321,19 @@ doHttrRequest <- function(url,
                               args = arg_list,
                               envir = asNamespace("httr")))
 
-  if(checkGoogleAPIError(req)){
-    content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
-    content <- jsonlite::fromJSON(content,
-                                  simplifyVector = simplifyVector)
-    req$content <- content
+  rawResponse <- getOption("googleAuthR.rawResponse")
+  if(!rawResponse){
+    if(checkGoogleAPIError(req)){
+      content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
+      content <- jsonlite::fromJSON(content,
+                                    simplifyVector = simplifyVector)
+      req$content <- content
+    }
+  } else {
+    myMessage("No checks on content due to option googleAuthR.rawResponse, returning raw", level=2)
+    req
   }
+
 
   req
 }
@@ -343,14 +350,7 @@ checkGoogleAPIError <- function(req,
                                 batched=FALSE) {
 
   ## from a batched request, we already have content
-  
-  rawResponse <- getOption("googleAuthR.rawResponse")
   skip_checks <- FALSE
-  
-  if(rawResponse){
-    myMessage("Skipping API checks due to googleAuthR.rawResponse=TRUE", level=2)
-    skip_checks <- TRUE
-  }
   
   if(batched){
     myMessage("Skipping API checks for batch content_type", level=2)
