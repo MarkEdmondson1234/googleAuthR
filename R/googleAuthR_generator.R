@@ -201,8 +201,10 @@ retryRequest <- function(f){
   }
 
 
-  if(!the_request$status_code %in% c(200, 201)){
-    myMessage("Request Status Code: ", the_request$status_code, level = 3)
+  status_code <- as.character(the_request$status_code)
+  
+  if(!(grepl("^20",status_code))){
+    myMessage("Request Status Code: ", status_code, level = 3)
 
     content <- jsonlite::fromJSON(httr::content(the_request,
                                               as = "text",
@@ -216,12 +218,14 @@ retryRequest <- function(f){
       error <- "Unspecified Error"
     }
 
-    if(grepl("^5|429",the_request$status_code)){
+    if(grepl("^5|429",status_code)){
       for(i in 1:getOption("googleAuthR.tryAttempts")){
-        myMessage("Trying again: ", i, " of ", getOption("googleAuthR.tryAttempts"), level = 3)
+        myMessage("Trying again: ", i, " of ", 
+                  getOption("googleAuthR.tryAttempts"), 
+                  level = 3)
         Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
-        if(the_request$status_code %in% c(200, 201)) break
+        if(grepl("^20",status_code)) break
       }
       myMessage("All attempts failed.", level = 3)
     } else {

@@ -4,8 +4,9 @@
 
 * Add link to [example shiny app](https://mark.shinyapps.io/googleAuthRexample/)
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response - should now work
+* A successfull request is now classed as all response codes matching ^20 e.g. 201, 204 etc.
 
-# v0.3.0
+# v0.3.0 - CRAN
 
 * Document default options in `?googleAuthR`
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response.
@@ -20,7 +21,7 @@
 * Move specification of scope for `gar_auth_service` to param for more flexibility
 * Migrated shiny functions to Shiny Modules (#27)
 
-# v0.2 - CRAN
+# v0.2 
 
 * Added ability to add your own custom headers to requests via `customConfig` in `gar_api_generator`
 * Add 'localhost' to shiny URL detection. 
