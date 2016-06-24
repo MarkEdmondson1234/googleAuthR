@@ -1,6 +1,7 @@
 # googleAuthR - Google API Client Library for R
+[![CRAN](http://www.r-pkg.org/badges/version/googleAuthR)](http://cran.r-project.org/package=googleAuthR)
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
-[![Analytics](https://ga-beacon.appspot.com/UA-73050356-1/googleAuthR/readme)](https://github.com/MarkEdmondson1234/googleAuthR)
+
 
 Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 
@@ -26,9 +27,9 @@ Here is a list of [available Google APIs](https://developers.google.com/apis-exp
 
 The below libraries are all cross-compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and can be used in multi-user Shiny apps. 
 
-* [searchConsoleR](https://github.com/MarkEdmondson1234/searchConsoleR) - Search Console API
-* [bigQueryR](https://github.com/MarkEdmondson1234/bigQueryR) - BigQuery API
-* [googleAnalyticsR](https://github.com/MarkEdmondson1234/googleAnalyticsR_public) - Google Analytics API
+* [searchConsoleR](http://code.markedmondson.me/searchConsoleR/) - Search Console API
+* [bigQueryR](http://code.markedmondson.me/bigQueryR/) - BigQuery API
+* [googleAnalyticsR](http://code.markedmondson.me/googleAnalyticsR/) - Google Analytics API
 * [gtmR](https://github.com/MarkEdmondson1234/gtmR) - Google Tag Manager API (in progress)
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
 * [googleCloudStorageR](https://github.com/MarkEdmondson1234/googleCloudStorageR) - Google Cloud Storage API (in progress)
@@ -396,6 +397,32 @@ The response is turned from JSON to a dataframe if possible, via `jsonlite::from
 In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.
 
 For these cases, you can use the option `option("googleAuthR.rawResponse" = TRUE)` to skip all tests and return the raw response.
+
+Here is an example of this from the googleCloudStorageR library:
+
+```r
+gcs_get_object <- function(bucket, 
+                           object_name){
+
+
+  ## skip JSON parsing on output as we epxect a CSV
+  options(googleAuthR.rawResponse = TRUE)
+  
+  ## do the request
+  ob <- googleAuthR::gar_api_generator("https://www.googleapis.com/storage/v1/",
+                                       path_args = list(b = bucket,
+                                                        o = object_name),
+                                       pars_args = list(alt = "media"))
+  req <- ob()
+  
+  ## set it back to FALSE for other API calls.
+  options(googleAuthR.rawResponse = FALSE)
+
+  req
+
+
+}
+```
 
 ### Batching API requests
 

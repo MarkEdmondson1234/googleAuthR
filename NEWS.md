@@ -1,12 +1,12 @@
 # News Updates
 
-# v0.3.0.90000
+# v0.3.1 - CRAN
 
 * Add link to [example shiny app](https://mark.shinyapps.io/googleAuthRexample/)
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response - should now work
 * A successfull request is now classed as all response codes matching ^20 e.g. 201, 204 etc.
 
-# v0.3.0 - CRAN
+# v0.3.0 
 
 * Document default options in `?googleAuthR`
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response.
