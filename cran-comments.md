@@ -6,7 +6,7 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
-There were 2 NOTEs:
+There was 1 NOTE:
 
 * checking CRAN incoming feasibility ... NOTE
   Maintainer: 'Mark Edmondson <m@sunholo.com>'
@@ -22,22 +22,14 @@ There were 2 NOTEs:
     APIs (5:66)
     OAuth (4:40, 5:52)
   
-  These are spelt as intended. 
-
-* checking dependencies in R code ... NOTE
-  Namespace in Imports field not imported from: 'R6'
-
-  R6 is a build-time dependency.
+  These are spelt as intended.
   
-* Found the following (possibly) invalid URLs:
-  URL: https://code.google.com/apis/console (moved to https://console.developers.google.com/dcredirect)
-    From: inst/doc/googleAuthR.html
-    Status: 404
-    Message: Not Found
-  URL: https://console.developers.google.com/apis/credentials/serviceaccountkey
-    From: inst/doc/googleAuthR.html
-    Status: 404
-    Message: Not Found
-    
-    These URLs are correct but are behind a login that can't be crawled by the CRAN checker.
+## Downstream dependencies
+I have also run R CMD check on downstream dependencies of googleAuthR 
+
+* bigQueryR
+* googleAnalyticsR
+* searchConsoleR
+
+All packages passed.
   

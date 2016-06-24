@@ -102,7 +102,7 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
 2. Click 'Create a new Client ID', and choose "Web Application".
 3. Note your Client ID and secret.
 4. Add the URL of where your Shiny app will run, with no port number. e.g. https://mark.shinyapps.io/searchConsoleRDemo/
-5. And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. http://127.0.0.1:1221
+5. And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. `http://127.0.0.1:1221`
 6. In your Shiny script modify these options:
   + `options("googleAuthR.webapp.client_id" = "YOUR_CLIENT_ID")`
   + `options("googleAuthR.webapp.client_secret" = "YOUR_CLIENT_SECRET")`
