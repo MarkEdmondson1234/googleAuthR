@@ -64,7 +64,6 @@ gar_auth_js <- function(input, output, session){
     access_token <- shiny::reactive({
       
       req(js_token())
-      browser()
       token <- js_token()
       
       gar_js_getToken(token)
