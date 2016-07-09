@@ -1,24 +1,104 @@
-#' Embed API auth client site CORS
+#' gar_auth_js UI
+#'
+#' Shiny Module for use with \link{gar_auth_js}
 #' 
-#' @seealso \url{https://developers.google.com/api-client-library/javascript/features/cors}
-#' https://developers.google.com/api-client-library/javascript/features/authentication
-#' https://developers.google.com/api-client-library/javascript/samples/samples
-cors_auth <- function(){
-  load_lib <- shiny::HTML(
-    "  <script src='https://apis.google.com/js/api.js'
-  type='text/javascript'>
-    </script>
-    <script type='text/javascript'>
-    //<![CDATA[
-    
-    gapi.load('auth', init);
-    //]]>
-    </script>
-    "
+#' @param id Shiny id
+#'
+#' @import shiny
+#' @return Shiny UI
+#' @export
+gar_auth_jsUI <- function(id, class = "btn btn-success"){
+
+  ns <- shiny::NS(id)
+  
+  shiny::tagList(
+    tags$head(tags$script(src='https://apis.google.com/js/client.js')),
+    tags$head(tags$script(paste0("
+      function auth() {
+        var config = {
+          'client_id': '",getOption("googleAuthR.webapp.client_id"),"',
+          'scope': '", getOption("googleAuthR.scopes.selected"),"'
+        };
+        gapi.auth.authorize(config, function() {
+          token = gapi.auth.getToken();
+          console.log('login complete');
+          console.log(token);
+          Shiny.onInputChange('",ns("js_auth_access_token"),"', token.access_token);
+          Shiny.onInputChange('",ns("js_auth_token_type"),"', token.token_type);
+          Shiny.onInputChange('",ns("js_auth_expires_in"),"', token.expires_in);
+        });
+       }"
+    ) )
+    ),
+    tags$button(onclick="auth();", "Authorize", class = class)
   )
-    
+
 }
 
+#' gar_auth_js
+#'
+#' Shiny Module for use with \link{gar_auth_jsUI}
+#'
+#' Call via \code{shiny::callModule(gar_auth_js, "your_id")}
+#'
+#' @param input shiny input
+#' @param output shiny output
+#' @param session shiny session
+#'
+#' @return A httr reactive OAuth2.0 token
+#' @export
+gar_auth_js <- function(input, output, session){
+
+    ns <- session$ns
+    
+    js_token <- shiny::reactive({
+      
+      list(access_token = input$js_auth_access_token,
+           token_type = input$js_auth_token_type,
+           expires_in = input$js_auth_expires_in
+      )
+      
+    })
+    
+    ## Create access token
+    access_token <- shiny::reactive({
+      
+      req(js_token())
+      browser()
+      token <- js_token()
+      
+      gar_js_getToken(token)
+      
+    })
+    
+    return(access_token)
+
+}
+
+#' Create a httr token from a js token
+#' @keywords internal
+gar_js_getToken <- function(token,
+                            client.id     = getOption("googleAuthR.webapp.client_id"),
+                            client.secret = getOption("googleAuthR.webapp.client_secret")){
+  
+  gar_app <- httr::oauth_app("google", key = client.id, secret = client.secret)
+  
+  scope_list <- getOption("googleAuthR.scope")
+  
+  # Create a Token2.0 object consistent with the token obtained from gar_auth()
+  token_formatted <-
+    httr::Token2.0$new(app = gar_app,
+                       endpoint = httr::oauth_endpoints("google"),
+                       credentials = list(access_token = token$access_token,
+                                          token_type = token$token_type,
+                                          expires_in = token$expires_in,
+                                          refresh_token = NULL),
+                       params = list(scope = scope_list, type = NULL,
+                                     use_oob = FALSE, as_header = TRUE),
+                       cache_path = getOption("googleAuthR.httr_oauth_cache"))
+  
+  token_formatted
+}
 #' Creates a random character code
 #' 
 #' @param seed random seed.

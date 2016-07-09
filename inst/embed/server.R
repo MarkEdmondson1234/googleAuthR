@@ -16,53 +16,10 @@ shorten_url <- function(url){
   
 }
 
-gar_js_getToken <- function(token,
-                            client.id     = getOption("googleAuthR.webapp.client_id"),
-                            client.secret = getOption("googleAuthR.webapp.client_secret")){
-  
-  gar_app <- httr::oauth_app("google", key = client.id, secret = client.secret)
-  
-  scope_list <- getOption("googleAuthR.scope")
-  
-  # Create a Token2.0 object consistent with the token obtained from gar_auth()
-  token_formatted <-
-    httr::Token2.0$new(app = gar_app,
-                       endpoint = httr::oauth_endpoints("google"),
-                       credentials = list(access_token = token$access_token,
-                                          token_type = token$token_type,
-                                          expires_in = token$expires_in,
-                                          refresh_token = NULL),
-                       params = list(scope = scope_list, type = NULL,
-                                     use_oob = FALSE, as_header = TRUE),
-                       cache_path = getOption("googleAuthR.httr_oauth_cache"))
-  
-  token_formatted
-}
-
-
 ## server.R
 server <- function(input, output, session){
   
-  js_token <- reactive({
-    
-    list(access_token = input$js_auth_access_token,
-                token_type = input$js_auth_token_type,
-                expires_in = input$js_auth_expires_in
-    )
-    
-  })
-  
-  ## Create access token and render login button
-  # access_token <- callModule(googleAuth, "loginButton", approval_prompt = "force")
-  access_token <- reactive({
-    
-    req(js_token())
-    
-    token <- js_token()
-    
-    gar_js_getToken(token)
-    
-  })
+  access_token <- callModule(gar_auth_js, "js_token")
   
   short_url_output <- eventReactive(input$submit, {
     ## wrap existing function with_shiny
