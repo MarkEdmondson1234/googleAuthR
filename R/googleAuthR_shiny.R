@@ -1,3 +1,24 @@
+#' Embed API auth client site CORS
+#' 
+#' @seealso \url{https://developers.google.com/api-client-library/javascript/features/cors}
+#' https://developers.google.com/api-client-library/javascript/features/authentication
+#' https://developers.google.com/api-client-library/javascript/samples/samples
+cors_auth <- function(){
+  load_lib <- shiny::HTML(
+    "  <script src='https://apis.google.com/js/api.js'
+  type='text/javascript'>
+    </script>
+    <script type='text/javascript'>
+    //<![CDATA[
+    
+    gapi.load('auth', init);
+    //]]>
+    </script>
+    "
+  )
+    
+}
+
 #' Creates a random character code
 #' 
 #' @param seed random seed.
