@@ -2,7 +2,7 @@
 
 # v0.3.1.9000
 
-* hmmm
+* Add client based authentication in JavaScript plus example app
 
 # v0.3.1 - CRAN
 
