@@ -4,7 +4,8 @@
 \alias{gar_auth_jsUI}
 \title{gar_auth_js UI}
 \usage{
-gar_auth_jsUI(id, class = "btn btn-success")
+gar_auth_jsUI(id, login_class = "btn btn-primary",
+  logout_class = "btn btn-danger")
 }
 \arguments{
 \item{id}{Shiny id}
