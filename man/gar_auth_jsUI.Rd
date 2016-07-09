@@ -9,8 +9,12 @@ gar_auth_jsUI(id, login_class = "btn btn-primary",
 }
 \arguments{
 \item{id}{Shiny id}
+
+\item{id}{Shiny id}
 }
 \value{
+Shiny UI
+
 Shiny UI
 }
 \description{

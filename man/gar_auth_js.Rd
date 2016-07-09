@@ -2,7 +2,7 @@
 % Please edit documentation in R/googleAuthR_shiny.R
 \name{gar_auth_js}
 \alias{gar_auth_js}
-\title{gar_auth_js UI}
+\title{gar_auth_js}
 \usage{
 gar_auth_js(input, output, session)
 }
@@ -12,15 +12,14 @@ gar_auth_js(input, output, session)
 \item{output}{shiny output}
 
 \item{session}{shiny session}
-
-\item{id}{Shiny id}
 }
 \value{
-Shiny UI
-
 A httr reactive OAuth2.0 token
 }
 \description{
-Shiny Module for use with \link{gar_auth_js}
+Shiny Module for use with \link{gar_auth_jsUI}
+}
+\details{
+Call via \code{shiny::callModule(gar_auth_js, "your_id")}
 }
 

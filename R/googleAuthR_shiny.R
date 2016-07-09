@@ -6,102 +6,25 @@
 #'
 #' @return Shiny UI
 #' @export
-# gar_auth_jsUI <- function(id, 
-#                           login_class = "btn btn-primary",
-#                           logout_class = "btn btn-danger"){
-#   
-#   ns <- shiny::NS(id)
-#   
-#   shiny::tagList(
-#     tags$button(id = ns("authorize-button"), style="display: none;", 
-#                 class = login_class,
-#                 "Authorize"),
-#     tags$button(id = ns("signout-button"), style="display: none;", 
-#                 class = logout_class,
-#                 "Sign Out"),
-#     tags$script(paste0("
-# 
-#      var clientId = '",getOption("googleAuthR.webapp.client_id"),"';
-#      var scopes = '", paste(getOption("googleAuthR.scopes.selected"), collapse = " "),"';
-#      var auth2; // The Sign-In object.
-#      var authorizeButton = document.getElementById('",ns("authorize-button"),"');
-#      var signoutButton = document.getElementById('",ns("signout-button"),"');
-# 
-#      function handleClientLoad() {
-#        // Load the API client and auth library
-#        gapi.load('client:auth2', initAuth);
-#      }
-# 
-#      function initAuth() {
-# 
-#        gapi.auth2.init({
-#          client_id: clientId,
-#          scope: scopes
-#        }).then(function () {
-#           auth2 = gapi.auth2.getAuthInstance();
-#           // Listen for sign-in state changes.
-#           auth2.isSignedIn.listen(updateSigninStatus);
-#           // Handle the initial sign-in state.
-#           updateSigninStatus(auth2.isSignedIn.get());
-# 
-#           authorizeButton.onclick = handleAuthClick;
-#           signoutButton.onclick = handleSignoutClick;
-# 
-#         });
-#       }
-#       function updateSigninStatus(isSignedIn) {
-#         if (isSignedIn) {
-#           authorizeButton.style.display = 'none';
-#           signoutButton.style.display = 'block';
-#           makeApiCall();
-#         } else {
-#           authorizeButton.style.display = 'block';
-#           signoutButton.style.display = 'none';
-#         }
-#       }
-# 
-#       function handleAuthClick(event) {
-#         auth2.signIn();
-#       }
-# 
-#       function handleSignoutClick(event) {
-#         auth2.signOut();
-#       }
-#       // Load the API and make an API call.  Display the results on the screen.
-#       function makeApiCall() {
-#         token = gapi.auth.getToken();
-#         console.log('login complete');
-#         console.log(token);
-#         Shiny.onInputChange('",ns("js_auth_access_token"),"', token.access_token);
-#         Shiny.onInputChange('",ns("js_auth_token_type"),"', token.token_type);
-#         Shiny.onInputChange('",ns("js_auth_expires_in"),"', token.expires_in);
-#        }"
-#     ) 
-#     ),
-#     tags$script(src='https://apis.google.com/js/client.js?onload=handleClientLoad')
-#   )
-#   
-# }
-
-#' gar_auth_js UI
-#'
-#' Shiny Module for use with \link{gar_auth_js}
-#' 
-#' @param id Shiny id
-#'
-#' @return Shiny UI
-#' @export
-gar_auth_jsUI <- function(id, class = "btn btn-success"){
+gar_auth_jsUI <- function(id, 
+                          login_class = "btn btn-primary",
+                          logout_class = "btn btn-danger"){
 
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    tags$head(tags$script(src='https://apis.google.com/js/client.js')),
-    tags$head(tags$script(paste0("
+    tags$head(tags$script(src='https://apis.google.com/js/auth.js?onload=init')),
+    tags$button(id = ns("login"), onclick="auth();", "Log In", class = login_class),
+    tags$button(id = ns("logout"), onclick="out();", "Log Out", class = logout_class),
+    tags$script(HTML(paste0("
+      var authorizeButton = document.getElementById('",ns("login"),"');
+      var signoutButton = document.getElementById('",ns("logout"),"');
+      signoutButton.style.display = 'none';
       function auth() {
         var config = {
           'client_id': '",getOption("googleAuthR.webapp.client_id"),"',
-          'scope': '", paste(getOption("googleAuthR.scopes.selected"), collapse = " "),"'
+          'scope': '", paste(getOption("googleAuthR.scopes.selected"), collapse = " "),"',
+          'approval_prompt':'force'
         };
         gapi.auth.authorize(config, function() {
           token = gapi.auth.getToken();
@@ -110,11 +33,17 @@ gar_auth_jsUI <- function(id, class = "btn btn-success"){
           Shiny.onInputChange('",ns("js_auth_access_token"),"', token.access_token);
           Shiny.onInputChange('",ns("js_auth_token_type"),"', token.token_type);
           Shiny.onInputChange('",ns("js_auth_expires_in"),"', token.expires_in);
+          authorizeButton.style.display = 'none';
+          signoutButton.style.display = 'block';
         });
-       }"
+       }
+       function out(){
+          gapi.auth.signOut();
+          location.reload()
+       }
+       "
     ) )
-    ),
-    tags$button(onclick="auth();", "Authorize", class = class)
+    )
   )
 
 }
