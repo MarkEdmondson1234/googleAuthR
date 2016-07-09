@@ -29,7 +29,7 @@ gar_auth_jsUI <- function(id,
 
      function handleClientLoad() {
        // Load the API client and auth library
-       gapi.load('auth2', initAuth);
+       gapi.load('client:auth2', initAuth);
      }
 
      function initAuth() {
