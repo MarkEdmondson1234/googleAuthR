@@ -2,9 +2,9 @@ name: embedTest
 account: mark
 server: shinyapps.io
 appId: 113293
-bundleId: 500581
+bundleId: 500583
 url: https://mark.shinyapps.io/embedTest/
-when: 1468075682.45285
+when: 1468075973.80695
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: demo.html
