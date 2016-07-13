@@ -22,9 +22,8 @@
 #' If you need Shiny authentication, then these functions work together to give a smooth authentication flow.
 #' 
 #' \itemize{
-#'   \item \code{\link{reactiveAccessToken}} provides the Shiny authentication token.
-#'   \item \code{\link{renderLogin}} Creates the login button server.R side.
-#'   \item \code{\link{loginOutput}} Creates the login button ui.R side.
+#'   \item \code{\link{googleAuthUI}} provides the Shiny UI via Shiny modules
+#'   \item \code{\link{googleAuth}} provides the Shiny server via Shiny modules
 #'   \item \code{\link{with_shiny}} Wrap the functions you created with {\link{gar_api_generator}} 
 #'       with this so you can pass the \code{\link{reactiveAccessToken}}
 #' }

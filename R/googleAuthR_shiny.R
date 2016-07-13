@@ -3,6 +3,8 @@
 #' Shiny Module for use with \link{gar_auth_js}
 #' 
 #' @param id Shiny id
+#' @param login_class CSS class of login button
+#' @param logout_class CSS class ofr logout button
 #'
 #' @return Shiny UI
 #' @export
