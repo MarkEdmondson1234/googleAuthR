@@ -2,7 +2,7 @@
 % Please edit documentation in R/googleAuthR_shiny.R
 \name{gar_auth_js}
 \alias{gar_auth_js}
-\title{gar_auth_js}
+\title{Shiny JavaScript Google Authorisation [Server Module]}
 \usage{
 gar_auth_js(input, output, session)
 }

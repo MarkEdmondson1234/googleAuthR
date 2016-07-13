@@ -1,4 +1,6 @@
-#' gar_auth_js UI
+#' Shiny JavaScript Google Authorisation [UI Module]
+#' 
+#' A Javascript Google authorisation flow for Shiny apps.
 #'
 #' Shiny Module for use with \link{gar_auth_js}
 #' 
@@ -15,10 +17,10 @@ gar_auth_jsUI <- function(id,
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    tags$head(tags$script(src='https://apis.google.com/js/auth.js?onload=init')),
+    tags$script(src='https://apis.google.com/js/auth.js?onload=init'),
     tags$button(id = ns("login"), onclick="auth();", "Log In", class = login_class),
     tags$button(id = ns("logout"), onclick="out();", "Log Out", class = logout_class),
-    tags$script(HTML(paste0("
+    tags$script(type="text/javascript", HTML(paste0("
       var authorizeButton = document.getElementById('",ns("login"),"');
       var signoutButton = document.getElementById('",ns("logout"),"');
       signoutButton.style.display = 'none';
@@ -50,7 +52,7 @@ gar_auth_jsUI <- function(id,
 
 }
 
-#' gar_auth_js
+#' Shiny JavaScript Google Authorisation [Server Module]
 #'
 #' Shiny Module for use with \link{gar_auth_jsUI}
 #'

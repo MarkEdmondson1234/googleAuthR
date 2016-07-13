@@ -2,7 +2,7 @@
 % Please edit documentation in R/googleAuthR_shiny.R
 \name{gar_auth_jsUI}
 \alias{gar_auth_jsUI}
-\title{gar_auth_js UI}
+\title{Shiny JavaScript Google Authorisation [UI Module]}
 \usage{
 gar_auth_jsUI(id, login_class = "btn btn-primary",
   logout_class = "btn btn-danger")
@@ -10,14 +10,17 @@ gar_auth_jsUI(id, login_class = "btn btn-primary",
 \arguments{
 \item{id}{Shiny id}
 
-\item{id}{Shiny id}
+\item{login_class}{CSS class of login button}
+
+\item{logout_class}{CSS class ofr logout button}
 }
 \value{
 Shiny UI
-
-Shiny UI
 }
 \description{
+A Javascript Google authorisation flow for Shiny apps.
+}
+\details{
 Shiny Module for use with \link{gar_auth_js}
 }
 
