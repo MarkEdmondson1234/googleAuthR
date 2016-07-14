@@ -69,6 +69,9 @@ gar_auth_js <- function(input, output, session){
     ns <- session$ns
     
     js_token <- shiny::reactive({
+      shiny::validate(
+        need(input$js_auth_access_token, "Authenticate")
+      )
       
       list(access_token = input$js_auth_access_token,
            token_type = input$js_auth_token_type,
@@ -81,9 +84,8 @@ gar_auth_js <- function(input, output, session){
     access_token <- shiny::reactive({
       
       req(js_token())
-      token <- js_token()
       
-      gar_js_getToken(token)
+      gar_js_getToken(js_token())
       
     })
     
