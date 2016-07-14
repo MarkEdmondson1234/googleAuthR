@@ -5,7 +5,8 @@
 \title{Shiny JavaScript Google Authorisation [UI Module]}
 \usage{
 gar_auth_jsUI(id, login_class = "btn btn-primary",
-  logout_class = "btn btn-danger")
+  logout_class = "btn btn-danger", login_text = "Log In",
+  logout_text = "Log Out")
 }
 \arguments{
 \item{id}{Shiny id}
@@ -13,6 +14,10 @@ gar_auth_jsUI(id, login_class = "btn btn-primary",
 \item{login_class}{CSS class of login button}
 
 \item{logout_class}{CSS class ofr logout button}
+
+\item{login_text}{Text to show on login button}
+
+\item{logout_text}{Text to show on logout button}
 }
 \value{
 Shiny UI

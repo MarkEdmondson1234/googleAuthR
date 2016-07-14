@@ -7,19 +7,23 @@
 #' @param id Shiny id
 #' @param login_class CSS class of login button
 #' @param logout_class CSS class ofr logout button
+#' @param login_text Text to show on login button
+#' @param logout_text Text to show on logout button
 #'
 #' @return Shiny UI
 #' @export
 gar_auth_jsUI <- function(id, 
                           login_class = "btn btn-primary",
-                          logout_class = "btn btn-danger"){
+                          logout_class = "btn btn-danger",
+                          login_text = "Log In",
+                          logout_text = "Log Out"){
 
   ns <- shiny::NS(id)
 
   shiny::tagList(
     tags$script(src='https://apis.google.com/js/auth.js?onload=init'),
-    tags$button(id = ns("login"), onclick="auth();", "Log In", class = login_class),
-    tags$button(id = ns("logout"), onclick="out();", "Log Out", class = logout_class),
+    tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
+    tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class),
     tags$script(type="text/javascript", HTML(paste0("
       var authorizeButton = document.getElementById('",ns("login"),"');
       var signoutButton = document.getElementById('",ns("logout"),"');
