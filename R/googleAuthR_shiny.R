@@ -37,7 +37,6 @@ gar_auth_jsUI <- function(id,
         gapi.auth.authorize(config, function() {
           token = gapi.auth.getToken();
           console.log('login complete');
-          console.log(token);
           Shiny.onInputChange('",ns("js_auth_access_token"),"', token.access_token);
           Shiny.onInputChange('",ns("js_auth_token_type"),"', token.token_type);
           Shiny.onInputChange('",ns("js_auth_expires_in"),"', token.expires_in);
