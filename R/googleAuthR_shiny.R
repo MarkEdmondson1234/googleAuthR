@@ -21,10 +21,9 @@ gar_auth_jsUI <- function(id,
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    tags$script(src='https://apis.google.com/js/auth.js?onload=init'),
-    tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
-    tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class),
-    tags$script(type="text/javascript", HTML(paste0("
+
+    shiny::tags$script(src='https://apis.google.com/js/auth.js'),
+    shiny::tags$script(type="text/javascript", shiny::HTML(paste0("
       var authorizeButton = document.getElementById('",ns("login"),"');
       var signoutButton = document.getElementById('",ns("logout"),"');
       signoutButton.style.display = 'none';
@@ -50,7 +49,9 @@ gar_auth_jsUI <- function(id,
        }
        "
     ) )
-    )
+    ),
+    shiny::tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
+    shiny::tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class)
   )
 
 }
@@ -120,6 +121,7 @@ gar_js_getToken <- function(token,
   
   token_formatted
 }
+
 #' Creates a random character code
 #' 
 #' @param seed random seed.
