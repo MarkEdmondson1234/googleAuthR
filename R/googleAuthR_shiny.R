@@ -23,6 +23,8 @@ gar_auth_jsUI <- function(id,
   shiny::tagList(
 
     shiny::tags$script(src='https://apis.google.com/js/auth.js'),
+    shiny::tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
+    shiny::tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class),
     shiny::tags$script(type="text/javascript", shiny::HTML(paste0("
       var authorizeButton = document.getElementById('",ns("login"),"');
       var signoutButton = document.getElementById('",ns("logout"),"');
@@ -49,9 +51,7 @@ gar_auth_jsUI <- function(id,
        }
        "
     ) )
-    ),
-    shiny::tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
-    shiny::tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class)
+    )
   )
 
 }
