@@ -3,6 +3,7 @@
 # v0.3.1.9000
 
 * Add client based authentication in JavaScript plus example app
+* Add check to `gar_auth_service` to see if you have downloaded right JSON file
 
 # v0.3.1 - CRAN
 

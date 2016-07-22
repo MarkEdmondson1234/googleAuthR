@@ -251,11 +251,16 @@ is_legit_token <- function(x) {
 #' @family authentication functions
 gar_auth_service <- function(json_file, scope = getOption("googleAuthR.scopes.selected")){
   
+  stopifnot(file.exists(json_file))
   
   endpoint <- httr::oauth_endpoints("google")
   
   secrets  <- jsonlite::fromJSON(json_file)
   scope <- paste(scope, collapse=" ")
+  
+  if(is.null(secrets$private_key)){
+    stop("private_key not found in JSON - have you downloaded the correct JSON file? (Service Account Keys, not service account client)")
+  }
   
   google_token <- httr::oauth_service_token(endpoint, secrets, scope)
   
