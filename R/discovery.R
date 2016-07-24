@@ -83,13 +83,12 @@ add_line <- function(line, path, quiet = FALSE) {
 #' 
 #' @param filename R file to write skeleton to
 #' @param api_json The json from \link{gar_discovery_api}
-#' @param api_method Location of API resource methods
 #' 
 #' @return TRUE if successful, side effect will write a file
 #' @export
 gar_create_api_skeleton <- function(filename = "./R/new_api.R", 
-                                    api_json = gar_discovery_api("urlshortener","v1"),
-                                    api_method = api_json$resources$url$methods){
+                                    api_json = gar_discovery_api("urlshortener","v1")
+                                    ){
   
 
   if(is.null(api_json$kind) && api_json$kind != "discovery#restDescription"){
@@ -117,6 +116,7 @@ gar_create_api_skeleton <- function(filename = "./R/new_api.R",
   
   ## apis can have methods at varying steps into JSON tree
   ## find the methods to extract into API
+  api_method <- get_json_methods(api_json$resources)
   
   fd <- lapply(api_method, function_docs, api_json = api_json)
   fp <- lapply(api_method, function_params, api_json = api_json)
@@ -234,4 +234,26 @@ make_vars_description <- function(x,
   paste0("@param ", make.names(x), " ", api_json_resource_method[[x]]$description,"\n", 
          collapse = "")
   
+}
+
+# get the methods
+get_json_methods <- function(api_json_resources){
+  
+  output <- list()
+  recursive_method_finder(api_json_resources)
+
+}
+
+recursive_method_finder <- function(the_list){
+  
+  message("Looking in ", paste(names(the_list), collapse = " "))
+  if("methods" %in% names(the_list)){
+    message("Found methods")
+    output <<- c(output, the_list$methods)
+  } else {
+    message("Not found methods: ", paste(names(the_list), collapse = " "))
+    lapply(the_list, recursive_method_finder)
+  }
+  
+  output
 }
