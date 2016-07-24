@@ -4,7 +4,7 @@
 \alias{gar_create_api_skeleton}
 \title{Create an API library skeleton}
 \usage{
-gar_create_api_skeleton(filename = "./R/new_api.R",
+gar_create_api_skeleton(filename = "./inst/new_api.R",
   api_json = gar_discovery_api("urlshortener", "v1"))
 }
 \arguments{
