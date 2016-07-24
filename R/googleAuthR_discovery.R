@@ -239,16 +239,21 @@ make_vars_description <- function(x,
 # get the methods
 get_json_methods <- function(api_json_resources){
   
-  output <- list()
   recursive_method_finder(api_json_resources)
 
 }
 
 recursive_method_finder <- function(the_list){
   
-  message("Looking in ", paste(names(the_list), collapse = " "))
+  if(!exists("output")){
+    message("Creating output")
+    output <- list()
+  }
+  
   if("methods" %in% names(the_list)){
     message("Found methods")
+    output <- get0("output")
+
     output <<- c(output, the_list$methods)
   } else {
     message("Not found methods: ", paste(names(the_list), collapse = " "))
