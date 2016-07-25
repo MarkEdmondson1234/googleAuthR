@@ -237,8 +237,7 @@ make_pars_list <- function(api_json_resource_method){
   if(length(query_pars) == 0) return(NULL)
 
   list_vars <- lapply(query_pars, 
-                      make_path_pars_entry, 
-                      type = "query", 
+                      make_pars_entry,
                       api_json_resource_method = api_json_resource_method)
   paste0(
     "pars_args = list(\n",
@@ -248,7 +247,7 @@ make_pars_list <- function(api_json_resource_method){
   
 }
 
-make_path_pars_entry <- function(x, api_json_resource_method){
+make_pars_entry <- function(x, api_json_resource_method){
    paste0("\t\t`",x, "` = ", make.names(x), "\n", collapse = "")
 }
 
@@ -263,24 +262,35 @@ make_vars_description <- function(x,
 # get the methods
 get_json_methods <- function(api_json_resources){
   
+  set_a(list())
   recursive_method_finder(api_json_resources)
 
 }
 
 recursive_method_finder <- function(the_list){
-  
-  if(!exists("output")){
-    output <- list()
-  }
-  
+
   if("methods" %in% names(the_list)){
-    output <- get0("output")
-    output <- c(output, the_list$methods)
+    ## success - add to global
+    set_a(c(get_a(), the_list$methods))
   } else {
+    ## recursive
     lapply(the_list, recursive_method_finder)
   }
   
-  output
+  get_a()
+}
+
+## environment hoops for globals
+my_env <- new.env(parent = emptyenv())
+my_env$a <- 1
+
+get_a <- function() {
+  my_env$a
+}
+set_a <- function(value) {
+  old <- my_env$a
+  my_env$a <- value
+  invisible(old)
 }
 
 #' Create the API objects from the Discovery API

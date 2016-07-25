@@ -30,7 +30,7 @@ NULL
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -74,7 +74,7 @@ data.ga.get <- function(dimensions, end.date, filters, ids, include.empty.rows, 
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -114,7 +114,7 @@ data.mcf.get <- function(dimensions, end.date, filters, ids, max.results, metric
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -148,7 +148,7 @@ data.realtime.get <- function(dimensions, filters, ids, max.results, metrics, so
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -177,7 +177,7 @@ management.accountSummaries.list <- function(max.results, start.index) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -205,7 +205,7 @@ management.accountUserLinks.delete <- function(accountId, linkId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -232,7 +232,7 @@ management.accountUserLinks.insert <- function(accountId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' \item https://www.googleapis.com/auth/analytics.manage.users.readonly
@@ -263,7 +263,7 @@ management.accountUserLinks.list <- function(accountId, max.results, start.index
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -291,7 +291,7 @@ management.accountUserLinks.update <- function(accountId, linkId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -321,7 +321,7 @@ management.accounts.list <- function(max.results, start.index) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -355,7 +355,7 @@ management.customDataSources.list <- function(accountId, max.results, start.inde
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -385,7 +385,7 @@ management.customDimensions.get <- function(accountId, customDimensionId, webPro
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -413,7 +413,7 @@ management.customDimensions.insert <- function(accountId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -446,7 +446,7 @@ management.customDimensions.list <- function(accountId, max.results, start.index
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -478,7 +478,7 @@ management.customDimensions.patch <- function(accountId, customDimensionId, igno
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -510,7 +510,7 @@ management.customDimensions.update <- function(accountId, customDimensionId, ign
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -540,7 +540,7 @@ management.customMetrics.get <- function(accountId, customMetricId, webPropertyI
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -568,7 +568,7 @@ management.customMetrics.insert <- function(accountId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -600,7 +600,7 @@ management.customMetrics.list <- function(accountId, max.results, start.index, w
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -632,7 +632,7 @@ management.customMetrics.patch <- function(accountId, customMetricId, ignoreCust
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -664,7 +664,7 @@ management.customMetrics.update <- function(accountId, customMetricId, ignoreCus
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -695,7 +695,7 @@ management.experiments.delete <- function(accountId, experimentId, profileId, we
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -727,7 +727,7 @@ management.experiments.get <- function(accountId, experimentId, profileId, webPr
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -757,7 +757,7 @@ management.experiments.insert <- function(accountId, profileId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -792,7 +792,7 @@ management.experiments.list <- function(accountId, max.results, profileId, start
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -823,7 +823,7 @@ management.experiments.patch <- function(accountId, experimentId, profileId, web
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -854,7 +854,7 @@ management.experiments.update <- function(accountId, experimentId, profileId, we
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -882,7 +882,7 @@ management.filters.delete <- function(accountId, filterId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -911,7 +911,7 @@ management.filters.get <- function(accountId, filterId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -938,7 +938,7 @@ management.filters.insert <- function(accountId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -969,7 +969,7 @@ management.filters.list <- function(accountId, max.results, start.index) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -997,7 +997,7 @@ management.filters.patch <- function(accountId, filterId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1025,7 +1025,7 @@ management.filters.update <- function(accountId, filterId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -1056,7 +1056,7 @@ management.goals.get <- function(accountId, goalId, profileId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1085,7 +1085,7 @@ management.goals.insert <- function(accountId, profileId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1120,7 +1120,7 @@ management.goals.list <- function(accountId, max.results, profileId, start.index
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1150,7 +1150,7 @@ management.goals.patch <- function(accountId, goalId, profileId, webPropertyId) 
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1180,7 +1180,7 @@ management.goals.update <- function(accountId, goalId, profileId, webPropertyId)
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1210,7 +1210,7 @@ management.profileFilterLinks.delete <- function(accountId, linkId, profileId, w
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -1241,7 +1241,7 @@ management.profileFilterLinks.get <- function(accountId, linkId, profileId, webP
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1270,7 +1270,7 @@ management.profileFilterLinks.insert <- function(accountId, profileId, webProper
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -1304,7 +1304,7 @@ management.profileFilterLinks.list <- function(accountId, max.results, profileId
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1334,7 +1334,7 @@ management.profileFilterLinks.patch <- function(accountId, linkId, profileId, we
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1364,7 +1364,7 @@ management.profileFilterLinks.update <- function(accountId, linkId, profileId, w
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -1394,7 +1394,7 @@ management.profileUserLinks.delete <- function(accountId, linkId, profileId, web
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -1423,7 +1423,7 @@ management.profileUserLinks.insert <- function(accountId, profileId, webProperty
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' \item https://www.googleapis.com/auth/analytics.manage.users.readonly
@@ -1457,7 +1457,7 @@ management.profileUserLinks.list <- function(accountId, max.results, profileId, 
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -1487,7 +1487,7 @@ management.profileUserLinks.update <- function(accountId, linkId, profileId, web
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1516,7 +1516,7 @@ management.profiles.delete <- function(accountId, profileId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -1546,7 +1546,7 @@ management.profiles.get <- function(accountId, profileId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1574,7 +1574,7 @@ management.profiles.insert <- function(accountId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1607,7 +1607,7 @@ management.profiles.list <- function(accountId, max.results, start.index, webPro
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1636,7 +1636,7 @@ management.profiles.patch <- function(accountId, profileId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1665,7 +1665,7 @@ management.profiles.update <- function(accountId, profileId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1695,7 +1695,7 @@ management.segments.list <- function(max.results, start.index) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1726,7 +1726,7 @@ management.unsampledReports.delete <- function(accountId, profileId, unsampledRe
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1759,7 +1759,7 @@ management.unsampledReports.get <- function(accountId, profileId, unsampledRepor
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1789,7 +1789,7 @@ management.unsampledReports.insert <- function(accountId, profileId, webProperty
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1824,7 +1824,7 @@ management.unsampledReports.list <- function(accountId, max.results, profileId, 
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1854,7 +1854,7 @@ management.uploads.deleteUploadData <- function(accountId, customDataSourceId, w
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1886,7 +1886,7 @@ management.uploads.get <- function(accountId, customDataSourceId, uploadId, webP
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1921,7 +1921,7 @@ management.uploads.list <- function(accountId, customDataSourceId, max.results, 
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -1951,7 +1951,7 @@ management.uploads.uploadData <- function(accountId, customDataSourceId, webProp
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -1981,7 +1981,7 @@ management.webPropertyAdWordsLinks.delete <- function(accountId, webPropertyAdWo
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -2012,7 +2012,7 @@ management.webPropertyAdWordsLinks.get <- function(accountId, webPropertyAdWords
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -2040,7 +2040,7 @@ management.webPropertyAdWordsLinks.insert <- function(accountId, webPropertyId) 
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -2073,7 +2073,7 @@ management.webPropertyAdWordsLinks.list <- function(accountId, max.results, star
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -2103,7 +2103,7 @@ management.webPropertyAdWordsLinks.patch <- function(accountId, webPropertyAdWor
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -2133,7 +2133,7 @@ management.webPropertyAdWordsLinks.update <- function(accountId, webPropertyAdWo
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' \item https://www.googleapis.com/auth/analytics.readonly
@@ -2162,7 +2162,7 @@ management.webproperties.get <- function(accountId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -2189,7 +2189,7 @@ management.webproperties.insert <- function(accountId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -2221,7 +2221,7 @@ management.webproperties.list <- function(accountId, max.results, start.index) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -2249,7 +2249,7 @@ management.webproperties.patch <- function(accountId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.edit
 #' }
@@ -2277,7 +2277,7 @@ management.webproperties.update <- function(accountId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -2306,7 +2306,7 @@ management.webpropertyUserLinks.delete <- function(accountId, linkId, webPropert
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -2334,7 +2334,7 @@ management.webpropertyUserLinks.insert <- function(accountId, webPropertyId) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' \item https://www.googleapis.com/auth/analytics.manage.users.readonly
@@ -2367,7 +2367,7 @@ management.webpropertyUserLinks.list <- function(accountId, max.results, start.i
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.manage.users
 #' }
@@ -2396,2427 +2396,7 @@ management.webpropertyUserLinks.update <- function(accountId, linkId, webPropert
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param reportType Report type. Allowed Values: 'ga'. Where 'ga' corresponds to the Core Reporting API
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-metadata.columns.list <- function(reportType) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/metadata/%s/columns", 
-        reportType)
-    # analytics.metadata.columns.list
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Creates an account ticket.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.provision
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.provision)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' #' @importFrom googleAuthR gar_api_generator
-#' @export
-provisioning.createAccountTicket <- function() {
-    url <- "https://www.googleapis.com/analytics/v3/provisioning/createAccountTicket"
-    # analytics.provisioning.createAccountTicket
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns Analytics data for a view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param dimensions A comma-separated list of Analytics dimensions. E.g., 'ga:browser,ga:city'.
-#' @param end.date End date for fetching Analytics data. Request can should specify an end date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or 7daysAgo). The default value is yesterday.
-#' @param filters A comma-separated list of dimension or metric filters to be applied to Analytics data.
-#' @param ids Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics view (profile) ID.
-#' @param include.empty.rows The response will include empty rows if this parameter is set to true, the default is true
-#' @param max.results The maximum number of entries to include in this feed.
-#' @param metrics A comma-separated list of Analytics metrics. E.g., 'ga:sessions,ga:pageviews'. At least one metric must be specified.
-#' @param output The selected format for the response. Default format is JSON.
-#' @param samplingLevel The desired sampling level.
-#' @param segment An Analytics segment to be applied to data.
-#' @param sort A comma-separated list of dimensions or metrics that determine the sort order for Analytics data.
-#' @param start.date Start date for fetching Analytics data. Requests can specify a start date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or 7daysAgo). The default value is 7daysAgo.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-data.ga.get <- function(dimensions, end.date, filters, ids, include.empty.rows, max.results, 
-    metrics, output, samplingLevel, segment, sort, start.date, start.index) {
-    url <- "https://www.googleapis.com/analytics/v3/data/ga"
-    # analytics.data.ga.get
-    f <- gar_api_generator(url, "GET", pars_args = list(dimensions = dimensions, 
-        `end-date` = end.date, filters = filters, ids = ids, `include-empty-rows` = include.empty.rows, 
-        `max-results` = max.results, metrics = metrics, output = output, samplingLevel = samplingLevel, 
-        segment = segment, sort = sort, `start-date` = start.date, `start-index` = start.index), 
-        data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns Analytics Multi-Channel Funnels data for a view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param dimensions A comma-separated list of Multi-Channel Funnels dimensions. E.g., 'mcf:source,mcf:medium'.
-#' @param end.date End date for fetching Analytics data. Requests can specify a start date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or 7daysAgo). The default value is 7daysAgo.
-#' @param filters A comma-separated list of dimension or metric filters to be applied to the Analytics data.
-#' @param ids Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics view (profile) ID.
-#' @param max.results The maximum number of entries to include in this feed.
-#' @param metrics A comma-separated list of Multi-Channel Funnels metrics. E.g., 'mcf:totalConversions,mcf:totalConversionValue'. At least one metric must be specified.
-#' @param samplingLevel The desired sampling level.
-#' @param sort A comma-separated list of dimensions or metrics that determine the sort order for the Analytics data.
-#' @param start.date Start date for fetching Analytics data. Requests can specify a start date formatted as YYYY-MM-DD, or as a relative date (e.g., today, yesterday, or 7daysAgo). The default value is 7daysAgo.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-data.mcf.get <- function(dimensions, end.date, filters, ids, max.results, metrics, 
-    samplingLevel, sort, start.date, start.index) {
-    url <- "https://www.googleapis.com/analytics/v3/data/mcf"
-    # analytics.data.mcf.get
-    f <- gar_api_generator(url, "GET", pars_args = list(dimensions = dimensions, 
-        `end-date` = end.date, filters = filters, ids = ids, `max-results` = max.results, 
-        metrics = metrics, samplingLevel = samplingLevel, sort = sort, `start-date` = start.date, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns real time data for a view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param dimensions A comma-separated list of real time dimensions. E.g., 'rt:medium,rt:city'.
-#' @param filters A comma-separated list of dimension or metric filters to be applied to real time data.
-#' @param ids Unique table ID for retrieving real time data. Table ID is of the form ga:XXXX, where XXXX is the Analytics view (profile) ID.
-#' @param max.results The maximum number of entries to include in this feed.
-#' @param metrics A comma-separated list of real time metrics. E.g., 'rt:activeUsers'. At least one metric must be specified.
-#' @param sort A comma-separated list of dimensions or metrics that determine the sort order for real time data.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-data.realtime.get <- function(dimensions, filters, ids, max.results, metrics, sort) {
-    url <- "https://www.googleapis.com/analytics/v3/data/realtime"
-    # analytics.data.realtime.get
-    f <- gar_api_generator(url, "GET", pars_args = list(dimensions = dimensions, 
-        filters = filters, ids = ids, `max-results` = max.results, metrics = metrics, 
-        sort = sort), data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists account summaries (lightweight tree comprised of accounts/properties/profiles) to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param max.results The maximum number of account summaries to include in this response, where the largest acceptable value is 1000.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.accountSummaries.list <- function(max.results, start.index) {
-    url <- "https://www.googleapis.com/analytics/v3/management/accountSummaries"
-    # analytics.management.accountSummaries.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Removes a user from the given account.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to delete the user link for.
-#' @param linkId Link ID to delete the user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.accountUserLinks.delete <- function(accountId, linkId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/entityUserLinks/%s", 
-        accountId, linkId)
-    # analytics.management.accountUserLinks.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Adds a new user to the given account.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.accountUserLinks.insert <- function(accountId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/entityUserLinks", 
-        accountId)
-    # analytics.management.accountUserLinks.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists account-user links for a given account.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' \item https://www.googleapis.com/auth/analytics.manage.users.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users, https://www.googleapis.com/auth/analytics.manage.users.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve the user links for.
-#' @param max.results The maximum number of account-user links to include in this response.
-#' @param start.index An index of the first account-user link to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.accountUserLinks.list <- function(accountId, max.results, start.index) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/entityUserLinks", 
-        accountId)
-    # analytics.management.accountUserLinks.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates permissions for an existing user on the given account.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to update the account-user link for.
-#' @param linkId Link ID to update the account-user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.accountUserLinks.update <- function(accountId, linkId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/entityUserLinks/%s", 
-        accountId, linkId)
-    # analytics.management.accountUserLinks.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists all accounts to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param max.results The maximum number of accounts to include in this response.
-#' @param start.index An index of the first account to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.accounts.list <- function(max.results, start.index) {
-    url <- "https://www.googleapis.com/analytics/v3/management/accounts"
-    # analytics.management.accounts.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' List custom data sources to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account Id for the custom data sources to retrieve.
-#' @param max.results The maximum number of custom data sources to include in this response.
-#' @param start.index A 1-based index of the first custom data source to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property Id for the custom data sources to retrieve.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customDataSources.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources", 
-        accountId, webPropertyId)
-    # analytics.management.customDataSources.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Get a custom dimension to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom dimension to retrieve.
-#' @param customDimensionId The ID of the custom dimension to retrieve.
-#' @param webPropertyId Web property ID for the custom dimension to retrieve.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customDimensions.get <- function(accountId, customDimensionId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions/%s", 
-        accountId, customDimensionId, webPropertyId)
-    # analytics.management.customDimensions.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new custom dimension.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom dimension to create.
-#' @param webPropertyId Web property ID for the custom dimension to create.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customDimensions.insert <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions", 
-        accountId, webPropertyId)
-    # analytics.management.customDimensions.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists custom dimensions to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom dimensions to retrieve.
-#' @param max.results The maximum number of custom dimensions to include in this response.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property ID for the custom dimensions to retrieve.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customDimensions.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions", 
-        accountId, webPropertyId)
-    # analytics.management.customDimensions.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing custom dimension. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom dimension to update.
-#' @param customDimensionId Custom dimension ID for the custom dimension to update.
-#' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom dimension being linked to a custom data source / data set.
-#' @param webPropertyId Web property ID for the custom dimension to update.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customDimensions.patch <- function(accountId, customDimensionId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions/%s", 
-        accountId, customDimensionId, webPropertyId)
-    # analytics.management.customDimensions.patch
-    f <- gar_api_generator(url, "PATCH", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
-        data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing custom dimension.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom dimension to update.
-#' @param customDimensionId Custom dimension ID for the custom dimension to update.
-#' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom dimension being linked to a custom data source / data set.
-#' @param webPropertyId Web property ID for the custom dimension to update.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customDimensions.update <- function(accountId, customDimensionId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions/%s", 
-        accountId, customDimensionId, webPropertyId)
-    # analytics.management.customDimensions.update
-    f <- gar_api_generator(url, "PUT", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
-        data_parse_function = function(x) x)
-    f()
-}
-
-#' Get a custom metric to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom metric to retrieve.
-#' @param customMetricId The ID of the custom metric to retrieve.
-#' @param webPropertyId Web property ID for the custom metric to retrieve.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customMetrics.get <- function(accountId, customMetricId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics/%s", 
-        accountId, customMetricId, webPropertyId)
-    # analytics.management.customMetrics.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new custom metric.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom metric to create.
-#' @param webPropertyId Web property ID for the custom dimension to create.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customMetrics.insert <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics", 
-        accountId, webPropertyId)
-    # analytics.management.customMetrics.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists custom metrics to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom metrics to retrieve.
-#' @param max.results The maximum number of custom metrics to include in this response.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property ID for the custom metrics to retrieve.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customMetrics.list <- function(accountId, max.results, start.index, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics", 
-        accountId, webPropertyId)
-    # analytics.management.customMetrics.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing custom metric. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom metric to update.
-#' @param customMetricId Custom metric ID for the custom metric to update.
-#' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom metric being linked to a custom data source / data set.
-#' @param webPropertyId Web property ID for the custom metric to update.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customMetrics.patch <- function(accountId, customMetricId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics/%s", 
-        accountId, customMetricId, webPropertyId)
-    # analytics.management.customMetrics.patch
-    f <- gar_api_generator(url, "PATCH", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
-        data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing custom metric.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the custom metric to update.
-#' @param customMetricId Custom metric ID for the custom metric to update.
-#' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom metric being linked to a custom data source / data set.
-#' @param webPropertyId Web property ID for the custom metric to update.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.customMetrics.update <- function(accountId, customMetricId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics/%s", 
-        accountId, customMetricId, webPropertyId)
-    # analytics.management.customMetrics.update
-    f <- gar_api_generator(url, "PUT", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
-        data_parse_function = function(x) x)
-    f()
-}
-
-#' Delete an experiment.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the experiment belongs
-#' @param experimentId ID of the experiment to delete
-#' @param profileId View (Profile) ID to which the experiment belongs
-#' @param webPropertyId Web property ID to which the experiment belongs
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.experiments.delete <- function(accountId, experimentId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
-        accountId, experimentId, profileId, webPropertyId)
-    # analytics.management.experiments.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns an experiment to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve the experiment for.
-#' @param experimentId Experiment ID to retrieve the experiment for.
-#' @param profileId View (Profile) ID to retrieve the experiment for.
-#' @param webPropertyId Web property ID to retrieve the experiment for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.experiments.get <- function(accountId, experimentId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
-        accountId, experimentId, profileId, webPropertyId)
-    # analytics.management.experiments.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new experiment.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the experiment for.
-#' @param profileId View (Profile) ID to create the experiment for.
-#' @param webPropertyId Web property ID to create the experiment for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.experiments.insert <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.experiments.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists experiments to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve experiments for.
-#' @param max.results The maximum number of experiments to include in this response.
-#' @param profileId View (Profile) ID to retrieve experiments for.
-#' @param start.index An index of the first experiment to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property ID to retrieve experiments for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.experiments.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.experiments.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Update an existing experiment. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID of the experiment to update.
-#' @param experimentId Experiment ID of the experiment to update.
-#' @param profileId View (Profile) ID of the experiment to update.
-#' @param webPropertyId Web property ID of the experiment to update.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.experiments.patch <- function(accountId, experimentId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
-        accountId, experimentId, profileId, webPropertyId)
-    # analytics.management.experiments.patch
-    f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
-}
-
-#' Update an existing experiment.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID of the experiment to update.
-#' @param experimentId Experiment ID of the experiment to update.
-#' @param profileId View (Profile) ID of the experiment to update.
-#' @param webPropertyId Web property ID of the experiment to update.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.experiments.update <- function(accountId, experimentId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
-        accountId, experimentId, profileId, webPropertyId)
-    # analytics.management.experiments.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Delete a filter.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to delete the filter for.
-#' @param filterId ID of the filter to be deleted.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.filters.delete <- function(accountId, filterId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters/%s", 
-        accountId, filterId)
-    # analytics.management.filters.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns a filters to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve filters for.
-#' @param filterId Filter ID to retrieve filters for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.filters.get <- function(accountId, filterId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters/%s", 
-        accountId, filterId)
-    # analytics.management.filters.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new filter.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create filter for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.filters.insert <- function(accountId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters", 
-        accountId)
-    # analytics.management.filters.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists all filters for an account
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve filters for.
-#' @param max.results The maximum number of filters to include in this response.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.filters.list <- function(accountId, max.results, start.index) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters", 
-        accountId)
-    # analytics.management.filters.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing filter. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the filter belongs.
-#' @param filterId ID of the filter to be updated.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.filters.patch <- function(accountId, filterId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters/%s", 
-        accountId, filterId)
-    # analytics.management.filters.patch
-    f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing filter.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the filter belongs.
-#' @param filterId ID of the filter to be updated.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.filters.update <- function(accountId, filterId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters/%s", 
-        accountId, filterId)
-    # analytics.management.filters.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Gets a goal to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve the goal for.
-#' @param goalId Goal ID to retrieve the goal for.
-#' @param profileId View (Profile) ID to retrieve the goal for.
-#' @param webPropertyId Web property ID to retrieve the goal for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.goals.get <- function(accountId, goalId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
-        accountId, goalId, profileId, webPropertyId)
-    # analytics.management.goals.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new goal.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the goal for.
-#' @param profileId View (Profile) ID to create the goal for.
-#' @param webPropertyId Web property ID to create the goal for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.goals.insert <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.goals.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists goals to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve goals for. Can either be a specific account ID or '~all', which refers to all the accounts that user has access to.
-#' @param max.results The maximum number of goals to include in this response.
-#' @param profileId View (Profile) ID to retrieve goals for. Can either be a specific view (profile) ID or '~all', which refers to all the views (profiles) that user has access to.
-#' @param start.index An index of the first goal to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property ID to retrieve goals for. Can either be a specific web property ID or '~all', which refers to all the web properties that user has access to.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.goals.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.goals.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing goal. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to update the goal.
-#' @param goalId Index of the goal to be updated.
-#' @param profileId View (Profile) ID to update the goal.
-#' @param webPropertyId Web property ID to update the goal.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.goals.patch <- function(accountId, goalId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
-        accountId, goalId, profileId, webPropertyId)
-    # analytics.management.goals.patch
-    f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing goal.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to update the goal.
-#' @param goalId Index of the goal to be updated.
-#' @param profileId View (Profile) ID to update the goal.
-#' @param webPropertyId Web property ID to update the goal.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.goals.update <- function(accountId, goalId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
-        accountId, goalId, profileId, webPropertyId)
-    # analytics.management.goals.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Delete a profile filter link.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the profile filter link belongs.
-#' @param linkId ID of the profile filter link to delete.
-#' @param profileId Profile ID to which the filter link belongs.
-#' @param webPropertyId Web property Id to which the profile filter link belongs.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileFilterLinks.delete <- function(accountId, linkId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
-        accountId, linkId, profileId, webPropertyId)
-    # analytics.management.profileFilterLinks.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns a single profile filter link.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve profile filter link for.
-#' @param linkId ID of the profile filter link.
-#' @param profileId Profile ID to retrieve filter link for.
-#' @param webPropertyId Web property Id to retrieve profile filter link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileFilterLinks.get <- function(accountId, linkId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
-        accountId, linkId, profileId, webPropertyId)
-    # analytics.management.profileFilterLinks.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new profile filter link.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create profile filter link for.
-#' @param profileId Profile ID to create filter link for.
-#' @param webPropertyId Web property Id to create profile filter link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileFilterLinks.insert <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profileFilterLinks.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists all profile filter links for a profile.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve profile filter links for.
-#' @param max.results The maximum number of profile filter links to include in this response.
-#' @param profileId Profile ID to retrieve filter links for. Can either be a specific profile ID or '~all', which refers to all the profiles that user has access to.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property Id for profile filter links for. Can either be a specific web property ID or '~all', which refers to all the web properties that user has access to.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileFilterLinks.list <- function(accountId, max.results, profileId, 
-    start.index, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profileFilterLinks.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Update an existing profile filter link. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which profile filter link belongs.
-#' @param linkId ID of the profile filter link to be updated.
-#' @param profileId Profile ID to which filter link belongs
-#' @param webPropertyId Web property Id to which profile filter link belongs
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileFilterLinks.patch <- function(accountId, linkId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
-        accountId, linkId, profileId, webPropertyId)
-    # analytics.management.profileFilterLinks.patch
-    f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
-}
-
-#' Update an existing profile filter link.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which profile filter link belongs.
-#' @param linkId ID of the profile filter link to be updated.
-#' @param profileId Profile ID to which filter link belongs
-#' @param webPropertyId Web property Id to which profile filter link belongs
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileFilterLinks.update <- function(accountId, linkId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
-        accountId, linkId, profileId, webPropertyId)
-    # analytics.management.profileFilterLinks.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Removes a user from the given view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to delete the user link for.
-#' @param linkId Link ID to delete the user link for.
-#' @param profileId View (Profile) ID to delete the user link for.
-#' @param webPropertyId Web Property ID to delete the user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileUserLinks.delete <- function(accountId, linkId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks/%s", 
-        accountId, linkId, profileId, webPropertyId)
-    # analytics.management.profileUserLinks.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Adds a new user to the given view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the user link for.
-#' @param profileId View (Profile) ID to create the user link for.
-#' @param webPropertyId Web Property ID to create the user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileUserLinks.insert <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profileUserLinks.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists profile-user links for a given view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' \item https://www.googleapis.com/auth/analytics.manage.users.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users, https://www.googleapis.com/auth/analytics.manage.users.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID which the given view (profile) belongs to.
-#' @param max.results The maximum number of profile-user links to include in this response.
-#' @param profileId View (Profile) ID to retrieve the profile-user links for. Can either be a specific profile ID or '~all', which refers to all the profiles that user has access to.
-#' @param start.index An index of the first profile-user link to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web Property ID which the given view (profile) belongs to. Can either be a specific web property ID or '~all', which refers to all the web properties that user has access to.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileUserLinks.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profileUserLinks.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates permissions for an existing user on the given view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to update the user link for.
-#' @param linkId Link ID to update the user link for.
-#' @param profileId View (Profile ID) to update the user link for.
-#' @param webPropertyId Web Property ID to update the user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profileUserLinks.update <- function(accountId, linkId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks/%s", 
-        accountId, linkId, profileId, webPropertyId)
-    # analytics.management.profileUserLinks.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Deletes a view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to delete the view (profile) for.
-#' @param profileId ID of the view (profile) to be deleted.
-#' @param webPropertyId Web property ID to delete the view (profile) for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profiles.delete <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profiles.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Gets a view (profile) to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve the view (profile) for.
-#' @param profileId View (Profile) ID to retrieve the view (profile) for.
-#' @param webPropertyId Web property ID to retrieve the view (profile) for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profiles.get <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profiles.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the view (profile) for.
-#' @param webPropertyId Web property ID to create the view (profile) for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profiles.insert <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles", 
-        accountId, webPropertyId)
-    # analytics.management.profiles.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists views (profiles) to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID for the view (profiles) to retrieve. Can either be a specific account ID or '~all', which refers to all the accounts to which the user has access.
-#' @param max.results The maximum number of views (profiles) to include in this response.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property ID for the views (profiles) to retrieve. Can either be a specific web property ID or '~all', which refers to all the web properties to which the user has access.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profiles.list <- function(accountId, max.results, start.index, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles", 
-        accountId, webPropertyId)
-    # analytics.management.profiles.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing view (profile). This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the view (profile) belongs
-#' @param profileId ID of the view (profile) to be updated.
-#' @param webPropertyId Web property ID to which the view (profile) belongs
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profiles.patch <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profiles.patch
-    f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing view (profile).
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the view (profile) belongs
-#' @param profileId ID of the view (profile) to be updated.
-#' @param webPropertyId Web property ID to which the view (profile) belongs
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.profiles.update <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.profiles.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists segments to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param max.results The maximum number of segments to include in this response.
-#' @param start.index An index of the first segment to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.segments.list <- function(max.results, start.index) {
-    url <- "https://www.googleapis.com/analytics/v3/management/segments"
-    # analytics.management.segments.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Deletes an unsampled report.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to delete the unsampled report for.
-#' @param profileId View (Profile) ID to delete the unsampled report for.
-#' @param unsampledReportId ID of the unsampled report to be deleted.
-#' @param webPropertyId Web property ID to delete the unsampled reports for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.unsampledReports.delete <- function(accountId, profileId, unsampledReportId, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports/%s", 
-        accountId, profileId, unsampledReportId, webPropertyId)
-    # analytics.management.unsampledReports.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns a single unsampled report.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve unsampled report for.
-#' @param profileId View (Profile) ID to retrieve unsampled report for.
-#' @param unsampledReportId ID of the unsampled report to retrieve.
-#' @param webPropertyId Web property ID to retrieve unsampled reports for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.unsampledReports.get <- function(accountId, profileId, unsampledReportId, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports/%s", 
-        accountId, profileId, unsampledReportId, webPropertyId)
-    # analytics.management.unsampledReports.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new unsampled report.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the unsampled report for.
-#' @param profileId View (Profile) ID to create the unsampled report for.
-#' @param webPropertyId Web property ID to create the unsampled report for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.unsampledReports.insert <- function(accountId, profileId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.unsampledReports.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists unsampled reports to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve unsampled reports for. Must be a specific account ID, ~all is not supported.
-#' @param max.results The maximum number of unsampled reports to include in this response.
-#' @param profileId View (Profile) ID to retrieve unsampled reports for. Must be a specific view (profile) ID, ~all is not supported.
-#' @param start.index An index of the first unsampled report to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property ID to retrieve unsampled reports for. Must be a specific web property ID, ~all is not supported.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.unsampledReports.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports", 
-        accountId, profileId, webPropertyId)
-    # analytics.management.unsampledReports.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Delete data associated with a previous upload.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account Id for the uploads to be deleted.
-#' @param customDataSourceId Custom data source Id for the uploads to be deleted.
-#' @param webPropertyId Web property Id for the uploads to be deleted.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.uploads.deleteUploadData <- function(accountId, customDataSourceId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/deleteUploadData", 
-        accountId, customDataSourceId, webPropertyId)
-    # analytics.management.uploads.deleteUploadData
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' List uploads to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account Id for the upload to retrieve.
-#' @param customDataSourceId Custom data source Id for upload to retrieve.
-#' @param uploadId Upload Id to retrieve.
-#' @param webPropertyId Web property Id for the upload to retrieve.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.uploads.get <- function(accountId, customDataSourceId, uploadId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/uploads/%s", 
-        accountId, customDataSourceId, uploadId, webPropertyId)
-    # analytics.management.uploads.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' List uploads to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account Id for the uploads to retrieve.
-#' @param customDataSourceId Custom data source Id for uploads to retrieve.
-#' @param max.results The maximum number of uploads to include in this response.
-#' @param start.index A 1-based index of the first upload to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property Id for the uploads to retrieve.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.uploads.list <- function(accountId, customDataSourceId, max.results, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/uploads", 
-        accountId, customDataSourceId, webPropertyId)
-    # analytics.management.uploads.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Upload data for a custom data source.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account Id associated with the upload.
-#' @param customDataSourceId Custom data source Id to which the data being uploaded belongs.
-#' @param webPropertyId Web property UA-string associated with the upload.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.uploads.uploadData <- function(accountId, customDataSourceId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/uploads", 
-        accountId, customDataSourceId, webPropertyId)
-    # analytics.management.uploads.uploadData
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Deletes a web property-AdWords link.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId ID of the account which the given web property belongs to.
-#' @param webPropertyAdWordsLinkId Web property AdWords link ID.
-#' @param webPropertyId Web property ID to delete the AdWords link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webPropertyAdWordsLinks.delete <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
-        accountId, webPropertyAdWordsLinkId, webPropertyId)
-    # analytics.management.webPropertyAdWordsLinks.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Returns a web property-AdWords link to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId ID of the account which the given web property belongs to.
-#' @param webPropertyAdWordsLinkId Web property-AdWords link ID.
-#' @param webPropertyId Web property ID to retrieve the AdWords link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webPropertyAdWordsLinks.get <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
-        accountId, webPropertyAdWordsLinkId, webPropertyId)
-    # analytics.management.webPropertyAdWordsLinks.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Creates a webProperty-AdWords link.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId ID of the Google Analytics account to create the link for.
-#' @param webPropertyId Web property ID to create the link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webPropertyAdWordsLinks.insert <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks", 
-        accountId, webPropertyId)
-    # analytics.management.webPropertyAdWordsLinks.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists webProperty-AdWords links for a given web property.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId ID of the account which the given web property belongs to.
-#' @param max.results The maximum number of webProperty-AdWords links to include in this response.
-#' @param start.index An index of the first webProperty-AdWords link to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web property ID to retrieve the AdWords links for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webPropertyAdWordsLinks.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks", 
-        accountId, webPropertyId)
-    # analytics.management.webPropertyAdWordsLinks.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing webProperty-AdWords link. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId ID of the account which the given web property belongs to.
-#' @param webPropertyAdWordsLinkId Web property-AdWords link ID.
-#' @param webPropertyId Web property ID to retrieve the AdWords link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webPropertyAdWordsLinks.patch <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
-        accountId, webPropertyAdWordsLinkId, webPropertyId)
-    # analytics.management.webPropertyAdWordsLinks.patch
-    f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing webProperty-AdWords link.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId ID of the account which the given web property belongs to.
-#' @param webPropertyAdWordsLinkId Web property-AdWords link ID.
-#' @param webPropertyId Web property ID to retrieve the AdWords link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webPropertyAdWordsLinks.update <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
-        accountId, webPropertyAdWordsLinkId, webPropertyId)
-    # analytics.management.webPropertyAdWordsLinks.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Gets a web property to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve the web property for.
-#' @param webPropertyId ID to retrieve the web property for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webproperties.get <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s", 
-        accountId, webPropertyId)
-    # analytics.management.webproperties.get
-    f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
-    f()
-}
-
-#' Create a new property if the account has fewer than 20 properties. Web properties are visible in the Google Analytics interface only if they have at least one profile.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the web property for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webproperties.insert <- function(accountId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties", 
-        accountId)
-    # analytics.management.webproperties.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists web properties to which the user has access.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics
-#' \item https://www.googleapis.com/auth/analytics.edit
-#' \item https://www.googleapis.com/auth/analytics.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics, https://www.googleapis.com/auth/analytics.edit, https://www.googleapis.com/auth/analytics.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to retrieve web properties for. Can either be a specific account ID or '~all', which refers to all the accounts that user has access to.
-#' @param max.results The maximum number of web properties to include in this response.
-#' @param start.index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webproperties.list <- function(accountId, max.results, start.index) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties", 
-        accountId)
-    # analytics.management.webproperties.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing web property. This method supports patch semantics.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the web property belongs
-#' @param webPropertyId Web property ID
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webproperties.patch <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s", 
-        accountId, webPropertyId)
-    # analytics.management.webproperties.patch
-    f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates an existing web property.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.edit
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.edit)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to which the web property belongs
-#' @param webPropertyId Web property ID
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webproperties.update <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s", 
-        accountId, webPropertyId)
-    # analytics.management.webproperties.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Removes a user from the given web property.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to delete the user link for.
-#' @param linkId Link ID to delete the user link for.
-#' @param webPropertyId Web Property ID to delete the user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webpropertyUserLinks.delete <- function(accountId, linkId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks/%s", 
-        accountId, linkId, webPropertyId)
-    # analytics.management.webpropertyUserLinks.delete
-    f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
-    f()
-}
-
-#' Adds a new user to the given web property.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to create the user link for.
-#' @param webPropertyId Web Property ID to create the user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webpropertyUserLinks.insert <- function(accountId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks", 
-        accountId, webPropertyId)
-    # analytics.management.webpropertyUserLinks.insert
-    f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists webProperty-user links for a given web property.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' \item https://www.googleapis.com/auth/analytics.manage.users.readonly
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users, https://www.googleapis.com/auth/analytics.manage.users.readonly)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID which the given web property belongs to.
-#' @param max.results The maximum number of webProperty-user Links to include in this response.
-#' @param start.index An index of the first webProperty-user link to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
-#' @param webPropertyId Web Property ID for the webProperty-user links to retrieve. Can either be a specific web property ID or '~all', which refers to all the web properties that user has access to.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webpropertyUserLinks.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks", 
-        accountId, webPropertyId)
-    # analytics.management.webpropertyUserLinks.list
-    f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
-        `start-index` = start.index), data_parse_function = function(x) x)
-    f()
-}
-
-#' Updates permissions for an existing user on the given web property.
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
-#' \itemize{
-#'   \item https://www.googleapis.com/auth/analytics.manage.users
-#' }
-#' 
-#' Set \code{options(googleAuthR.scopes.selected = c(https://www.googleapis.com/auth/analytics.manage.users)}
-#' Then run \code{googleAuthR::gar_auth()} to authenticate.
-#' See \code{\link[googleAuthR]{gar_auth}} for details. 
-#' 
-#' @param accountId Account ID to update the account-user link for.
-#' @param linkId Link ID to update the account-user link for.
-#' @param webPropertyId Web property ID to update the account-user link for.
-#' @importFrom googleAuthR gar_api_generator
-#' @export
-management.webpropertyUserLinks.update <- function(accountId, linkId, webPropertyId) {
-    url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks/%s", 
-        accountId, linkId, webPropertyId)
-    # analytics.management.webpropertyUserLinks.update
-    f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
-}
-
-#' Lists all columns for a report type
-#' 
-#' Autogenerated via \code{\link[googleAuthR]{gar_create_api_skeleton}}
-#' 
-#' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
-#' 
-#' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics
 #' \item https://www.googleapis.com/auth/analytics.edit
@@ -4846,7 +2426,7 @@ metadata.columns.list <- function(reportType) {
 #' @seealso \href{https://developers.google.com/analytics/}{Google Documentation}
 #' 
 #' @details 
-#' Authentication scopes needed by this function are:
+#' Authentication scopes used by this function are:
 #' \itemize{
 #'   \item https://www.googleapis.com/auth/analytics.provision
 #' }
