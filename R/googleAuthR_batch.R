@@ -218,10 +218,10 @@ parseBatchResponse <- function(batch_response){
     index <- which(grepl("HTTP|Content-Length", x))
     rh <- unlist(split_vector(x, index, remove_splits = FALSE))
     if(grepl("40", rh[2])){
-      warning("400 type error in response")
+      myMessage("400 type error in response", level=2)
     }
     if(grepl("50", rh[2])){
-      warning("500 type error in response")
+      myMessage("500 type error in response", level=2)
     }
     rh
     

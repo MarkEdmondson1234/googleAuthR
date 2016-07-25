@@ -149,7 +149,7 @@ function_docs <- function(api_json_resource_method, api_json){
     "#' @seealso \\href{",api_json$documentationLink,"}{Google Documentation}\n",
     "#' \n",
     "#' @details \n",
-    "#' Authentication scopes needed by this function are:\n",
+    "#' Authentication scopes used by this function are:\n",
     "#' \\itemize{\n",
     "#'   \\item ", paste(api_json_resource_method$scopes, collapse = "\n#' \\item "),
     "\n#' }\n",
@@ -248,20 +248,8 @@ make_pars_list <- function(api_json_resource_method){
   
 }
 
-make_path_pars_entry <- function(x, 
-                                 type = c("path", "query"),
-                                 api_json_resource_method){
-  
-  type <- match.arg(type)
-
-  if(api_json_resource_method$parameters[[x]]$location == type){
-    out <- paste0("\t\t`",x, "` = ", make.names(x), "\n", collapse = "")
-  } else {
-    out <- NULL
-  }
-  
-  # rmNullObs(out)
-  out
+make_path_pars_entry <- function(x, api_json_resource_method){
+   paste0("\t\t`",x, "` = ", make.names(x), "\n", collapse = "")
 }
 
 make_vars_description <- function(x, 
@@ -293,4 +281,16 @@ recursive_method_finder <- function(the_list){
   }
   
   output
+}
+
+#' Create the API objects from the Discovery API
+#' 
+#' @param filename File to write the objects to
+#' @param api_json The json from \link{gar_discovery_api}
+#' 
+#' @return TRUE if successful, side-effect creating filename
+#' @export
+create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
+  
+  ## take the json and create a file of structures that will get passed to the functions that need them
 }

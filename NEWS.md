@@ -5,6 +5,7 @@
 * Add client based authentication in JavaScript plus example app
 * Add check to `gar_auth_service` to see if you have downloaded right JSON file
 * Discovery API functions to get details on Google APIs added: `gar_discovery_apis_list` and `gar_discovery_api`
+* Change warnings() in batch to myMessage() level 2
 
 # v0.3.1 - CRAN
 
