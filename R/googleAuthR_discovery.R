@@ -263,34 +263,47 @@ make_vars_description <- function(x,
 get_json_methods <- function(api_json_resources){
   
   set_a(list())
-  recursive_method_finder(api_json_resources)
-
+  out <- recursive_key_finder(api_json_resources)
+  set_a(list())
+  out
 }
 
-recursive_method_finder <- function(the_list){
 
-  if("methods" %in% names(the_list)){
+
+recursive_key_finder <- function(the_list, key = "methods"){
+
+  if(key %in% names(the_list)){
     ## success - add to global
-    set_a(c(get_a(), the_list$methods))
+    set_a(c(get_a(), the_list[[key]]))
+    ## but there could also be some within
   } else {
     ## recursive
-    lapply(the_list, recursive_method_finder)
+    lapply(the_list, recursive_key_finder, key = key)
   }
   
   get_a()
 }
 
 ## environment hoops for globals
-my_env <- new.env(parent = emptyenv())
-my_env$a <- 1
+rmf_env <- new.env(parent = emptyenv())
+rmf_env$a <- 1
 
 get_a <- function() {
-  my_env$a
+  rmf_env$a
 }
 set_a <- function(value) {
-  old <- my_env$a
-  my_env$a <- value
+  old <- rmf_env$a
+  rmf_env$a <- value
   invisible(old)
+}
+
+# get the methods
+get_json_properties <- function(api_json_resources){
+  
+  set_a(list())
+  out <- recursive_key_finder(api_json_resources, "properties")
+  set_a(list())
+  out
 }
 
 #' Create the API objects from the Discovery API
@@ -303,4 +316,8 @@ set_a <- function(value) {
 create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   
   ## take the json and create a file of structures that will get passed to the functions that need them
+  object_schema <- api_json$schemas
+  properties <- lapply(names(object_schema), function(x) get_json_properties(object_schema[[x]]))
+  names(properties) <- names(object_schema)
+  properties
 }
