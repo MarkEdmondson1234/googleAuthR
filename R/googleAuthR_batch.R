@@ -315,6 +315,10 @@ doBatchRequest <- function(batched){
                    )
   
   myMessage("Making Batch API call", level=2)
+  
+  # ensure batch requests only occur per second to help calculation of QPS limits
+  Sys.sleep(1)
+  
   req <- retryRequest(do.call("POST", 
                               args = arg_list,
                               envir = asNamespace("httr")))
