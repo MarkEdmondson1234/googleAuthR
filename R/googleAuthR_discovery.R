@@ -297,23 +297,22 @@ set_a <- function(value) {
   invisible(old)
 }
 
-# get the methods
+# recursive property objects
 get_json_properties <- function(api_json_schema, id=NULL){
   
-  # set_a(list())
-  # out <- recursive_key_finder(api_json_resources, "properties")
-  # set_a(list())
-  # out
   if(is.null(api_json_schema$type)) return()
+  # if(!is.null(api_json_schema$readOnly)) return()
   
   type <- api_json_schema$type
+  
   if(type == "object"){
     
-    ## return properties
+    ## return this level properties (and additionalProperties ?)
     out <- list(names(api_json_schema$properties))
     names(out) <- if(is.null(api_json_schema$id)) id else api_json_schema$id
     set_a(c(get_a(), out))
-    ## go deeper
+    
+    ## go deeper in recursion
     lapply(names(api_json_schema$properties), 
            function(x) get_json_properties(api_json_schema$properties[[x]], 
                                            id = paste0(api_json_schema$id,".",x))
@@ -321,10 +320,20 @@ get_json_properties <- function(api_json_schema, id=NULL){
     
   } else if(type == "array"){
     
+    array_item <- api_json_schema$items
+    
+    if(is.null(array_item$properties)) return()
+    ## go deeper in recursion
+    lapply(names(array_item$properties), 
+           function(x) get_json_properties(array_item$properties[[x]], 
+                                           id = paste0(id,".",x,".array"))
+    )
+    
   } else if(type == "string"){
 
   }
 
+  return(id)
 }
 
 #' Create the API objects from the Discovery API
