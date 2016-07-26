@@ -298,12 +298,33 @@ set_a <- function(value) {
 }
 
 # get the methods
-get_json_properties <- function(api_json_resources){
+get_json_properties <- function(api_json_schema, id=NULL){
   
-  set_a(list())
-  out <- recursive_key_finder(api_json_resources, "properties")
-  set_a(list())
-  out
+  # set_a(list())
+  # out <- recursive_key_finder(api_json_resources, "properties")
+  # set_a(list())
+  # out
+  if(is.null(api_json_schema$type)) return()
+  
+  type <- api_json_schema$type
+  if(type == "object"){
+    
+    ## return properties
+    out <- list(names(api_json_schema$properties))
+    names(out) <- if(is.null(api_json_schema$id)) id else api_json_schema$id
+    set_a(c(get_a(), out))
+    ## go deeper
+    lapply(names(api_json_schema$properties), 
+           function(x) get_json_properties(api_json_schema$properties[[x]], 
+                                           id = paste0(api_json_schema$id,".",x))
+           )
+    
+  } else if(type == "array"){
+    
+  } else if(type == "string"){
+
+  }
+
 }
 
 #' Create the API objects from the Discovery API
@@ -317,7 +338,10 @@ create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   
   ## take the json and create a file of structures that will get passed to the functions that need them
   object_schema <- api_json$schemas
-  properties <- lapply(names(object_schema), function(x) get_json_properties(object_schema[[x]]))
-  names(properties) <- names(object_schema)
+  set_a(list())
+  lapply(names(object_schema), 
+         function(x) get_json_properties(object_schema[[x]]))
+  properties <- get_a()
+  set_a(list())
   properties
 }
