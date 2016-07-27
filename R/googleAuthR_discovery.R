@@ -304,22 +304,52 @@ get_json_properties <- function(api_json_schema, id=NULL){
   # if(!is.null(api_json_schema$readOnly)) return()
   
   type <- api_json_schema$type
+  ## make name id
+  id <- if(is.null(api_json_schema$id)) id else api_json_schema$id
   
   if(type == "object"){
-    
     ## return this level properties (and additionalProperties ?)
 
-    id <- if(is.null(api_json_schema$id)) id else api_json_schema$id
-    if(is.null(id)) browser()
-    out <- list(names(api_json_schema$properties))
+    ## only those dimensions that aren't readOnly
+    # find readOnly properties:
+    readOnlyPos <- vapply(names(api_json_schema$properties), 
+                          function(x) {
+                            prop <- api_json_schema$properties[[x]]
+                            if(!is.null(prop$readOnly)) prop$readOnly else FALSE
+                            }, 
+                          logical(1))
+
+    # match non-readOnly
+
+    # find defaults properties:
+    defaults <- vapply(names(api_json_schema$properties), 
+                          function(x) {
+                            prop <- api_json_schema$properties[[x]]
+                            if(!is.null(prop$default)) prop$default else ""
+                          }, 
+                          character(1))
+    
+    # find descriptions of properties:
+    descriptions <- vapply(names(api_json_schema$properties), 
+                       function(x) {
+                         prop <- api_json_schema$properties[[x]]
+                         if(!is.null(prop$description)) prop$description else ""
+                       }, 
+                       character(1))
+    ## readOnly props with defaults and description
+    out <- defaults[names(defaults)[!readOnlyPos]]
+    attr(out, "descriptions") <- descriptions[names(descriptions)[!readOnlyPos]]
+
+    out <- list(c(out, 
+                  description = api_json_schema$description))
+
+    ## append to global list
     names(out) <- id
+    # out$description <- if(!is.null(api_json_schema$description)) api_json_schema$description
     set_a(c(get_a(), out))
     
     ## go deeper in recursion
-    lapply(names(api_json_schema$properties), 
-           function(x) get_json_properties(api_json_schema$properties[[x]], 
-                                           id = paste0(id,".",x))
-           )
+    apply_json_props(api_json_schema$properties, id = id)
     
   } else if(type == "array"){
     
@@ -331,10 +361,8 @@ get_json_properties <- function(api_json_schema, id=NULL){
     names(out) <- id
     set_a(c(get_a(), out))
     
-    lapply(names(array_item$properties), 
-           function(x) get_json_properties(array_item$properties[[x]], 
-                                           id = paste0(id,".",x))
-    )
+    apply_json_props(array_item$properties, id = id)
+
     
   } else if(type == "string"){
 
@@ -355,9 +383,20 @@ create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   ## take the json and create a file of structures that will get passed to the functions that need them
   object_schema <- api_json$schemas
   set_a(list())
-  lapply(names(object_schema), 
-         function(x) get_json_properties(object_schema[[x]]))
+  apply_json_props(object_schema)
   properties <- get_a()
   set_a(list())
   properties
+}
+
+apply_json_props <- function(object_schema, id=NULL){
+  lapply(names(object_schema), 
+         function(x) {
+           idx <- paste0(id,".",x)
+           get_json_properties(object_schema[[x]], id = idx)
+           })
+}
+
+descriptions <- function(x){
+  attr(x, "descriptions")
 }
