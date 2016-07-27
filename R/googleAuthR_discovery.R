@@ -299,7 +299,7 @@ set_a <- function(value) {
 
 # recursive property objects
 get_json_properties <- function(api_json_schema, id=NULL){
-  
+  message(id)
   if(is.null(api_json_schema$type)) return()
   # if(!is.null(api_json_schema$readOnly)) return()
   
@@ -308,25 +308,32 @@ get_json_properties <- function(api_json_schema, id=NULL){
   if(type == "object"){
     
     ## return this level properties (and additionalProperties ?)
+
+    id <- if(is.null(api_json_schema$id)) id else api_json_schema$id
+    if(is.null(id)) browser()
     out <- list(names(api_json_schema$properties))
-    names(out) <- if(is.null(api_json_schema$id)) id else api_json_schema$id
+    names(out) <- id
     set_a(c(get_a(), out))
     
     ## go deeper in recursion
     lapply(names(api_json_schema$properties), 
            function(x) get_json_properties(api_json_schema$properties[[x]], 
-                                           id = paste0(api_json_schema$id,".",x))
+                                           id = paste0(id,".",x))
            )
     
   } else if(type == "array"){
     
     array_item <- api_json_schema$items
-    
+
     if(is.null(array_item$properties)) return()
     ## go deeper in recursion
+    out <- list(names(array_item$properties))
+    names(out) <- id
+    set_a(c(get_a(), out))
+    
     lapply(names(array_item$properties), 
            function(x) get_json_properties(array_item$properties[[x]], 
-                                           id = paste0(id,".",x,".array"))
+                                           id = paste0(id,".",x))
     )
     
   } else if(type == "string"){
