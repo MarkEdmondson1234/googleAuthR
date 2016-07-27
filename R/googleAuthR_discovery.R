@@ -299,12 +299,10 @@ set_a <- function(value) {
 
 # recursive property objects
 get_json_properties <- function(api_json_schema, id=NULL){
-  message(id)
+
   if(is.null(api_json_schema$type)) return()
-  # if(!is.null(api_json_schema$readOnly)) return()
   
   type <- api_json_schema$type
-  ## make name id
   id <- if(is.null(api_json_schema$id)) id else api_json_schema$id
   
   if(type == "object"){
@@ -312,40 +310,29 @@ get_json_properties <- function(api_json_schema, id=NULL){
 
     ## only those dimensions that aren't readOnly
     # find readOnly properties:
-    readOnlyPos <- vapply(names(api_json_schema$properties), 
-                          function(x) {
-                            prop <- api_json_schema$properties[[x]]
-                            if(!is.null(prop$readOnly)) prop$readOnly else FALSE
-                            }, 
-                          logical(1))
-
-    # match non-readOnly
+    readOnlyPos <- extract_attribute(api_json_schema$properties,
+                                     "readOnly",
+                                     logical(1))
 
     # find defaults properties:
-    defaults <- vapply(names(api_json_schema$properties), 
-                          function(x) {
-                            prop <- api_json_schema$properties[[x]]
-                            if(!is.null(prop$default)) prop$default else ""
-                          }, 
-                          character(1))
+    defaults <- extract_attribute(api_json_schema$properties,
+                                  "default",
+                                  character(1))
     
     # find descriptions of properties:
-    descriptions <- vapply(names(api_json_schema$properties), 
-                       function(x) {
-                         prop <- api_json_schema$properties[[x]]
-                         if(!is.null(prop$description)) prop$description else ""
-                       }, 
-                       character(1))
+    descriptions <- extract_attribute(api_json_schema$properties,
+                                      "description",
+                                      character(1))
+    
     ## readOnly props with defaults and description
     out <- defaults[names(defaults)[!readOnlyPos]]
-    attr(out, "descriptions") <- descriptions[names(descriptions)[!readOnlyPos]]
+    attr(out, "description") <- descriptions[names(descriptions)[!readOnlyPos]]
 
     out <- list(c(out, 
                   description = api_json_schema$description))
 
     ## append to global list
     names(out) <- id
-    # out$description <- if(!is.null(api_json_schema$description)) api_json_schema$description
     set_a(c(get_a(), out))
     
     ## go deeper in recursion
@@ -398,5 +385,19 @@ apply_json_props <- function(object_schema, id=NULL){
 }
 
 descriptions <- function(x){
-  attr(x, "descriptions")
+  attr(x, "description")
+}
+
+## extracts a vector of the attribute that lies within a list
+## e.g. a <- list(a = 1, b = 2, c = list(blah = 22), d = list(blah = 33))
+## returns c(22, 33)
+extract_attribute <- function(y, 
+                              attribute = "readOnly", 
+                              type_out = logical(1)){
+  vapply(names(y), 
+         function(x) {
+           prop <- y[[x]]
+           if(!is.null(prop[[attribute]])) prop[[attribute]] else type_out
+         }, 
+         type_out)
 }
