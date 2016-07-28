@@ -2,8 +2,7 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_skeleton
-#'  at 2016-07-28 11:10:56
-#' filename: ./inst/new_api.R
+#' filename: ./inst/test_api.R
 #' api_json: api_json
 #' 
 #' @details 
