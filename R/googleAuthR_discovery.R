@@ -297,6 +297,23 @@ gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   lapply(paste(fd, fp,fb, sep = "\n\n"), add_line, temp)
   
   formatR::tidy_eval(temp, file = filename, width.cutoff = 80)
+  set_global(list())
+  out <- recursive_key_finder(api_json_resources)
+  set_global(list())
+  out
+}
+
+
+
+recursive_key_finder <- function(the_list, key = "methods"){
+
+  if(key %in% names(the_list)){
+    ## success - add to global
+    set_global(c(get_a(), the_list[[key]]))
+  } else {
+    ## recursive
+    lapply(the_list, recursive_key_finder, key = key)
+  }
   
 }
 
