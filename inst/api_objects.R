@@ -2,9 +2,9 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_objects
-#'  at 2016-07-28 13:00:12
+#'  at 2016-07-30 20:23:59
 #' filename: ./inst/api_objects.R
-#' api_json: api_json
+#' api_json: gar_discovery_api analytics v3
 #' 
 #' Objects for use by the functions created by googleAuthR::gar_create_api_skeleton
 

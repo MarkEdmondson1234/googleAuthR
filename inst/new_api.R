@@ -2,9 +2,9 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_skeleton
-#'  at 2016-07-28 11:10:56
+#'  at 2016-07-30 20:24:31
 #' filename: ./inst/new_api.R
-#' api_json: api_json
+#' api_json: gar_discovery_api analytics v3
 #' 
 #' @details 
 #' Authentication scopes used are:

@@ -254,8 +254,6 @@ object_body <- function(properties_name, properties){
 #' @export
 gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   
-  lapply(names(properties), object_params, properties)
-  
   if(is.null(api_json$kind) && api_json$kind != "discovery#restDescription"){
     stop("api_json not recognised from gar_discovery_api")
   }
@@ -297,10 +295,7 @@ gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   lapply(paste(fd, fp,fb, sep = "\n\n"), add_line, temp)
   
   formatR::tidy_eval(temp, file = filename, width.cutoff = 80)
-  set_global(list())
-  out <- recursive_key_finder(api_json_resources)
-  set_global(list())
-  out
+  
 }
 
 
