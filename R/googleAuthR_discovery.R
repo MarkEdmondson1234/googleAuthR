@@ -113,7 +113,7 @@ gar_create_api_skeleton <- function(filename = "./inst/new_api.R",
   ## apis can have methods at varying steps into JSON tree
   ## find the methods to extract into API
   api_method <- get_json_methods(api_json$resources)
-  
+
   fd <- lapply(api_method, function_docs, api_json = api_json)
   fp <- lapply(api_method, function_params, api_json = api_json)
   fb <- lapply(api_method, function_body, api_json = api_json)
@@ -206,9 +206,8 @@ object_docs <- function(properties_name, properties){
 }
 
 function_params <- function(api_json_resource_method, api_json){
-  browser()
   f_name <- gsub(paste0(api_json$name,"."), "", api_json_resource_method$id)
-  make_f_arguments(gsub(paste0(api_json$name,"."), "", api_json_resource_method$id),
+  make_f_arguments(f_name,
                    api_json_resource_method$parameters)
   
   

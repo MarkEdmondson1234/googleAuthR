@@ -86,7 +86,8 @@ make_vars_description <- function(x, api_json_resource_method){
 get_json_methods <- function(api_json_resources){
   
   set_global(list())
-  out <- recursive_key_finder(api_json_resources)
+  lapply(api_json_resources, recursive_key_finder, key = "methods")
+  out <- get_global()
   set_global(list())
   out
 }
