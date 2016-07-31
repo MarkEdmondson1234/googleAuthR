@@ -73,10 +73,11 @@ make_pars_entry <- function(x, api_json_resource_method){
   paste0("\t\t`",x, "` = ", make.names(x), "\n", collapse = "")
 }
 
-make_vars_description <- function(x, 
-                                  api_json_resource_method){
+make_vars_description <- function(x, api_json_resource_method){
   
-  paste0("@param ", make.names(x), " ", api_json_resource_method[[x]]$description,"\n", 
+  desc <- first_sentence(api_json_resource_method[[x]]$description)
+  
+  paste0("@param ", make.names(x), " ", desc,"\n", 
          collapse = "")
   
 }
@@ -223,4 +224,14 @@ build_entry <- function(api_json_schema, id){
   ## append to global list
   names(out) <- id
   set_global(c(get_global(), out))
+}
+
+first_sentence <- function(string){
+  
+  vapply(string, 
+         function(x) {
+           if(nchar(x) == 0) return("")
+           unlist(strsplit(x, "\\."))[[1]]
+         }, 
+         character(1))
 }

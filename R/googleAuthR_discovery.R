@@ -158,6 +158,8 @@ function_docs <- function(api_json_resource_method, api_json){
   docs
 }
 
+
+
 object_docs <- function(properties_name, properties){
   
   prop <- properties[[properties_name]]
@@ -166,6 +168,14 @@ object_docs <- function(properties_name, properties){
     api_desc <- prop[["description_api"]]
   } else {
     api_desc <- "No description"
+  }
+  
+  if(length(prop$description) > 0 && nchar(prop$description[[1]]) > 0){
+    ## First sentence only
+    # browser()
+    param_description <- first_sentence(prop$description)
+  } else {
+    param_description <- NULL
   }
   
   message(properties_name)
@@ -180,8 +190,9 @@ object_docs <- function(properties_name, properties){
     "#' \n",
     "#' ", paste(collapse = "\n#' ", sep = "\n#'",
                  paste("@param", 
-                       setdiff(names(prop[["value"]]), c("description_api","kind")),
-                       prop$description
+                       setdiff(names(prop[["value"]]), c("description_api","kind","type")),
+                       ## First sentence only
+                       param_description
                  )
             ),
     "\n",
@@ -195,7 +206,8 @@ object_docs <- function(properties_name, properties){
 }
 
 function_params <- function(api_json_resource_method, api_json){
-  
+  browser()
+  f_name <- gsub(paste0(api_json$name,"."), "", api_json_resource_method$id)
   make_f_arguments(gsub(paste0(api_json$name,"."), "", api_json_resource_method$id),
                    api_json_resource_method$parameters)
   
