@@ -128,6 +128,16 @@ gar_create_api_skeleton <- function(filename = "./inst/new_api.R",
 
 function_docs <- function(api_json_resource_method, api_json){
   
+  order_names <- c(api_json_resource_method$parameterOrder, 
+                   setdiff(names(api_json_resource_method$parameters), api_json_resource_method$parameterOrder))
+  ordered_method_parameters <- api_json_resource_method$parameters[order_names]
+  
+  params <- paste(collapse = "\n#' ", sep = "\n#'",
+                  lapply(names(ordered_method_parameters), 
+                         make_vars_description, 
+                         api_json_resource_method=ordered_method_parameters)
+  )
+  
   docs <- paste0(
     "\t\n\n",
     "#' ", api_json_resource_method$description, "\n",
@@ -146,11 +156,7 @@ function_docs <- function(api_json_resource_method, api_json){
     "#' Then run \\code{googleAuthR::gar_auth()} to authenticate.\n",
     "#' See \\code{\\link[googleAuthR]{gar_auth}} for details. \n",
     "#' \n",
-    "#' ", paste(collapse = "\n#' ", sep = "\n#'",
-                 lapply(names(api_json_resource_method$parameters), 
-                        make_vars_description, 
-                        api_json_resource_method=api_json_resource_method$parameters)
-                 ),
+    "#' ", params,
     "#' @importFrom googleAuthR gar_api_generator\n",
     "#' @export\n"
   )
@@ -206,9 +212,13 @@ object_docs <- function(properties_name, properties){
 }
 
 function_params <- function(api_json_resource_method, api_json){
+  
+  order_names <- c(api_json_resource_method$parameterOrder, 
+                   setdiff(names(api_json_resource_method$parameters), api_json_resource_method$parameterOrder))
+  ordered_method_parameters <- api_json_resource_method$parameters[order_names]
+  
   f_name <- gsub(paste0(api_json$name,"."), "", api_json_resource_method$id)
-  make_f_arguments(f_name,
-                   api_json_resource_method$parameters)
+  make_f_arguments(f_name, ordered_method_parameters)
   
   
 }

@@ -2,7 +2,7 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_skeleton
-#'  at 2016-07-31 22:45:52
+#'  at 2016-07-31 23:02:19
 #' filename: ./inst/new_api.R
 #' api_json: gar_discovery_api analytics v3
 #' 
@@ -41,23 +41,23 @@ NULL
 #' Then run \code{googleAuthR::gar_auth()} to authenticate.
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
-#' @param dimensions A comma-separated list of Analytics dimensions
-#' @param end.date End date for fetching Analytics data
-#' @param filters A comma-separated list of dimension or metric filters to be applied to Analytics data
 #' @param ids Unique table ID for retrieving Analytics data
+#' @param start.date Start date for fetching Analytics data
+#' @param end.date End date for fetching Analytics data
+#' @param metrics A comma-separated list of Analytics metrics
+#' @param dimensions A comma-separated list of Analytics dimensions
+#' @param filters A comma-separated list of dimension or metric filters to be applied to Analytics data
 #' @param include.empty.rows The response will include empty rows if this parameter is set to true, the default is true
 #' @param max.results The maximum number of entries to include in this feed
-#' @param metrics A comma-separated list of Analytics metrics
 #' @param output The selected format for the response
 #' @param samplingLevel The desired sampling level
 #' @param segment An Analytics segment to be applied to data
 #' @param sort A comma-separated list of dimensions or metrics that determine the sort order for Analytics data
-#' @param start.date Start date for fetching Analytics data
 #' @param start.index An index of the first entity to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-data.ga.get <- function(dimensions, end.date, filters, ids, include.empty.rows, max.results, 
-    metrics, output, samplingLevel, segment, sort, start.date, start.index) {
+data.ga.get <- function(ids, start.date, end.date, metrics, dimensions, filters, 
+    include.empty.rows, max.results, output, samplingLevel, segment, sort, start.index) {
     url <- "https://www.googleapis.com/analytics/v3/data/ga"
     # analytics.data.ga.get
     f <- gar_api_generator(url, "GET", pars_args = list(dimensions = dimensions, 
@@ -85,20 +85,20 @@ data.ga.get <- function(dimensions, end.date, filters, ids, include.empty.rows, 
 #' Then run \code{googleAuthR::gar_auth()} to authenticate.
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
-#' @param dimensions A comma-separated list of Multi-Channel Funnels dimensions
-#' @param end.date End date for fetching Analytics data
-#' @param filters A comma-separated list of dimension or metric filters to be applied to the Analytics data
 #' @param ids Unique table ID for retrieving Analytics data
-#' @param max.results The maximum number of entries to include in this feed
+#' @param start.date Start date for fetching Analytics data
+#' @param end.date End date for fetching Analytics data
 #' @param metrics A comma-separated list of Multi-Channel Funnels metrics
+#' @param dimensions A comma-separated list of Multi-Channel Funnels dimensions
+#' @param filters A comma-separated list of dimension or metric filters to be applied to the Analytics data
+#' @param max.results The maximum number of entries to include in this feed
 #' @param samplingLevel The desired sampling level
 #' @param sort A comma-separated list of dimensions or metrics that determine the sort order for the Analytics data
-#' @param start.date Start date for fetching Analytics data
 #' @param start.index An index of the first entity to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-data.mcf.get <- function(dimensions, end.date, filters, ids, max.results, metrics, 
-    samplingLevel, sort, start.date, start.index) {
+data.mcf.get <- function(ids, start.date, end.date, metrics, dimensions, filters, 
+    max.results, samplingLevel, sort, start.index) {
     url <- "https://www.googleapis.com/analytics/v3/data/mcf"
     # analytics.data.mcf.get
     f <- gar_api_generator(url, "GET", pars_args = list(dimensions = dimensions, 
@@ -125,15 +125,15 @@ data.mcf.get <- function(dimensions, end.date, filters, ids, max.results, metric
 #' Then run \code{googleAuthR::gar_auth()} to authenticate.
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
+#' @param ids Unique table ID for retrieving real time data
+#' @param metrics A comma-separated list of real time metrics
 #' @param dimensions A comma-separated list of real time dimensions
 #' @param filters A comma-separated list of dimension or metric filters to be applied to real time data
-#' @param ids Unique table ID for retrieving real time data
 #' @param max.results The maximum number of entries to include in this feed
-#' @param metrics A comma-separated list of real time metrics
 #' @param sort A comma-separated list of dimensions or metrics that determine the sort order for real time data
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-data.realtime.get <- function(dimensions, filters, ids, max.results, metrics, sort) {
+data.realtime.get <- function(ids, metrics, dimensions, filters, max.results, sort) {
     url <- "https://www.googleapis.com/analytics/v3/data/realtime"
     # analytics.data.realtime.get
     f <- gar_api_generator(url, "GET", pars_args = list(dimensions = dimensions, 
@@ -334,13 +334,13 @@ management.accounts.list <- function(max.results, start.index) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account Id for the custom data sources to retrieve
+#' @param webPropertyId Web property Id for the custom data sources to retrieve
 #' @param max.results The maximum number of custom data sources to include in this response
 #' @param start.index A 1-based index of the first custom data source to retrieve
-#' @param webPropertyId Web property Id for the custom data sources to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customDataSources.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
+management.customDataSources.list <- function(accountId, webPropertyId, max.results, 
+    start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources", 
         accountId, webPropertyId)
     # analytics.management.customDataSources.list
@@ -367,11 +367,11 @@ management.customDataSources.list <- function(accountId, max.results, start.inde
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom dimension to retrieve
-#' @param customDimensionId The ID of the custom dimension to retrieve
 #' @param webPropertyId Web property ID for the custom dimension to retrieve
+#' @param customDimensionId The ID of the custom dimension to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customDimensions.get <- function(accountId, customDimensionId, webPropertyId) {
+management.customDimensions.get <- function(accountId, webPropertyId, customDimensionId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions/%s", 
         accountId, customDimensionId, webPropertyId)
     # analytics.management.customDimensions.get
@@ -425,13 +425,13 @@ management.customDimensions.insert <- function(accountId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom dimensions to retrieve
+#' @param webPropertyId Web property ID for the custom dimensions to retrieve
 #' @param max.results The maximum number of custom dimensions to include in this response
 #' @param start.index An index of the first entity to retrieve
-#' @param webPropertyId Web property ID for the custom dimensions to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customDimensions.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
+management.customDimensions.list <- function(accountId, webPropertyId, max.results, 
+    start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions", 
         accountId, webPropertyId)
     # analytics.management.customDimensions.list
@@ -457,13 +457,13 @@ management.customDimensions.list <- function(accountId, max.results, start.index
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom dimension to update
+#' @param webPropertyId Web property ID for the custom dimension to update
 #' @param customDimensionId Custom dimension ID for the custom dimension to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom dimension being linked to a custom data source / data set
-#' @param webPropertyId Web property ID for the custom dimension to update
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customDimensions.patch <- function(accountId, customDimensionId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
+management.customDimensions.patch <- function(accountId, webPropertyId, customDimensionId, 
+    ignoreCustomDataSourceLinks) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions/%s", 
         accountId, customDimensionId, webPropertyId)
     # analytics.management.customDimensions.patch
@@ -489,13 +489,13 @@ management.customDimensions.patch <- function(accountId, customDimensionId, igno
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom dimension to update
+#' @param webPropertyId Web property ID for the custom dimension to update
 #' @param customDimensionId Custom dimension ID for the custom dimension to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom dimension being linked to a custom data source / data set
-#' @param webPropertyId Web property ID for the custom dimension to update
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customDimensions.update <- function(accountId, customDimensionId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
+management.customDimensions.update <- function(accountId, webPropertyId, customDimensionId, 
+    ignoreCustomDataSourceLinks) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions/%s", 
         accountId, customDimensionId, webPropertyId)
     # analytics.management.customDimensions.update
@@ -522,11 +522,11 @@ management.customDimensions.update <- function(accountId, customDimensionId, ign
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom metric to retrieve
-#' @param customMetricId The ID of the custom metric to retrieve
 #' @param webPropertyId Web property ID for the custom metric to retrieve
+#' @param customMetricId The ID of the custom metric to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customMetrics.get <- function(accountId, customMetricId, webPropertyId) {
+management.customMetrics.get <- function(accountId, webPropertyId, customMetricId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics/%s", 
         accountId, customMetricId, webPropertyId)
     # analytics.management.customMetrics.get
@@ -580,12 +580,13 @@ management.customMetrics.insert <- function(accountId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom metrics to retrieve
+#' @param webPropertyId Web property ID for the custom metrics to retrieve
 #' @param max.results The maximum number of custom metrics to include in this response
 #' @param start.index An index of the first entity to retrieve
-#' @param webPropertyId Web property ID for the custom metrics to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customMetrics.list <- function(accountId, max.results, start.index, webPropertyId) {
+management.customMetrics.list <- function(accountId, webPropertyId, max.results, 
+    start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics", 
         accountId, webPropertyId)
     # analytics.management.customMetrics.list
@@ -611,13 +612,13 @@ management.customMetrics.list <- function(accountId, max.results, start.index, w
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom metric to update
+#' @param webPropertyId Web property ID for the custom metric to update
 #' @param customMetricId Custom metric ID for the custom metric to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom metric being linked to a custom data source / data set
-#' @param webPropertyId Web property ID for the custom metric to update
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customMetrics.patch <- function(accountId, customMetricId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
+management.customMetrics.patch <- function(accountId, webPropertyId, customMetricId, 
+    ignoreCustomDataSourceLinks) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics/%s", 
         accountId, customMetricId, webPropertyId)
     # analytics.management.customMetrics.patch
@@ -643,13 +644,13 @@ management.customMetrics.patch <- function(accountId, customMetricId, ignoreCust
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the custom metric to update
+#' @param webPropertyId Web property ID for the custom metric to update
 #' @param customMetricId Custom metric ID for the custom metric to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom metric being linked to a custom data source / data set
-#' @param webPropertyId Web property ID for the custom metric to update
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.customMetrics.update <- function(accountId, customMetricId, ignoreCustomDataSourceLinks, 
-    webPropertyId) {
+management.customMetrics.update <- function(accountId, webPropertyId, customMetricId, 
+    ignoreCustomDataSourceLinks) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics/%s", 
         accountId, customMetricId, webPropertyId)
     # analytics.management.customMetrics.update
@@ -676,12 +677,12 @@ management.customMetrics.update <- function(accountId, customMetricId, ignoreCus
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to which the experiment belongs
-#' @param experimentId ID of the experiment to delete
-#' @param profileId View (Profile) ID to which the experiment belongs
 #' @param webPropertyId Web property ID to which the experiment belongs
+#' @param profileId View (Profile) ID to which the experiment belongs
+#' @param experimentId ID of the experiment to delete
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.experiments.delete <- function(accountId, experimentId, profileId, webPropertyId) {
+management.experiments.delete <- function(accountId, webPropertyId, profileId, experimentId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.delete
@@ -708,12 +709,12 @@ management.experiments.delete <- function(accountId, experimentId, profileId, we
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve the experiment for
-#' @param experimentId Experiment ID to retrieve the experiment for
-#' @param profileId View (Profile) ID to retrieve the experiment for
 #' @param webPropertyId Web property ID to retrieve the experiment for
+#' @param profileId View (Profile) ID to retrieve the experiment for
+#' @param experimentId Experiment ID to retrieve the experiment for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.experiments.get <- function(accountId, experimentId, profileId, webPropertyId) {
+management.experiments.get <- function(accountId, webPropertyId, profileId, experimentId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.get
@@ -739,11 +740,11 @@ management.experiments.get <- function(accountId, experimentId, profileId, webPr
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to create the experiment for
-#' @param profileId View (Profile) ID to create the experiment for
 #' @param webPropertyId Web property ID to create the experiment for
+#' @param profileId View (Profile) ID to create the experiment for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.experiments.insert <- function(accountId, profileId, webPropertyId) {
+management.experiments.insert <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments", 
         accountId, profileId, webPropertyId)
     # analytics.management.experiments.insert
@@ -770,14 +771,14 @@ management.experiments.insert <- function(accountId, profileId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve experiments for
-#' @param max.results The maximum number of experiments to include in this response
-#' @param profileId View (Profile) ID to retrieve experiments for
-#' @param start.index An index of the first experiment to retrieve
 #' @param webPropertyId Web property ID to retrieve experiments for
+#' @param profileId View (Profile) ID to retrieve experiments for
+#' @param max.results The maximum number of experiments to include in this response
+#' @param start.index An index of the first experiment to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.experiments.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
+management.experiments.list <- function(accountId, webPropertyId, profileId, max.results, 
+    start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments", 
         accountId, profileId, webPropertyId)
     # analytics.management.experiments.list
@@ -804,12 +805,12 @@ management.experiments.list <- function(accountId, max.results, profileId, start
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID of the experiment to update
-#' @param experimentId Experiment ID of the experiment to update
-#' @param profileId View (Profile) ID of the experiment to update
 #' @param webPropertyId Web property ID of the experiment to update
+#' @param profileId View (Profile) ID of the experiment to update
+#' @param experimentId Experiment ID of the experiment to update
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.experiments.patch <- function(accountId, experimentId, profileId, webPropertyId) {
+management.experiments.patch <- function(accountId, webPropertyId, profileId, experimentId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.patch
@@ -835,12 +836,12 @@ management.experiments.patch <- function(accountId, experimentId, profileId, web
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID of the experiment to update
-#' @param experimentId Experiment ID of the experiment to update
-#' @param profileId View (Profile) ID of the experiment to update
 #' @param webPropertyId Web property ID of the experiment to update
+#' @param profileId View (Profile) ID of the experiment to update
+#' @param experimentId Experiment ID of the experiment to update
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.experiments.update <- function(accountId, experimentId, profileId, webPropertyId) {
+management.experiments.update <- function(accountId, webPropertyId, profileId, experimentId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s", 
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.update
@@ -1037,12 +1038,12 @@ management.filters.update <- function(accountId, filterId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve the goal for
-#' @param goalId Goal ID to retrieve the goal for
-#' @param profileId View (Profile) ID to retrieve the goal for
 #' @param webPropertyId Web property ID to retrieve the goal for
+#' @param profileId View (Profile) ID to retrieve the goal for
+#' @param goalId Goal ID to retrieve the goal for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.goals.get <- function(accountId, goalId, profileId, webPropertyId) {
+management.goals.get <- function(accountId, webPropertyId, profileId, goalId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
         accountId, goalId, profileId, webPropertyId)
     # analytics.management.goals.get
@@ -1067,11 +1068,11 @@ management.goals.get <- function(accountId, goalId, profileId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to create the goal for
-#' @param profileId View (Profile) ID to create the goal for
 #' @param webPropertyId Web property ID to create the goal for
+#' @param profileId View (Profile) ID to create the goal for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.goals.insert <- function(accountId, profileId, webPropertyId) {
+management.goals.insert <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals", 
         accountId, profileId, webPropertyId)
     # analytics.management.goals.insert
@@ -1098,14 +1099,14 @@ management.goals.insert <- function(accountId, profileId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve goals for
-#' @param max.results The maximum number of goals to include in this response
-#' @param profileId View (Profile) ID to retrieve goals for
-#' @param start.index An index of the first goal to retrieve
 #' @param webPropertyId Web property ID to retrieve goals for
+#' @param profileId View (Profile) ID to retrieve goals for
+#' @param max.results The maximum number of goals to include in this response
+#' @param start.index An index of the first goal to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.goals.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
+management.goals.list <- function(accountId, webPropertyId, profileId, max.results, 
+    start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals", 
         accountId, profileId, webPropertyId)
     # analytics.management.goals.list
@@ -1131,12 +1132,12 @@ management.goals.list <- function(accountId, max.results, profileId, start.index
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to update the goal
-#' @param goalId Index of the goal to be updated
-#' @param profileId View (Profile) ID to update the goal
 #' @param webPropertyId Web property ID to update the goal
+#' @param profileId View (Profile) ID to update the goal
+#' @param goalId Index of the goal to be updated
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.goals.patch <- function(accountId, goalId, profileId, webPropertyId) {
+management.goals.patch <- function(accountId, webPropertyId, profileId, goalId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
         accountId, goalId, profileId, webPropertyId)
     # analytics.management.goals.patch
@@ -1161,12 +1162,12 @@ management.goals.patch <- function(accountId, goalId, profileId, webPropertyId) 
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to update the goal
-#' @param goalId Index of the goal to be updated
-#' @param profileId View (Profile) ID to update the goal
 #' @param webPropertyId Web property ID to update the goal
+#' @param profileId View (Profile) ID to update the goal
+#' @param goalId Index of the goal to be updated
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.goals.update <- function(accountId, goalId, profileId, webPropertyId) {
+management.goals.update <- function(accountId, webPropertyId, profileId, goalId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
         accountId, goalId, profileId, webPropertyId)
     # analytics.management.goals.update
@@ -1191,12 +1192,13 @@ management.goals.update <- function(accountId, goalId, profileId, webPropertyId)
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to which the profile filter link belongs
-#' @param linkId ID of the profile filter link to delete
-#' @param profileId Profile ID to which the filter link belongs
 #' @param webPropertyId Web property Id to which the profile filter link belongs
+#' @param profileId Profile ID to which the filter link belongs
+#' @param linkId ID of the profile filter link to delete
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileFilterLinks.delete <- function(accountId, linkId, profileId, webPropertyId) {
+management.profileFilterLinks.delete <- function(accountId, webPropertyId, profileId, 
+    linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.delete
@@ -1222,12 +1224,13 @@ management.profileFilterLinks.delete <- function(accountId, linkId, profileId, w
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve profile filter link for
-#' @param linkId ID of the profile filter link
-#' @param profileId Profile ID to retrieve filter link for
 #' @param webPropertyId Web property Id to retrieve profile filter link for
+#' @param profileId Profile ID to retrieve filter link for
+#' @param linkId ID of the profile filter link
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileFilterLinks.get <- function(accountId, linkId, profileId, webPropertyId) {
+management.profileFilterLinks.get <- function(accountId, webPropertyId, profileId, 
+    linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.get
@@ -1252,11 +1255,11 @@ management.profileFilterLinks.get <- function(accountId, linkId, profileId, webP
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to create profile filter link for
-#' @param profileId Profile ID to create filter link for
 #' @param webPropertyId Web property Id to create profile filter link for
+#' @param profileId Profile ID to create filter link for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileFilterLinks.insert <- function(accountId, profileId, webPropertyId) {
+management.profileFilterLinks.insert <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks", 
         accountId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.insert
@@ -1282,14 +1285,14 @@ management.profileFilterLinks.insert <- function(accountId, profileId, webProper
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve profile filter links for
-#' @param max.results The maximum number of profile filter links to include in this response
-#' @param profileId Profile ID to retrieve filter links for
-#' @param start.index An index of the first entity to retrieve
 #' @param webPropertyId Web property Id for profile filter links for
+#' @param profileId Profile ID to retrieve filter links for
+#' @param max.results The maximum number of profile filter links to include in this response
+#' @param start.index An index of the first entity to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileFilterLinks.list <- function(accountId, max.results, profileId, 
-    start.index, webPropertyId) {
+management.profileFilterLinks.list <- function(accountId, webPropertyId, profileId, 
+    max.results, start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks", 
         accountId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.list
@@ -1315,12 +1318,13 @@ management.profileFilterLinks.list <- function(accountId, max.results, profileId
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to which profile filter link belongs
-#' @param linkId ID of the profile filter link to be updated
-#' @param profileId Profile ID to which filter link belongs
 #' @param webPropertyId Web property Id to which profile filter link belongs
+#' @param profileId Profile ID to which filter link belongs
+#' @param linkId ID of the profile filter link to be updated
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileFilterLinks.patch <- function(accountId, linkId, profileId, webPropertyId) {
+management.profileFilterLinks.patch <- function(accountId, webPropertyId, profileId, 
+    linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.patch
@@ -1345,12 +1349,13 @@ management.profileFilterLinks.patch <- function(accountId, linkId, profileId, we
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to which profile filter link belongs
-#' @param linkId ID of the profile filter link to be updated
-#' @param profileId Profile ID to which filter link belongs
 #' @param webPropertyId Web property Id to which profile filter link belongs
+#' @param profileId Profile ID to which filter link belongs
+#' @param linkId ID of the profile filter link to be updated
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileFilterLinks.update <- function(accountId, linkId, profileId, webPropertyId) {
+management.profileFilterLinks.update <- function(accountId, webPropertyId, profileId, 
+    linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/profileFilterLinks/%s", 
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.update
@@ -1375,12 +1380,13 @@ management.profileFilterLinks.update <- function(accountId, linkId, profileId, w
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to delete the user link for
-#' @param linkId Link ID to delete the user link for
-#' @param profileId View (Profile) ID to delete the user link for
 #' @param webPropertyId Web Property ID to delete the user link for
+#' @param profileId View (Profile) ID to delete the user link for
+#' @param linkId Link ID to delete the user link for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileUserLinks.delete <- function(accountId, linkId, profileId, webPropertyId) {
+management.profileUserLinks.delete <- function(accountId, webPropertyId, profileId, 
+    linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks/%s", 
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.delete
@@ -1405,11 +1411,11 @@ management.profileUserLinks.delete <- function(accountId, linkId, profileId, web
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to create the user link for
-#' @param profileId View (Profile) ID to create the user link for
 #' @param webPropertyId Web Property ID to create the user link for
+#' @param profileId View (Profile) ID to create the user link for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileUserLinks.insert <- function(accountId, profileId, webPropertyId) {
+management.profileUserLinks.insert <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks", 
         accountId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.insert
@@ -1435,14 +1441,14 @@ management.profileUserLinks.insert <- function(accountId, profileId, webProperty
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID which the given view (profile) belongs to
-#' @param max.results The maximum number of profile-user links to include in this response
-#' @param profileId View (Profile) ID to retrieve the profile-user links for
-#' @param start.index An index of the first profile-user link to retrieve
 #' @param webPropertyId Web Property ID which the given view (profile) belongs to
+#' @param profileId View (Profile) ID to retrieve the profile-user links for
+#' @param max.results The maximum number of profile-user links to include in this response
+#' @param start.index An index of the first profile-user link to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileUserLinks.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
+management.profileUserLinks.list <- function(accountId, webPropertyId, profileId, 
+    max.results, start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks", 
         accountId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.list
@@ -1468,12 +1474,13 @@ management.profileUserLinks.list <- function(accountId, max.results, profileId, 
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to update the user link for
-#' @param linkId Link ID to update the user link for
-#' @param profileId View (Profile ID) to update the user link for
 #' @param webPropertyId Web Property ID to update the user link for
+#' @param profileId View (Profile ID) to update the user link for
+#' @param linkId Link ID to update the user link for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profileUserLinks.update <- function(accountId, linkId, profileId, webPropertyId) {
+management.profileUserLinks.update <- function(accountId, webPropertyId, profileId, 
+    linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/entityUserLinks/%s", 
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.update
@@ -1498,11 +1505,11 @@ management.profileUserLinks.update <- function(accountId, linkId, profileId, web
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to delete the view (profile) for
-#' @param profileId ID of the view (profile) to be deleted
 #' @param webPropertyId Web property ID to delete the view (profile) for
+#' @param profileId ID of the view (profile) to be deleted
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profiles.delete <- function(accountId, profileId, webPropertyId) {
+management.profiles.delete <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.delete
@@ -1528,11 +1535,11 @@ management.profiles.delete <- function(accountId, profileId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve the view (profile) for
-#' @param profileId View (Profile) ID to retrieve the view (profile) for
 #' @param webPropertyId Web property ID to retrieve the view (profile) for
+#' @param profileId View (Profile) ID to retrieve the view (profile) for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profiles.get <- function(accountId, profileId, webPropertyId) {
+management.profiles.get <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.get
@@ -1587,12 +1594,12 @@ management.profiles.insert <- function(accountId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID for the view (profiles) to retrieve
+#' @param webPropertyId Web property ID for the views (profiles) to retrieve
 #' @param max.results The maximum number of views (profiles) to include in this response
 #' @param start.index An index of the first entity to retrieve
-#' @param webPropertyId Web property ID for the views (profiles) to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profiles.list <- function(accountId, max.results, start.index, webPropertyId) {
+management.profiles.list <- function(accountId, webPropertyId, max.results, start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles", 
         accountId, webPropertyId)
     # analytics.management.profiles.list
@@ -1618,11 +1625,11 @@ management.profiles.list <- function(accountId, max.results, start.index, webPro
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to which the view (profile) belongs
-#' @param profileId ID of the view (profile) to be updated
 #' @param webPropertyId Web property ID to which the view (profile) belongs
+#' @param profileId ID of the view (profile) to be updated
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profiles.patch <- function(accountId, profileId, webPropertyId) {
+management.profiles.patch <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.patch
@@ -1647,11 +1654,11 @@ management.profiles.patch <- function(accountId, profileId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to which the view (profile) belongs
-#' @param profileId ID of the view (profile) to be updated
 #' @param webPropertyId Web property ID to which the view (profile) belongs
+#' @param profileId ID of the view (profile) to be updated
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.profiles.update <- function(accountId, profileId, webPropertyId) {
+management.profiles.update <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.update
@@ -1706,13 +1713,13 @@ management.segments.list <- function(max.results, start.index) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to delete the unsampled report for
+#' @param webPropertyId Web property ID to delete the unsampled reports for
 #' @param profileId View (Profile) ID to delete the unsampled report for
 #' @param unsampledReportId ID of the unsampled report to be deleted
-#' @param webPropertyId Web property ID to delete the unsampled reports for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.unsampledReports.delete <- function(accountId, profileId, unsampledReportId, 
-    webPropertyId) {
+management.unsampledReports.delete <- function(accountId, webPropertyId, profileId, 
+    unsampledReportId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports/%s", 
         accountId, profileId, unsampledReportId, webPropertyId)
     # analytics.management.unsampledReports.delete
@@ -1739,13 +1746,13 @@ management.unsampledReports.delete <- function(accountId, profileId, unsampledRe
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve unsampled report for
+#' @param webPropertyId Web property ID to retrieve unsampled reports for
 #' @param profileId View (Profile) ID to retrieve unsampled report for
 #' @param unsampledReportId ID of the unsampled report to retrieve
-#' @param webPropertyId Web property ID to retrieve unsampled reports for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.unsampledReports.get <- function(accountId, profileId, unsampledReportId, 
-    webPropertyId) {
+management.unsampledReports.get <- function(accountId, webPropertyId, profileId, 
+    unsampledReportId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports/%s", 
         accountId, profileId, unsampledReportId, webPropertyId)
     # analytics.management.unsampledReports.get
@@ -1771,11 +1778,11 @@ management.unsampledReports.get <- function(accountId, profileId, unsampledRepor
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to create the unsampled report for
-#' @param profileId View (Profile) ID to create the unsampled report for
 #' @param webPropertyId Web property ID to create the unsampled report for
+#' @param profileId View (Profile) ID to create the unsampled report for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.unsampledReports.insert <- function(accountId, profileId, webPropertyId) {
+management.unsampledReports.insert <- function(accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports", 
         accountId, profileId, webPropertyId)
     # analytics.management.unsampledReports.insert
@@ -1802,14 +1809,14 @@ management.unsampledReports.insert <- function(accountId, profileId, webProperty
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to retrieve unsampled reports for
-#' @param max.results The maximum number of unsampled reports to include in this response
-#' @param profileId View (Profile) ID to retrieve unsampled reports for
-#' @param start.index An index of the first unsampled report to retrieve
 #' @param webPropertyId Web property ID to retrieve unsampled reports for
+#' @param profileId View (Profile) ID to retrieve unsampled reports for
+#' @param max.results The maximum number of unsampled reports to include in this response
+#' @param start.index An index of the first unsampled report to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.unsampledReports.list <- function(accountId, max.results, profileId, start.index, 
-    webPropertyId) {
+management.unsampledReports.list <- function(accountId, webPropertyId, profileId, 
+    max.results, start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/unsampledReports", 
         accountId, profileId, webPropertyId)
     # analytics.management.unsampledReports.list
@@ -1836,11 +1843,11 @@ management.unsampledReports.list <- function(accountId, max.results, profileId, 
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account Id for the uploads to be deleted
-#' @param customDataSourceId Custom data source Id for the uploads to be deleted
 #' @param webPropertyId Web property Id for the uploads to be deleted
+#' @param customDataSourceId Custom data source Id for the uploads to be deleted
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.uploads.deleteUploadData <- function(accountId, customDataSourceId, webPropertyId) {
+management.uploads.deleteUploadData <- function(accountId, webPropertyId, customDataSourceId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/deleteUploadData", 
         accountId, customDataSourceId, webPropertyId)
     # analytics.management.uploads.deleteUploadData
@@ -1867,12 +1874,13 @@ management.uploads.deleteUploadData <- function(accountId, customDataSourceId, w
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account Id for the upload to retrieve
+#' @param webPropertyId Web property Id for the upload to retrieve
 #' @param customDataSourceId Custom data source Id for upload to retrieve
 #' @param uploadId Upload Id to retrieve
-#' @param webPropertyId Web property Id for the upload to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.uploads.get <- function(accountId, customDataSourceId, uploadId, webPropertyId) {
+management.uploads.get <- function(accountId, webPropertyId, customDataSourceId, 
+    uploadId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/uploads/%s", 
         accountId, customDataSourceId, uploadId, webPropertyId)
     # analytics.management.uploads.get
@@ -1899,14 +1907,14 @@ management.uploads.get <- function(accountId, customDataSourceId, uploadId, webP
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account Id for the uploads to retrieve
+#' @param webPropertyId Web property Id for the uploads to retrieve
 #' @param customDataSourceId Custom data source Id for uploads to retrieve
 #' @param max.results The maximum number of uploads to include in this response
 #' @param start.index A 1-based index of the first upload to retrieve
-#' @param webPropertyId Web property Id for the uploads to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.uploads.list <- function(accountId, customDataSourceId, max.results, start.index, 
-    webPropertyId) {
+management.uploads.list <- function(accountId, webPropertyId, customDataSourceId, 
+    max.results, start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/uploads", 
         accountId, customDataSourceId, webPropertyId)
     # analytics.management.uploads.list
@@ -1933,11 +1941,11 @@ management.uploads.list <- function(accountId, customDataSourceId, max.results, 
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account Id associated with the upload
-#' @param customDataSourceId Custom data source Id to which the data being uploaded belongs
 #' @param webPropertyId Web property UA-string associated with the upload
+#' @param customDataSourceId Custom data source Id to which the data being uploaded belongs
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.uploads.uploadData <- function(accountId, customDataSourceId, webPropertyId) {
+management.uploads.uploadData <- function(accountId, webPropertyId, customDataSourceId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDataSources/%s/uploads", 
         accountId, customDataSourceId, webPropertyId)
     # analytics.management.uploads.uploadData
@@ -1962,12 +1970,11 @@ management.uploads.uploadData <- function(accountId, customDataSourceId, webProp
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId ID of the account which the given web property belongs to
-#' @param webPropertyAdWordsLinkId Web property AdWords link ID
 #' @param webPropertyId Web property ID to delete the AdWords link for
+#' @param webPropertyAdWordsLinkId Web property AdWords link ID
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webPropertyAdWordsLinks.delete <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
+management.webPropertyAdWordsLinks.delete <- function(accountId, webPropertyId, webPropertyAdWordsLinkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.delete
@@ -1993,12 +2000,11 @@ management.webPropertyAdWordsLinks.delete <- function(accountId, webPropertyAdWo
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId ID of the account which the given web property belongs to
-#' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @param webPropertyId Web property ID to retrieve the AdWords link for
+#' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webPropertyAdWordsLinks.get <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
+management.webPropertyAdWordsLinks.get <- function(accountId, webPropertyId, webPropertyAdWordsLinkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.get
@@ -2052,13 +2058,13 @@ management.webPropertyAdWordsLinks.insert <- function(accountId, webPropertyId) 
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId ID of the account which the given web property belongs to
+#' @param webPropertyId Web property ID to retrieve the AdWords links for
 #' @param max.results The maximum number of webProperty-AdWords links to include in this response
 #' @param start.index An index of the first webProperty-AdWords link to retrieve
-#' @param webPropertyId Web property ID to retrieve the AdWords links for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webPropertyAdWordsLinks.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
+management.webPropertyAdWordsLinks.list <- function(accountId, webPropertyId, max.results, 
+    start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks", 
         accountId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.list
@@ -2084,12 +2090,11 @@ management.webPropertyAdWordsLinks.list <- function(accountId, max.results, star
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId ID of the account which the given web property belongs to
-#' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @param webPropertyId Web property ID to retrieve the AdWords link for
+#' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webPropertyAdWordsLinks.patch <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
+management.webPropertyAdWordsLinks.patch <- function(accountId, webPropertyId, webPropertyAdWordsLinkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.patch
@@ -2114,12 +2119,11 @@ management.webPropertyAdWordsLinks.patch <- function(accountId, webPropertyAdWor
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId ID of the account which the given web property belongs to
-#' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @param webPropertyId Web property ID to retrieve the AdWords link for
+#' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webPropertyAdWordsLinks.update <- function(accountId, webPropertyAdWordsLinkId, 
-    webPropertyId) {
+management.webPropertyAdWordsLinks.update <- function(accountId, webPropertyId, webPropertyAdWordsLinkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityAdWordsLinks/%s", 
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.update
@@ -2288,11 +2292,11 @@ management.webproperties.update <- function(accountId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to delete the user link for
-#' @param linkId Link ID to delete the user link for
 #' @param webPropertyId Web Property ID to delete the user link for
+#' @param linkId Link ID to delete the user link for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webpropertyUserLinks.delete <- function(accountId, linkId, webPropertyId) {
+management.webpropertyUserLinks.delete <- function(accountId, webPropertyId, linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks/%s", 
         accountId, linkId, webPropertyId)
     # analytics.management.webpropertyUserLinks.delete
@@ -2346,13 +2350,13 @@ management.webpropertyUserLinks.insert <- function(accountId, webPropertyId) {
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID which the given web property belongs to
+#' @param webPropertyId Web Property ID for the webProperty-user links to retrieve
 #' @param max.results The maximum number of webProperty-user Links to include in this response
 #' @param start.index An index of the first webProperty-user link to retrieve
-#' @param webPropertyId Web Property ID for the webProperty-user links to retrieve
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webpropertyUserLinks.list <- function(accountId, max.results, start.index, 
-    webPropertyId) {
+management.webpropertyUserLinks.list <- function(accountId, webPropertyId, max.results, 
+    start.index) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks", 
         accountId, webPropertyId)
     # analytics.management.webpropertyUserLinks.list
@@ -2378,11 +2382,11 @@ management.webpropertyUserLinks.list <- function(accountId, max.results, start.i
 #' See \code{\link[googleAuthR]{gar_auth}} for details. 
 #' 
 #' @param accountId Account ID to update the account-user link for
-#' @param linkId Link ID to update the account-user link for
 #' @param webPropertyId Web property ID to update the account-user link for
+#' @param linkId Link ID to update the account-user link for
 #' @importFrom googleAuthR gar_api_generator
 #' @export
-management.webpropertyUserLinks.update <- function(accountId, linkId, webPropertyId) {
+management.webpropertyUserLinks.update <- function(accountId, webPropertyId, linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks/%s", 
         accountId, linkId, webPropertyId)
     # analytics.management.webpropertyUserLinks.update
