@@ -168,6 +168,8 @@ object_docs <- function(properties_name, properties){
     api_desc <- "No description"
   }
   
+  message(properties_name)
+
   docs <- paste0(
     "\t\n\n",
     "#' ", properties_name, " Object\n",
@@ -178,8 +180,8 @@ object_docs <- function(properties_name, properties){
     "#' \n",
     "#' ", paste(collapse = "\n#' ", sep = "\n#'",
                  paste("@param", 
-                       setdiff(names(prop), c("description_api","kind")),
-                       setdiff(names(prop), c("description_api","kind")) ## descriptions go here
+                       setdiff(names(prop[["value"]]), c("description_api","kind")),
+                       prop$description
                  )
             ),
     "\n",
@@ -201,7 +203,7 @@ function_params <- function(api_json_resource_method, api_json){
 }
 
 object_params <- function(properties_object_name, properties_object){
-  arg_names <- properties_object[[properties_object_name]]
+  arg_names <- properties_object[[properties_object_name]]$value
   make_f_arguments(properties_object_name, arg_names, exclude = c("description_api","kind","type"))
 }
 
@@ -229,11 +231,10 @@ function_body <- function(api_json_resource_method, api_json){
 
 object_body <- function(properties_name, properties){
   
-  prop <- properties[[properties_name]]
+  prop <- properties[[properties_name]]$value
   
   prop <- vapply(names(prop), function(x) if(prop[[x]] == "") x else paste0('"',prop[[x]],'"'), character(1))
   
-  prop <- prop[setdiff(names(prop), "description_api")]
   if(length(prop) == 0 ) return("list()\n\n}\n")
   
   paste("\n\nlist(", 
@@ -283,7 +284,7 @@ gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   
   ## take the json and create a file of structures that will get passed to the functions that need them
   object_schema <- api_json$schemas
-  set_global(list())
+  set_global(NULL)
   apply_json_props(object_schema)
   properties <- get_global()
   set_global(list())
@@ -298,79 +299,4 @@ gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   
 }
 
-
-
-recursive_key_finder <- function(the_list, key = "methods"){
-
-  if(key %in% names(the_list)){
-    ## success - add to global
-    set_global(c(get_a(), the_list[[key]]))
-  } else {
-    ## recursive
-    lapply(the_list, recursive_key_finder, key = key)
-  }
-  
-}
-
-
-# recursive property objects
-get_json_properties <- function(api_json_schema, id=NULL){
-  
-  if(is.null(api_json_schema$type)) return()
-  
-  type <- api_json_schema$type
-  id <- if(is.null(api_json_schema$id)) id else api_json_schema$id
-  
-  if(type == "object"){
-    ## return this level properties (and additionalProperties ?)
-    
-    ## only those dimensions that aren't readOnly
-    # find readOnly properties:
-    readOnlyPos <- extract_attribute(api_json_schema$properties,
-                                     "readOnly",
-                                     logical(1))
-    
-    # find defaults properties:
-    defaults <- extract_attribute(api_json_schema$properties,
-                                  "default",
-                                  character(1))
-    
-    # find descriptions of properties:
-    descriptions <- extract_attribute(api_json_schema$properties,
-                                      "description",
-                                      character(1))
-    
-    ## readOnly props with defaults and description
-    entry <- defaults[names(defaults)[!readOnlyPos]]
-    attr(entry, "description") <- descriptions[names(descriptions)[!readOnlyPos]]
-  
-    out <- list(c(entry, 
-                  description_api = api_json_schema$description))
-    
-    ## append to global list
-    names(out) <- id
-    set_global(c(get_global(), out))
-    
-    ## go deeper in recursion
-    apply_json_props(api_json_schema$properties, id = id)
-    
-  } else if(type == "array"){
-    
-    array_item <- api_json_schema$items
-    
-    if(is.null(array_item$properties)) return()
-    ## go deeper in recursion
-    out <- list(names(array_item$properties))
-    names(out) <- id
-    set_global(c(get_global(), out))
-    
-    apply_json_props(array_item$properties, id = id)
-    
-    
-  } else if(type == "string"){
-    
-  }
-  
-  return(id)
-}
 

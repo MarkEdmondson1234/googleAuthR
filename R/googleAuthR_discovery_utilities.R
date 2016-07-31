@@ -145,3 +145,82 @@ extract_attribute <- function(y,
          }, 
          type_out)
 }
+
+
+recursive_key_finder <- function(the_list, key = "methods"){
+  
+  if(key %in% names(the_list)){
+    ## success - add to global
+    set_global(c(get_global(), the_list[[key]]))
+  } else {
+    ## recursive
+    lapply(the_list, recursive_key_finder, key = key)
+  }
+  
+}
+
+
+# recursive property objects
+get_json_properties <- function(api_json_schema, id=NULL){
+  
+  if(is.null(api_json_schema$type)) return()
+  
+  type <- api_json_schema$type
+  id <- if(is.null(api_json_schema$id)) id else api_json_schema$id
+  
+  if(type == "object"){
+    ## return this level properties (and additionalProperties ?)
+    
+    build_entry(api_json_schema, id)
+    
+    ## go deeper in recursion
+    apply_json_props(api_json_schema$properties, id = id)
+    
+  } else if(type == "array"){
+    
+    array_item <- api_json_schema$items
+    
+    if(is.null(array_item$properties)) return()
+
+    ## return this level properties (and additionalProperties ?)
+    build_entry(array_item$properties, id)
+    
+    ## go deeper in recursion
+    apply_json_props(array_item$properties, id = id)
+    
+  } else if(type == "string"){
+    
+  }
+  
+  return(id)
+}
+
+build_entry <- function(api_json_schema, id){
+  ## only those dimensions that aren't readOnly
+  # find readOnly properties:
+  readOnlyPos <- extract_attribute(api_json_schema$properties,
+                                   "readOnly",
+                                   logical(1))
+  
+  # find defaults properties:
+  defaults <- extract_attribute(api_json_schema$properties,
+                                "default",
+                                character(1))
+  
+  # find descriptions of properties:
+  descriptions <- extract_attribute(api_json_schema$properties,
+                                    "description",
+                                    character(1))
+  
+  ## readOnly props with defaults and description
+  entry <- list(value = defaults[names(defaults)[!readOnlyPos]],
+                description = descriptions[names(descriptions)[!readOnlyPos]])
+  
+  ## make the entry with a description and name attribute
+  out <- list(c(entry, 
+                description_api = api_json_schema$description))
+  
+  ## append to global list
+  names(out) <- id
+  set_global(c(get_global(), out))
+}
