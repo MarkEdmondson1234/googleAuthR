@@ -2,7 +2,7 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_skeleton
-#'  at 2016-08-01 22:03:34
+#'  at 2016-08-01 22:37:51
 #' filename: ./inst/new_api.R
 #' api_json: gar_discovery_api analytics v3
 #' 
@@ -231,6 +231,8 @@ management.accountUserLinks.insert <- function(EntityUserLink, accountId) {
         accountId)
     # analytics.management.accountUserLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityUserLink, "gar_EntityUserLink"))
+    
     f(the_body = EntityUserLink)
     
 }
@@ -293,6 +295,8 @@ management.accountUserLinks.update <- function(EntityUserLink, accountId, linkId
         accountId, linkId)
     # analytics.management.accountUserLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityUserLink, "gar_EntityUserLink"))
+    
     f(the_body = EntityUserLink)
     
 }
@@ -420,6 +424,8 @@ management.customDimensions.insert <- function(CustomDimension, accountId, webPr
         accountId, webPropertyId)
     # analytics.management.customDimensions.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(CustomDimension, "gar_CustomDimension"))
+    
     f(the_body = CustomDimension)
     
 }
@@ -488,6 +494,8 @@ management.customDimensions.patch <- function(CustomDimension, accountId, webPro
     # analytics.management.customDimensions.patch
     f <- gar_api_generator(url, "PATCH", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
+    stopifnot(inherits(CustomDimension, "gar_CustomDimension"))
+    
     f(the_body = CustomDimension)
     
 }
@@ -522,6 +530,8 @@ management.customDimensions.update <- function(CustomDimension, accountId, webPr
     # analytics.management.customDimensions.update
     f <- gar_api_generator(url, "PUT", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
+    stopifnot(inherits(CustomDimension, "gar_CustomDimension"))
+    
     f(the_body = CustomDimension)
     
 }
@@ -583,6 +593,8 @@ management.customMetrics.insert <- function(CustomMetric, accountId, webProperty
         accountId, webPropertyId)
     # analytics.management.customMetrics.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(CustomMetric, "gar_CustomMetric"))
+    
     f(the_body = CustomMetric)
     
 }
@@ -651,6 +663,8 @@ management.customMetrics.patch <- function(CustomMetric, accountId, webPropertyI
     # analytics.management.customMetrics.patch
     f <- gar_api_generator(url, "PATCH", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
+    stopifnot(inherits(CustomMetric, "gar_CustomMetric"))
+    
     f(the_body = CustomMetric)
     
 }
@@ -685,6 +699,8 @@ management.customMetrics.update <- function(CustomMetric, accountId, webProperty
     # analytics.management.customMetrics.update
     f <- gar_api_generator(url, "PUT", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
+    stopifnot(inherits(CustomMetric, "gar_CustomMetric"))
+    
     f(the_body = CustomMetric)
     
 }
@@ -782,6 +798,8 @@ management.experiments.insert <- function(Experiment, accountId, webPropertyId, 
         accountId, profileId, webPropertyId)
     # analytics.management.experiments.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(Experiment, "gar_Experiment"))
+    
     f(the_body = Experiment)
     
 }
@@ -852,6 +870,8 @@ management.experiments.patch <- function(Experiment, accountId, webPropertyId, p
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
+    stopifnot(inherits(Experiment, "gar_Experiment"))
+    
     f(the_body = Experiment)
     
 }
@@ -886,6 +906,8 @@ management.experiments.update <- function(Experiment, accountId, webPropertyId, 
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(Experiment, "gar_Experiment"))
+    
     f(the_body = Experiment)
     
 }
@@ -974,6 +996,8 @@ management.filters.insert <- function(Filter, accountId) {
         accountId)
     # analytics.management.filters.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(Filter, "gar_Filter"))
+    
     f(the_body = Filter)
     
 }
@@ -1036,6 +1060,8 @@ management.filters.patch <- function(Filter, accountId, filterId) {
         accountId, filterId)
     # analytics.management.filters.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
+    stopifnot(inherits(Filter, "gar_Filter"))
+    
     f(the_body = Filter)
     
 }
@@ -1066,6 +1092,8 @@ management.filters.update <- function(Filter, accountId, filterId) {
         accountId, filterId)
     # analytics.management.filters.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(Filter, "gar_Filter"))
+    
     f(the_body = Filter)
     
 }
@@ -1129,6 +1157,8 @@ management.goals.insert <- function(Goal, accountId, webPropertyId, profileId) {
         accountId, profileId, webPropertyId)
     # analytics.management.goals.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(Goal, "gar_Goal"))
+    
     f(the_body = Goal)
     
 }
@@ -1197,6 +1227,8 @@ management.goals.patch <- function(Goal, accountId, webPropertyId, profileId, go
         accountId, goalId, profileId, webPropertyId)
     # analytics.management.goals.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
+    stopifnot(inherits(Goal, "gar_Goal"))
+    
     f(the_body = Goal)
     
 }
@@ -1229,6 +1261,8 @@ management.goals.update <- function(Goal, accountId, webPropertyId, profileId, g
         accountId, goalId, profileId, webPropertyId)
     # analytics.management.goals.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(Goal, "gar_Goal"))
+    
     f(the_body = Goal)
     
 }
@@ -1326,6 +1360,8 @@ management.profileFilterLinks.insert <- function(ProfileFilterLink, accountId, w
         accountId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(ProfileFilterLink, "gar_ProfileFilterLink"))
+    
     f(the_body = ProfileFilterLink)
     
 }
@@ -1394,6 +1430,8 @@ management.profileFilterLinks.patch <- function(ProfileFilterLink, accountId, we
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
+    stopifnot(inherits(ProfileFilterLink, "gar_ProfileFilterLink"))
+    
     f(the_body = ProfileFilterLink)
     
 }
@@ -1427,6 +1465,8 @@ management.profileFilterLinks.update <- function(ProfileFilterLink, accountId, w
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(ProfileFilterLink, "gar_ProfileFilterLink"))
+    
     f(the_body = ProfileFilterLink)
     
 }
@@ -1491,6 +1531,8 @@ management.profileUserLinks.insert <- function(EntityUserLink, accountId, webPro
         accountId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityUserLink, "gar_EntityUserLink"))
+    
     f(the_body = EntityUserLink)
     
 }
@@ -1559,6 +1601,8 @@ management.profileUserLinks.update <- function(EntityUserLink, accountId, webPro
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityUserLink, "gar_EntityUserLink"))
+    
     f(the_body = EntityUserLink)
     
 }
@@ -1650,6 +1694,8 @@ management.profiles.insert <- function(Profile, accountId, webPropertyId) {
         accountId, webPropertyId)
     # analytics.management.profiles.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(Profile, "gar_Profile"))
+    
     f(the_body = Profile)
     
 }
@@ -1716,6 +1762,8 @@ management.profiles.patch <- function(Profile, accountId, webPropertyId, profile
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
+    stopifnot(inherits(Profile, "gar_Profile"))
+    
     f(the_body = Profile)
     
 }
@@ -1747,6 +1795,8 @@ management.profiles.update <- function(Profile, accountId, webPropertyId, profil
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(Profile, "gar_Profile"))
+    
     f(the_body = Profile)
     
 }
@@ -1877,6 +1927,8 @@ management.unsampledReports.insert <- function(UnsampledReport, accountId, webPr
         accountId, profileId, webPropertyId)
     # analytics.management.unsampledReports.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(UnsampledReport, "gar_UnsampledReport"))
+    
     f(the_body = UnsampledReport)
     
 }
@@ -1946,6 +1998,8 @@ management.uploads.deleteUploadData <- function(AnalyticsDataimportDeleteUploadD
         accountId, customDataSourceId, webPropertyId)
     # analytics.management.uploads.deleteUploadData
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(AnalyticsDataimportDeleteUploadDataRequest, "gar_AnalyticsDataimportDeleteUploadDataRequest"))
+    
     f(the_body = AnalyticsDataimportDeleteUploadDataRequest)
     
 }
@@ -2139,6 +2193,8 @@ management.webPropertyAdWordsLinks.insert <- function(EntityAdWordsLink, account
         accountId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityAdWordsLink, "gar_EntityAdWordsLink"))
+    
     f(the_body = EntityAdWordsLink)
     
 }
@@ -2205,6 +2261,8 @@ management.webPropertyAdWordsLinks.patch <- function(EntityAdWordsLink, accountI
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityAdWordsLink, "gar_EntityAdWordsLink"))
+    
     f(the_body = EntityAdWordsLink)
     
 }
@@ -2237,6 +2295,8 @@ management.webPropertyAdWordsLinks.update <- function(EntityAdWordsLink, account
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityAdWordsLink, "gar_EntityAdWordsLink"))
+    
     f(the_body = EntityAdWordsLink)
     
 }
@@ -2296,6 +2356,8 @@ management.webproperties.insert <- function(Webproperty, accountId) {
         accountId)
     # analytics.management.webproperties.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(Webproperty, "gar_Webproperty"))
+    
     f(the_body = Webproperty)
     
 }
@@ -2359,6 +2421,8 @@ management.webproperties.patch <- function(Webproperty, accountId, webPropertyId
         accountId, webPropertyId)
     # analytics.management.webproperties.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
+    stopifnot(inherits(Webproperty, "gar_Webproperty"))
+    
     f(the_body = Webproperty)
     
 }
@@ -2389,6 +2453,8 @@ management.webproperties.update <- function(Webproperty, accountId, webPropertyI
         accountId, webPropertyId)
     # analytics.management.webproperties.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(Webproperty, "gar_Webproperty"))
+    
     f(the_body = Webproperty)
     
 }
@@ -2449,6 +2515,8 @@ management.webpropertyUserLinks.insert <- function(EntityUserLink, accountId, we
         accountId, webPropertyId)
     # analytics.management.webpropertyUserLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityUserLink, "gar_EntityUserLink"))
+    
     f(the_body = EntityUserLink)
     
 }
@@ -2515,6 +2583,8 @@ management.webpropertyUserLinks.update <- function(EntityUserLink, accountId, we
         accountId, linkId, webPropertyId)
     # analytics.management.webpropertyUserLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
+    stopifnot(inherits(EntityUserLink, "gar_EntityUserLink"))
+    
     f(the_body = EntityUserLink)
     
 }
@@ -2578,6 +2648,8 @@ provisioning.createAccountTicket <- function(AccountTicket) {
     url <- "https://www.googleapis.com/analytics/v3/provisioning/createAccountTicket"
     # analytics.provisioning.createAccountTicket
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
+    
+    stopifnot(inherits(AccountTicket, "gar_AccountTicket"))
     
     f(the_body = AccountTicket)
     

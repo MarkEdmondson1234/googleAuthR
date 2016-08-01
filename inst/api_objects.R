@@ -2,7 +2,7 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_objects
-#'  at 2016-07-31 22:24:48
+#'  at 2016-08-01 22:33:25
 #' filename: ./inst/api_objects.R
 #' api_json: gar_discovery_api analytics v3
 #' 
@@ -17,21 +17,20 @@
 #' @param childLink Child link for an account entry
 #' @param created Time the account was created
 #' @param id Account ID
-#' @param name Resource type for Analytics account
-#' @param permissions Account name
-#' @param selfLink Permissions the user has for this account
-#' @param starred Link for this account
-#' @param updated Indicates whether this account is starred or not
-#' @param childLink Time the account was last modified
+#' @param name Account name
+#' @param permissions Permissions the user has for this account
+#' @param selfLink Link for this account
+#' @param starred Indicates whether this account is starred or not
+#' @param updated Time the account was last modified
 #' 
 #' @return Account object
 #' 
 #' @export
-Account <- function(childLink, created, id, name, permissions, selfLink, starred, 
-    updated) {
-    list(childLink = childLink, created = created, id = id, kind = "analytics#account", 
+Account <- function(childLink = NULL, created = NULL, id = NULL, name = NULL, permissions = NULL, 
+    selfLink = NULL, starred = NULL, updated = NULL) {
+    structure(list(childLink = childLink, created = created, id = id, kind = "analytics#account", 
         name = name, permissions = permissions, selfLink = selfLink, starred = starred, 
-        updated = updated)
+        updated = updated), class = "gar_Account")
 }
 
 #' Account.childLink Object
@@ -41,13 +40,12 @@ Account <- function(childLink, created, id, name, permissions, selfLink, starred
 #' Child link for an account entry. Points to the list of web properties for this account.
 #' 
 #' @param href Link to the list of web properties for this account
-#' @param type Type of the child link
 #' 
 #' @return Account.childLink object
 #' 
 #' @export
-Account.childLink <- function(href) {
-    list(href = href, type = "analytics#webproperties")
+Account.childLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#webproperties"), class = "gar_Account.childLink")
 }
 
 #' Account.permissions Object
@@ -73,14 +71,14 @@ Account.permissions <- function() {
 #' 
 #' @param href Link for this account
 #' @param id Account ID
-#' @param name Analytics account reference
-#' @param href Account name
+#' @param name Account name
 #' 
 #' @return AccountRef object
 #' 
 #' @export
-AccountRef <- function(href, id, name) {
-    list(href = href, id = id, kind = "analytics#accountRef", name = name)
+AccountRef <- function(href = NULL, id = NULL, name = NULL) {
+    structure(list(href = href, id = id, kind = "analytics#accountRef", name = name), 
+        class = "gar_AccountRef")
 }
 
 #' AccountSummaries Object
@@ -91,21 +89,20 @@ AccountRef <- function(href, id, name) {
 #' 
 #' @param items A list of AccountSummaries
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this AccountSummary collection
-#' @param startIndex Link to previous page for this AccountSummary collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this AccountSummary collection
+#' @param previousLink Link to previous page for this AccountSummary collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return AccountSummaries object
 #' 
 #' @export
-AccountSummaries <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#accountSummaries", 
+AccountSummaries <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, 
+    previousLink = NULL, startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#accountSummaries", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_AccountSummaries")
 }
 
 #' AccountSummary Object
@@ -115,17 +112,16 @@ AccountSummaries <- function(items, itemsPerPage, nextLink, previousLink, startI
 #' JSON template for an Analytics AccountSummary. An AccountSummary is a lightweight tree comprised of properties/profiles.
 #' 
 #' @param id Account ID
-#' @param name Resource type for Analytics AccountSummary
-#' @param starred Account name
-#' @param webProperties Indicates whether this account is starred or not
-#' @param id List of web properties under this account
+#' @param name Account name
+#' @param starred Indicates whether this account is starred or not
+#' @param webProperties List of web properties under this account
 #' 
 #' @return AccountSummary object
 #' 
 #' @export
-AccountSummary <- function(id, name, starred, webProperties) {
-    list(id = id, kind = "analytics#accountSummary", name = name, starred = starred, 
-        webProperties = webProperties)
+AccountSummary <- function(id = NULL, name = NULL, starred = NULL, webProperties = NULL) {
+    structure(list(id = id, kind = "analytics#accountSummary", name = name, starred = starred, 
+        webProperties = webProperties), class = "gar_AccountSummary")
 }
 
 #' AccountTicket Object
@@ -136,17 +132,18 @@ AccountSummary <- function(id, name, starred, webProperties) {
 #' 
 #' @param account Account for this ticket
 #' @param id Account ticket ID used to access the account ticket
-#' @param profile Resource type for account ticket
-#' @param redirectUri View (Profile) for the account
-#' @param webproperty Redirect URI where the user will be sent after accepting Terms of Service
-#' @param account Web property for the account
+#' @param profile View (Profile) for the account
+#' @param redirectUri Redirect URI where the user will be sent after accepting Terms of Service
+#' @param webproperty Web property for the account
 #' 
 #' @return AccountTicket object
 #' 
 #' @export
-AccountTicket <- function(account, id, profile, redirectUri, webproperty) {
-    list(account = account, id = id, kind = "analytics#accountTicket", profile = profile, 
-        redirectUri = redirectUri, webproperty = webproperty)
+AccountTicket <- function(account = NULL, id = NULL, profile = NULL, redirectUri = NULL, 
+    webproperty = NULL) {
+    structure(list(account = account, id = id, kind = "analytics#accountTicket", 
+        profile = profile, redirectUri = redirectUri, webproperty = webproperty), 
+        class = "gar_AccountTicket")
 }
 
 #' Accounts Object
@@ -157,21 +154,20 @@ AccountTicket <- function(account, id, profile, redirectUri, webproperty) {
 #' 
 #' @param items A list of accounts
 #' @param itemsPerPage The maximum number of entries the response can contain, regardless of the actual number of entries returned
-#' @param nextLink Collection type
-#' @param previousLink Next link for this account collection
-#' @param startIndex Previous link for this account collection
-#' @param totalResults The starting index of the entries, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Next link for this account collection
+#' @param previousLink Previous link for this account collection
+#' @param startIndex The starting index of the entries, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return Accounts object
 #' 
 #' @export
-Accounts <- function(items, itemsPerPage, nextLink, previousLink, startIndex, totalResults, 
-    username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#accounts", 
+Accounts <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#accounts", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_Accounts")
 }
 
 #' AdWordsAccount Object
@@ -182,13 +178,13 @@ Accounts <- function(items, itemsPerPage, nextLink, previousLink, startIndex, to
 #' 
 #' @param autoTaggingEnabled True if auto-tagging is enabled on the AdWords account
 #' @param customerId Customer ID
-#' @param autoTaggingEnabled Resource type for AdWords account
 #' 
 #' @return AdWordsAccount object
 #' 
 #' @export
-AdWordsAccount <- function(autoTaggingEnabled, customerId) {
-    list(autoTaggingEnabled = autoTaggingEnabled, customerId = customerId, kind = "analytics#adWordsAccount")
+AdWordsAccount <- function(autoTaggingEnabled = NULL, customerId = NULL) {
+    structure(list(autoTaggingEnabled = autoTaggingEnabled, customerId = customerId, 
+        kind = "analytics#adWordsAccount"), class = "gar_AdWordsAccount")
 }
 
 #' AnalyticsDataimportDeleteUploadDataRequest Object
@@ -202,8 +198,8 @@ AdWordsAccount <- function(autoTaggingEnabled, customerId) {
 #' @return AnalyticsDataimportDeleteUploadDataRequest object
 #' 
 #' @export
-AnalyticsDataimportDeleteUploadDataRequest <- function(customDataImportUids) {
-    list(customDataImportUids = customDataImportUids)
+AnalyticsDataimportDeleteUploadDataRequest <- function(customDataImportUids = NULL) {
+    structure(list(customDataImportUids = customDataImportUids), class = "gar_AnalyticsDataimportDeleteUploadDataRequest")
 }
 
 #' Column Object
@@ -214,13 +210,13 @@ AnalyticsDataimportDeleteUploadDataRequest <- function(customDataImportUids) {
 #' 
 #' @param attributes Map of attribute name and value for this column
 #' @param id Column id
-#' @param attributes Resource type for Analytics column
 #' 
 #' @return Column object
 #' 
 #' @export
-Column <- function(attributes, id) {
-    list(attributes = attributes, id = id, kind = "analytics#column")
+Column <- function(attributes = NULL, id = NULL) {
+    structure(list(attributes = attributes, id = id, kind = "analytics#column"), 
+        class = "gar_Column")
 }
 
 #' Column.attributes Object
@@ -247,15 +243,14 @@ Column.attributes <- function() {
 #' @param attributeNames List of attributes names returned by columns
 #' @param etag Etag of collection
 #' @param items List of columns for a report type
-#' @param totalResults Collection type
-#' @param attributeNames Total number of columns returned in the response
+#' @param totalResults Total number of columns returned in the response
 #' 
 #' @return Columns object
 #' 
 #' @export
-Columns <- function(attributeNames, etag, items, totalResults) {
-    list(attributeNames = attributeNames, etag = etag, items = items, kind = "analytics#columns", 
-        totalResults = totalResults)
+Columns <- function(attributeNames = NULL, etag = NULL, items = NULL, totalResults = NULL) {
+    structure(list(attributeNames = attributeNames, etag = etag, items = items, kind = "analytics#columns", 
+        totalResults = totalResults), class = "gar_Columns")
 }
 
 #' CustomDataSource Object
@@ -270,25 +265,25 @@ Columns <- function(attributeNames, etag, items, totalResults) {
 #' @param description Description of custom data source
 #' @param id Custom data source ID
 #' @param importBehavior 
-#' @param name Resource type for Analytics custom data source
-#' @param parentLink Name of this custom data source
-#' @param profilesLinked Parent link for this custom data source
-#' @param selfLink IDs of views (profiles) linked to the custom data source
-#' @param type Link for this Analytics custom data source
-#' @param updated Type of the custom data source
-#' @param uploadType Time this custom data source was last modified
-#' @param webPropertyId 
-#' @param accountId Web property ID of the form UA-XXXXX-YY to which this custom data source belongs
+#' @param name Name of this custom data source
+#' @param parentLink Parent link for this custom data source
+#' @param profilesLinked IDs of views (profiles) linked to the custom data source
+#' @param selfLink Link for this Analytics custom data source
+#' @param updated Time this custom data source was last modified
+#' @param uploadType 
+#' @param webPropertyId Web property ID of the form UA-XXXXX-YY to which this custom data source belongs
 #' 
 #' @return CustomDataSource object
 #' 
 #' @export
-CustomDataSource <- function(accountId, childLink, created, description, id, importBehavior, 
-    name, parentLink, profilesLinked, selfLink, updated, uploadType, webPropertyId) {
-    list(accountId = accountId, childLink = childLink, created = created, description = description, 
-        id = id, importBehavior = importBehavior, kind = "analytics#customDataSource", 
+CustomDataSource <- function(accountId = NULL, childLink = NULL, created = NULL, 
+    description = NULL, id = NULL, importBehavior = NULL, name = NULL, parentLink = NULL, 
+    profilesLinked = NULL, selfLink = NULL, updated = NULL, uploadType = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, childLink = childLink, created = created, 
+        description = description, id = id, importBehavior = importBehavior, kind = "analytics#customDataSource", 
         name = name, parentLink = parentLink, profilesLinked = profilesLinked, selfLink = selfLink, 
-        type = type, updated = updated, uploadType = uploadType, webPropertyId = webPropertyId)
+        type = type, updated = updated, uploadType = uploadType, webPropertyId = webPropertyId), 
+        class = "gar_CustomDataSource")
 }
 
 #' CustomDataSource.childLink Object
@@ -298,13 +293,12 @@ CustomDataSource <- function(accountId, childLink, created, description, id, imp
 #' No description
 #' 
 #' @param href Link to the list of daily uploads for this custom data source
-#' @param type Value is 'analytics#dailyUploads'
 #' 
 #' @return CustomDataSource.childLink object
 #' 
 #' @export
-CustomDataSource.childLink <- function(href) {
-    list(href = href, type = type)
+CustomDataSource.childLink <- function(href = NULL) {
+    structure(list(href = href, type = type), class = "gar_CustomDataSource.childLink")
 }
 
 #' CustomDataSource.parentLink Object
@@ -314,13 +308,12 @@ CustomDataSource.childLink <- function(href) {
 #' Parent link for this custom data source. Points to the web property to which this custom data source belongs.
 #' 
 #' @param href Link to the web property to which this custom data source belongs
-#' @param type Value is 'analytics#webproperty'
 #' 
 #' @return CustomDataSource.parentLink object
 #' 
 #' @export
-CustomDataSource.parentLink <- function(href) {
-    list(href = href, type = "analytics#webproperty")
+CustomDataSource.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#webproperty"), class = "gar_CustomDataSource.parentLink")
 }
 
 #' CustomDataSources Object
@@ -331,21 +324,20 @@ CustomDataSource.parentLink <- function(href) {
 #' 
 #' @param items Collection of custom data sources
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this custom data source collection
-#' @param startIndex Link to previous page for this custom data source collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this custom data source collection
+#' @param previousLink Link to previous page for this custom data source collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return CustomDataSources object
 #' 
 #' @export
-CustomDataSources <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#customDataSources", 
+CustomDataSources <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, 
+    previousLink = NULL, startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#customDataSources", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_CustomDataSources")
 }
 
 #' CustomDimension Object
@@ -365,9 +357,10 @@ CustomDataSources <- function(items, itemsPerPage, nextLink, previousLink, start
 #' @return CustomDimension object
 #' 
 #' @export
-CustomDimension <- function(accountId, active, id, name, parentLink, scope, webPropertyId) {
-    list(accountId = accountId, active = active, id = id, name = name, parentLink = parentLink, 
-        scope = scope, webPropertyId = webPropertyId)
+CustomDimension <- function(accountId = NULL, active = NULL, id = NULL, name = NULL, 
+    parentLink = NULL, scope = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, active = active, id = id, name = name, 
+        parentLink = parentLink, scope = scope, webPropertyId = webPropertyId), class = "gar_CustomDimension")
 }
 
 #' CustomDimension.parentLink Object
@@ -377,13 +370,12 @@ CustomDimension <- function(accountId, active, id, name, parentLink, scope, webP
 #' Parent link for the custom dimension. Points to the property to which the custom dimension belongs.
 #' 
 #' @param href Link to the property to which the custom dimension belongs
-#' @param type Type of the parent link
 #' 
 #' @return CustomDimension.parentLink object
 #' 
 #' @export
-CustomDimension.parentLink <- function(href) {
-    list(href = href, type = "analytics#webproperty")
+CustomDimension.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#webproperty"), class = "gar_CustomDimension.parentLink")
 }
 
 #' CustomDimensions Object
@@ -394,21 +386,20 @@ CustomDimension.parentLink <- function(href) {
 #' 
 #' @param items Collection of custom dimensions
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this custom dimension collection
-#' @param startIndex Link to previous page for this custom dimension collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this custom dimension collection
+#' @param previousLink Link to previous page for this custom dimension collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return CustomDimensions object
 #' 
 #' @export
-CustomDimensions <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#customDimensions", 
+CustomDimensions <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, 
+    previousLink = NULL, startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#customDimensions", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_CustomDimensions")
 }
 
 #' CustomMetric Object
@@ -425,17 +416,16 @@ CustomDimensions <- function(items, itemsPerPage, nextLink, previousLink, startI
 #' @param name Name of the custom metric
 #' @param parentLink Parent link for the custom metric
 #' @param scope Scope of the custom metric: HIT or PRODUCT
-#' @param type Data type of custom metric
 #' @param webPropertyId Property ID
 #' 
 #' @return CustomMetric object
 #' 
 #' @export
-CustomMetric <- function(accountId, active, id, max_value, min_value, name, parentLink, 
-    scope, webPropertyId) {
-    list(accountId = accountId, active = active, id = id, max_value = max_value, 
+CustomMetric <- function(accountId = NULL, active = NULL, id = NULL, max_value = NULL, 
+    min_value = NULL, name = NULL, parentLink = NULL, scope = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, active = active, id = id, max_value = max_value, 
         min_value = min_value, name = name, parentLink = parentLink, scope = scope, 
-        type = type, webPropertyId = webPropertyId)
+        type = type, webPropertyId = webPropertyId), class = "gar_CustomMetric")
 }
 
 #' CustomMetric.parentLink Object
@@ -445,13 +435,12 @@ CustomMetric <- function(accountId, active, id, max_value, min_value, name, pare
 #' Parent link for the custom metric. Points to the property to which the custom metric belongs.
 #' 
 #' @param href Link to the property to which the custom metric belongs
-#' @param type Type of the parent link
 #' 
 #' @return CustomMetric.parentLink object
 #' 
 #' @export
-CustomMetric.parentLink <- function(href) {
-    list(href = href, type = "analytics#webproperty")
+CustomMetric.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#webproperty"), class = "gar_CustomMetric.parentLink")
 }
 
 #' CustomMetrics Object
@@ -462,21 +451,20 @@ CustomMetric.parentLink <- function(href) {
 #' 
 #' @param items Collection of custom metrics
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this custom metric collection
-#' @param startIndex Link to previous page for this custom metric collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this custom metric collection
+#' @param previousLink Link to previous page for this custom metric collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return CustomMetrics object
 #' 
 #' @export
-CustomMetrics <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#customMetrics", 
+CustomMetrics <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#customMetrics", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_CustomMetrics")
 }
 
 #' EntityAdWordsLink Object
@@ -488,17 +476,17 @@ CustomMetrics <- function(items, itemsPerPage, nextLink, previousLink, startInde
 #' @param adWordsAccounts A list of AdWords client accounts
 #' @param entity Web property being linked
 #' @param id Entity AdWords link ID
-#' @param name Resource type for entity AdWords link
-#' @param profileIds Name of the link
-#' @param selfLink IDs of linked Views (Profiles) represented as strings
-#' @param adWordsAccounts URL link for this Google Analytics - Google AdWords link
+#' @param name Name of the link
+#' @param profileIds IDs of linked Views (Profiles) represented as strings
+#' @param selfLink URL link for this Google Analytics - Google AdWords link
 #' 
 #' @return EntityAdWordsLink object
 #' 
 #' @export
-EntityAdWordsLink <- function(adWordsAccounts, entity, id, name, profileIds, selfLink) {
-    list(adWordsAccounts = adWordsAccounts, entity = entity, id = id, kind = "analytics#entityAdWordsLink", 
-        name = name, profileIds = profileIds, selfLink = selfLink)
+EntityAdWordsLink <- function(adWordsAccounts = NULL, entity = NULL, id = NULL, name = NULL, 
+    profileIds = NULL, selfLink = NULL) {
+    structure(list(adWordsAccounts = adWordsAccounts, entity = entity, id = id, kind = "analytics#entityAdWordsLink", 
+        name = name, profileIds = profileIds, selfLink = selfLink), class = "gar_EntityAdWordsLink")
 }
 
 #' EntityAdWordsLink.entity Object
@@ -512,8 +500,8 @@ EntityAdWordsLink <- function(adWordsAccounts, entity, id, name, profileIds, sel
 #' @return EntityAdWordsLink.entity object
 #' 
 #' @export
-EntityAdWordsLink.entity <- function(webPropertyRef) {
-    list(webPropertyRef = webPropertyRef)
+EntityAdWordsLink.entity <- function(webPropertyRef = NULL) {
+    structure(list(webPropertyRef = webPropertyRef), class = "gar_EntityAdWordsLink.entity")
 }
 
 #' EntityAdWordsLinks Object
@@ -524,20 +512,19 @@ EntityAdWordsLink.entity <- function(webPropertyRef) {
 #' 
 #' @param items A list of entity AdWords links
 #' @param itemsPerPage The maximum number of entries the response can contain, regardless of the actual number of entries returned
-#' @param nextLink Collection type
-#' @param previousLink Next link for this AdWords link collection
-#' @param startIndex Previous link for this AdWords link collection
-#' @param totalResults The starting index of the entries, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param items The total number of results for the query, regardless of the number of results in the response
+#' @param nextLink Next link for this AdWords link collection
+#' @param previousLink Previous link for this AdWords link collection
+#' @param startIndex The starting index of the entries, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
 #' 
 #' @return EntityAdWordsLinks object
 #' 
 #' @export
-EntityAdWordsLinks <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#entityAdWordsLinks", 
+EntityAdWordsLinks <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, 
+    previousLink = NULL, startIndex = NULL, totalResults = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#entityAdWordsLinks", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults)
+        totalResults = totalResults), class = "gar_EntityAdWordsLinks")
 }
 
 #' EntityUserLink Object
@@ -548,17 +535,17 @@ EntityAdWordsLinks <- function(items, itemsPerPage, nextLink, previousLink, star
 #' 
 #' @param entity Entity for this link
 #' @param id Entity user link ID
-#' @param permissions Resource type for entity user link
-#' @param selfLink Permissions the user has for this entity
-#' @param userRef Self link for this resource
-#' @param entity User reference
+#' @param permissions Permissions the user has for this entity
+#' @param selfLink Self link for this resource
+#' @param userRef User reference
 #' 
 #' @return EntityUserLink object
 #' 
 #' @export
-EntityUserLink <- function(entity, id, permissions, selfLink, userRef) {
-    list(entity = entity, id = id, kind = "analytics#entityUserLink", permissions = permissions, 
-        selfLink = selfLink, userRef = userRef)
+EntityUserLink <- function(entity = NULL, id = NULL, permissions = NULL, selfLink = NULL, 
+    userRef = NULL) {
+    structure(list(entity = entity, id = id, kind = "analytics#entityUserLink", permissions = permissions, 
+        selfLink = selfLink, userRef = userRef), class = "gar_EntityUserLink")
 }
 
 #' EntityUserLink.entity Object
@@ -574,8 +561,9 @@ EntityUserLink <- function(entity, id, permissions, selfLink, userRef) {
 #' @return EntityUserLink.entity object
 #' 
 #' @export
-EntityUserLink.entity <- function(accountRef, profileRef, webPropertyRef) {
-    list(accountRef = accountRef, profileRef = profileRef, webPropertyRef = webPropertyRef)
+EntityUserLink.entity <- function(accountRef = NULL, profileRef = NULL, webPropertyRef = NULL) {
+    structure(list(accountRef = accountRef, profileRef = profileRef, webPropertyRef = webPropertyRef), 
+        class = "gar_EntityUserLink.entity")
 }
 
 #' EntityUserLink.permissions Object
@@ -589,8 +577,8 @@ EntityUserLink.entity <- function(accountRef, profileRef, webPropertyRef) {
 #' @return EntityUserLink.permissions object
 #' 
 #' @export
-EntityUserLink.permissions <- function(local) {
-    list(local = local)
+EntityUserLink.permissions <- function(local = NULL) {
+    structure(list(local = local), class = "gar_EntityUserLink.permissions")
 }
 
 #' EntityUserLinks Object
@@ -601,20 +589,19 @@ EntityUserLink.permissions <- function(local) {
 #' 
 #' @param items A list of entity user links
 #' @param itemsPerPage The maximum number of entries the response can contain, regardless of the actual number of entries returned
-#' @param nextLink Collection type
-#' @param previousLink Next link for this account collection
-#' @param startIndex Previous link for this account collection
-#' @param totalResults The starting index of the entries, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param items The total number of results for the query, regardless of the number of results in the response
+#' @param nextLink Next link for this account collection
+#' @param previousLink Previous link for this account collection
+#' @param startIndex The starting index of the entries, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
 #' 
 #' @return EntityUserLinks object
 #' 
 #' @export
-EntityUserLinks <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#entityUserLinks", 
+EntityUserLinks <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#entityUserLinks", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults)
+        totalResults = totalResults), class = "gar_EntityUserLinks")
 }
 
 #' Experiment Object
@@ -631,46 +618,47 @@ EntityUserLinks <- function(items, itemsPerPage, nextLink, previousLink, startIn
 #' @param equalWeighting Boolean specifying whether to distribute traffic evenly across all variations
 #' @param id Experiment ID
 #' @param internalWebPropertyId Internal ID for the web property to which this experiment belongs
-#' @param minimumExperimentLengthInDays Resource type for an Analytics experiment
-#' @param name An integer number in [3, 90]
-#' @param objectiveMetric Experiment name
-#' @param optimizationType The metric that the experiment is optimizing
-#' @param parentLink Whether the objectiveMetric should be minimized or maximized
-#' @param profileId Parent link for an experiment
-#' @param reasonExperimentEnded View (Profile) ID to which this experiment belongs
-#' @param rewriteVariationUrlsAsOriginal Why the experiment ended
-#' @param selfLink Boolean specifying whether variations URLS are rewritten to match those of the original
-#' @param servingFramework Link for this experiment
-#' @param snippet The framework used to serve the experiment variations and evaluate the results
-#' @param startTime The snippet of code to include on the control page(s)
-#' @param status The starting time of the experiment (the time the status changed from READY_TO_RUN to RUNNING)
-#' @param trafficCoverage Experiment status
-#' @param updated A floating-point number in (0, 1]
-#' @param variations Time the experiment was last modified
-#' @param webPropertyId Array of variations
-#' @param winnerConfidenceLevel Web property ID to which this experiment belongs
-#' @param winnerFound A floating-point number in (0, 1)
-#' @param accountId Boolean specifying whether a winner has been found for this experiment
+#' @param minimumExperimentLengthInDays An integer number in [3, 90]
+#' @param name Experiment name
+#' @param objectiveMetric The metric that the experiment is optimizing
+#' @param optimizationType Whether the objectiveMetric should be minimized or maximized
+#' @param parentLink Parent link for an experiment
+#' @param profileId View (Profile) ID to which this experiment belongs
+#' @param reasonExperimentEnded Why the experiment ended
+#' @param rewriteVariationUrlsAsOriginal Boolean specifying whether variations URLS are rewritten to match those of the original
+#' @param selfLink Link for this experiment
+#' @param servingFramework The framework used to serve the experiment variations and evaluate the results
+#' @param snippet The snippet of code to include on the control page(s)
+#' @param startTime The starting time of the experiment (the time the status changed from READY_TO_RUN to RUNNING)
+#' @param status Experiment status
+#' @param trafficCoverage A floating-point number in (0, 1]
+#' @param updated Time the experiment was last modified
+#' @param variations Array of variations
+#' @param webPropertyId Web property ID to which this experiment belongs
+#' @param winnerConfidenceLevel A floating-point number in (0, 1)
+#' @param winnerFound Boolean specifying whether a winner has been found for this experiment
 #' 
 #' @return Experiment object
 #' 
 #' @export
-Experiment <- function(accountId, created, description, editableInGaUi, endTime, 
-    equalWeighting, id, internalWebPropertyId, minimumExperimentLengthInDays, name, 
-    objectiveMetric, optimizationType, parentLink, profileId, reasonExperimentEnded, 
-    rewriteVariationUrlsAsOriginal, selfLink, servingFramework, snippet, startTime, 
-    status, trafficCoverage, updated, variations, webPropertyId, winnerConfidenceLevel, 
-    winnerFound) {
-    list(accountId = accountId, created = created, description = description, editableInGaUi = editableInGaUi, 
-        endTime = endTime, equalWeighting = equalWeighting, id = id, internalWebPropertyId = internalWebPropertyId, 
-        kind = "analytics#experiment", minimumExperimentLengthInDays = minimumExperimentLengthInDays, 
-        name = name, objectiveMetric = objectiveMetric, optimizationType = optimizationType, 
-        parentLink = parentLink, profileId = profileId, reasonExperimentEnded = reasonExperimentEnded, 
-        rewriteVariationUrlsAsOriginal = rewriteVariationUrlsAsOriginal, selfLink = selfLink, 
-        servingFramework = servingFramework, snippet = snippet, startTime = startTime, 
-        status = status, trafficCoverage = trafficCoverage, updated = updated, variations = variations, 
-        webPropertyId = webPropertyId, winnerConfidenceLevel = winnerConfidenceLevel, 
-        winnerFound = winnerFound)
+Experiment <- function(accountId = NULL, created = NULL, description = NULL, editableInGaUi = NULL, 
+    endTime = NULL, equalWeighting = NULL, id = NULL, internalWebPropertyId = NULL, 
+    minimumExperimentLengthInDays = NULL, name = NULL, objectiveMetric = NULL, optimizationType = NULL, 
+    parentLink = NULL, profileId = NULL, reasonExperimentEnded = NULL, rewriteVariationUrlsAsOriginal = NULL, 
+    selfLink = NULL, servingFramework = NULL, snippet = NULL, startTime = NULL, status = NULL, 
+    trafficCoverage = NULL, updated = NULL, variations = NULL, webPropertyId = NULL, 
+    winnerConfidenceLevel = NULL, winnerFound = NULL) {
+    structure(list(accountId = accountId, created = created, description = description, 
+        editableInGaUi = editableInGaUi, endTime = endTime, equalWeighting = equalWeighting, 
+        id = id, internalWebPropertyId = internalWebPropertyId, kind = "analytics#experiment", 
+        minimumExperimentLengthInDays = minimumExperimentLengthInDays, name = name, 
+        objectiveMetric = objectiveMetric, optimizationType = optimizationType, parentLink = parentLink, 
+        profileId = profileId, reasonExperimentEnded = reasonExperimentEnded, rewriteVariationUrlsAsOriginal = rewriteVariationUrlsAsOriginal, 
+        selfLink = selfLink, servingFramework = servingFramework, snippet = snippet, 
+        startTime = startTime, status = status, trafficCoverage = trafficCoverage, 
+        updated = updated, variations = variations, webPropertyId = webPropertyId, 
+        winnerConfidenceLevel = winnerConfidenceLevel, winnerFound = winnerFound), 
+        class = "gar_Experiment")
 }
 
 #' Experiment.parentLink Object
@@ -680,13 +668,12 @@ Experiment <- function(accountId, created, description, editableInGaUi, endTime,
 #' Parent link for an experiment. Points to the view (profile) to which this experiment belongs.
 #' 
 #' @param href Link to the view (profile) to which this experiment belongs
-#' @param type Value is 'analytics#profile'
 #' 
 #' @return Experiment.parentLink object
 #' 
 #' @export
-Experiment.parentLink <- function(href) {
-    list(href = href, type = "analytics#profile")
+Experiment.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#profile"), class = "gar_Experiment.parentLink")
 }
 
 #' Experiment.variations Object
@@ -712,21 +699,20 @@ Experiment.variations <- function() {
 #' 
 #' @param items A list of experiments
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this experiment collection
-#' @param startIndex Link to previous page for this experiment collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of resources in the result
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this experiment collection
+#' @param previousLink Link to previous page for this experiment collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of resources in the result
+#' @param username Email ID of the authenticated user
 #' 
 #' @return Experiments object
 #' 
 #' @export
-Experiments <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#experiments", 
+Experiments <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#experiments", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_Experiments")
 }
 
 #' Filter Object
@@ -744,18 +730,18 @@ Experiments <- function(items, itemsPerPage, nextLink, previousLink, startIndex,
 #' @param name Name of this filter
 #' @param parentLink Parent link for this filter
 #' @param searchAndReplaceDetails Details for the filter of the type SEARCH_AND_REPLACE
-#' @param type Type of this filter
 #' @param uppercaseDetails Details for the filter of the type UPPER
 #' 
 #' @return Filter object
 #' 
 #' @export
-Filter <- function(accountId, advancedDetails, excludeDetails, id, includeDetails, 
-    lowercaseDetails, name, parentLink, searchAndReplaceDetails, uppercaseDetails) {
-    list(accountId = accountId, advancedDetails = advancedDetails, excludeDetails = excludeDetails, 
+Filter <- function(accountId = NULL, advancedDetails = NULL, excludeDetails = NULL, 
+    id = NULL, includeDetails = NULL, lowercaseDetails = NULL, name = NULL, parentLink = NULL, 
+    searchAndReplaceDetails = NULL, uppercaseDetails = NULL) {
+    structure(list(accountId = accountId, advancedDetails = advancedDetails, excludeDetails = excludeDetails, 
         id = id, includeDetails = includeDetails, lowercaseDetails = lowercaseDetails, 
         name = name, parentLink = parentLink, searchAndReplaceDetails = searchAndReplaceDetails, 
-        type = type, uppercaseDetails = uppercaseDetails)
+        type = type, uppercaseDetails = uppercaseDetails), class = "gar_Filter")
 }
 
 #' Filter.advancedDetails Object
@@ -781,14 +767,15 @@ Filter <- function(accountId, advancedDetails, excludeDetails, id, includeDetail
 #' @return Filter.advancedDetails object
 #' 
 #' @export
-Filter.advancedDetails <- function(caseSensitive, extractA, extractB, fieldA, fieldAIndex, 
-    fieldARequired, fieldB, fieldBIndex, fieldBRequired, outputConstructor, outputToField, 
-    outputToFieldIndex, overrideOutputField) {
-    list(caseSensitive = caseSensitive, extractA = extractA, extractB = extractB, 
+Filter.advancedDetails <- function(caseSensitive = NULL, extractA = NULL, extractB = NULL, 
+    fieldA = NULL, fieldAIndex = NULL, fieldARequired = NULL, fieldB = NULL, fieldBIndex = NULL, 
+    fieldBRequired = NULL, outputConstructor = NULL, outputToField = NULL, outputToFieldIndex = NULL, 
+    overrideOutputField = NULL) {
+    structure(list(caseSensitive = caseSensitive, extractA = extractA, extractB = extractB, 
         fieldA = fieldA, fieldAIndex = fieldAIndex, fieldARequired = fieldARequired, 
         fieldB = fieldB, fieldBIndex = fieldBIndex, fieldBRequired = fieldBRequired, 
         outputConstructor = outputConstructor, outputToField = outputToField, outputToFieldIndex = outputToFieldIndex, 
-        overrideOutputField = overrideOutputField)
+        overrideOutputField = overrideOutputField), class = "gar_Filter.advancedDetails")
 }
 
 #' Filter.lowercaseDetails Object
@@ -803,8 +790,8 @@ Filter.advancedDetails <- function(caseSensitive, extractA, extractB, fieldA, fi
 #' @return Filter.lowercaseDetails object
 #' 
 #' @export
-Filter.lowercaseDetails <- function(field, fieldIndex) {
-    list(field = field, fieldIndex = fieldIndex)
+Filter.lowercaseDetails <- function(field = NULL, fieldIndex = NULL) {
+    structure(list(field = field, fieldIndex = fieldIndex), class = "gar_Filter.lowercaseDetails")
 }
 
 #' Filter.parentLink Object
@@ -814,13 +801,12 @@ Filter.lowercaseDetails <- function(field, fieldIndex) {
 #' Parent link for this filter. Points to the account to which this filter belongs.
 #' 
 #' @param href Link to the account to which this filter belongs
-#' @param type Value is 'analytics#account'
 #' 
 #' @return Filter.parentLink object
 #' 
 #' @export
-Filter.parentLink <- function(href) {
-    list(href = href, type = "analytics#account")
+Filter.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#account"), class = "gar_Filter.parentLink")
 }
 
 #' Filter.searchAndReplaceDetails Object
@@ -838,10 +824,10 @@ Filter.parentLink <- function(href) {
 #' @return Filter.searchAndReplaceDetails object
 #' 
 #' @export
-Filter.searchAndReplaceDetails <- function(caseSensitive, field, fieldIndex, replaceString, 
-    searchString) {
-    list(caseSensitive = caseSensitive, field = field, fieldIndex = fieldIndex, replaceString = replaceString, 
-        searchString = searchString)
+Filter.searchAndReplaceDetails <- function(caseSensitive = NULL, field = NULL, fieldIndex = NULL, 
+    replaceString = NULL, searchString = NULL) {
+    structure(list(caseSensitive = caseSensitive, field = field, fieldIndex = fieldIndex, 
+        replaceString = replaceString, searchString = searchString), class = "gar_Filter.searchAndReplaceDetails")
 }
 
 #' Filter.uppercaseDetails Object
@@ -856,8 +842,8 @@ Filter.searchAndReplaceDetails <- function(caseSensitive, field, fieldIndex, rep
 #' @return Filter.uppercaseDetails object
 #' 
 #' @export
-Filter.uppercaseDetails <- function(field, fieldIndex) {
-    list(field = field, fieldIndex = fieldIndex)
+Filter.uppercaseDetails <- function(field = NULL, fieldIndex = NULL) {
+    structure(list(field = field, fieldIndex = fieldIndex), class = "gar_Filter.uppercaseDetails")
 }
 
 #' FilterExpression Object
@@ -870,15 +856,16 @@ Filter.uppercaseDetails <- function(field, fieldIndex) {
 #' @param expressionValue Filter expression value
 #' @param field Field to filter
 #' @param fieldIndex The Index of the custom dimension
-#' @param matchType Kind value for filter expression
-#' @param caseSensitive Match type for this filter
+#' @param matchType Match type for this filter
 #' 
 #' @return FilterExpression object
 #' 
 #' @export
-FilterExpression <- function(caseSensitive, expressionValue, field, fieldIndex, matchType) {
-    list(caseSensitive = caseSensitive, expressionValue = expressionValue, field = field, 
-        fieldIndex = fieldIndex, kind = "analytics#filterExpression", matchType = matchType)
+FilterExpression <- function(caseSensitive = NULL, expressionValue = NULL, field = NULL, 
+    fieldIndex = NULL, matchType = NULL) {
+    structure(list(caseSensitive = caseSensitive, expressionValue = expressionValue, 
+        field = field, fieldIndex = fieldIndex, kind = "analytics#filterExpression", 
+        matchType = matchType), class = "gar_FilterExpression")
 }
 
 #' FilterRef Object
@@ -889,13 +876,12 @@ FilterExpression <- function(caseSensitive, expressionValue, field, fieldIndex, 
 #' 
 #' @param href Link for this filter
 #' @param id Filter ID
-#' @param href Kind value for filter reference
 #' 
 #' @return FilterRef object
 #' 
 #' @export
-FilterRef <- function(href, id) {
-    list(href = href, id = id, kind = "analytics#filterRef")
+FilterRef <- function(href = NULL, id = NULL) {
+    structure(list(href = href, id = id, kind = "analytics#filterRef"), class = "gar_FilterRef")
 }
 
 #' Filters Object
@@ -906,21 +892,20 @@ FilterRef <- function(href, id) {
 #' 
 #' @param items A list of filters
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this filter collection
-#' @param startIndex Link to previous page for this filter collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this filter collection
+#' @param previousLink Link to previous page for this filter collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return Filters object
 #' 
 #' @export
-Filters <- function(items, itemsPerPage, nextLink, previousLink, startIndex, totalResults, 
-    username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#filters", 
+Filters <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#filters", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_Filters")
 }
 
 #' GaData Object
@@ -934,29 +919,30 @@ Filters <- function(items, itemsPerPage, nextLink, previousLink, startIndex, tot
 #' @param dataTable 
 #' @param id Unique ID for this data response
 #' @param itemsPerPage The maximum number of rows the response can contain, regardless of the actual number of rows returned
-#' @param nextLink Resource type
-#' @param previousLink Link to next page for this Analytics data query
-#' @param profileInfo Link to previous page for this Analytics data query
-#' @param query Information for the view (profile), for which the Analytics data was requested
-#' @param rows Analytics data request query parameters
-#' @param sampleSize Analytics data rows, where each row contains a list of dimension values followed by the metric values
-#' @param sampleSpace The number of samples used to calculate the result
-#' @param selfLink Total size of the sample space from which the samples were selected
-#' @param totalResults Link to this page
-#' @param totalsForAllResults The total number of rows for the query, regardless of the number of rows in the response
-#' @param columnHeaders Total values for the requested metrics over all the results, not just the results returned in this response
+#' @param nextLink Link to next page for this Analytics data query
+#' @param previousLink Link to previous page for this Analytics data query
+#' @param profileInfo Information for the view (profile), for which the Analytics data was requested
+#' @param query Analytics data request query parameters
+#' @param rows Analytics data rows, where each row contains a list of dimension values followed by the metric values
+#' @param sampleSize The number of samples used to calculate the result
+#' @param sampleSpace Total size of the sample space from which the samples were selected
+#' @param selfLink Link to this page
+#' @param totalResults The total number of rows for the query, regardless of the number of rows in the response
+#' @param totalsForAllResults Total values for the requested metrics over all the results, not just the results returned in this response
 #' 
 #' @return GaData object
 #' 
 #' @export
-GaData <- function(columnHeaders, containsSampledData, dataTable, id, itemsPerPage, 
-    nextLink, previousLink, profileInfo, query, rows, sampleSize, sampleSpace, selfLink, 
-    totalResults, totalsForAllResults) {
-    list(columnHeaders = columnHeaders, containsSampledData = containsSampledData, 
+GaData <- function(columnHeaders = NULL, containsSampledData = NULL, dataTable = NULL, 
+    id = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, profileInfo = NULL, 
+    query = NULL, rows = NULL, sampleSize = NULL, sampleSpace = NULL, selfLink = NULL, 
+    totalResults = NULL, totalsForAllResults = NULL) {
+    structure(list(columnHeaders = columnHeaders, containsSampledData = containsSampledData, 
         dataTable = dataTable, id = id, itemsPerPage = itemsPerPage, kind = "analytics#gaData", 
         nextLink = nextLink, previousLink = previousLink, profileInfo = profileInfo, 
         query = query, rows = rows, sampleSize = sampleSize, sampleSpace = sampleSpace, 
-        selfLink = selfLink, totalResults = totalResults, totalsForAllResults = totalsForAllResults)
+        selfLink = selfLink, totalResults = totalResults, totalsForAllResults = totalsForAllResults), 
+        class = "gar_GaData")
 }
 
 #' GaData.columnHeaders Object
@@ -986,8 +972,8 @@ GaData.columnHeaders <- function() {
 #' @return GaData.dataTable object
 #' 
 #' @export
-GaData.dataTable <- function(cols, rows) {
-    list(cols = cols, rows = rows)
+GaData.dataTable <- function(cols = NULL, rows = NULL) {
+    structure(list(cols = cols, rows = rows), class = "gar_GaData.dataTable")
 }
 
 #' GaData.dataTable.cols Object
@@ -1051,10 +1037,11 @@ GaData.dataTable.rows.c <- function() {
 #' @return GaData.profileInfo object
 #' 
 #' @export
-GaData.profileInfo <- function(accountId, internalWebPropertyId, profileId, profileName, 
-    tableId, webPropertyId) {
-    list(accountId = accountId, internalWebPropertyId = internalWebPropertyId, profileId = profileId, 
-        profileName = profileName, tableId = tableId, webPropertyId = webPropertyId)
+GaData.profileInfo <- function(accountId = NULL, internalWebPropertyId = NULL, profileId = NULL, 
+    profileName = NULL, tableId = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, internalWebPropertyId = internalWebPropertyId, 
+        profileId = profileId, profileName = profileName, tableId = tableId, webPropertyId = webPropertyId), 
+        class = "gar_GaData.profileInfo")
 }
 
 #' GaData.query Object
@@ -1078,12 +1065,13 @@ GaData.profileInfo <- function(accountId, internalWebPropertyId, profileId, prof
 #' @return GaData.query object
 #' 
 #' @export
-GaData.query <- function(dimensions, end.date, filters, ids, max.results, metrics, 
-    samplingLevel, segment, sort, start.date, start.index) {
-    list(dimensions = dimensions, `end-date` = end - date, filters = filters, ids = ids, 
-        `max-results` = max - results, metrics = metrics, samplingLevel = samplingLevel, 
+GaData.query <- function(dimensions = NULL, end.date = NULL, filters = NULL, ids = NULL, 
+    max.results = NULL, metrics = NULL, samplingLevel = NULL, segment = NULL, sort = NULL, 
+    start.date = NULL, start.index = NULL) {
+    structure(list(dimensions = dimensions, `end-date` = end - date, filters = filters, 
+        ids = ids, `max-results` = max - results, metrics = metrics, samplingLevel = samplingLevel, 
         segment = segment, sort = sort, `start-date` = start - date, `start-index` = start - 
-            index)
+            index), class = "gar_GaData.query")
 }
 
 #' GaData.totalsForAllResults Object
@@ -1113,31 +1101,30 @@ GaData.totalsForAllResults <- function() {
 #' @param eventDetails Details for the goal of the type EVENT
 #' @param id Goal ID
 #' @param internalWebPropertyId Internal ID for the web property to which this goal belongs
-#' @param name Resource type for an Analytics goal
-#' @param parentLink Goal name
-#' @param profileId Parent link for a goal
-#' @param selfLink View (Profile) ID to which this goal belongs
-#' @param type Link for this goal
-#' @param updated Goal type
-#' @param urlDestinationDetails Time this goal was last modified
-#' @param value Details for the goal of the type URL_DESTINATION
-#' @param visitNumPagesDetails Goal value
-#' @param visitTimeOnSiteDetails Details for the goal of the type VISIT_NUM_PAGES
-#' @param webPropertyId Details for the goal of the type VISIT_TIME_ON_SITE
-#' @param accountId Web property ID to which this goal belongs
+#' @param name Goal name
+#' @param parentLink Parent link for a goal
+#' @param profileId View (Profile) ID to which this goal belongs
+#' @param selfLink Link for this goal
+#' @param updated Time this goal was last modified
+#' @param urlDestinationDetails Details for the goal of the type URL_DESTINATION
+#' @param value Goal value
+#' @param visitNumPagesDetails Details for the goal of the type VISIT_NUM_PAGES
+#' @param visitTimeOnSiteDetails Details for the goal of the type VISIT_TIME_ON_SITE
+#' @param webPropertyId Web property ID to which this goal belongs
 #' 
 #' @return Goal object
 #' 
 #' @export
-Goal <- function(accountId, active, created, eventDetails, id, internalWebPropertyId, 
-    name, parentLink, profileId, selfLink, updated, urlDestinationDetails, value, 
-    visitNumPagesDetails, visitTimeOnSiteDetails, webPropertyId) {
-    list(accountId = accountId, active = active, created = created, eventDetails = eventDetails, 
+Goal <- function(accountId = NULL, active = NULL, created = NULL, eventDetails = NULL, 
+    id = NULL, internalWebPropertyId = NULL, name = NULL, parentLink = NULL, profileId = NULL, 
+    selfLink = NULL, updated = NULL, urlDestinationDetails = NULL, value = NULL, 
+    visitNumPagesDetails = NULL, visitTimeOnSiteDetails = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, active = active, created = created, eventDetails = eventDetails, 
         id = id, internalWebPropertyId = internalWebPropertyId, kind = "analytics#goal", 
         name = name, parentLink = parentLink, profileId = profileId, selfLink = selfLink, 
         type = type, updated = updated, urlDestinationDetails = urlDestinationDetails, 
         value = value, visitNumPagesDetails = visitNumPagesDetails, visitTimeOnSiteDetails = visitTimeOnSiteDetails, 
-        webPropertyId = webPropertyId)
+        webPropertyId = webPropertyId), class = "gar_Goal")
 }
 
 #' Goal.eventDetails Object
@@ -1152,8 +1139,9 @@ Goal <- function(accountId, active, created, eventDetails, id, internalWebProper
 #' @return Goal.eventDetails object
 #' 
 #' @export
-Goal.eventDetails <- function(eventConditions, useEventValue) {
-    list(eventConditions = eventConditions, useEventValue = useEventValue)
+Goal.eventDetails <- function(eventConditions = NULL, useEventValue = NULL) {
+    structure(list(eventConditions = eventConditions, useEventValue = useEventValue), 
+        class = "gar_Goal.eventDetails")
 }
 
 #' Goal.eventDetails.eventConditions Object
@@ -1178,13 +1166,12 @@ Goal.eventDetails.eventConditions <- function() {
 #' Parent link for a goal. Points to the view (profile) to which this goal belongs.
 #' 
 #' @param href Link to the view (profile) to which this goal belongs
-#' @param type Value is 'analytics#profile'
 #' 
 #' @return Goal.parentLink object
 #' 
 #' @export
-Goal.parentLink <- function(href) {
-    list(href = href, type = "analytics#profile")
+Goal.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#profile"), class = "gar_Goal.parentLink")
 }
 
 #' Goal.urlDestinationDetails Object
@@ -1202,10 +1189,10 @@ Goal.parentLink <- function(href) {
 #' @return Goal.urlDestinationDetails object
 #' 
 #' @export
-Goal.urlDestinationDetails <- function(caseSensitive, firstStepRequired, matchType, 
-    steps, url) {
-    list(caseSensitive = caseSensitive, firstStepRequired = firstStepRequired, matchType = matchType, 
-        steps = steps, url = url)
+Goal.urlDestinationDetails <- function(caseSensitive = NULL, firstStepRequired = NULL, 
+    matchType = NULL, steps = NULL, url = NULL) {
+    structure(list(caseSensitive = caseSensitive, firstStepRequired = firstStepRequired, 
+        matchType = matchType, steps = steps, url = url), class = "gar_Goal.urlDestinationDetails")
 }
 
 #' Goal.urlDestinationDetails.steps Object
@@ -1235,8 +1222,9 @@ Goal.urlDestinationDetails.steps <- function() {
 #' @return Goal.visitNumPagesDetails object
 #' 
 #' @export
-Goal.visitNumPagesDetails <- function(comparisonType, comparisonValue) {
-    list(comparisonType = comparisonType, comparisonValue = comparisonValue)
+Goal.visitNumPagesDetails <- function(comparisonType = NULL, comparisonValue = NULL) {
+    structure(list(comparisonType = comparisonType, comparisonValue = comparisonValue), 
+        class = "gar_Goal.visitNumPagesDetails")
 }
 
 #' Goal.visitTimeOnSiteDetails Object
@@ -1251,8 +1239,9 @@ Goal.visitNumPagesDetails <- function(comparisonType, comparisonValue) {
 #' @return Goal.visitTimeOnSiteDetails object
 #' 
 #' @export
-Goal.visitTimeOnSiteDetails <- function(comparisonType, comparisonValue) {
-    list(comparisonType = comparisonType, comparisonValue = comparisonValue)
+Goal.visitTimeOnSiteDetails <- function(comparisonType = NULL, comparisonValue = NULL) {
+    structure(list(comparisonType = comparisonType, comparisonValue = comparisonValue), 
+        class = "gar_Goal.visitTimeOnSiteDetails")
 }
 
 #' Goals Object
@@ -1263,21 +1252,20 @@ Goal.visitTimeOnSiteDetails <- function(comparisonType, comparisonValue) {
 #' 
 #' @param items A list of goals
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this goal collection
-#' @param startIndex Link to previous page for this goal collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of resources in the result
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this goal collection
+#' @param previousLink Link to previous page for this goal collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of resources in the result
+#' @param username Email ID of the authenticated user
 #' 
 #' @return Goals object
 #' 
 #' @export
-Goals <- function(items, itemsPerPage, nextLink, previousLink, startIndex, totalResults, 
-    username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#goals", nextLink = nextLink, 
-        previousLink = previousLink, startIndex = startIndex, totalResults = totalResults, 
-        username = username)
+Goals <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#goals", 
+        nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
+        totalResults = totalResults, username = username), class = "gar_Goals")
 }
 
 #' McfData Object
@@ -1290,29 +1278,30 @@ Goals <- function(items, itemsPerPage, nextLink, previousLink, startIndex, total
 #' @param containsSampledData Determines if the Analytics data contains sampled data
 #' @param id Unique ID for this data response
 #' @param itemsPerPage The maximum number of rows the response can contain, regardless of the actual number of rows returned
-#' @param nextLink Resource type
-#' @param previousLink Link to next page for this Analytics data query
-#' @param profileInfo Link to previous page for this Analytics data query
-#' @param query Information for the view (profile), for which the Analytics data was requested
-#' @param rows Analytics data request query parameters
-#' @param sampleSize Analytics data rows, where each row contains a list of dimension values followed by the metric values
-#' @param sampleSpace The number of samples used to calculate the result
-#' @param selfLink Total size of the sample space from which the samples were selected
-#' @param totalResults Link to this page
-#' @param totalsForAllResults The total number of rows for the query, regardless of the number of rows in the response
-#' @param columnHeaders Total values for the requested metrics over all the results, not just the results returned in this response
+#' @param nextLink Link to next page for this Analytics data query
+#' @param previousLink Link to previous page for this Analytics data query
+#' @param profileInfo Information for the view (profile), for which the Analytics data was requested
+#' @param query Analytics data request query parameters
+#' @param rows Analytics data rows, where each row contains a list of dimension values followed by the metric values
+#' @param sampleSize The number of samples used to calculate the result
+#' @param sampleSpace Total size of the sample space from which the samples were selected
+#' @param selfLink Link to this page
+#' @param totalResults The total number of rows for the query, regardless of the number of rows in the response
+#' @param totalsForAllResults Total values for the requested metrics over all the results, not just the results returned in this response
 #' 
 #' @return McfData object
 #' 
 #' @export
-McfData <- function(columnHeaders, containsSampledData, id, itemsPerPage, nextLink, 
-    previousLink, profileInfo, query, rows, sampleSize, sampleSpace, selfLink, totalResults, 
-    totalsForAllResults) {
-    list(columnHeaders = columnHeaders, containsSampledData = containsSampledData, 
+McfData <- function(columnHeaders = NULL, containsSampledData = NULL, id = NULL, 
+    itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, profileInfo = NULL, 
+    query = NULL, rows = NULL, sampleSize = NULL, sampleSpace = NULL, selfLink = NULL, 
+    totalResults = NULL, totalsForAllResults = NULL) {
+    structure(list(columnHeaders = columnHeaders, containsSampledData = containsSampledData, 
         id = id, itemsPerPage = itemsPerPage, kind = "analytics#mcfData", nextLink = nextLink, 
         previousLink = previousLink, profileInfo = profileInfo, query = query, rows = rows, 
         sampleSize = sampleSize, sampleSpace = sampleSpace, selfLink = selfLink, 
-        totalResults = totalResults, totalsForAllResults = totalsForAllResults)
+        totalResults = totalResults, totalsForAllResults = totalsForAllResults), 
+        class = "gar_McfData")
 }
 
 #' McfData.columnHeaders Object
@@ -1346,10 +1335,11 @@ McfData.columnHeaders <- function() {
 #' @return McfData.profileInfo object
 #' 
 #' @export
-McfData.profileInfo <- function(accountId, internalWebPropertyId, profileId, profileName, 
-    tableId, webPropertyId) {
-    list(accountId = accountId, internalWebPropertyId = internalWebPropertyId, profileId = profileId, 
-        profileName = profileName, tableId = tableId, webPropertyId = webPropertyId)
+McfData.profileInfo <- function(accountId = NULL, internalWebPropertyId = NULL, profileId = NULL, 
+    profileName = NULL, tableId = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, internalWebPropertyId = internalWebPropertyId, 
+        profileId = profileId, profileName = profileName, tableId = tableId, webPropertyId = webPropertyId), 
+        class = "gar_McfData.profileInfo")
 }
 
 #' McfData.query Object
@@ -1373,12 +1363,13 @@ McfData.profileInfo <- function(accountId, internalWebPropertyId, profileId, pro
 #' @return McfData.query object
 #' 
 #' @export
-McfData.query <- function(dimensions, end.date, filters, ids, max.results, metrics, 
-    samplingLevel, segment, sort, start.date, start.index) {
-    list(dimensions = dimensions, `end-date` = end - date, filters = filters, ids = ids, 
-        `max-results` = max - results, metrics = metrics, samplingLevel = samplingLevel, 
+McfData.query <- function(dimensions = NULL, end.date = NULL, filters = NULL, ids = NULL, 
+    max.results = NULL, metrics = NULL, samplingLevel = NULL, segment = NULL, sort = NULL, 
+    start.date = NULL, start.index = NULL) {
+    structure(list(dimensions = dimensions, `end-date` = end - date, filters = filters, 
+        ids = ids, `max-results` = max - results, metrics = metrics, samplingLevel = samplingLevel, 
         segment = segment, sort = sort, `start-date` = start - date, `start-index` = start - 
-            index)
+            index), class = "gar_McfData.query")
 }
 
 #' McfData.totalsForAllResults Object
@@ -1420,25 +1411,25 @@ McfData.totalsForAllResults <- function() {
 #' @param stripSiteSearchCategoryParameters Whether or not Analytics will strip search category parameters from the URLs in your reports
 #' @param stripSiteSearchQueryParameters Whether or not Analytics will strip search query parameters from the URLs in your reports
 #' @param timezone Time zone for which this view (profile) has been configured
-#' @param type View (Profile) type
 #' @param websiteUrl Website URL for this view (profile)
 #' 
 #' @return Profile object
 #' 
 #' @export
-Profile <- function(accountId, botFilteringEnabled, childLink, currency, defaultPage, 
-    eCommerceTracking, enhancedECommerceTracking, excludeQueryParameters, id, name, 
-    parentLink, permissions, siteSearchCategoryParameters, siteSearchQueryParameters, 
-    starred, stripSiteSearchCategoryParameters, stripSiteSearchQueryParameters, timezone, 
-    websiteUrl) {
-    list(accountId = accountId, botFilteringEnabled = botFilteringEnabled, childLink = childLink, 
-        currency = currency, defaultPage = defaultPage, eCommerceTracking = eCommerceTracking, 
+Profile <- function(accountId = NULL, botFilteringEnabled = NULL, childLink = NULL, 
+    currency = NULL, defaultPage = NULL, eCommerceTracking = NULL, enhancedECommerceTracking = NULL, 
+    excludeQueryParameters = NULL, id = NULL, name = NULL, parentLink = NULL, permissions = NULL, 
+    siteSearchCategoryParameters = NULL, siteSearchQueryParameters = NULL, starred = NULL, 
+    stripSiteSearchCategoryParameters = NULL, stripSiteSearchQueryParameters = NULL, 
+    timezone = NULL, websiteUrl = NULL) {
+    structure(list(accountId = accountId, botFilteringEnabled = botFilteringEnabled, 
+        childLink = childLink, currency = currency, defaultPage = defaultPage, eCommerceTracking = eCommerceTracking, 
         enhancedECommerceTracking = enhancedECommerceTracking, excludeQueryParameters = excludeQueryParameters, 
         id = id, name = name, parentLink = parentLink, permissions = permissions, 
         siteSearchCategoryParameters = siteSearchCategoryParameters, siteSearchQueryParameters = siteSearchQueryParameters, 
         starred = starred, stripSiteSearchCategoryParameters = stripSiteSearchCategoryParameters, 
         stripSiteSearchQueryParameters = stripSiteSearchQueryParameters, timezone = timezone, 
-        type = type, websiteUrl = websiteUrl)
+        type = type, websiteUrl = websiteUrl), class = "gar_Profile")
 }
 
 #' Profile.childLink Object
@@ -1448,13 +1439,12 @@ Profile <- function(accountId, botFilteringEnabled, childLink, currency, default
 #' Child link for this view (profile). Points to the list of goals for this view (profile).
 #' 
 #' @param href Link to the list of goals for this view (profile)
-#' @param type Value is 'analytics#goals'
 #' 
 #' @return Profile.childLink object
 #' 
 #' @export
-Profile.childLink <- function(href) {
-    list(href = href, type = "analytics#goals")
+Profile.childLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#goals"), class = "gar_Profile.childLink")
 }
 
 #' Profile.parentLink Object
@@ -1464,13 +1454,12 @@ Profile.childLink <- function(href) {
 #' Parent link for this view (profile). Points to the web property to which this view (profile) belongs.
 #' 
 #' @param href Link to the web property to which this view (profile) belongs
-#' @param type Value is 'analytics#webproperty'
 #' 
 #' @return Profile.parentLink object
 #' 
 #' @export
-Profile.parentLink <- function(href) {
-    list(href = href, type = "analytics#webproperty")
+Profile.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#webproperty"), class = "gar_Profile.parentLink")
 }
 
 #' Profile.permissions Object
@@ -1502,8 +1491,9 @@ Profile.permissions <- function() {
 #' @return ProfileFilterLink object
 #' 
 #' @export
-ProfileFilterLink <- function(filterRef, id, profileRef, rank) {
-    list(filterRef = filterRef, id = id, profileRef = profileRef, rank = rank)
+ProfileFilterLink <- function(filterRef = NULL, id = NULL, profileRef = NULL, rank = NULL) {
+    structure(list(filterRef = filterRef, id = id, profileRef = profileRef, rank = rank), 
+        class = "gar_ProfileFilterLink")
 }
 
 #' ProfileFilterLinks Object
@@ -1514,21 +1504,20 @@ ProfileFilterLink <- function(filterRef, id, profileRef, rank) {
 #' 
 #' @param items A list of profile filter links
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this profile filter link collection
-#' @param startIndex Link to previous page for this profile filter link collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this profile filter link collection
+#' @param previousLink Link to previous page for this profile filter link collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return ProfileFilterLinks object
 #' 
 #' @export
-ProfileFilterLinks <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#profileFilterLinks", 
+ProfileFilterLinks <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, 
+    previousLink = NULL, startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#profileFilterLinks", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_ProfileFilterLinks")
 }
 
 #' ProfileRef Object
@@ -1541,16 +1530,17 @@ ProfileFilterLinks <- function(items, itemsPerPage, nextLink, previousLink, star
 #' @param href Link for this view (profile)
 #' @param id View (Profile) ID
 #' @param internalWebPropertyId Internal ID for the web property to which this view (profile) belongs
-#' @param name Analytics view (profile) reference
-#' @param webPropertyId Name of this view (profile)
-#' @param accountId Web property ID of the form UA-XXXXX-YY to which this view (profile) belongs
+#' @param name Name of this view (profile)
+#' @param webPropertyId Web property ID of the form UA-XXXXX-YY to which this view (profile) belongs
 #' 
 #' @return ProfileRef object
 #' 
 #' @export
-ProfileRef <- function(accountId, href, id, internalWebPropertyId, name, webPropertyId) {
-    list(accountId = accountId, href = href, id = id, internalWebPropertyId = internalWebPropertyId, 
-        kind = "analytics#profileRef", name = name, webPropertyId = webPropertyId)
+ProfileRef <- function(accountId = NULL, href = NULL, id = NULL, internalWebPropertyId = NULL, 
+    name = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, href = href, id = id, internalWebPropertyId = internalWebPropertyId, 
+        kind = "analytics#profileRef", name = name, webPropertyId = webPropertyId), 
+        class = "gar_ProfileRef")
 }
 
 #' ProfileSummary Object
@@ -1560,17 +1550,15 @@ ProfileRef <- function(accountId, href, id, internalWebPropertyId, name, webProp
 #' JSON template for an Analytics ProfileSummary. ProfileSummary returns basic information (i.e., summary) for a profile.
 #' 
 #' @param id View (profile) ID
-#' @param name Resource type for Analytics ProfileSummary
-#' @param starred View (profile) name
-#' @param type Indicates whether this view (profile) is starred or not
-#' @param id View (Profile) type
+#' @param name View (profile) name
+#' @param starred Indicates whether this view (profile) is starred or not
 #' 
 #' @return ProfileSummary object
 #' 
 #' @export
-ProfileSummary <- function(id, name, starred) {
-    list(id = id, kind = "analytics#profileSummary", name = name, starred = starred, 
-        type = type)
+ProfileSummary <- function(id = NULL, name = NULL, starred = NULL) {
+    structure(list(id = id, kind = "analytics#profileSummary", name = name, starred = starred, 
+        type = type), class = "gar_ProfileSummary")
 }
 
 #' Profiles Object
@@ -1581,21 +1569,20 @@ ProfileSummary <- function(id, name, starred) {
 #' 
 #' @param items A list of views (profiles)
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this view (profile) collection
-#' @param startIndex Link to previous page for this view (profile) collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this view (profile) collection
+#' @param previousLink Link to previous page for this view (profile) collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return Profiles object
 #' 
 #' @export
-Profiles <- function(items, itemsPerPage, nextLink, previousLink, startIndex, totalResults, 
-    username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#profiles", 
+Profiles <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#profiles", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_Profiles")
 }
 
 #' RealtimeData Object
@@ -1606,22 +1593,22 @@ Profiles <- function(items, itemsPerPage, nextLink, previousLink, startIndex, to
 #' 
 #' @param columnHeaders Column headers that list dimension names followed by the metric names
 #' @param id Unique ID for this data response
-#' @param profileInfo Resource type
-#' @param query Information for the view (profile), for which the real time data was requested
-#' @param rows Real time data request query parameters
-#' @param selfLink Real time data rows, where each row contains a list of dimension values followed by the metric values
-#' @param totalResults Link to this page
-#' @param totalsForAllResults The total number of rows for the query, regardless of the number of rows in the response
-#' @param columnHeaders Total values for the requested metrics over all the results, not just the results returned in this response
+#' @param profileInfo Information for the view (profile), for which the real time data was requested
+#' @param query Real time data request query parameters
+#' @param rows Real time data rows, where each row contains a list of dimension values followed by the metric values
+#' @param selfLink Link to this page
+#' @param totalResults The total number of rows for the query, regardless of the number of rows in the response
+#' @param totalsForAllResults Total values for the requested metrics over all the results, not just the results returned in this response
 #' 
 #' @return RealtimeData object
 #' 
 #' @export
-RealtimeData <- function(columnHeaders, id, profileInfo, query, rows, selfLink, totalResults, 
-    totalsForAllResults) {
-    list(columnHeaders = columnHeaders, id = id, kind = "analytics#realtimeData", 
+RealtimeData <- function(columnHeaders = NULL, id = NULL, profileInfo = NULL, query = NULL, 
+    rows = NULL, selfLink = NULL, totalResults = NULL, totalsForAllResults = NULL) {
+    structure(list(columnHeaders = columnHeaders, id = id, kind = "analytics#realtimeData", 
         profileInfo = profileInfo, query = query, rows = rows, selfLink = selfLink, 
-        totalResults = totalResults, totalsForAllResults = totalsForAllResults)
+        totalResults = totalResults, totalsForAllResults = totalsForAllResults), 
+        class = "gar_RealtimeData")
 }
 
 #' RealtimeData.columnHeaders Object
@@ -1655,10 +1642,11 @@ RealtimeData.columnHeaders <- function() {
 #' @return RealtimeData.profileInfo object
 #' 
 #' @export
-RealtimeData.profileInfo <- function(accountId, internalWebPropertyId, profileId, 
-    profileName, tableId, webPropertyId) {
-    list(accountId = accountId, internalWebPropertyId = internalWebPropertyId, profileId = profileId, 
-        profileName = profileName, tableId = tableId, webPropertyId = webPropertyId)
+RealtimeData.profileInfo <- function(accountId = NULL, internalWebPropertyId = NULL, 
+    profileId = NULL, profileName = NULL, tableId = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, internalWebPropertyId = internalWebPropertyId, 
+        profileId = profileId, profileName = profileName, tableId = tableId, webPropertyId = webPropertyId), 
+        class = "gar_RealtimeData.profileInfo")
 }
 
 #' RealtimeData.query Object
@@ -1677,9 +1665,10 @@ RealtimeData.profileInfo <- function(accountId, internalWebPropertyId, profileId
 #' @return RealtimeData.query object
 #' 
 #' @export
-RealtimeData.query <- function(dimensions, filters, ids, max.results, metrics, sort) {
-    list(dimensions = dimensions, filters = filters, ids = ids, `max-results` = max - 
-        results, metrics = metrics, sort = sort)
+RealtimeData.query <- function(dimensions = NULL, filters = NULL, ids = NULL, max.results = NULL, 
+    metrics = NULL, sort = NULL) {
+    structure(list(dimensions = dimensions, filters = filters, ids = ids, `max-results` = max - 
+        results, metrics = metrics, sort = sort), class = "gar_RealtimeData.query")
 }
 
 #' RealtimeData.totalsForAllResults Object
@@ -1706,19 +1695,19 @@ RealtimeData.totalsForAllResults <- function() {
 #' @param created Time the segment was created
 #' @param definition Segment definition
 #' @param id Segment ID
-#' @param name Resource type for Analytics segment
-#' @param segmentId Segment name
-#' @param selfLink Segment ID
-#' @param type Link for this segment
-#' @param updated Type for a segment
-#' @param created Time the segment was last modified
+#' @param name Segment name
+#' @param segmentId Segment ID
+#' @param selfLink Link for this segment
+#' @param updated Time the segment was last modified
 #' 
 #' @return Segment object
 #' 
 #' @export
-Segment <- function(created, definition, id, name, segmentId, selfLink, updated) {
-    list(created = created, definition = definition, id = id, kind = "analytics#segment", 
-        name = name, segmentId = segmentId, selfLink = selfLink, type = type, updated = updated)
+Segment <- function(created = NULL, definition = NULL, id = NULL, name = NULL, segmentId = NULL, 
+    selfLink = NULL, updated = NULL) {
+    structure(list(created = created, definition = definition, id = id, kind = "analytics#segment", 
+        name = name, segmentId = segmentId, selfLink = selfLink, type = type, updated = updated), 
+        class = "gar_Segment")
 }
 
 #' Segments Object
@@ -1729,21 +1718,20 @@ Segment <- function(created, definition, id, name, segmentId, selfLink, updated)
 #' 
 #' @param items A list of segments
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type for segments
-#' @param previousLink Link to next page for this segment collection
-#' @param startIndex Link to previous page for this segment collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this segment collection
+#' @param previousLink Link to previous page for this segment collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return Segments object
 #' 
 #' @export
-Segments <- function(items, itemsPerPage, nextLink, previousLink, startIndex, totalResults, 
-    username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#segments", 
+Segments <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#segments", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_Segments")
 }
 
 #' UnsampledReport Object
@@ -1767,11 +1755,13 @@ Segments <- function(items, itemsPerPage, nextLink, previousLink, startIndex, to
 #' @return UnsampledReport object
 #' 
 #' @export
-UnsampledReport <- function(accountId, dimensions, end.date, filters, id, metrics, 
-    profileId, segment, start.date, title, webPropertyId) {
-    list(accountId = accountId, dimensions = dimensions, `end-date` = end - date, 
-        filters = filters, id = id, metrics = metrics, profileId = profileId, segment = segment, 
-        `start-date` = start - date, title = title, webPropertyId = webPropertyId)
+UnsampledReport <- function(accountId = NULL, dimensions = NULL, end.date = NULL, 
+    filters = NULL, id = NULL, metrics = NULL, profileId = NULL, segment = NULL, 
+    start.date = NULL, title = NULL, webPropertyId = NULL) {
+    structure(list(accountId = accountId, dimensions = dimensions, `end-date` = end - 
+        date, filters = filters, id = id, metrics = metrics, profileId = profileId, 
+        segment = segment, `start-date` = start - date, title = title, webPropertyId = webPropertyId), 
+        class = "gar_UnsampledReport")
 }
 
 #' UnsampledReport.cloudStorageDownloadDetails Object
@@ -1786,8 +1776,8 @@ UnsampledReport <- function(accountId, dimensions, end.date, filters, id, metric
 #' @return UnsampledReport.cloudStorageDownloadDetails object
 #' 
 #' @export
-UnsampledReport.cloudStorageDownloadDetails <- function(bucketId, objectId) {
-    list(bucketId = bucketId, objectId = objectId)
+UnsampledReport.cloudStorageDownloadDetails <- function(bucketId = NULL, objectId = NULL) {
+    structure(list(bucketId = bucketId, objectId = objectId), class = "gar_UnsampledReport.cloudStorageDownloadDetails")
 }
 
 #' UnsampledReport.driveDownloadDetails Object
@@ -1801,8 +1791,8 @@ UnsampledReport.cloudStorageDownloadDetails <- function(bucketId, objectId) {
 #' @return UnsampledReport.driveDownloadDetails object
 #' 
 #' @export
-UnsampledReport.driveDownloadDetails <- function(documentId) {
-    list(documentId = documentId)
+UnsampledReport.driveDownloadDetails <- function(documentId = NULL) {
+    structure(list(documentId = documentId), class = "gar_UnsampledReport.driveDownloadDetails")
 }
 
 #' UnsampledReports Object
@@ -1813,21 +1803,20 @@ UnsampledReport.driveDownloadDetails <- function(documentId) {
 #' 
 #' @param items A list of unsampled reports
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this unsampled report collection
-#' @param startIndex Link to previous page for this unsampled report collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of resources in the result
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this unsampled report collection
+#' @param previousLink Link to previous page for this unsampled report collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of resources in the result
+#' @param username Email ID of the authenticated user
 #' 
 #' @return UnsampledReports object
 #' 
 #' @export
-UnsampledReports <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#unsampledReports", 
+UnsampledReports <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, 
+    previousLink = NULL, startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#unsampledReports", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_UnsampledReports")
 }
 
 #' Upload Object
@@ -1840,15 +1829,15 @@ UnsampledReports <- function(items, itemsPerPage, nextLink, previousLink, startI
 #' @param customDataSourceId Custom data source Id to which this data import belongs
 #' @param errors Data import errors collection
 #' @param id A unique ID for this upload
-#' @param status Resource type for Analytics upload
-#' @param accountId Upload status
+#' @param status Upload status
 #' 
 #' @return Upload object
 #' 
 #' @export
-Upload <- function(accountId, customDataSourceId, errors, id, status) {
-    list(accountId = accountId, customDataSourceId = customDataSourceId, errors = errors, 
-        id = id, kind = "analytics#upload", status = status)
+Upload <- function(accountId = NULL, customDataSourceId = NULL, errors = NULL, id = NULL, 
+    status = NULL) {
+    structure(list(accountId = accountId, customDataSourceId = customDataSourceId, 
+        errors = errors, id = id, kind = "analytics#upload", status = status), class = "gar_Upload")
 }
 
 #' Uploads Object
@@ -1859,19 +1848,19 @@ Upload <- function(accountId, customDataSourceId, errors, id, status) {
 #' 
 #' @param items A list of uploads
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this upload collection
-#' @param startIndex Link to previous page for this upload collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param items The total number of results for the query, regardless of the number of resources in the result
+#' @param nextLink Link to next page for this upload collection
+#' @param previousLink Link to previous page for this upload collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of resources in the result
 #' 
 #' @return Uploads object
 #' 
 #' @export
-Uploads <- function(items, itemsPerPage, nextLink, previousLink, startIndex, totalResults) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#uploads", 
+Uploads <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#uploads", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults)
+        totalResults = totalResults), class = "gar_Uploads")
 }
 
 #' UserRef Object
@@ -1882,13 +1871,12 @@ Uploads <- function(items, itemsPerPage, nextLink, previousLink, startIndex, tot
 #' 
 #' @param email Email ID of this user
 #' @param id User ID
-#' @param email 
 #' 
 #' @return UserRef object
 #' 
 #' @export
-UserRef <- function(email, id) {
-    list(email = email, id = id, kind = "analytics#userRef")
+UserRef <- function(email = NULL, id = NULL) {
+    structure(list(email = email, id = id, kind = "analytics#userRef"), class = "gar_UserRef")
 }
 
 #' WebPropertyRef Object
@@ -1901,15 +1889,15 @@ UserRef <- function(email, id) {
 #' @param href Link for this web property
 #' @param id Web property ID of the form UA-XXXXX-YY
 #' @param internalWebPropertyId Internal ID for this web property
-#' @param name Analytics web property reference
-#' @param accountId Name of this web property
+#' @param name Name of this web property
 #' 
 #' @return WebPropertyRef object
 #' 
 #' @export
-WebPropertyRef <- function(accountId, href, id, internalWebPropertyId, name) {
-    list(accountId = accountId, href = href, id = id, internalWebPropertyId = internalWebPropertyId, 
-        kind = "analytics#webPropertyRef", name = name)
+WebPropertyRef <- function(accountId = NULL, href = NULL, id = NULL, internalWebPropertyId = NULL, 
+    name = NULL) {
+    structure(list(accountId = accountId, href = href, id = id, internalWebPropertyId = internalWebPropertyId, 
+        kind = "analytics#webPropertyRef", name = name), class = "gar_WebPropertyRef")
 }
 
 #' WebPropertySummary Object
@@ -1920,20 +1908,20 @@ WebPropertyRef <- function(accountId, href, id, internalWebPropertyId, name) {
 #' 
 #' @param id Web property ID of the form UA-XXXXX-YY
 #' @param internalWebPropertyId Internal ID for this web property
-#' @param level Resource type for Analytics WebPropertySummary
-#' @param name Level for this web property
-#' @param profiles Web property name
-#' @param starred List of profiles under this web property
-#' @param websiteUrl Indicates whether this web property is starred or not
-#' @param id Website url for this web property
+#' @param level Level for this web property
+#' @param name Web property name
+#' @param profiles List of profiles under this web property
+#' @param starred Indicates whether this web property is starred or not
+#' @param websiteUrl Website url for this web property
 #' 
 #' @return WebPropertySummary object
 #' 
 #' @export
-WebPropertySummary <- function(id, internalWebPropertyId, level, name, profiles, 
-    starred, websiteUrl) {
-    list(id = id, internalWebPropertyId = internalWebPropertyId, kind = "analytics#webPropertySummary", 
-        level = level, name = name, profiles = profiles, starred = starred, websiteUrl = websiteUrl)
+WebPropertySummary <- function(id = NULL, internalWebPropertyId = NULL, level = NULL, 
+    name = NULL, profiles = NULL, starred = NULL, websiteUrl = NULL) {
+    structure(list(id = id, internalWebPropertyId = internalWebPropertyId, kind = "analytics#webPropertySummary", 
+        level = level, name = name, profiles = profiles, starred = starred, websiteUrl = websiteUrl), 
+        class = "gar_WebPropertySummary")
 }
 
 #' Webproperties Object
@@ -1944,21 +1932,20 @@ WebPropertySummary <- function(id, internalWebPropertyId, level, name, profiles,
 #' 
 #' @param items A list of web properties
 #' @param itemsPerPage The maximum number of resources the response can contain, regardless of the actual number of resources returned
-#' @param nextLink Collection type
-#' @param previousLink Link to next page for this web property collection
-#' @param startIndex Link to previous page for this web property collection
-#' @param totalResults The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
-#' @param username The total number of results for the query, regardless of the number of results in the response
-#' @param items Email ID of the authenticated user
+#' @param nextLink Link to next page for this web property collection
+#' @param previousLink Link to previous page for this web property collection
+#' @param startIndex The starting index of the resources, which is 1 by default or otherwise specified by the start-index query parameter
+#' @param totalResults The total number of results for the query, regardless of the number of results in the response
+#' @param username Email ID of the authenticated user
 #' 
 #' @return Webproperties object
 #' 
 #' @export
-Webproperties <- function(items, itemsPerPage, nextLink, previousLink, startIndex, 
-    totalResults, username) {
-    list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#webproperties", 
+Webproperties <- function(items = NULL, itemsPerPage = NULL, nextLink = NULL, previousLink = NULL, 
+    startIndex = NULL, totalResults = NULL, username = NULL) {
+    structure(list(items = items, itemsPerPage = itemsPerPage, kind = "analytics#webproperties", 
         nextLink = nextLink, previousLink = previousLink, startIndex = startIndex, 
-        totalResults = totalResults, username = username)
+        totalResults = totalResults, username = username), class = "gar_Webproperties")
 }
 
 #' Webproperty Object
@@ -1981,11 +1968,12 @@ Webproperties <- function(items, itemsPerPage, nextLink, previousLink, startInde
 #' @return Webproperty object
 #' 
 #' @export
-Webproperty <- function(accountId, childLink, defaultProfileId, id, industryVertical, 
-    name, parentLink, permissions, starred, websiteUrl) {
-    list(accountId = accountId, childLink = childLink, defaultProfileId = defaultProfileId, 
+Webproperty <- function(accountId = NULL, childLink = NULL, defaultProfileId = NULL, 
+    id = NULL, industryVertical = NULL, name = NULL, parentLink = NULL, permissions = NULL, 
+    starred = NULL, websiteUrl = NULL) {
+    structure(list(accountId = accountId, childLink = childLink, defaultProfileId = defaultProfileId, 
         id = id, industryVertical = industryVertical, name = name, parentLink = parentLink, 
-        permissions = permissions, starred = starred, websiteUrl = websiteUrl)
+        permissions = permissions, starred = starred, websiteUrl = websiteUrl), class = "gar_Webproperty")
 }
 
 #' Webproperty.childLink Object
@@ -1995,13 +1983,12 @@ Webproperty <- function(accountId, childLink, defaultProfileId, id, industryVert
 #' Child link for this web property. Points to the list of views (profiles) for this web property.
 #' 
 #' @param href Link to the list of views (profiles) for this web property
-#' @param type Type of the parent link
 #' 
 #' @return Webproperty.childLink object
 #' 
 #' @export
-Webproperty.childLink <- function(href) {
-    list(href = href, type = "analytics#profiles")
+Webproperty.childLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#profiles"), class = "gar_Webproperty.childLink")
 }
 
 #' Webproperty.parentLink Object
@@ -2011,13 +1998,12 @@ Webproperty.childLink <- function(href) {
 #' Parent link for this web property. Points to the account to which this web property belongs.
 #' 
 #' @param href Link to the account for this web property
-#' @param type Type of the parent link
 #' 
 #' @return Webproperty.parentLink object
 #' 
 #' @export
-Webproperty.parentLink <- function(href) {
-    list(href = href, type = "analytics#account")
+Webproperty.parentLink <- function(href = NULL) {
+    structure(list(href = href, type = "analytics#account"), class = "gar_Webproperty.parentLink")
 }
 
 

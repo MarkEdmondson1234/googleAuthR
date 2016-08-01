@@ -17,7 +17,14 @@ add_line <- function(line, path, quiet = FALSE) {
 
 make_f_arguments <- function(f_name, arguments, exclude = NULL){
   arguments <- arguments[setdiff(names(arguments), exclude)]
-  defaults <- vapply(arguments, function(x) if(is.null(x$required)) "= NULL" else "", character(1))
+  if(!inherits(arguments, "character")){
+    ## a list for function methods
+    defaults <- vapply(arguments, function(x) if(is.null(x[["required"]])) "= NULL" else "", character(1))
+  } else {
+    ## an api object - nothing is required
+    defaults <- rep("= NULL", length(arguments))
+  }
+
   paste0(
     f_name, " <- function(",
     paste(paste(make.names(names(arguments)), defaults), sep="\n", collapse = ",\n\n"),
