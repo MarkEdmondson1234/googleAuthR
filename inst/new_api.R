@@ -2,7 +2,7 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_skeleton
-#'  at 2016-08-01 21:55:27
+#'  at 2016-08-01 22:03:34
 #' filename: ./inst/new_api.R
 #' api_json: gar_discovery_api analytics v3
 #' 
@@ -67,6 +67,7 @@ data.ga.get <- function(ids, start.date, end.date, metrics, dimensions = NULL, f
         segment = segment, sort = sort, `start-date` = start.date, `start-index` = start.index), 
         data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Returns Analytics Multi-Channel Funnels data for a view (profile).
@@ -107,6 +108,7 @@ data.mcf.get <- function(ids, start.date, end.date, metrics, dimensions = NULL, 
         metrics = metrics, samplingLevel = samplingLevel, sort = sort, `start-date` = start.date, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Returns real time data for a view (profile).
@@ -142,6 +144,7 @@ data.realtime.get <- function(ids, metrics, dimensions = NULL, filters = NULL, m
         filters = filters, ids = ids, `max-results` = max.results, metrics = metrics, 
         sort = sort), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Lists account summaries (lightweight tree comprised of accounts/properties/profiles) to which the user has access.
@@ -171,6 +174,7 @@ management.accountSummaries.list <- function(max.results = NULL, start.index = N
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Removes a user from the given account.
@@ -199,6 +203,7 @@ management.accountUserLinks.delete <- function(accountId, linkId) {
     # analytics.management.accountUserLinks.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Adds a new user to the given account.
@@ -226,7 +231,8 @@ management.accountUserLinks.insert <- function(EntityUserLink, accountId) {
         accountId)
     # analytics.management.accountUserLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityUserLink)
+    
 }
 
 #' Lists account-user links for a given account.
@@ -258,6 +264,7 @@ management.accountUserLinks.list <- function(accountId, max.results = NULL, star
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates permissions for an existing user on the given account.
@@ -286,7 +293,8 @@ management.accountUserLinks.update <- function(EntityUserLink, accountId, linkId
         accountId, linkId)
     # analytics.management.accountUserLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityUserLink)
+    
 }
 
 #' Lists all accounts to which the user has access.
@@ -317,6 +325,7 @@ management.accounts.list <- function(max.results = NULL, start.index = NULL) {
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' List custom data sources to which the user has access.
@@ -351,6 +360,7 @@ management.customDataSources.list <- function(accountId, webPropertyId, max.resu
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Get a custom dimension to which the user has access.
@@ -381,6 +391,7 @@ management.customDimensions.get <- function(accountId, webPropertyId, customDime
     # analytics.management.customDimensions.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new custom dimension.
@@ -409,7 +420,8 @@ management.customDimensions.insert <- function(CustomDimension, accountId, webPr
         accountId, webPropertyId)
     # analytics.management.customDimensions.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = CustomDimension)
+    
 }
 
 #' Lists custom dimensions to which the user has access.
@@ -443,6 +455,7 @@ management.customDimensions.list <- function(accountId, webPropertyId, max.resul
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates an existing custom dimension. This method supports patch semantics.
@@ -475,7 +488,8 @@ management.customDimensions.patch <- function(CustomDimension, accountId, webPro
     # analytics.management.customDimensions.patch
     f <- gar_api_generator(url, "PATCH", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
-    f()
+    f(the_body = CustomDimension)
+    
 }
 
 #' Updates an existing custom dimension.
@@ -508,7 +522,8 @@ management.customDimensions.update <- function(CustomDimension, accountId, webPr
     # analytics.management.customDimensions.update
     f <- gar_api_generator(url, "PUT", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
-    f()
+    f(the_body = CustomDimension)
+    
 }
 
 #' Get a custom metric to which the user has access.
@@ -539,6 +554,7 @@ management.customMetrics.get <- function(accountId, webPropertyId, customMetricI
     # analytics.management.customMetrics.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new custom metric.
@@ -567,7 +583,8 @@ management.customMetrics.insert <- function(CustomMetric, accountId, webProperty
         accountId, webPropertyId)
     # analytics.management.customMetrics.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = CustomMetric)
+    
 }
 
 #' Lists custom metrics to which the user has access.
@@ -601,6 +618,7 @@ management.customMetrics.list <- function(accountId, webPropertyId, max.results 
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates an existing custom metric. This method supports patch semantics.
@@ -633,7 +651,8 @@ management.customMetrics.patch <- function(CustomMetric, accountId, webPropertyI
     # analytics.management.customMetrics.patch
     f <- gar_api_generator(url, "PATCH", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
-    f()
+    f(the_body = CustomMetric)
+    
 }
 
 #' Updates an existing custom metric.
@@ -666,7 +685,8 @@ management.customMetrics.update <- function(CustomMetric, accountId, webProperty
     # analytics.management.customMetrics.update
     f <- gar_api_generator(url, "PUT", pars_args = list(ignoreCustomDataSourceLinks = ignoreCustomDataSourceLinks), 
         data_parse_function = function(x) x)
-    f()
+    f(the_body = CustomMetric)
+    
 }
 
 #' Delete an experiment.
@@ -698,6 +718,7 @@ management.experiments.delete <- function(accountId, webPropertyId, profileId, e
     # analytics.management.experiments.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Returns an experiment to which the user has access.
@@ -730,6 +751,7 @@ management.experiments.get <- function(accountId, webPropertyId, profileId, expe
     # analytics.management.experiments.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new experiment.
@@ -760,7 +782,8 @@ management.experiments.insert <- function(Experiment, accountId, webPropertyId, 
         accountId, profileId, webPropertyId)
     # analytics.management.experiments.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = Experiment)
+    
 }
 
 #' Lists experiments to which the user has access.
@@ -796,6 +819,7 @@ management.experiments.list <- function(accountId, webPropertyId, profileId, max
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Update an existing experiment. This method supports patch semantics.
@@ -828,7 +852,8 @@ management.experiments.patch <- function(Experiment, accountId, webPropertyId, p
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
+    f(the_body = Experiment)
+    
 }
 
 #' Update an existing experiment.
@@ -861,7 +886,8 @@ management.experiments.update <- function(Experiment, accountId, webPropertyId, 
         accountId, experimentId, profileId, webPropertyId)
     # analytics.management.experiments.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = Experiment)
+    
 }
 
 #' Delete a filter.
@@ -890,6 +916,7 @@ management.filters.delete <- function(accountId, filterId) {
     # analytics.management.filters.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Returns a filters to which the user has access.
@@ -919,6 +946,7 @@ management.filters.get <- function(accountId, filterId) {
     # analytics.management.filters.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new filter.
@@ -946,7 +974,8 @@ management.filters.insert <- function(Filter, accountId) {
         accountId)
     # analytics.management.filters.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = Filter)
+    
 }
 
 #' Lists all filters for an account
@@ -978,6 +1007,7 @@ management.filters.list <- function(accountId, max.results = NULL, start.index =
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates an existing filter. This method supports patch semantics.
@@ -1006,7 +1036,8 @@ management.filters.patch <- function(Filter, accountId, filterId) {
         accountId, filterId)
     # analytics.management.filters.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
+    f(the_body = Filter)
+    
 }
 
 #' Updates an existing filter.
@@ -1035,7 +1066,8 @@ management.filters.update <- function(Filter, accountId, filterId) {
         accountId, filterId)
     # analytics.management.filters.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = Filter)
+    
 }
 
 #' Gets a goal to which the user has access.
@@ -1067,6 +1099,7 @@ management.goals.get <- function(accountId, webPropertyId, profileId, goalId) {
     # analytics.management.goals.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new goal.
@@ -1096,7 +1129,8 @@ management.goals.insert <- function(Goal, accountId, webPropertyId, profileId) {
         accountId, profileId, webPropertyId)
     # analytics.management.goals.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = Goal)
+    
 }
 
 #' Lists goals to which the user has access.
@@ -1132,6 +1166,7 @@ management.goals.list <- function(accountId, webPropertyId, profileId, max.resul
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates an existing goal. This method supports patch semantics.
@@ -1162,7 +1197,8 @@ management.goals.patch <- function(Goal, accountId, webPropertyId, profileId, go
         accountId, goalId, profileId, webPropertyId)
     # analytics.management.goals.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
+    f(the_body = Goal)
+    
 }
 
 #' Updates an existing goal.
@@ -1193,7 +1229,8 @@ management.goals.update <- function(Goal, accountId, webPropertyId, profileId, g
         accountId, goalId, profileId, webPropertyId)
     # analytics.management.goals.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = Goal)
+    
 }
 
 #' Delete a profile filter link.
@@ -1225,6 +1262,7 @@ management.profileFilterLinks.delete <- function(accountId, webPropertyId, profi
     # analytics.management.profileFilterLinks.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Returns a single profile filter link.
@@ -1257,6 +1295,7 @@ management.profileFilterLinks.get <- function(accountId, webPropertyId, profileI
     # analytics.management.profileFilterLinks.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new profile filter link.
@@ -1287,7 +1326,8 @@ management.profileFilterLinks.insert <- function(ProfileFilterLink, accountId, w
         accountId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = ProfileFilterLink)
+    
 }
 
 #' Lists all profile filter links for a profile.
@@ -1322,6 +1362,7 @@ management.profileFilterLinks.list <- function(accountId, webPropertyId, profile
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Update an existing profile filter link. This method supports patch semantics.
@@ -1353,7 +1394,8 @@ management.profileFilterLinks.patch <- function(ProfileFilterLink, accountId, we
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
+    f(the_body = ProfileFilterLink)
+    
 }
 
 #' Update an existing profile filter link.
@@ -1385,7 +1427,8 @@ management.profileFilterLinks.update <- function(ProfileFilterLink, accountId, w
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileFilterLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = ProfileFilterLink)
+    
 }
 
 #' Removes a user from the given view (profile).
@@ -1417,6 +1460,7 @@ management.profileUserLinks.delete <- function(accountId, webPropertyId, profile
     # analytics.management.profileUserLinks.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Adds a new user to the given view (profile).
@@ -1447,7 +1491,8 @@ management.profileUserLinks.insert <- function(EntityUserLink, accountId, webPro
         accountId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityUserLink)
+    
 }
 
 #' Lists profile-user links for a given view (profile).
@@ -1482,6 +1527,7 @@ management.profileUserLinks.list <- function(accountId, webPropertyId, profileId
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates permissions for an existing user on the given view (profile).
@@ -1513,7 +1559,8 @@ management.profileUserLinks.update <- function(EntityUserLink, accountId, webPro
         accountId, linkId, profileId, webPropertyId)
     # analytics.management.profileUserLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityUserLink)
+    
 }
 
 #' Deletes a view (profile).
@@ -1543,6 +1590,7 @@ management.profiles.delete <- function(accountId, webPropertyId, profileId) {
     # analytics.management.profiles.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Gets a view (profile) to which the user has access.
@@ -1573,6 +1621,7 @@ management.profiles.get <- function(accountId, webPropertyId, profileId) {
     # analytics.management.profiles.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new view (profile).
@@ -1601,7 +1650,8 @@ management.profiles.insert <- function(Profile, accountId, webPropertyId) {
         accountId, webPropertyId)
     # analytics.management.profiles.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = Profile)
+    
 }
 
 #' Lists views (profiles) to which the user has access.
@@ -1636,6 +1686,7 @@ management.profiles.list <- function(accountId, webPropertyId, max.results = NUL
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates an existing view (profile). This method supports patch semantics.
@@ -1665,7 +1716,8 @@ management.profiles.patch <- function(Profile, accountId, webPropertyId, profile
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
+    f(the_body = Profile)
+    
 }
 
 #' Updates an existing view (profile).
@@ -1695,7 +1747,8 @@ management.profiles.update <- function(Profile, accountId, webPropertyId, profil
         accountId, profileId, webPropertyId)
     # analytics.management.profiles.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = Profile)
+    
 }
 
 #' Lists segments to which the user has access.
@@ -1726,6 +1779,7 @@ management.segments.list <- function(max.results = NULL, start.index = NULL) {
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Deletes an unsampled report.
@@ -1757,6 +1811,7 @@ management.unsampledReports.delete <- function(accountId, webPropertyId, profile
     # analytics.management.unsampledReports.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Returns a single unsampled report.
@@ -1790,6 +1845,7 @@ management.unsampledReports.get <- function(accountId, webPropertyId, profileId,
     # analytics.management.unsampledReports.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new unsampled report.
@@ -1821,7 +1877,8 @@ management.unsampledReports.insert <- function(UnsampledReport, accountId, webPr
         accountId, profileId, webPropertyId)
     # analytics.management.unsampledReports.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = UnsampledReport)
+    
 }
 
 #' Lists unsampled reports to which the user has access.
@@ -1857,6 +1914,7 @@ management.unsampledReports.list <- function(accountId, webPropertyId, profileId
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Delete data associated with a previous upload.
@@ -1888,7 +1946,8 @@ management.uploads.deleteUploadData <- function(AnalyticsDataimportDeleteUploadD
         accountId, customDataSourceId, webPropertyId)
     # analytics.management.uploads.deleteUploadData
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = AnalyticsDataimportDeleteUploadDataRequest)
+    
 }
 
 #' List uploads to which the user has access.
@@ -1922,6 +1981,7 @@ management.uploads.get <- function(accountId, webPropertyId, customDataSourceId,
     # analytics.management.uploads.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' List uploads to which the user has access.
@@ -1957,6 +2017,7 @@ management.uploads.list <- function(accountId, webPropertyId, customDataSourceId
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Upload data for a custom data source.
@@ -1987,6 +2048,7 @@ management.uploads.uploadData <- function(accountId, webPropertyId, customDataSo
     # analytics.management.uploads.uploadData
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Deletes a web property-AdWords link.
@@ -2016,6 +2078,7 @@ management.webPropertyAdWordsLinks.delete <- function(accountId, webPropertyId, 
     # analytics.management.webPropertyAdWordsLinks.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Returns a web property-AdWords link to which the user has access.
@@ -2046,6 +2109,7 @@ management.webPropertyAdWordsLinks.get <- function(accountId, webPropertyId, web
     # analytics.management.webPropertyAdWordsLinks.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Creates a webProperty-AdWords link.
@@ -2075,7 +2139,8 @@ management.webPropertyAdWordsLinks.insert <- function(EntityAdWordsLink, account
         accountId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityAdWordsLink)
+    
 }
 
 #' Lists webProperty-AdWords links for a given web property.
@@ -2109,6 +2174,7 @@ management.webPropertyAdWordsLinks.list <- function(accountId, webPropertyId, ma
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates an existing webProperty-AdWords link. This method supports patch semantics.
@@ -2139,7 +2205,8 @@ management.webPropertyAdWordsLinks.patch <- function(EntityAdWordsLink, accountI
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityAdWordsLink)
+    
 }
 
 #' Updates an existing webProperty-AdWords link.
@@ -2170,7 +2237,8 @@ management.webPropertyAdWordsLinks.update <- function(EntityAdWordsLink, account
         accountId, webPropertyAdWordsLinkId, webPropertyId)
     # analytics.management.webPropertyAdWordsLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityAdWordsLink)
+    
 }
 
 #' Gets a web property to which the user has access.
@@ -2200,6 +2268,7 @@ management.webproperties.get <- function(accountId, webPropertyId) {
     # analytics.management.webproperties.get
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Create a new property if the account has fewer than 20 properties. Web properties are visible in the Google Analytics interface only if they have at least one profile.
@@ -2227,7 +2296,8 @@ management.webproperties.insert <- function(Webproperty, accountId) {
         accountId)
     # analytics.management.webproperties.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = Webproperty)
+    
 }
 
 #' Lists web properties to which the user has access.
@@ -2260,6 +2330,7 @@ management.webproperties.list <- function(accountId, max.results = NULL, start.i
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates an existing web property. This method supports patch semantics.
@@ -2288,7 +2359,8 @@ management.webproperties.patch <- function(Webproperty, accountId, webPropertyId
         accountId, webPropertyId)
     # analytics.management.webproperties.patch
     f <- gar_api_generator(url, "PATCH", data_parse_function = function(x) x)
-    f()
+    f(the_body = Webproperty)
+    
 }
 
 #' Updates an existing web property.
@@ -2317,7 +2389,8 @@ management.webproperties.update <- function(Webproperty, accountId, webPropertyI
         accountId, webPropertyId)
     # analytics.management.webproperties.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = Webproperty)
+    
 }
 
 #' Removes a user from the given web property.
@@ -2347,6 +2420,7 @@ management.webpropertyUserLinks.delete <- function(accountId, webPropertyId, lin
     # analytics.management.webpropertyUserLinks.delete
     f <- gar_api_generator(url, "DELETE", data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Adds a new user to the given web property.
@@ -2375,7 +2449,8 @@ management.webpropertyUserLinks.insert <- function(EntityUserLink, accountId, we
         accountId, webPropertyId)
     # analytics.management.webpropertyUserLinks.insert
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityUserLink)
+    
 }
 
 #' Lists webProperty-user links for a given web property.
@@ -2409,6 +2484,7 @@ management.webpropertyUserLinks.list <- function(accountId, webPropertyId, max.r
     f <- gar_api_generator(url, "GET", pars_args = list(`max-results` = max.results, 
         `start-index` = start.index), data_parse_function = function(x) x)
     f()
+    
 }
 
 #' Updates permissions for an existing user on the given web property.
@@ -2439,7 +2515,8 @@ management.webpropertyUserLinks.update <- function(EntityUserLink, accountId, we
         accountId, linkId, webPropertyId)
     # analytics.management.webpropertyUserLinks.update
     f <- gar_api_generator(url, "PUT", data_parse_function = function(x) x)
-    f()
+    f(the_body = EntityUserLink)
+    
 }
 
 #' Lists all columns for a report type
@@ -2469,6 +2546,7 @@ metadata.columns.list <- function(reportType) {
     # analytics.metadata.columns.list
     f <- gar_api_generator(url, "GET", data_parse_function = function(x) x)
     f()
+    
 }
 
 
@@ -2501,7 +2579,9 @@ provisioning.createAccountTicket <- function(AccountTicket) {
     # analytics.provisioning.createAccountTicket
     f <- gar_api_generator(url, "POST", data_parse_function = function(x) x)
     
-    f()
+    f(the_body = AccountTicket)
+    
+    
 }
 
 

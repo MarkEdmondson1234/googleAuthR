@@ -253,6 +253,15 @@ function_body <- function(api_json_resource_method, api_json){
   pars_list <- make_pars_list(api_json_resource_method)
   
   api_url <- make_api_url_string(api_json_resource_method, api_json)
+  
+  ## add api objects
+  if(!is.null(api_json_resource_method$request)){
+    object_param_var <- api_json_resource_method$request[['$ref']]
+    
+    function_call <- paste0("f(the_body = ", object_param_var,")\n\t\n")
+  } else {
+    function_call <- "f()\n\t\n"
+  }
     
   fb <- paste0(
     api_url,
@@ -261,7 +270,7 @@ function_body <- function(api_json_resource_method, api_json){
     "'",api_json_resource_method$httpMethod,"',\t\n",
     pars_list,
     "data_parse_function = function(x) x)\n\n",
-    "f()",
+    function_call,
     "\n",
     "}\n\n\n"
   )
