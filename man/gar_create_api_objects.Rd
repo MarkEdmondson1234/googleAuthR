@@ -17,4 +17,10 @@ TRUE if successful, side-effect creating filename
 \description{
 Create the API objects from the Discovery API
 }
+\seealso{
+Other Google Discovery API functions: \code{\link{gar_create_api_skeleton}},
+  \code{\link{gar_create_package}},
+  \code{\link{gar_discovery_apis_list}},
+  \code{\link{gar_discovery_api}}
+}
 

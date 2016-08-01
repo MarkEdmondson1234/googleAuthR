@@ -14,5 +14,10 @@ Doesn't require authentication
 }
 \seealso{
 \href{https://developers.google.com/discovery/v1/reference/apis/list}
+
+Other Google Discovery API functions: \code{\link{gar_create_api_objects}},
+  \code{\link{gar_create_api_skeleton}},
+  \code{\link{gar_create_package}},
+  \code{\link{gar_discovery_api}}
 }
 

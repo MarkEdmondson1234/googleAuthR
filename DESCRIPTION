@@ -20,6 +20,7 @@ Suggests:
     shiny (>= 0.12.1),
     miniUI (>= 0.1.1),
     formatR (>= 1.4),
+    devtools (>= 1.12.0),
     knitr
 License: MIT + file LICENSE
 LazyData: true
