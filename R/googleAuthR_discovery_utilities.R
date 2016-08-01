@@ -17,9 +17,10 @@ add_line <- function(line, path, quiet = FALSE) {
 
 make_f_arguments <- function(f_name, arguments, exclude = NULL){
   arguments <- arguments[setdiff(names(arguments), exclude)]
+  defaults <- vapply(arguments, function(x) if(is.null(x$required)) "= NULL" else "", character(1))
   paste0(
     f_name, " <- function(",
-    paste(make.names(names(arguments)), sep="\n", collapse = ",\n\n"),
+    paste(paste(make.names(names(arguments)), defaults), sep="\n", collapse = ",\n\n"),
     "){\n\n"
   )
 }

@@ -138,6 +138,16 @@ function_docs <- function(api_json_resource_method, api_json){
                          api_json_resource_method=ordered_method_parameters)
   )
   
+  ## add api objects
+  if(!is.null(api_json_resource_method$request)){
+    object_param_line <- paste0("#' @param ", 
+                                api_json_resource_method$request[['$ref']], 
+                                " ",
+                                "The \\link{",api_json_resource_method$request[['$ref']],"} object to pass to this method\n")
+  } else {
+    object_param_line <- NULL
+  }
+  
   docs <- paste0(
     "\t\n\n",
     "#' ", api_json_resource_method$description, "\n",
@@ -156,6 +166,7 @@ function_docs <- function(api_json_resource_method, api_json){
     "#' Then run \\code{googleAuthR::gar_auth()} to authenticate.\n",
     "#' See \\code{\\link[googleAuthR]{gar_auth}} for details. \n",
     "#' \n",
+    object_param_line,
     "#' ", params,
     "#' @importFrom googleAuthR gar_api_generator\n",
     "#' @export\n"
@@ -216,6 +227,15 @@ function_params <- function(api_json_resource_method, api_json){
   order_names <- c(api_json_resource_method$parameterOrder, 
                    setdiff(names(api_json_resource_method$parameters), api_json_resource_method$parameterOrder))
   ordered_method_parameters <- api_json_resource_method$parameters[order_names]
+  
+  ## add api objects
+  if(!is.null(api_json_resource_method$request)){
+    object_param_var <- api_json_resource_method$request[['$ref']]
+    object_list <- list(list(name = object_param_var, required = TRUE))
+    names(object_list) <- object_param_var
+    ordered_method_parameters <- c(object_list, 
+                                   ordered_method_parameters)
+  }
   
   f_name <- gsub(paste0(api_json$name,"."), "", api_json_resource_method$id)
   make_f_arguments(f_name, ordered_method_parameters)
