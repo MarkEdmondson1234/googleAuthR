@@ -2,7 +2,7 @@
 #' Views and manages your Google Analytics data.
 #' 
 #' Auto-generated code by googleAuthR::gar_create_api_skeleton
-#'  at 2016-08-01 22:37:51
+#'  at 2016-08-01 22:47:13
 #' filename: ./inst/new_api.R
 #' api_json: gar_discovery_api analytics v3
 #' 
@@ -225,6 +225,7 @@ management.accountUserLinks.delete <- function(accountId, linkId) {
 #' @param EntityUserLink The \link{EntityUserLink} object to pass to this method
 #' @param accountId Account ID to create the user link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityUserLink functions
 #' @export
 management.accountUserLinks.insert <- function(EntityUserLink, accountId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/entityUserLinks", 
@@ -289,6 +290,7 @@ management.accountUserLinks.list <- function(accountId, max.results = NULL, star
 #' @param accountId Account ID to update the account-user link for
 #' @param linkId Link ID to update the account-user link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityUserLink functions
 #' @export
 management.accountUserLinks.update <- function(EntityUserLink, accountId, linkId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/entityUserLinks/%s", 
@@ -418,6 +420,7 @@ management.customDimensions.get <- function(accountId, webPropertyId, customDime
 #' @param accountId Account ID for the custom dimension to create
 #' @param webPropertyId Web property ID for the custom dimension to create
 #' @importFrom googleAuthR gar_api_generator
+#' @family CustomDimension functions
 #' @export
 management.customDimensions.insert <- function(CustomDimension, accountId, webPropertyId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customDimensions", 
@@ -486,6 +489,7 @@ management.customDimensions.list <- function(accountId, webPropertyId, max.resul
 #' @param customDimensionId Custom dimension ID for the custom dimension to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom dimension being linked to a custom data source / data set
 #' @importFrom googleAuthR gar_api_generator
+#' @family CustomDimension functions
 #' @export
 management.customDimensions.patch <- function(CustomDimension, accountId, webPropertyId, 
     customDimensionId, ignoreCustomDataSourceLinks = NULL) {
@@ -522,6 +526,7 @@ management.customDimensions.patch <- function(CustomDimension, accountId, webPro
 #' @param customDimensionId Custom dimension ID for the custom dimension to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom dimension being linked to a custom data source / data set
 #' @importFrom googleAuthR gar_api_generator
+#' @family CustomDimension functions
 #' @export
 management.customDimensions.update <- function(CustomDimension, accountId, webPropertyId, 
     customDimensionId, ignoreCustomDataSourceLinks = NULL) {
@@ -587,6 +592,7 @@ management.customMetrics.get <- function(accountId, webPropertyId, customMetricI
 #' @param accountId Account ID for the custom metric to create
 #' @param webPropertyId Web property ID for the custom dimension to create
 #' @importFrom googleAuthR gar_api_generator
+#' @family CustomMetric functions
 #' @export
 management.customMetrics.insert <- function(CustomMetric, accountId, webPropertyId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/customMetrics", 
@@ -655,6 +661,7 @@ management.customMetrics.list <- function(accountId, webPropertyId, max.results 
 #' @param customMetricId Custom metric ID for the custom metric to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom metric being linked to a custom data source / data set
 #' @importFrom googleAuthR gar_api_generator
+#' @family CustomMetric functions
 #' @export
 management.customMetrics.patch <- function(CustomMetric, accountId, webPropertyId, 
     customMetricId, ignoreCustomDataSourceLinks = NULL) {
@@ -691,6 +698,7 @@ management.customMetrics.patch <- function(CustomMetric, accountId, webPropertyI
 #' @param customMetricId Custom metric ID for the custom metric to update
 #' @param ignoreCustomDataSourceLinks Force the update and ignore any warnings related to the custom metric being linked to a custom data source / data set
 #' @importFrom googleAuthR gar_api_generator
+#' @family CustomMetric functions
 #' @export
 management.customMetrics.update <- function(CustomMetric, accountId, webPropertyId, 
     customMetricId, ignoreCustomDataSourceLinks = NULL) {
@@ -792,6 +800,7 @@ management.experiments.get <- function(accountId, webPropertyId, profileId, expe
 #' @param webPropertyId Web property ID to create the experiment for
 #' @param profileId View (Profile) ID to create the experiment for
 #' @importFrom googleAuthR gar_api_generator
+#' @family Experiment functions
 #' @export
 management.experiments.insert <- function(Experiment, accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments", 
@@ -863,6 +872,7 @@ management.experiments.list <- function(accountId, webPropertyId, profileId, max
 #' @param profileId View (Profile) ID of the experiment to update
 #' @param experimentId Experiment ID of the experiment to update
 #' @importFrom googleAuthR gar_api_generator
+#' @family Experiment functions
 #' @export
 management.experiments.patch <- function(Experiment, accountId, webPropertyId, profileId, 
     experimentId) {
@@ -899,6 +909,7 @@ management.experiments.patch <- function(Experiment, accountId, webPropertyId, p
 #' @param profileId View (Profile) ID of the experiment to update
 #' @param experimentId Experiment ID of the experiment to update
 #' @importFrom googleAuthR gar_api_generator
+#' @family Experiment functions
 #' @export
 management.experiments.update <- function(Experiment, accountId, webPropertyId, profileId, 
     experimentId) {
@@ -990,6 +1001,7 @@ management.filters.get <- function(accountId, filterId) {
 #' @param Filter The \link{Filter} object to pass to this method
 #' @param accountId Account ID to create filter for
 #' @importFrom googleAuthR gar_api_generator
+#' @family Filter functions
 #' @export
 management.filters.insert <- function(Filter, accountId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters", 
@@ -1054,6 +1066,7 @@ management.filters.list <- function(accountId, max.results = NULL, start.index =
 #' @param accountId Account ID to which the filter belongs
 #' @param filterId ID of the filter to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family Filter functions
 #' @export
 management.filters.patch <- function(Filter, accountId, filterId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters/%s", 
@@ -1086,6 +1099,7 @@ management.filters.patch <- function(Filter, accountId, filterId) {
 #' @param accountId Account ID to which the filter belongs
 #' @param filterId ID of the filter to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family Filter functions
 #' @export
 management.filters.update <- function(Filter, accountId, filterId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/filters/%s", 
@@ -1151,6 +1165,7 @@ management.goals.get <- function(accountId, webPropertyId, profileId, goalId) {
 #' @param webPropertyId Web property ID to create the goal for
 #' @param profileId View (Profile) ID to create the goal for
 #' @importFrom googleAuthR gar_api_generator
+#' @family Goal functions
 #' @export
 management.goals.insert <- function(Goal, accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals", 
@@ -1221,6 +1236,7 @@ management.goals.list <- function(accountId, webPropertyId, profileId, max.resul
 #' @param profileId View (Profile) ID to update the goal
 #' @param goalId Index of the goal to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family Goal functions
 #' @export
 management.goals.patch <- function(Goal, accountId, webPropertyId, profileId, goalId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
@@ -1255,6 +1271,7 @@ management.goals.patch <- function(Goal, accountId, webPropertyId, profileId, go
 #' @param profileId View (Profile) ID to update the goal
 #' @param goalId Index of the goal to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family Goal functions
 #' @export
 management.goals.update <- function(Goal, accountId, webPropertyId, profileId, goalId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/goals/%s", 
@@ -1353,6 +1370,7 @@ management.profileFilterLinks.get <- function(accountId, webPropertyId, profileI
 #' @param webPropertyId Web property Id to create profile filter link for
 #' @param profileId Profile ID to create filter link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family ProfileFilterLink functions
 #' @export
 management.profileFilterLinks.insert <- function(ProfileFilterLink, accountId, webPropertyId, 
     profileId) {
@@ -1423,6 +1441,7 @@ management.profileFilterLinks.list <- function(accountId, webPropertyId, profile
 #' @param profileId Profile ID to which filter link belongs
 #' @param linkId ID of the profile filter link to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family ProfileFilterLink functions
 #' @export
 management.profileFilterLinks.patch <- function(ProfileFilterLink, accountId, webPropertyId, 
     profileId, linkId) {
@@ -1458,6 +1477,7 @@ management.profileFilterLinks.patch <- function(ProfileFilterLink, accountId, we
 #' @param profileId Profile ID to which filter link belongs
 #' @param linkId ID of the profile filter link to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family ProfileFilterLink functions
 #' @export
 management.profileFilterLinks.update <- function(ProfileFilterLink, accountId, webPropertyId, 
     profileId, linkId) {
@@ -1524,6 +1544,7 @@ management.profileUserLinks.delete <- function(accountId, webPropertyId, profile
 #' @param webPropertyId Web Property ID to create the user link for
 #' @param profileId View (Profile) ID to create the user link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityUserLink functions
 #' @export
 management.profileUserLinks.insert <- function(EntityUserLink, accountId, webPropertyId, 
     profileId) {
@@ -1594,6 +1615,7 @@ management.profileUserLinks.list <- function(accountId, webPropertyId, profileId
 #' @param profileId View (Profile ID) to update the user link for
 #' @param linkId Link ID to update the user link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityUserLink functions
 #' @export
 management.profileUserLinks.update <- function(EntityUserLink, accountId, webPropertyId, 
     profileId, linkId) {
@@ -1688,6 +1710,7 @@ management.profiles.get <- function(accountId, webPropertyId, profileId) {
 #' @param accountId Account ID to create the view (profile) for
 #' @param webPropertyId Web property ID to create the view (profile) for
 #' @importFrom googleAuthR gar_api_generator
+#' @family Profile functions
 #' @export
 management.profiles.insert <- function(Profile, accountId, webPropertyId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles", 
@@ -1756,6 +1779,7 @@ management.profiles.list <- function(accountId, webPropertyId, max.results = NUL
 #' @param webPropertyId Web property ID to which the view (profile) belongs
 #' @param profileId ID of the view (profile) to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family Profile functions
 #' @export
 management.profiles.patch <- function(Profile, accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
@@ -1789,6 +1813,7 @@ management.profiles.patch <- function(Profile, accountId, webPropertyId, profile
 #' @param webPropertyId Web property ID to which the view (profile) belongs
 #' @param profileId ID of the view (profile) to be updated
 #' @importFrom googleAuthR gar_api_generator
+#' @family Profile functions
 #' @export
 management.profiles.update <- function(Profile, accountId, webPropertyId, profileId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s", 
@@ -1920,6 +1945,7 @@ management.unsampledReports.get <- function(accountId, webPropertyId, profileId,
 #' @param webPropertyId Web property ID to create the unsampled report for
 #' @param profileId View (Profile) ID to create the unsampled report for
 #' @importFrom googleAuthR gar_api_generator
+#' @family UnsampledReport functions
 #' @export
 management.unsampledReports.insert <- function(UnsampledReport, accountId, webPropertyId, 
     profileId) {
@@ -1991,6 +2017,7 @@ management.unsampledReports.list <- function(accountId, webPropertyId, profileId
 #' @param webPropertyId Web property Id for the uploads to be deleted
 #' @param customDataSourceId Custom data source Id for the uploads to be deleted
 #' @importFrom googleAuthR gar_api_generator
+#' @family AnalyticsDataimportDeleteUploadDataRequest functions
 #' @export
 management.uploads.deleteUploadData <- function(AnalyticsDataimportDeleteUploadDataRequest, 
     accountId, webPropertyId, customDataSourceId) {
@@ -2186,6 +2213,7 @@ management.webPropertyAdWordsLinks.get <- function(accountId, webPropertyId, web
 #' @param accountId ID of the Google Analytics account to create the link for
 #' @param webPropertyId Web property ID to create the link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityAdWordsLink functions
 #' @export
 management.webPropertyAdWordsLinks.insert <- function(EntityAdWordsLink, accountId, 
     webPropertyId) {
@@ -2254,6 +2282,7 @@ management.webPropertyAdWordsLinks.list <- function(accountId, webPropertyId, ma
 #' @param webPropertyId Web property ID to retrieve the AdWords link for
 #' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityAdWordsLink functions
 #' @export
 management.webPropertyAdWordsLinks.patch <- function(EntityAdWordsLink, accountId, 
     webPropertyId, webPropertyAdWordsLinkId) {
@@ -2288,6 +2317,7 @@ management.webPropertyAdWordsLinks.patch <- function(EntityAdWordsLink, accountI
 #' @param webPropertyId Web property ID to retrieve the AdWords link for
 #' @param webPropertyAdWordsLinkId Web property-AdWords link ID
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityAdWordsLink functions
 #' @export
 management.webPropertyAdWordsLinks.update <- function(EntityAdWordsLink, accountId, 
     webPropertyId, webPropertyAdWordsLinkId) {
@@ -2350,6 +2380,7 @@ management.webproperties.get <- function(accountId, webPropertyId) {
 #' @param Webproperty The \link{Webproperty} object to pass to this method
 #' @param accountId Account ID to create the web property for
 #' @importFrom googleAuthR gar_api_generator
+#' @family Webproperty functions
 #' @export
 management.webproperties.insert <- function(Webproperty, accountId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties", 
@@ -2415,6 +2446,7 @@ management.webproperties.list <- function(accountId, max.results = NULL, start.i
 #' @param accountId Account ID to which the web property belongs
 #' @param webPropertyId Web property ID
 #' @importFrom googleAuthR gar_api_generator
+#' @family Webproperty functions
 #' @export
 management.webproperties.patch <- function(Webproperty, accountId, webPropertyId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s", 
@@ -2447,6 +2479,7 @@ management.webproperties.patch <- function(Webproperty, accountId, webPropertyId
 #' @param accountId Account ID to which the web property belongs
 #' @param webPropertyId Web property ID
 #' @importFrom googleAuthR gar_api_generator
+#' @family Webproperty functions
 #' @export
 management.webproperties.update <- function(Webproperty, accountId, webPropertyId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s", 
@@ -2509,6 +2542,7 @@ management.webpropertyUserLinks.delete <- function(accountId, webPropertyId, lin
 #' @param accountId Account ID to create the user link for
 #' @param webPropertyId Web Property ID to create the user link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityUserLink functions
 #' @export
 management.webpropertyUserLinks.insert <- function(EntityUserLink, accountId, webPropertyId) {
     url <- sprintf("https://www.googleapis.com/analytics/v3/management/accounts/%s/webproperties/%s/entityUserLinks", 
@@ -2576,6 +2610,7 @@ management.webpropertyUserLinks.list <- function(accountId, webPropertyId, max.r
 #' @param webPropertyId Web property ID to update the account-user link for
 #' @param linkId Link ID to update the account-user link for
 #' @importFrom googleAuthR gar_api_generator
+#' @family EntityUserLink functions
 #' @export
 management.webpropertyUserLinks.update <- function(EntityUserLink, accountId, webPropertyId, 
     linkId) {
@@ -2638,6 +2673,7 @@ metadata.columns.list <- function(reportType) {
 #' 
 #' @param AccountTicket The \link{AccountTicket} object to pass to this method
 #' #' @importFrom googleAuthR gar_api_generator
+#' @family AccountTicket functions
 #' @export
 
 

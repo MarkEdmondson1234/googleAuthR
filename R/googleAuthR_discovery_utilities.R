@@ -244,3 +244,8 @@ first_sentence <- function(string){
          }, 
          character(1))
 }
+
+## return names of any children of this property_name
+get_object_children <- function(property_name, properties){
+  names(properties)[grepl(paste0("^",property_name,"\\."), names(properties))]
+}
