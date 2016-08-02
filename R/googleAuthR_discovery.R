@@ -2,7 +2,11 @@
 #' 
 #' @param api_json json from \link{gar_discovery_api}
 #' @param directory Where to build the package
-#' @param rstudio Passed to \link[devtools]{create}, creates RStudio project file.
+#' @param rstudio Passed to \link[devtools]{create}, creates RStudio project file
+#' @param check Perform a \link[devtools]{check} on the package once done
+#' @param github If TRUE will upload package to your github
+#' 
+#' For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
 #' 
 #' Uses \link[devtools]{create} to create a package structure then 
 #'   \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
@@ -10,37 +14,59 @@
 #' 
 #' @seealso \href{https://developers.google.com/discovery/v1/reference/apis/list}
 #'
+#' @return If check is TRUE, the results of the CRAN check, else FALSE
+#' 
 #' @family Google Discovery API functions
 #' @import devtools
 #' @export
-gar_create_package <- function(api_json, directory, rstudio = TRUE){
+gar_create_package <- function(api_json, 
+                               directory, 
+                               rstudio = TRUE, 
+                               check = TRUE, 
+                               github = TRUE){
   
   package_name <- paste0("google",gsub("\\.","", make.names(api_json$id)),".auto")
   package_dir <- file.path(directory, package_name)
-  message("Creating ", package_name, "in file location ", package_dir )
+  message("Creating ", package_name, " at file location ", package_dir )
   
-  devtools::create(file.path(directory, package_name),
-                   list(
-                     Package = package_name,
-                     Version = "0.0.0.9000",
-                     Title = api_json$title,
-                     Description = paste0(api_json$description, " Auto-generated via googleAuthR"),
-                     "Authors@R" = 'c(person("Mark", "Edmondson",email = "m@sunholo.com",
-                  role = c("aut", "cre")))',
-                     Imports = "googleAuthR (>= 0.3)"
-                     ),
-                   rstudio = rstudio)
+  f_files <- file.path(package_dir, "R", paste0(api_json$name, "_functions.R"))
+  o_files <- file.path(package_dir, "R", paste0(api_json$name,"_objects.R"))
   
-  dir.create(file.path(package_dir, "R"))
+  if(!file.exists(f_files)){
+    devtools::create(file.path(directory, package_name),
+                     list(
+                       Package = package_name,
+                       Version = "0.0.0.9000",
+                       Title = api_json$title,
+                       Description = paste0(api_json$description, " Auto-generated via googleAuthR."),
+                       "Authors@R" = 'c(person("Mark", "Edmondson",email = "m@sunholo.com",
+                       role = c("aut", "cre")))',
+                       Imports = "googleAuthR (>= 0.3)",
+                       License = "MIT + file LICENSE"
+                       ),
+                     rstudio = rstudio)
+  }
   
-  gar_create_api_skeleton(file.path(package_dir, "R", paste0(api_json$name, "_functions.R")), api_json)
-  gar_create_api_objects(file.path(package_dir, "R", paste0(api_json$name,"_objects.R")), api_json)
+  gar_create_api_skeleton(f_files, api_json)
+  gar_create_api_objects(o_files, api_json)
+  
+  add_line(c("YEAR: 2016\nCOPYRIGHT HOLDER: Sunholo Ltd.\n\t"), file.path(package_dir,"LICENSE"))
   
   devtools::document(package_dir)
-  ## use_readme_md
-  ## user_github
+  make_readme(package_dir, api_json)
+
   ## add_travis
-  ## check
+
+  result <- FALSE
+  if(check){
+    result <- devtools::check(package_dir)
+  }
+  
+  if(github){
+    devtools::use_github(pkg = package_dir, protocol = "https")
+  } ## git2r::push
+  
+  result
 }
 
 
@@ -142,7 +168,7 @@ gar_create_api_skeleton <- function(filename = "./inst/new_api.R",
       "#' \n",
       "#' Auto-generated code by googleAuthR::gar_create_api_skeleton\n",
       "#'  at ", as.character(Sys.time()), "\n",
-      "#' filename: ", substitute(filename),"\n",
+      "#' filename: ", as.character(filename),"\n",
       "#' api_json: ", paste(substitute(api_json), collapse = " "),"\n",
       "#' \n",
       "#' @details \n",
@@ -170,7 +196,7 @@ gar_create_api_skeleton <- function(filename = "./inst/new_api.R",
 
   lapply(paste(fd, fp,fb, sep = "\n\n"), add_line, temp)
   
-  invisible(formatR::tidy_eval(temp, file = filename, width.cutoff = 80))
+  formatR::tidy_eval(temp, file = filename, width.cutoff = 80)
   
 }
 
@@ -206,13 +232,13 @@ gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
     "#' \n",
     "#' Auto-generated code by googleAuthR::gar_create_api_objects\n",
     "#'  at ", as.character(Sys.time()), "\n",
-    "#' filename: ", substitute(filename),"\n",
+    "#' filename: ", as.character(filename),"\n",
     "#' api_json: ", paste(substitute(api_json), collapse = " "),"\n",
     "#' \n",
     "#' Objects for use by the functions created by googleAuthR::gar_create_api_skeleton\n",
     "\n"
   )
-  
+
   add_line(header, temp)
   
   ## take the json and create a file of structures that will get passed to the functions that need them
@@ -228,7 +254,7 @@ gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   
   lapply(paste(fd, fp,fb, sep = "\n\n"), add_line, temp)
   
-  invisible(formatR::tidy_eval(temp, file = filename, width.cutoff = 80))
+  suppressMessages(formatR::tidy_eval(temp, file = filename, width.cutoff = 80))
   
 }
 

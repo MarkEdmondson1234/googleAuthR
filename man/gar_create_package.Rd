@@ -4,18 +4,28 @@
 \alias{gar_create_package}
 \title{Create a Google API package}
 \usage{
-gar_create_package(api_json, directory, rstudio = TRUE)
+gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
+  github = TRUE)
 }
 \arguments{
 \item{api_json}{json from \link{gar_discovery_api}}
 
 \item{directory}{Where to build the package}
 
-\item{rstudio}{Passed to \link[devtools]{create}, creates RStudio project file.
+\item{rstudio}{Passed to \link[devtools]{create}, creates RStudio project file}
+
+\item{check}{Perform a \link[devtools]{check} on the package once done}
+
+\item{github}{If TRUE will upload package to your github
+
+For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
 
 Uses \link[devtools]{create} to create a package structure then 
   \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
   starting files for a Google API package.}
+}
+\value{
+If check is TRUE, the results of the CRAN check, else FALSE
 }
 \description{
 Create a Google API package
