@@ -7,6 +7,7 @@
 * Discovery API functions to get details on Google APIs added: `gar_discovery_apis_list` and `gar_discovery_api`
 * Change warnings() in batch to myMessage() level 2
 * ensure batch requests only occur per second to help calculation of QPS limits
+* Add 404 message if batch requests are not found.
 
 # v0.3.1 - CRAN
 
