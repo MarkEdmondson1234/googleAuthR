@@ -39,7 +39,6 @@ gar_batch <- function(call_list, ...){
     stop("Batch Request: 404 Not Found")
   }
   
-  browser()
   batch_content <-  parseBatchResponse(req)
   
   parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content, ...)
