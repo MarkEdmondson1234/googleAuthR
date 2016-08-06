@@ -4,13 +4,14 @@
 \alias{gar_create_api_skeleton}
 \title{Create an API library skeleton}
 \usage{
-gar_create_api_skeleton(filename = "./inst/new_api.R",
-  api_json = gar_discovery_api("urlshortener", "v1"))
+gar_create_api_skeleton(filename, api_json, format = TRUE)
 }
 \arguments{
 \item{filename}{R file to write skeleton to}
 
 \item{api_json}{The json from \link{gar_discovery_api}}
+
+\item{format}{If TRUE will use \link[formatR]{tidy_eval} on content}
 }
 \value{
 TRUE if successful, side effect will write a file

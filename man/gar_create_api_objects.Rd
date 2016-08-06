@@ -4,12 +4,14 @@
 \alias{gar_create_api_objects}
 \title{Create the API objects from the Discovery API}
 \usage{
-gar_create_api_objects(filename = "./inst/api_objects.R", api_json)
+gar_create_api_objects(filename, api_json, format = TRUE)
 }
 \arguments{
 \item{filename}{File to write the objects to}
 
 \item{api_json}{The json from \link{gar_discovery_api}}
+
+\item{format}{If TRUE will use \link[formatR]{tidy_eval} on content}
 }
 \value{
 TRUE if successful, side-effect creating filename

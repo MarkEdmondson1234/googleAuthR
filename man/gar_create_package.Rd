@@ -5,7 +5,7 @@
 \title{Create a Google API package}
 \usage{
 gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
-  github = TRUE)
+  github = TRUE, format = TRUE)
 }
 \arguments{
 \item{api_json}{json from \link{gar_discovery_api}}
@@ -16,7 +16,9 @@ gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
 
 \item{check}{Perform a \link[devtools]{check} on the package once done}
 
-\item{github}{If TRUE will upload package to your github
+\item{github}{If TRUE will upload package to your github}
+
+\item{format}{If TRUE will use \link[formatR]{tidy_eval} on content
 
 For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
 

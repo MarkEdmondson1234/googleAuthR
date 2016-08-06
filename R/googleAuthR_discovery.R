@@ -5,6 +5,7 @@
 #' @param rstudio Passed to \link[devtools]{create}, creates RStudio project file
 #' @param check Perform a \link[devtools]{check} on the package once done
 #' @param github If TRUE will upload package to your github
+#' @param format If TRUE will use \link[formatR]{tidy_eval} on content
 #' 
 #' For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
 #' 
@@ -23,7 +24,8 @@ gar_create_package <- function(api_json,
                                directory, 
                                rstudio = TRUE, 
                                check = TRUE, 
-                               github = TRUE){
+                               github = TRUE,
+                               format = TRUE){
   
   package_name <- paste0("google",gsub("\\.","", make.names(api_json$id)),".auto")
   package_dir <- file.path(directory, package_name)
@@ -47,12 +49,12 @@ gar_create_package <- function(api_json,
                      rstudio = rstudio)
   }
   
-  gar_create_api_skeleton(f_files, api_json)
-  gar_create_api_objects(o_files, api_json)
+  gar_create_api_skeleton(f_files, api_json, format = format)
+  gar_create_api_objects(o_files, api_json, format = format)
   
   add_line(c("YEAR: 2016\nCOPYRIGHT HOLDER: Sunholo Ltd.\n\t"), file.path(package_dir,"LICENSE"))
   
-  devtools::document(package_dir)
+  if(format) devtools::document(package_dir)
   make_readme(package_dir, api_json)
 
   ## add_travis
@@ -78,6 +80,7 @@ gar_create_package <- function(api_json,
 #' 
 #' @return List of Google APIs and their resources
 #' @family Google Discovery API functions
+#' 
 #' @export
 gar_discovery_apis_list <- function(){
   
@@ -141,13 +144,14 @@ gar_discovery_api <- function(api, version){
 #' 
 #' @param filename R file to write skeleton to
 #' @param api_json The json from \link{gar_discovery_api}
+#' @param format If TRUE will use \link[formatR]{tidy_eval} on content
 #' 
 #' @return TRUE if successful, side effect will write a file
 #' @family Google Discovery API functions
 #' @export
-gar_create_api_skeleton <- function(filename = "./inst/new_api.R", 
-                                    api_json = gar_discovery_api("urlshortener","v1")
-                                    ){
+gar_create_api_skeleton <- function(filename, 
+                                    api_json,
+                                    format = TRUE){
   
 
   if(is.null(api_json$kind) && api_json$kind != "discovery#restDescription"){
@@ -196,7 +200,11 @@ gar_create_api_skeleton <- function(filename = "./inst/new_api.R",
 
   lapply(paste(fd, fp,fb, sep = "\n\n"), add_line, temp)
   
-  formatR::tidy_eval(temp, file = filename, width.cutoff = 80)
+  if(format){
+    formatR::tidy_eval(temp, file = filename, width.cutoff = 80)
+  } else {
+    file.copy(temp, filename)
+  }
   
 }
 
@@ -207,11 +215,12 @@ gar_create_api_skeleton <- function(filename = "./inst/new_api.R",
 #' 
 #' @param filename File to write the objects to
 #' @param api_json The json from \link{gar_discovery_api}
+#' @param format If TRUE will use \link[formatR]{tidy_eval} on content
 #' 
 #' @return TRUE if successful, side-effect creating filename
 #' @family Google Discovery API functions
 #' @export
-gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
+gar_create_api_objects <- function(filename, api_json, format = TRUE){
   
   if(is.null(api_json$kind) && api_json$kind != "discovery#restDescription"){
     stop("api_json not recognised from gar_discovery_api")
@@ -254,7 +263,12 @@ gar_create_api_objects <- function(filename = "./inst/api_objects.R", api_json){
   
   lapply(paste(fd, fp,fb, sep = "\n\n"), add_line, temp)
   
-  formatR::tidy_eval(temp, file = filename, width.cutoff = 80)
+  if(format){
+    formatR::tidy_eval(temp, file = filename, width.cutoff = 80)
+  } else {
+    file.copy(temp, filename)
+  }
+
   
 }
 
