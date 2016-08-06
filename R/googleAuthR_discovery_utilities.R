@@ -27,8 +27,8 @@ make_f_arguments <- function(f_name, arguments, exclude = NULL){
 
   paste0(
     f_name, " <- function(",
-    paste(paste(make.names(names(arguments)), defaults), sep="\n", collapse = ",\n\n"),
-    "){\n\n"
+    paste(paste(make.names(names(arguments)), defaults), sep="", collapse = ","),
+    "){\n"
   )
 }
 
@@ -240,7 +240,7 @@ first_sentence <- function(string){
   vapply(string, 
          function(x) {
            if(nchar(x) == 0) return("")
-           unlist(strsplit(x, "\\."))[[1]]
+           unlist(strsplit(x, "\\.|\n"))[[1]]
          }, 
          character(1))
 }

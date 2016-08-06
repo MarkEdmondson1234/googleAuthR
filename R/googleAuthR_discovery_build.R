@@ -191,14 +191,12 @@ object_body <- function(properties_name, properties){
   prop <- c(object_childs, prop)
   if(length(prop) == 0 ) return("list()\n\n}\n")
 
-  paste0("\n\nstructure(\n\n
-         list(", 
+  paste0("\nstructure(list(", 
          paste(paste0("`",names(prop),"`"),
                prop,
                sep = " = ",
-               collapse = ",\n"), 
-         "),\n\n
-         class = '",paste0("gar_",properties_name),"')}\n\n")
+               collapse = ","), 
+         "), class = '",paste0("gar_",properties_name),"')}\n")
   }
 
 

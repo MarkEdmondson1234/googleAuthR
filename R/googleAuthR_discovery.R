@@ -65,6 +65,7 @@ gar_create_package <- function(api_json,
   }
   
   if(github){
+    ## if fail, use git add
     devtools::use_github(pkg = package_dir, protocol = "https")
   } ## git2r::push
   
