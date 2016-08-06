@@ -35,6 +35,10 @@ gar_batch <- function(call_list, ...){
   
   ## call doHttrRequest with batched together functions
   req <- doBatchRequest(l)
+  if(grepl("404 Not Found", httr::content(req,as="text", encoding = "UTF-8"))){
+    stop("Batch Request: 404 Not Found")
+  }
+  
   batch_content <-  parseBatchResponse(req)
   
   parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content, ...)
