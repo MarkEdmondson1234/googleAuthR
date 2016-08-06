@@ -211,7 +211,7 @@ retryRequest <- function(f){
                                               type = "application/json",
                                               encoding = "UTF-8"))
 
-    if (exists("error", where=content)) {
+    if(exists("error", where=content)) {
       error <- content$error$message
       myMessage("JSON fetch error: ",paste(error), level = 2)
     } else {
