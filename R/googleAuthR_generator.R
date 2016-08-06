@@ -316,7 +316,9 @@ doHttrRequest <- function(url,
   }
 
   if(!is.null(the_body) && arg_list$encode == "json"){
-    myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T), level = 2)
+    tt <- try(myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T), 
+                        level = 2))
+    if(is.error(tt)) myMessage("Could not parse body JSON", level = 2)
   }
   
 
