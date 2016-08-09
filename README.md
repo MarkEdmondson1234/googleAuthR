@@ -16,6 +16,7 @@ This guide is also available at the [googleAuthR website](http://code.markedmond
 * [Service Account Authentication with JSON](https://github.com/MarkEdmondson1234/googleAuthR#authentication-with-a-json-file-via-service-accounts)
 * [Authentication with Shiny](https://github.com/MarkEdmondson1234/googleAuthR#authentication-with-shiny)
 * [Complete Example making a goo.gl R library](https://github.com/MarkEdmondson1234/googleAuthR#example-with-googl)
+
 ## R Google API libraries using googleAuthR
 Here is a list of [available Google APIs](https://developers.google.com/apis-explorer/#p/) to make with this library.
 The below libraries are all cross-compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and can be used in multi-user Shiny apps. 
@@ -27,6 +28,7 @@ The below libraries are all cross-compatible as they use `googleAuthR` for authe
 * [googleCloudStorageR](https://github.com/MarkEdmondson1234/googleCloudStorageR) - Google Cloud Storage API (in progress)
 * [RoogleVision](https://github.com/flovv/RoogleVision) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
+
 ## Example Shiny app
 An example shiny app with Google authentication is [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/).   It uses the example app that is available in `system.file("shiny", package="googleAuthR")`
 ## Thanks to:
@@ -34,6 +36,7 @@ An example shiny app with Google authentication is [deployed to shinyapps.io her
 * Hadley Wickham for [httr's OAuth2](https://github.com/hadley/httr) excellence
 * RStudio team for [Shiny](http://shiny.rstudio.com/)
 * [Johann de Boer](https://github.com/jdeboer) for some code contributions.
+
 ## Install
 GoogleAuthR version 0.3.0 is now available on CRAN
 ```r
