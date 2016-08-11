@@ -21,7 +21,7 @@ Imports:
 Suggests:
     covr,
     formatR (>= 1.4),
-    devtools (>= 1.12.0)
+    devtools (>= 1.12.0),
     knitr,
     miniUI (>= 0.1.1)
 License: MIT + file LICENSE
