@@ -13,7 +13,7 @@ List of Google APIs and their resources
 Doesn't require authentication
 }
 \seealso{
-\href{https://developers.google.com/discovery/v1/reference/apis/list}
+\url{https://developers.google.com/discovery/v1/reference/apis/list}
 
 Other Google Discovery API functions: \code{\link{gar_create_api_objects}},
   \code{\link{gar_create_api_skeleton}},

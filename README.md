@@ -20,12 +20,13 @@ This guide is also available at the [googleAuthR website](http://code.markedmond
 Here is a list of [available Google APIs](https://developers.google.com/apis-explorer/#p/) to make with this library.
 The below libraries are all cross-compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and can be used in multi-user Shiny apps. 
 * [searchConsoleR](http://code.markedmondson.me/searchConsoleR/) - Search Console API
-* [bigQueryR](http://code.markedmondson.me/bigQueryR/) - BigQuery API
+* [bigQueryR](http://code.markedmondson.me/bigQueryR/) - BigQuery API. Part of the cloudyr project.
 * [googleAnalyticsR](http://code.markedmondson.me/googleAnalyticsR/) - Google Analytics API
 * [gtmR](https://github.com/MarkEdmondson1234/gtmR) - Google Tag Manager API (in progress)
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
-* [googleCloudStorageR](https://github.com/MarkEdmondson1234/googleCloudStorageR) - Google Cloud Storage API (in progress)
-* [RoogleVision](https://github.com/flovv/RoogleVision) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
+* [googleCloudStorageR](http://code.markedmondson.me/googleCloudStorageR/) - Google Cloud Storage API
+* [RoogleVision](https://github.com/cloudyr/RoogleVision) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
+
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
 ## Example Shiny app
 An example shiny app with Google authentication is [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/).   It uses the example app that is available in `system.file("shiny", package="googleAuthR")`

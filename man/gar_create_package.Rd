@@ -33,7 +33,7 @@ If check is TRUE, the results of the CRAN check, else FALSE
 Create a Google API package
 }
 \seealso{
-\href{https://developers.google.com/discovery/v1/reference/apis/list}
+\url{https://developers.google.com/discovery/v1/reference/apis/list}
 
 Other Google Discovery API functions: \code{\link{gar_create_api_objects}},
   \code{\link{gar_create_api_skeleton}},

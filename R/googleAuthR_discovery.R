@@ -13,7 +13,7 @@
 #'   \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
 #'   starting files for a Google API package.
 #' 
-#' @seealso \href{https://developers.google.com/discovery/v1/reference/apis/list}
+#' @seealso \url{https://developers.google.com/discovery/v1/reference/apis/list}
 #'
 #' @return If check is TRUE, the results of the CRAN check, else FALSE
 #' 
@@ -77,7 +77,7 @@ gar_create_package <- function(api_json,
 #' 
 #' Doesn't require authentication
 #' 
-#' @seealso \href{https://developers.google.com/discovery/v1/reference/apis/list}
+#' @seealso \url{https://developers.google.com/discovery/v1/reference/apis/list}
 #' 
 #' @return List of Google APIs and their resources
 #' @family Google Discovery API functions
@@ -109,7 +109,7 @@ gar_discovery_apis_list <- function(){
 #' @param api The API to fetch
 #' @param version The API version to fetch
 #' 
-#' @seealso \href{https://developers.google.com/discovery/v1/reference/apis/getRest}
+#' @seealso \url{https://developers.google.com/discovery/v1/reference/apis/getRest}
 #' 
 #' @return Details of the API 
 #' @family Google Discovery API functions

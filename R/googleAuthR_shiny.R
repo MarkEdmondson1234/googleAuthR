@@ -67,14 +67,13 @@ gar_auth_jsUI <- function(id,
 #' @param session shiny session
 #'
 #' @return A httr reactive OAuth2.0 token
+#' @import shiny
 #' @export
 gar_auth_js <- function(input, output, session){
 
-    ns <- session$ns
-    
     js_token <- shiny::reactive({
       shiny::validate(
-        need(input$js_auth_access_token, "Authenticate")
+        shiny::need(input$js_auth_access_token, "Authenticate")
       )
       
       list(access_token = input$js_auth_access_token,
@@ -87,7 +86,7 @@ gar_auth_js <- function(input, output, session){
     ## Create access token
     access_token <- shiny::reactive({
       
-      req(js_token())
+      shiny::req(js_token())
       
       gar_js_getToken(js_token())
       
