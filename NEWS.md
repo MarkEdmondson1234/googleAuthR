@@ -11,6 +11,7 @@
 * Add 404 message if batch requests are not found.
 * Fixed halt error if message can't parse body JSON, will now fail gracefully but carry on
 * allow overwriting of default httr "encode" again (#28)
+* Headers will contain up to date version number of package
 
 # v0.3.1 - CRAN
 

@@ -305,7 +305,9 @@ doHttrRequest <- function(url,
                    body = the_body,
                    encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
                    httr::add_headers("Accept-Encoding" = "gzip"),
-                   httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)")
+                   httr::user_agent(paste0("googleAuthR/", 
+                                           packageVersion("googleAuthR"),
+                                           " (gzip)"))
                    )
 
   if(!is.null(customConfig)){
