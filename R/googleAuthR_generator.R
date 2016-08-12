@@ -303,7 +303,7 @@ doHttrRequest <- function(url,
   arg_list <- list(url = url,
                    config = get_google_token(shiny_access_token),
                    body = the_body,
-                   encode = "json",
+                   encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
                    httr::add_headers("Accept-Encoding" = "gzip"),
                    httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)")
                    )
@@ -311,7 +311,7 @@ doHttrRequest <- function(url,
   if(!is.null(customConfig)){
     stopifnot(inherits(customConfig, "list"))
 
-    arg_list <- c(arg_list, customConfig)
+    arg_list <- c(arg_list, customConfig[setdiff(names(customConfig), "encode")])
 
   }
 

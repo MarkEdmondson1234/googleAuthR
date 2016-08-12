@@ -10,6 +10,7 @@
 * ensure batch requests only occur per second to help calculation of QPS limits
 * Add 404 message if batch requests are not found.
 * Fixed halt error if message can't parse body JSON, will now fail gracefully but carry on
+* allow overwriting of default httr "encode" again (#28)
 
 # v0.3.1 - CRAN
 
