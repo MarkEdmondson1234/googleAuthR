@@ -28,3 +28,11 @@
   invisible()
   
 }
+
+.onAttach <- function(libname, pkgname) {
+ 
+  default_scopes <- getOption("googleAuthR.scopes.selected")
+  
+  googleAuthR::gar_attach_auto_auth(default_scopes)
+  
+}
