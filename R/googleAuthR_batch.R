@@ -206,7 +206,7 @@ parseBatchResponse <- function(batch_response){
     ## detect empty body responses
     ## https://github.com/MarkEdmondson1234/googleAuthR/issues/43
     empty_status_code <- grepl("HTTP/1.1 204 No Content", x)
-    if(empty_status_code) return(NULL)
+    if(any(empty_status_code)) return(NULL)
     
     index <- which(grepl("Content-Length:", x))
     index <- c(index+1, length(x))

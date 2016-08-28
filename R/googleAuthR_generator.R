@@ -144,11 +144,11 @@ gar_api_generator <- function(baseURI,
                              simplifyVector=simplifyVector)
 
         if(!is.null(data_parse_function)){
-          reqtry <- try(data_parse_function(req$content, ...))
+          reqtry <- try(data_parse_function(req$parsed_content, ...))
           if(any(is.error(reqtry), is.null(reqtry))){
-            warning("API Data failed to parse.  Returning raw content.
+            warning("API Data failed to parse.  Returning parsed from JSON content.
                     Use this to test against your data_parse_function.")
-            req <- req$content
+            req <- req$parsed_content
           } else {
             req <- reqtry
           }
@@ -335,7 +335,7 @@ doHttrRequest <- function(url,
       content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
       content <- jsonlite::fromJSON(content,
                                     simplifyVector = simplifyVector)
-      req$content <- content
+      req$parsed_content <- content
     }
   } else {
     myMessage("No checks on content due to option googleAuthR.rawResponse, returning raw", level=2)
