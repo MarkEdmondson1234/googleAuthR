@@ -2,10 +2,12 @@
 
 export(Authentication)
 export(gar_api_generator)
+export(gar_attach_auto_auth)
 export(gar_auth)
 export(gar_auth_js)
 export(gar_auth_jsUI)
 export(gar_auth_service)
+export(gar_auto_auth)
 export(gar_batch)
 export(gar_batch_walk)
 export(gar_create_api_objects)

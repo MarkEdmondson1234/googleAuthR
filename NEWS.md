@@ -12,6 +12,7 @@
 * Fixed halt error if message can't parse body JSON, will now fail gracefully but carry on
 * allow overwriting of default httr "encode" again (#28)
 * Headers will contain up to date version number of package
+* Add `gar_auto_auth` and `gar_attach_auto_auth` for auto-authentication upon a package load
 
 # v0.3.1 - CRAN
 

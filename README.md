@@ -222,6 +222,34 @@ analytics_url("https://goo.gl/2FcFVQbk")
 From version `0.3.0` a RStudio Addin is available via the RStudio Addin menu once you load the package, or via `googleAuthR:::gar_gadget()`
 It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.
 ![googleAuthRGadget](https://storage.googleapis.com/mark-edmondson-public-files/myObject)
+
+## Auto-authentication
+
+From version `0.4.0` auto-authentication can be performed upon a package load.
+
+This requires the setup of environment variables either in your `.Renviron` file or via `Sys.setenv()` to point to a previously created authentication file.  This file can be either a `.httr-oauth` file created via `gar_auth()` or a Google service account JSON downloaded from the Google API console.
+
+
+This file will then be used for authentication via `gar_auth_auto`.  You can call this function yourself in scripts or R sessions, but its main intention is to be called in the `.onAttach` function via `gar_attach_auth_auto`, so that you will authenticate right after you load the library via `library(yourlibrary)`
+
+An example from `googleCloudStorageR` is shown below:
+
+```r
+.onAttach <- function(libname, pkgname){
+
+  googleAuthR::gar_attach_auto_auth("https://www.googleapis.com/auth/devstorage.full_control",
+                                    environment_var = "GCS_AUTH_FILE")
+}
+
+```
+
+..which calls an environment variable set in `~/.Renvion`:
+
+```
+GCS_AUTH_FILE="/Users/mark/auth/my_auth_file.json"
+```
+
+
 ## Revoking Authentication
 For local use, delete the `.httr-oauth` file.
 For service level accounts delete the JSON file.

@@ -23,7 +23,8 @@ Suggests:
     formatR (>= 1.4),
     devtools (>= 1.12.0),
     knitr,
-    miniUI (>= 0.1.1)
+    miniUI (>= 0.1.1),
+    testthat
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
