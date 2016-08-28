@@ -4,7 +4,7 @@
 #' 
 #' @param new_user If TRUE, reauthenticate via Google login screen
 #' @param no_auto If TRUE, ignore auto-authentication settings
-#' @param required_scopes Required scopes needed to authenticate
+#' @param required_scopes Required scopes needed to authenticate - needs to match at least one
 #' @param environment_var Name of environment var that contains auth file path
 #' @param travis_environment_var Name of Travis environment var that contains auth file path
 #' 
@@ -136,9 +136,9 @@ gar_attach_auto_auth <- function(required_scopes,
   
   scopes <- getOption("googleAuthR.scopes.selected")
   if(any(!(required_scopes %in% scopes))){
-    packageStartupMessage("Adding ", paste(required_scopes, collapse = " or "))
-    new_scopes <- c(getOption("googleAuthR.scopes.selected"),
-                    required_scopes)
+    packageStartupMessage("Setting scopes to ", paste(required_scopes, collapse = " and "))
+    packageStartupMessage("If you need additional scopes set do so via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) before loading library and include one required scope.")
+    new_scopes <- required_scopes
   } else {
     new_scopes <- scopes
   }
