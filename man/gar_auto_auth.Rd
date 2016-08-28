@@ -9,7 +9,7 @@ gar_auto_auth(required_scopes, new_user = FALSE, no_auto = FALSE,
   travis_environment_var = "TRAVIS_GAR_AUTH_FILE")
 }
 \arguments{
-\item{required_scopes}{Required scopes needed to authenticate}
+\item{required_scopes}{Required scopes needed to authenticate - needs to match at least one}
 
 \item{new_user}{If TRUE, reauthenticate via Google login screen}
 
