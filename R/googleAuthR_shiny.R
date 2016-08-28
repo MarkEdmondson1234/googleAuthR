@@ -222,23 +222,15 @@ gar_shiny_getUrl <- function(session){
   
   if(!is.null(session)){
     pathname <- session$clientData$url_pathname
-    ## hack for shinyapps.io
-    if(session$clientData$url_hostname == "internal.shinyapps.io"){
-      split_hostname <- strsplit(pathname, "/")[[1]]
-      hostname <-  paste(split_hostname[2],"shinyapps.io", sep=".")
-      pathname <- paste0("/",split_hostname[3],"/")
-      
-    } else {
-      hostname <- session$clientData$url_hostname
-    }
+    hostname <- session$clientData$url_hostname
+    port <- session$clientData$url_port
     
     url <- paste0(session$clientData$url_protocol,
                   "//",
                   hostname,
-                  ifelse(hostname %in% c("127.0.0.1","localhost"),
-                         ":",
-                         pathname),
-                  session$clientData$url_port)
+                  if(!is.null(port)) paste0(":",port),
+                  if(pathname != "/") pathname) 
+    
     myMessage("Shiny URL detected as: ", url, level=1)
     url
   } else {
