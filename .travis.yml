@@ -9,4 +9,11 @@ notifications:
   email:
     on_success: change
     on_failure: change
-    
+env:
+  global:
+    secure: EpIbBsvVT0nQlT8E0Wvrb0QNFZvdJoq4iR2J81O4yLzlot/+DehKCGRakLnsLiHLZx3EyBksYz2N7L9N9hmmtdmEsdddfqmICdfaCFEzIsoTGLG8fXaCDgNAE57qzzNUfo4QkKMqE/nDHcHxjAOdlP4s5JkKB/rpOWTXt/asvkeuC1q+4qlndtQD2nDcpspwiz1jodD1fVdC3eBcC6AfrKmomebc7OL2JUieo9iiuyC3a3ZnbpUd1S0R0db2DAzvl4h3FFqlnxKkZbuVYYmL5pMglB6sn6FhQMC0XbOgEvRDLE4nbx0BdEbCe38batPBlGqdEGBsg/k3jvtjdxA+xwqfX/6Io325/KwS6CWkBH+Zb81GB3iXcuaHThfukxQ+P0Gg1rDl52JR3w0w5U3wpsZ9htI+X8Q9R0m9SzBAdni1mRVv6sGLxkUKR3NLARJFcRNViIQ/AyBU+KLLp5IRWArydag5rbWl6lXpIl213H57Nb8Ss9RDJIVe9phJGOoHu2SaKNo3SQCfEgkewXDEvY60c3snCQkiLC+IpV/c6Cm0YmaLgDqaHf2p3YUhKuGuCnPxrEfo62LX1TZhWQEc1pTovsOdxiR418ULB95IzqHINDEaN34reFo/i88PpDEIzL/ZDjvsRvJJ+S2zOuUF+0NeL1AvaxDZLO3APi45H44=
+before_install:
+- openssl aes-256-cbc -K $encrypted_a73b967a7b63_key -iv $encrypted_a73b967a7b63_iv
+  -in googleAuthR_tests.httr-oauth.enc -out googleAuthR_tests.httr-oauth -d
+- openssl aes-256-cbc -K $encrypted_a73b967a7b63_key -iv $encrypted_a73b967a7b63_iv
+  -in googleAuthR_tests.httr-oauth.enc -out tests/testthat/googleAuthR_tests.httr-oauth -d

@@ -18,8 +18,8 @@ user_history <- function(){
   
   f()
 }
-# googleAuthR::gar_auth(new_user=T)
-# ggg <- gar_batch(list(list_websites(), user_history()))
+
+ggg <- gar_batch(list(list_websites(), user_history()))
 
 test_that("Can authenticate default auto settings", {
   
@@ -44,4 +44,14 @@ test_that("Another generated API function works", {
   uu <- user_history()
   expect_equal(uu$kind, "urlshortener#urlHistory")
   
+})
+
+context("Batching")
+
+test_that("A batch call works", {
+  
+  ggg <- gar_batch(list(list_websites(), user_history()))
+  
+  expect_s3_class(ggg[[1]], "data.frame")
+  expect_equal(ggg[[2]]$kind, "urlshortener#urlHistory")
 })
