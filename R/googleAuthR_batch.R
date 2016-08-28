@@ -203,7 +203,11 @@ parseBatchResponse <- function(batch_response){
   responses <- split_vector(r, index)
   
   responses_content <- lapply(responses, function(x){
-    # index <- which(grepl("^(\\{|\\})$", x))
+    ## detect empty body responses
+    ## https://github.com/MarkEdmondson1234/googleAuthR/issues/43
+    empty_status_code <- grepl("HTTP/1.1 204 No Content", x)
+    if(empty_status_code) return(NULL)
+    
     index <- which(grepl("Content-Length:", x))
     index <- c(index+1, length(x))
     if(any(is.na(index))){
