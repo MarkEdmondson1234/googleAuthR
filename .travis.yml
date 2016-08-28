@@ -1,15 +1,10 @@
-# Sample .travis.yml for R projects
-
 language: r
-warnings_are_errors: true
-sudo: required
-
-env:
- global:
-   - CRAN: http://cran.rstudio.com
-
-before_install: echo "options(repos = c(CRAN='http://cran.rstudio.com'))" > ~/.Rprofile
-
+cache: packages
+r_packages:
+- knitr
+- covr
+r_github_packages:
+- MarkEdmondson1234/googleAuthR
 notifications:
   email:
     on_success: change
