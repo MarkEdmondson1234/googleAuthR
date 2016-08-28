@@ -19,7 +19,6 @@ user_history <- function(){
   f()
 }
 
-ggg <- gar_batch(list(list_websites(), user_history()))
 
 test_that("Can authenticate default auto settings", {
   
