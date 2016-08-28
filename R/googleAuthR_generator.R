@@ -291,7 +291,7 @@ checkTokenAPI <- function(shiny_access_token=NULL){
 #'
 #' @details Example of params: c(param1="foo", param2="bar")
 #'
-#'
+#' @importFrom utils packageVersion
 #' @keywords internal
 doHttrRequest <- function(url,
                           shiny_access_token = NULL,
