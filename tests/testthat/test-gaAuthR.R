@@ -22,6 +22,15 @@ user_history <- function(){
   f()
 }
 
+test_that("Can authenticate normal settings", {
+  
+  default_scopes <- getOption("googleAuthR.scopes.selected")
+  token <- readRDS("googleAuthR_tests.httr-oauth")
+  token <- gar_auth(token[[1]])
+  expect_s3_class(token, "Token2.0")
+  
+})
+
 
 test_that("Can authenticate default auto settings", {
   
