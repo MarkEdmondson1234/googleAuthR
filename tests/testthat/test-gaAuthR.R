@@ -27,14 +27,13 @@ test_that("Can read the auth file",{
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
-  expect_true(filep != "")
+  expect_true(file.exists(filep))
   
 })
 
 test_that("Can authenticate normal settings", {
   
-  default_scopes <- getOption("googleAuthR.scopes.selected")
-  token <- readRDS("googleAuthR_tests.httr-oauth")
+  token <- readRDS(Sys.getenv("TRAVIS_GAR_AUTH_FILE"))
   token <- gar_auth(token[[1]])
   expect_s3_class(token, "Token2.0")
   
