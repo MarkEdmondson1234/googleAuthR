@@ -32,7 +32,7 @@ test_that("The auth file can be found",{
   cat(filep, "\n")
   cat(list.files())
   
-  expect_true(file.exists(filep))
+  if(filep != "") expect_true(file.exists(filep))
   
 })
 
@@ -41,17 +41,27 @@ test_that("Auth file is valid",{
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
-  token <- readRDS(Sys.getenv("TRAVIS_GAR_AUTH_FILE"))
+  if(filep != ""){
+    token <- readRDS(filep)
+    expect_s3_class(token[[1]], "Token2.0")
+  } else {
+      skip()
+    }
   
-  expect_s3_class(token[[1]], "Token2.0")
   
 })
 
 test_that("Can authenticate normal settings", {
   
-  token <- readRDS(Sys.getenv("TRAVIS_GAR_AUTH_FILE"))
-  token <- gar_auth(token[[1]])
-  expect_s3_class(token, "Token2.0")
+  filep <- Sys.getenv("GAR_AUTH_FILE")
+  if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
+  
+  if(filep != ""){
+    token <- readRDS(filep)[[1]]
+    expect_s3_class(gar_auth(token), "Token2.0")
+  } else {
+    skip()
+  }
   
 })
 
