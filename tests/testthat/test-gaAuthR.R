@@ -27,7 +27,9 @@ test_that("The auth file can be found",{
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
-  cat(filep)
+
+  cat(getwd())
+  cat(filep, "\n")
   
   expect_true(file.exists(filep))
   
