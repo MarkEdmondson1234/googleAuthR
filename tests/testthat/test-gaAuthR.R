@@ -30,6 +30,7 @@ test_that("The auth file can be found",{
 
   cat(getwd())
   cat(filep, "\n")
+  cat(list.files())
   
   expect_true(file.exists(filep))
   
