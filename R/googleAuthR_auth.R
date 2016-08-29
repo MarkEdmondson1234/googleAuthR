@@ -104,7 +104,9 @@ gar_auth <- function(token = NULL,
     if(is_legit_token(token)) {
       google_token <- token
     } else {
-      google_token <- try(suppressWarnings(readRDS(token)), silent = TRUE)
+      myMessage("Reading token from file path", level = 2)
+      google_token <- try(suppressWarnings(readRDS(token)[[1]]), silent = TRUE)
+      
       if(is.error(google_token)) {
         myMessage(sprintf("Cannot read token from alleged .rds file:\n%s",
                           token), level=3)
@@ -197,7 +199,7 @@ token_exists <- function() {
 is_legit_token <- function(x) {
   
   if(!inherits(x, "Token2.0")) {
-    myMessage("Not a Token2.0 object. Found:", class(x), level=3)
+    myMessage("Not a Token2.0 object. Found:", class(x), level=2)
     return(FALSE)
   }
   
