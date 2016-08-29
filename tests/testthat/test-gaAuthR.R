@@ -22,12 +22,25 @@ user_history <- function(){
   f()
 }
 
-test_that("Can read the auth file",{
+test_that("The auth file can be found",{
   
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
+  cat(filep)
+  
   expect_true(file.exists(filep))
+  
+})
+
+test_that("Auth file is valid",{
+  
+  filep <- Sys.getenv("GAR_AUTH_FILE")
+  if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
+  
+  token <- readRDS(Sys.getenv("TRAVIS_GAR_AUTH_FILE"))
+  
+  expect_s3_class(token[[1]], "Token2.0")
   
 })
 
