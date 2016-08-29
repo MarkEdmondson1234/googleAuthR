@@ -51,10 +51,10 @@ gar_auto_auth <- function(required_scopes,
   
   ## Travis checks are relative file paths to getwd()
   if(Sys.getenv(travis_environment_var) != ""){
-    cat("\nAuthentication on travis\n")
+    cat("\nAuthentication on travis with ", travis_environment_var)
     auth_file <- Sys.getenv(travis_environment_var)
     auth_file <- file.path(getwd(), auth_file)
-    cat("\nAuth file:", auth_file)
+    cat("\nAuth file:", auth_file,"\n")
   } else {
     auth_file <- Sys.getenv(environment_var)
   }
@@ -73,9 +73,9 @@ gar_auto_auth <- function(required_scopes,
         ## .httr-oauth file
         cat("\nAuto-auth - .httr-oauth\n")
         token <- readRDS(auth_file)
-        cat(str(token))
+
         out <- gar_auth(token = token[[1]])
-        cat(str(out))
+
       }
     } else {
       ## auth_file specified but not present

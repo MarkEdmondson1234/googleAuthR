@@ -22,6 +22,15 @@ user_history <- function(){
   f()
 }
 
+test_that("Can read the auth file",{
+  
+  filep <- Sys.getenv("GA_AUTH_FILE")
+  if(filep == "") filep <- Sys.getenv("TRAVIS_GA_AUTH_FILE")
+  
+  expect_true(filep != "")
+  
+})
+
 test_that("Can authenticate normal settings", {
   
   default_scopes <- getOption("googleAuthR.scopes.selected")
@@ -36,7 +45,10 @@ test_that("Can authenticate default auto settings", {
   
   default_scopes <- getOption("googleAuthR.scopes.selected")
   
-  token <- gar_auto_auth(default_scopes)
+  token <- gar_auto_auth(default_scopes, 
+                         environment_var = "GA_AUTH_FILE", 
+                         travis_environment_var = "TRAVIS_GA_AUTH_FILE")
+  
   expect_s3_class(token, "Token2.0")
   
 })
