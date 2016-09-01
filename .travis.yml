@@ -13,6 +13,8 @@ env:
     secure: KigiFekaV1O3jO8FxFo7aTbHu9fT7iaEKoOyZZg2WcJOUWgVC+XlPNtsinW7OCN3lBBOsC2VoQhV0ZHxyM3TJhtYea268ORCQtlXBwNP1d42owLDrvif4gzqApShUIjQtC4Oa5oGC2e0LGxqDAXeISWgYs/Huw/3qjlvpdyI2gnyHvQ1bxvzJS4R7+GJk+bixAE1SzdfdqM/v1c0xRwrAKT+9HvlJ5a675qamScSBbC7GfHyIADNoMaHG65FVGFIZJmeVC271RJSB4uFq6yAR7ko9OVQbjlWbAfKUaN5f5l026nRcuYv2TD8vObhJ3ze2YhdtChXCrCLaGuNHUVE+bxLLgamJ5BzL4ct5aZ7T7TSkhHimVb6IjHXP1Mo6gh6+IqPrzyWbIk0VsZdr+I4m6uhtYIVLC79Uc2x1Y0vp/K72RM7Df87kU57fNdKWDPUmZqUl/CGp7WFMADTJfyxpor/QB7HcHYmbYjYYdYoRrtGcQ/ZSs3d16mXBM9jaD2okliQTmaCsbChm/6oa8v8Ef0dt/dg+BYcwE9GXVLyy0xbc34/n7MGXi3Zo8adEa0RmrYeNlfK3kiouBWBYDPOBSrhe8YgLOd1/g62wWlEuCla4xqIIlTB/MbawLH3FUwCEp6reXBN0EZb8IKyH7B6HVY/OJv5MM11DSyzdv2KExc=
 before_install:
 - openssl aes-256-cbc -K $encrypted_a73b967a7b63_key -iv $encrypted_a73b967a7b63_iv
+  -in auth.json.enc -out auth.json -d
+- openssl aes-256-cbc -K $encrypted_a73b967a7b63_key -iv $encrypted_a73b967a7b63_iv
   -in httr-oauth.rds.enc -out tests/testthat/httr-oauth.rds -d
 - openssl aes-256-cbc -K $encrypted_a73b967a7b63_key -iv $encrypted_a73b967a7b63_iv
   -in auth.json.enc -out tests/testthat/auth.json -d
