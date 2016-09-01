@@ -20,7 +20,8 @@ Imports:
     shiny (>= 0.13.2),
     testthat,
     formatR (>= 1.4),
-    miniUI (>= 0.1.1)
+    miniUI (>= 0.1.1),
+    roxygen2 (>= 5.0.0)
 Suggests:
     covr,
     knitr
