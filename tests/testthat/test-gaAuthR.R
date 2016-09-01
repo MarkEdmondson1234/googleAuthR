@@ -12,14 +12,15 @@ list_websites <- function() {
   l()
 }
 
-## from goo.gl API
-user_history <- function(){
+## from google Analytics API
+google_analytics_account_list <- function(){
   
-  f <- googleAuthR::gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
-                                      "GET",
-                                      data_parse_function = function(x) x)
+  url <- "https://www.googleapis.com/analytics/v3/management/accountSummaries"
+  acc_sum <- gar_api_generator(url,
+                               "GET",
+                               data_parse_function = function(x) x)
   
-  f()
+  acc_sum()
 }
 
 test_that("The auth file can be found",{
@@ -37,33 +38,33 @@ test_that("The auth file can be found",{
   
 })
 
-test_that("Auth file is valid",{
-  
-  filep <- Sys.getenv("GAR_AUTH_FILE")
-  if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
-  
-  if(filep != ""){
-    token <- readRDS(filep)[[1]]
-    expect_s3_class(token, "Token2.0")
-  } else {
-      skip("No auth file found")
-    }
-  
-  
-})
 
-test_that("Can authenticate normal settings", {
+test_that("Can authenticate JSON settings", {
   
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
   if(filep != ""){
     
-    expect_s3_class(gar_auth(filep), "Token2.0")
+    expect_s3_class(gar_auth_service(filep), "Token2.0")
     
   } else {
     skip("No auth file found")
   }
+  
+})
+
+test_that("Test scopes are set", {
+  
+  scopes <- getOption("googleAuthR.scopes.selected")
+  expected_scopes <- c("https://www.googleapis.com/auth/webmasters",
+                       "https://www.googleapis.com/auth/analytics",
+                       "https://www.googleapis.com/auth/analytics.readonly",
+                       "https://www.googleapis.com/auth/analytics.manage.users.readonly",
+                       "https://www.googleapis.com/auth/tagmanager.readonly",
+                       "https://www.googleapis.com/auth/urlshortener")
+  
+  expect_true(all(scopes %in% expected_scopes))
   
 })
 
@@ -91,8 +92,8 @@ test_that("A generated API function works", {
 
 test_that("Another generated API function works", {
   
-  uu <- user_history()
-  expect_equal(uu$kind, "urlshortener#urlHistory")
+  uu <- google_analytics_account_list()
+  expect_equal(uu$kind, "analytics#accountSummaries")
   
 })
 
@@ -100,8 +101,8 @@ context("Batching")
 
 test_that("A batch call works", {
   
-  ggg <- gar_batch(list(list_websites(), user_history()))
+  ggg <- gar_batch(list(list_websites(), google_analytics_account_list()))
   
   expect_s3_class(ggg[[1]], "data.frame")
-  expect_equal(ggg[[2]]$kind, "urlshortener#urlHistory")
+  expect_equal(ggg[[2]]$kind, "analytics#accountSummaries")
 })
