@@ -38,6 +38,12 @@ test_that("The auth file can be found",{
   
 })
 
+test_that("Can authenticate .httr passed as a file", {
+  
+  expect_s3_class(gar_auth("httr-oauth.rds"), "Token2.0")
+  
+})
+
 
 test_that("Can authenticate JSON settings", {
   
