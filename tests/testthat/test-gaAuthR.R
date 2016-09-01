@@ -44,6 +44,14 @@ test_that("Can authenticate .httr passed as a file", {
   
 })
 
+test_that("Can authenticate .httr looking for existing file", {
+  
+  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+  
+  expect_s3_class(gar_auth(), "Token2.0")
+  
+})
+
 
 test_that("Can authenticate JSON settings", {
   
