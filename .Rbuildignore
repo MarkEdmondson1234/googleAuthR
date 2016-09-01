@@ -4,9 +4,9 @@ cran-comments\.md
 \.travis\.yml
 \.travis\.yaml
 .httr-oauth
-^\.httr-oauth\.enc$
 .httr-oauth-SUSPENDED
 ^revdep$
 ^codecov\.yml$
+googleAuthR_tests\.httr-oauth\.enc
 ^auth\.json$
 ^auth\.json\.enc$

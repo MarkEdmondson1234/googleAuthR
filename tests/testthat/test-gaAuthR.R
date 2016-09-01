@@ -38,14 +38,6 @@ test_that("The auth file can be found",{
   
 })
 
-test_that("Can authenticate .httr-oauth settings", {
-  
-    
-  expect_s3_class(gar_auth(), "Token2.0")
-
-  
-})
-
 
 test_that("Can authenticate JSON settings", {
   
@@ -61,8 +53,6 @@ test_that("Can authenticate JSON settings", {
   }
   
 })
-
-
 
 test_that("Test scopes are set", {
   
