@@ -44,6 +44,10 @@ test_that("Can authenticate .httr passed as a file", {
   
 })
 
+## set outside of test
+options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+gar_auth()
+
 test_that("Can authenticate .httr looking for existing file", {
   
   options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")

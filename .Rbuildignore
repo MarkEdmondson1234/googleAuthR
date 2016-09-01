@@ -12,3 +12,4 @@ googleAuthR_tests\.httr-oauth\.enc
 ^auth\.json\.enc$
 ^secrets\.tar$
 ^secrets\.tar\.enc$
+^httr-oauth\.rds$
