@@ -10,3 +10,5 @@ auth.json
 secrets.tar
 
 tests/testthat/httr-oauth.rds
+
+httr-oauth.rds
