@@ -10,3 +10,5 @@ cran-comments\.md
 googleAuthR_tests\.httr-oauth\.enc
 ^auth\.json$
 ^auth\.json\.enc$
+^secrets\.tar$
+^secrets\.tar\.enc$
