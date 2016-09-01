@@ -1,5 +1,6 @@
 library(testthat)
 library(googleAuthR)
+options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
 
 context("Auth")
 
@@ -23,18 +24,36 @@ google_analytics_account_list <- function(){
   acc_sum()
 }
 
-test_that("The auth file can be found",{
+test_that("The auth JSON file can be found",{
   
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
-
-  cat(getwd())
-  cat(filep, "\n")
-  cat(list.files())
+  cat("\n==auth JSON file location==\n")
+  cat("=dir: ", getwd(),"\n")
+  cat("=file: ",filep, "\n")
+  cat("=list files:", list.files(),"\n")
   cat("\n")
   
   if(filep != "") expect_true(file.exists(filep))
+  
+})
+
+test_that("The auth httr file can be found",{
+  
+  filep <- getOption("googleAuthR.httr_oauth_cache")
+  
+  cat("\n==httr-oauth file location==\n")
+  cat("=dir: ", getwd(),"\n")
+  cat("=file: ",filep, "\n")
+  cat("=list files:", list.files(),"\n")
+  cat("\n")
+  
+  if(class(filep) == "character") {
+    expect_true(file.exists(filep))
+  } else {
+    skip("No httr file found")
+  }
   
 })
 
@@ -45,7 +64,7 @@ test_that("Can authenticate .httr passed as a file", {
 })
 
 ## set outside of test
-options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+
 gar_auth()
 
 test_that("Can authenticate .httr looking for existing file", {
