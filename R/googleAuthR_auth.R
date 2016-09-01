@@ -108,13 +108,12 @@ gar_auth <- function(token = NULL,
       google_token <- try(suppressWarnings(readRDS(token)[[1]]), silent = TRUE)
       
       if(is.error(google_token)) {
-        myMessage(sprintf("Cannot read token from alleged .rds file:\n%s",
-                          token), level=3)
-        return(invisible(NULL))
+        stop(sprintf("Cannot read token from alleged .rds file:\n%s",
+                          token))
       } else if(!is_legit_token(google_token)) {
           
-        myMessage(sprintf("File does not contain a proper token:\n%s", token), level=3)
-        return(invisible(NULL))
+        stop(sprintf("File does not contain a proper token:\n%s", token))
+
       }
     }
     

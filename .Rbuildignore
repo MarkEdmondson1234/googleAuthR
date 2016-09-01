@@ -12,3 +12,4 @@ cran-comments\.md
 ^secrets\.tar$
 ^secrets\.tar\.enc$
 ^httr-oauth\.rds$
+^\.httr-oauth\.enc$

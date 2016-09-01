@@ -43,12 +43,6 @@ test_that("The auth httr file can be found",{
   
   filep <- getOption("googleAuthR.httr_oauth_cache")
   
-  cat("\n==httr-oauth file location==\n")
-  cat("=dir: ", getwd(),"\n")
-  cat("=file: ",filep, "\n")
-  cat("=list files:", list.files(),"\n")
-  cat("\n")
-  
   if(class(filep) == "character") {
     expect_true(file.exists(filep))
   } else {
@@ -63,15 +57,21 @@ test_that("Can authenticate .httr passed as a file", {
   
 })
 
-## set outside of test
-
-gar_auth()
 
 test_that("Can authenticate .httr looking for existing file", {
   
   options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
   
   expect_s3_class(gar_auth(), "Token2.0")
+  
+})
+
+test_that("Can authenticate .httr passing a token", {
+  
+  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+  tt <- gar_auth()
+  
+  expect_s3_class(gar_auth(tt), "Token2.0")
   
 })
 
@@ -142,4 +142,57 @@ test_that("A batch call works", {
   
   expect_s3_class(ggg[[1]], "data.frame")
   expect_equal(ggg[[2]]$kind, "analytics#accountSummaries")
+})
+
+context("Discovery API")
+
+test_that("Can get discovery API list", {
+  
+  da <- gar_discovery_apis_list()
+  
+  expect_equal(da$kind[[1]], "discovery#directoryItem")
+  
+})
+
+test_that("Can get discovery API schema", {
+  
+  da1 <- gar_discovery_api("acceleratedmobilepageurl","v1")
+  
+  expect_equal(da1$id, "acceleratedmobilepageurl:v1")
+  
+})
+
+test_that("Can create auto package", {
+  
+  tmp <- tempdir()
+  on.exit(unlink(tmp))
+  
+  da1 <- gar_discovery_api("urlshortener","v1")
+  
+  gar_create_package(da1, tmp, check = FALSE, github = FALSE)
+  
+  created_file_dir <- "googleurlshortenerv1.auto"
+  
+  expect_true(created_file_dir %in% list.files(tmp))
+  
+  created_files <- c("DESCRIPTION", 
+                     "googleurlshortenerv1.auto.Rproj", 
+                     "LICENSE", 
+                     "man/AnalyticsSnapshot.Rd", 
+                     "man/AnalyticsSummary.Rd", 
+                     "man/StringCount.Rd", 
+                     "man/url.get.Rd", 
+                     "man/url.insert.Rd", 
+                     "man/url.list.Rd", 
+                     "man/Url.Rd", 
+                     "man/UrlHistory.Rd", 
+                     "man/urlshortener_googleAuthR.Rd", 
+                     "NAMESPACE", 
+                     "R/urlshortener_functions.R", 
+                     "R/urlshortener_objects.R", 
+                     "README.md")
+  
+  expect_equal(list.files(file.path(tmp, "googleurlshortenerv1.auto"), recursive = TRUE),
+               created_files)
+  
 })

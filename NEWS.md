@@ -14,6 +14,7 @@
 * Headers will contain up to date version number of package
 * Add `gar_auto_auth` and `gar_attach_auto_auth` for auto-authentication upon a package load
 * Fix bug where you couldn't pass in the file location of the ".httr-oauth" location to `gar_auth()`
+* `gar_auth` now raises errors not NULL for passing incorrect token file locations of tokens
 
 # v0.3.1 - CRAN
 
