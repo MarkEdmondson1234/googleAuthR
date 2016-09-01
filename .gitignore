@@ -7,3 +7,5 @@ inst/doc
 inst/flexdashbord/rsconnect/documents/authDemo.Rmd/shinyapps.io/mark/authDemoFlex.dcf
 auth.json
 *.httr-oauth
+
+tests/testthat/httr-oauth.rds
