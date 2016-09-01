@@ -9,3 +9,4 @@ cran-comments\.md
 ^codecov\.yml$
 googleAuthR_tests\.httr-oauth\.enc
 ^auth\.json$
+^auth\.json\.enc$

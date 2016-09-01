@@ -16,3 +16,5 @@ before_install:
   -in auth.json.enc -out auth.json -d
 - openssl aes-256-cbc -K $encrypted_a73b967a7b63_key -iv $encrypted_a73b967a7b63_iv
   -in auth.json.enc -out tests/testthat/auth.json -d
+after_success:
+- Rscript -e 'library("covr");codecov()'
