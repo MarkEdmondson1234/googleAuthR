@@ -24,6 +24,7 @@ google_analytics_account_list <- function(){
   acc_sum()
 }
 
+
 test_that("The auth JSON file can be found",{
   
   filep <- Sys.getenv("GAR_AUTH_FILE")
@@ -142,6 +143,13 @@ test_that("A batch call works", {
   
   expect_s3_class(ggg[[1]], "data.frame")
   expect_equal(ggg[[2]]$kind, "analytics#accountSummaries")
+})
+
+test_that("A walk batch call works but with no returned data", {
+  
+  expect_warning(searchConsoleR::search_analytics("http://sites.google.com/a/markedmondson.me/home/", 
+                                   dimensions = "page", 
+                                   walk_data = "byDate"))
 })
 
 context("Discovery API")
