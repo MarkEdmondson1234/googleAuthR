@@ -2,7 +2,7 @@ library(shiny)
 library(googleAuthR)
 
 ## ui.R
-ui <- fluidPage(
+ui <- fluidPage(title = "googleAuthR Shiny Demo",
   googleAuthUI("loginButton"),
   textInput("url", "Enter URL"),
   actionButton("submit", "Shorten URL"),

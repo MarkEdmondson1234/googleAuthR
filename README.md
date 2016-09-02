@@ -77,14 +77,19 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
                                           "https://www.googleapis.com/auth/tagmanager.readonly"))
 ```
 ### Set up steps
+
 1. Set up your project in the Google API Console to use the Google API you want.
+
 #### For local use
+
 2. Click 'Create a new Client ID', and choose "Installed Application".
 3. Note your Client ID and secret.
 4. Modify these options after `googleAuthR` has been loaded:
   + `options("googleAuthR.client_id" = "YOUR_CLIENT_ID")`
   + `options("googleAuthR.client_secret" = "YOUR_CLIENT_SECRET")`
+  
 #### For Shiny use
+
 2. Click 'Create a new Client ID', and choose "Web Application".
 3. Note your Client ID and secret.
 4. Add the URL of where your Shiny app will run, with no port number. e.g. https://mark.shinyapps.io/searchConsoleRDemo/
@@ -94,7 +99,9 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
   + `options("googleAuthR.webapp.client_secret" = "YOUR_CLIENT_SECRET")`
 7. Run the app locally specifying the port number you used e.g. `shiny::runApp(port=1221)`
 8. Or deploy to your Shiny Server that deploys to web port (80 or 443).
+
 #### Activate API
+
 1. Click on "APIs"
 2. Select and activate the API you want to use.
 3. Go to the documentation and find the API scope URL
@@ -103,7 +110,9 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
 options("googleAuthR.scopes.selected" = 
       c("https://www.googleapis.com/auth/urlshortener"))
 ```
+
 ## Building your own functions
+
 If the above is successful, then you should go through the Google login flow in your browser when you run this command:
 ```r
 googleAuthR::gar_auth()
@@ -254,7 +263,9 @@ GCS_AUTH_FILE="/Users/mark/auth/my_auth_file.json"
 For local use, delete the `.httr-oauth` file.
 For service level accounts delete the JSON file.
 For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through.  To force this every time, activate the parameter `revoke=TRUE` within the `googleAuth` function.
+
 ## Generating your function
+
 Creating your own API should then be a matter of consulting the Google API documentation, and filling in the required details.
 `gar_api_generator` has these components:
 * `baseURI` - all APIs have a base for every API call
@@ -284,12 +295,14 @@ If a name in `path_args` is present in `path_arguments`, then it is substituted 
   result <- f(path_arguments = list(accounts = "myAccountId"))
 ```
 ### Body data
+
 A lot of Google APIs look for you to send data in the Body of the request.  This is done after you construct the function.
  `googleAuthR` uses `httr`'s JSON parsing via `jsonlite` to construct JSON from R lists.
  
  Construct your list, then use `jsonlite::toJSON` to check if its in the correct format as specified by the Google documentation.  This is often the hardest part using the API.
  
 ### Parsing data
+
 Not all API calls return data, but if they do:
 If you have no `data_parse_function` then the function returns the whole request object.  The content is available in `$content`.  You can then parse this yourself, or pass a function in to do it for you.
 If you parse in a function into `data_parse_function`, it works on the response's `$content`.
@@ -327,7 +340,9 @@ Example below of the differences between having a data parsing function and not:
                              
 ```
 The response is turned from JSON to a dataframe if possible, via `jsonlite::fromJSON`
+
 ### Skip parsing
+
 In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.
 For these cases, you can use the option `option("googleAuthR.rawResponse" = TRUE)` to skip all tests and return the raw response.
 Here is an example of this from the googleCloudStorageR library:
@@ -349,11 +364,14 @@ gcs_get_object <- function(bucket,
   req
 }
 ```
+
 ### Batching API requests
+
 If you are doing many API calls, you can speed this up a lot by using the batch option.
 This takes the API functions you have created and wraps them in the `gar_batch` function to request them all in one POST call.  You then recieve the responses in a list.
 Note that this does not count as one call for API limits purposes, it just speeds up the processing.
-The example below queries from two different APIs and returns them in a list: IT lists websites in your Google Search Console, and shows your goo.gl link history.
+The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.
+
 ```r
 ## from search console API
 list_websites <- function() {
@@ -374,7 +392,9 @@ user_history <- function(){
 googleAuthR::gar_auth(new_user=T)
 ggg <- gar_batch(list(list_websites(), user_history()))
 ```
+
 #### Walking through batch requests
+
 A common batch task is to walk through the same API call, modifying only one parameter.  An example includes walking through Google Analytics API calls by date to avoid sampling.
 A function to enable this is implemented at `gar_batch_walk`, with an example below:
 ```r
@@ -416,9 +436,11 @@ walkData <- function(ga, ga_pars, start, end){
 }
 ```
 ## Example with goo.gl
+
 Below is an example building a link shortner R package using `googleAuthR`.
 It was done referring to the [documentation for Google URL shortener](https://developers.google.com/url-shortener/v1/getting_started).
 Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.
+
 1. Creating a project
 2. Activate API
 3. Provide scope
@@ -426,6 +448,7 @@ Note the help docs specifies the steps outlined above. These are in general the 
 5. Specify the httr request type e.g. `POST`
 6. Constructing a body request
 7. Giving the response format
+
 ### Example goo.gl R library
 ```r
 library(googleAuthR)

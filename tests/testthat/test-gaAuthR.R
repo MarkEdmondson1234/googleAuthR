@@ -196,3 +196,4 @@ test_that("Can create auto package", {
                created_files)
   
 })
+
