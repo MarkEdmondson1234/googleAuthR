@@ -7,7 +7,7 @@ r_packages:
 - knitr
 - covr
 r_github_packages:
-- RSelenium
+- ropensci/RSelenium
 notifications:
   slack: edmondsons:kgTokxui4ZzTsqdD19tCoozf
   email:
