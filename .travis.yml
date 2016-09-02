@@ -1,4 +1,6 @@
 sudo: required
+services:
+- docker
 language: r
 cache: packages
 r_packages:
