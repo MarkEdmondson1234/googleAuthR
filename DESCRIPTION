@@ -24,7 +24,8 @@ Imports:
     roxygen2 (>= 5.0.0)
 Suggests:
     covr,
-    knitr
+    knitr,
+    RSelenium
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
