@@ -24,8 +24,7 @@ Imports:
     roxygen2 (>= 5.0.0)
 Suggests:
     covr,
-    knitr,
-    searchConsoleR
+    knitr
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr

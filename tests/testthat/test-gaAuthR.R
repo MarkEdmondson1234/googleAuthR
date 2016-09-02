@@ -135,22 +135,7 @@ test_that("Another generated API function works", {
   
 })
 
-context("Batching")
 
-test_that("A batch call works", {
-  
-  ggg <- gar_batch(list(list_websites(), google_analytics_account_list()))
-  
-  expect_s3_class(ggg[[1]], "data.frame")
-  expect_equal(ggg[[2]]$kind, "analytics#accountSummaries")
-})
-
-test_that("A walk batch call works but with no returned data", {
-  
-  expect_warning(searchConsoleR::search_analytics("http://sites.google.com/a/markedmondson.me/home/", 
-                                   dimensions = "page", 
-                                   walk_data = "byDate"))
-})
 
 context("Discovery API")
 
