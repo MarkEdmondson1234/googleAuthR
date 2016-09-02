@@ -24,7 +24,7 @@ before_install:
 - cp auth.json tests/testthat/auth.json
 - cp httr-oauth.rds tests/testthat/httr-oauth.rds
 before_script:
-- Rscript -e 'shiny::runApp(system.file("test_shiny", package="googleAuthR"))' &
+- Rscript -e 'shiny::runApp(system.file("test_shiny", package="googleAuthR"), port = 1221)' &
 after_success:
 - Rscript -e 'covr::codecov()'
 
