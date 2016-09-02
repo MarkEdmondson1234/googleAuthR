@@ -75,6 +75,21 @@ test_walk <- function(){
 
 context("Batching")
 
+test_that("Can authenticate JSON settings (Batch)", {
+  
+  filep <- Sys.getenv("GAR_AUTH_FILE")
+  if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
+  
+  if(filep != ""){
+    
+    expect_s3_class(gar_auth_service(filep), "Token2.0")
+    
+  } else {
+    skip("No auth file found")
+  }
+  
+})
+
 test_that("A batch call works", {
   
   ggg <- gar_batch(list(list_websites(), google_analytics_account_list()))
