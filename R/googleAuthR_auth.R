@@ -166,17 +166,24 @@ token_exists <- function() {
   
   token <- Authentication$public_fields$token
   
+  httr_cache <- getOption("googleAuthR.httr_oauth_cache")
+  if(class(httr_cache) == "logical"){
+    httr_cache <- ".httr-oauth"
+  }
+  
   if(is.null(token)) {
     
     myMessage("No authorization yet in this session!", level=3)
     
-    if(file.exists(".httr-oauth")) {
-      myMessage(paste("NOTE: a .httr-oauth file exists in current working",
-                    "directory.\n Run gar_auth() to use the",
-                    "credentials cached in .httr-oauth for this session."), level=3)
+    if(file.exists(httr_cache)) {
+      myMessage(paste("NOTE: a ", httr_cache ,
+                      " file exists in current working",
+                      "directory.\n Run gar_auth() to use the",
+                      "credentials cached for this session."), level=3)
     } else {
-      myMessage(paste("No .httr-oauth file exists in current working directory.",
-                    "Run scr_auth() to provide credentials."), level=3)
+      myMessage(paste("No ", httr_cache ,
+                      " file exists in current working directory.",
+                      " Run gar_auth() to provide credentials."), level=3)
     }
     
     myMessage("Token doesn't exist", level=3)

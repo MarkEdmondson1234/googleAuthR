@@ -61,15 +61,12 @@ test_that("Can authenticate .httr passed as a file", {
 
 test_that("Can authenticate .httr looking for existing file", {
   
-  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
-  
   expect_s3_class(gar_auth(), "Token2.0")
   
 })
 
 test_that("Can authenticate .httr passing a token", {
   
-  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
   tt <- gar_auth()
   
   expect_s3_class(gar_auth(tt), "Token2.0")
@@ -116,6 +113,14 @@ test_that("Can authenticate default auto settings", {
                          travis_environment_var = "TRAVIS_GAR_AUTH_FILE")
   
   expect_s3_class(token, "Token2.0")
+  
+})
+
+test_that("Right message when wrong token file location given", {
+  
+  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+  
+  expect_s3_class(gar_auth(), "Token2.0")
   
 })
 
