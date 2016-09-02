@@ -23,6 +23,8 @@ before_install:
 - tar xvf secrets.tar
 - cp auth.json tests/testthat/auth.json
 - cp httr-oauth.rds tests/testthat/httr-oauth.rds
+before_script:
+- Rscript -e 'shiny::runApp(system.file("test_shiny", package="googleAuthR"))' &
 after_success:
 - Rscript -e 'covr::codecov()'
 
