@@ -29,7 +29,9 @@ gar_create_package <- function(api_json,
                                github = TRUE,
                                format = TRUE){
   
-  package_name <- paste0("google",gsub("\\.","", make.names(api_json$id)),".auto")
+  package_name <- paste0("google",
+                         gsub("\\.","", make.names(api_json$id, allow_ = FALSE)),
+                         ".auto")
   package_dir <- file.path(directory, package_name)
   message("Creating ", package_name, " at file location ", package_dir )
   
