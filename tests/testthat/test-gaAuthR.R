@@ -190,8 +190,10 @@ test_that("Can create auto package", {
                      "R/urlshortener_objects.R", 
                      "README.md")
   
-  expect_equal(list.files(file.path(tmp, "googleurlshortenerv1.auto"), recursive = TRUE),
-               created_files)
+  actual_files <- list.files(file.path(tmp, "googleurlshortenerv1.auto"), 
+                             recursive = TRUE)
+  
+  expect_true(all(created_files %in% actual_files))
   
 })
 
