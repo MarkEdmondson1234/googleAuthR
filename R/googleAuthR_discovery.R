@@ -6,6 +6,7 @@
 #' @param check Perform a \link[devtools]{check} on the package once done
 #' @param github If TRUE will upload package to your github
 #' @param format If TRUE will use \link[formatR]{tidy_eval} on content
+#' @param overwrite Whether to overwrite an existing directory if it exists
 #' 
 #' @details 
 #' 
@@ -27,12 +28,17 @@ gar_create_package <- function(api_json,
                                rstudio = TRUE, 
                                check = TRUE, 
                                github = TRUE,
-                               format = TRUE){
+                               format = TRUE,
+                               overwrite = TRUE){
   
   package_name <- paste0("google",
                          gsub("\\.","", make.names(api_json$id, allow_ = FALSE)),
                          ".auto")
   package_dir <- file.path(directory, package_name)
+  if(file.exists(package_dir) & !overwrite){
+    message("Package directory already exisits and overwrite = FALSE, returning NULL")
+    return(NULL)
+  }
   message("Creating ", package_name, " at file location ", package_dir )
   
   f_files <- file.path(package_dir, "R", paste0(api_json$name, "_functions.R"))

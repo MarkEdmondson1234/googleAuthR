@@ -444,6 +444,8 @@ New in `0.4` is helper functions that use Google's [API Discovery service](https
 
 This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs.  At the time of writing this is 152 libraries.
 
+These libraries aren't intended to be submitted to CRAN or used straight away, but should take away a lot of documentation and function building work so you can concentrate on tests, examples and helper functions for your users.
+
 Get a list of the current APIs via `gar_discovery_apis_list()`
 
 ```r
@@ -456,7 +458,7 @@ To get details of a particular API, use its name and version in the `gar_discove
 a_api <- gar_discovery_api("urlshortener", "v1")
 ```
 
-You can then pass this list to `gar_create_package()` along with a folder path to create all the files necessary for an R library.  There are arguments to set it up with RStudio project files, do a CRAN CMD check and upload it to Github
+You can then pass this list to `gar_create_package()` along with a folder path to create all the files necessary for an R library.  There are arguments to set it up with RStudio project files, do a `CRAN CMD check` and upload it to Github.
 
 ```r
 vision_api <- gar_discovery_api("vision", "v1")
@@ -464,6 +466,25 @@ gar_create_package(vision_api,
                    "/Users/mark/dev/R/autoGoogleAPI/",
                    rstudio = FALSE,
                    github = FALSE)
+
+```
+
+### Auto-build all libraries
+
+A loop to build all the Google libraries is shown below, the results of which is available in this Github repo.
+
+```r
+library(googleAuthR)
+
+api_df <- gar_discovery_apis_list()
+
+api_json_list <- mapply(gar_discovery_api, api_df$name, api_df$version)
+
+## WARNING: this takes a couple of hours
+check_results <- lapply(api_json_list, 
+                        gar_create_package, 
+                        directory = "/Users/mark/dev/R/autoGoogleAPI",
+                        github = FALSE)
 
 ```
 

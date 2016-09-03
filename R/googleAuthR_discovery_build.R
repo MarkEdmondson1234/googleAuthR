@@ -5,6 +5,9 @@ function_docs <- function(api_json_resource_method, api_json){
   order_names <- c(api_json_resource_method$parameterOrder, 
                    setdiff(names(api_json_resource_method$parameters), 
                            api_json_resource_method$parameterOrder))
+  
+  ## ensure order_names is a character vector
+  order_names <- vapply(order_names, function(x) x, character(1), USE.NAMES = FALSE)
   if(!is.null(order_names) & !length(order_names) == 0){
     ordered_method_parameters <- api_json_resource_method$parameters[order_names]
   } else {
@@ -129,7 +132,9 @@ function_params <- function(api_json_resource_method, api_json){
   order_names <- c(api_json_resource_method$parameterOrder, 
                    setdiff(names(api_json_resource_method$parameters), 
                            api_json_resource_method$parameterOrder))
-
+  ## ensure order_names is a character vector
+  order_names <- vapply(order_names, function(x) x, character(1), USE.NAMES = FALSE)
+  
   if(!is.null(order_names) & !length(order_names) == 0){
     ordered_method_parameters <- api_json_resource_method$parameters[order_names]
   } else {
@@ -196,7 +201,7 @@ object_body <- function(properties_name, properties){
   
   prop <- properties[[properties_name]]$value
   
-  prop <- vapply(names(prop), function(x) if(prop[[x]] == "") make.names(x) else paste0('"',prop[[x]],'"'), character(1))
+  prop <- vapply(names(prop), function(x) if(prop[[x]] == "") make.names(x) else paste0('`',prop[[x]],'`'), character(1))
   object_childs <- get_object_children(properties_name, properties)
   names(object_childs) <- object_childs
   prop <- c(object_childs, prop)

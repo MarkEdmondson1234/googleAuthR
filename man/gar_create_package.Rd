@@ -5,7 +5,7 @@
 \title{Create a Google API package}
 \usage{
 gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
-  github = TRUE, format = TRUE)
+  github = TRUE, format = TRUE, overwrite = TRUE)
 }
 \arguments{
 \item{api_json}{json from \link{gar_discovery_api}}
@@ -19,6 +19,8 @@ gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
 \item{github}{If TRUE will upload package to your github}
 
 \item{format}{If TRUE will use \link[formatR]{tidy_eval} on content}
+
+\item{overwrite}{Whether to overwrite an existing directory if it exists}
 }
 \value{
 If check is TRUE, the results of the CRAN check, else FALSE
