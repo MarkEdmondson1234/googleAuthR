@@ -5,7 +5,7 @@ library(googleAuthR)
 context("Discovery API")
 
 test_that("Can get discovery API list", {
-  
+  skip_on_cran()
   da <- gar_discovery_apis_list()
   
   expect_equal(da$kind[[1]], "discovery#directoryItem")
@@ -13,7 +13,7 @@ test_that("Can get discovery API list", {
 })
 
 test_that("Can get discovery API schema", {
-  
+  skip_on_cran()
   da1 <- gar_discovery_api("acceleratedmobilepageurl","v1")
   
   expect_equal(da1$id, "acceleratedmobilepageurl:v1")
@@ -21,7 +21,7 @@ test_that("Can get discovery API schema", {
 })
 
 test_that("Can create auto package", {
-  
+  skip_on_cran()
   tmp <- tempdir()
   on.exit(unlink(tmp))
   
@@ -58,7 +58,7 @@ test_that("Can create auto package", {
 })
 
 test_that("Can create vision package", {
-  
+  skip_on_cran()
   tmp <- tempdir()
   on.exit(unlink(tmp))
   
@@ -71,7 +71,7 @@ test_that("Can create vision package", {
 })
 
 test_that("Name of package is valid",{
-  
+  skip_on_cran()
   tmp <- tempdir()
   on.exit(unlink(tmp))
   
@@ -84,7 +84,7 @@ test_that("Name of package is valid",{
 })
 
 test_that("c unrecognised escape character is avoided",{
-  
+  skip_on_cran()
   tmp <- tempdir()
   on.exit(unlink(tmp))
   
@@ -97,7 +97,7 @@ test_that("c unrecognised escape character is avoided",{
 })
 
 test_that("googleservicemanagement is valid",{
-  
+  skip_on_cran()
   tmp <- tempdir()
   on.exit(unlink(tmp))
   

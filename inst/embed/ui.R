@@ -8,5 +8,3 @@ ui <- fluidPage(
   actionButton("submit", "Shorten URL"),
   textOutput("short_url")
 )
-
-# devtools::install_github("MarkEdmondson1234/googleAuthR")

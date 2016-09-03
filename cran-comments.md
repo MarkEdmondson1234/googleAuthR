@@ -30,6 +30,7 @@ I have also run R CMD check on downstream dependencies of googleAuthR
 * bigQueryR
 * googleAnalyticsR
 * searchConsoleR
+* googleCloudStorageR
 
 All packages passed.
   

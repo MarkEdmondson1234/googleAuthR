@@ -1,11 +1,14 @@
 # googleAuthR - Google API Client Library for R
+
 [![CRAN](http://www.r-pkg.org/badges/version/googleAuthR)](http://cran.r-project.org/package=googleAuthR)
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
 [![Coverage Status](https://img.shields.io/codecov/c/github/MarkEdmondson1234/googleAuthR/master.svg)](https://codecov.io/github/MarkEdmondson1234/googleAuthR?branch=master)
 
 Auto-build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 This guide is also available at the [googleAuthR website](http://code.markedmondson.me/googleAuthR/)
+
 # Table of Contents
+
 * [Example libraries](https://github.com/MarkEdmondson1234/googleAuthR#r-google-api-libraries-using-googleauthr)
 * [Thanks](https://github.com/MarkEdmondson1234/googleAuthR#thanks-to)
 * [Installation](https://github.com/MarkEdmondson1234/googleAuthR#install)
@@ -18,6 +21,7 @@ This guide is also available at the [googleAuthR website](http://code.markedmond
 * [Complete Example making a goo.gl R library](https://github.com/MarkEdmondson1234/googleAuthR#example-with-googl)
 
 ## R Google API libraries using googleAuthR
+
 Here is a list of [available Google APIs](https://developers.google.com/apis-explorer/#p/) to make with this library.
 The below libraries are all cross-compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and can be used in multi-user Shiny apps. 
 * [searchConsoleR](http://code.markedmondson.me/searchConsoleR/) - Search Console API
@@ -30,7 +34,10 @@ The below libraries are all cross-compatible as they use `googleAuthR` for authe
 
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
 
+`googleAuthR` now has an R package generator which makes R package skeletons you can use to build your own Google API R package upon.  Browse through the 154 options at this [Github repository](https://github.com/MarkEdmondson1234/autoGoogleAPI).
+
 ## Example Shiny app
+
 An example shiny app with Google authentication is [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/).   It uses the example app that is available in `system.file("shiny", package="googleAuthR")`
 ## Thanks to:
 * Jenny Bryan and her work on the [googlesheets](https://github.com/jennybc/googlesheets) package that this work derives from.
@@ -39,6 +46,7 @@ An example shiny app with Google authentication is [deployed to shinyapps.io her
 * [Johann de Boer](https://github.com/jdeboer) for some code contributions.
 
 ## Install
+
 GoogleAuthR version 0.3.0 is now available on CRAN
 ```r
 install.packages("googleAuthR")
@@ -56,7 +64,9 @@ if(!require(googleAuthR)){
 }
 library(googleAuthR)
 ```
+
 ## Overview
+
 This guide is available at: `vignette("googleAuthR")`
 This library allows you to authenticate easily via local use in an OAuth2 flow; within a Shiny app; or via service accounts. 
 The main two functions are `gar_auth()` and `gar_api_generator()`.
@@ -122,9 +132,13 @@ If you ever need to authenticate with a new user, use:
 googleAuthR::gar_auth(new_user=TRUE)
 ```
 Authentication token is cached in a hidden file called `.httr-oauth` in the working directory.
+
 ## Authentication with no browser
+
 If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the `.httr-oauth` file to the folder of your script.
+
 ## Authentication with Shiny
+
 If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.
 If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, googleAuthR provides these functions to help make the Google login process as easy as possible.
 As of 0.3.0 googleAuthR uses [Shiny Modules](http://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
@@ -197,6 +211,7 @@ shiny::runApp("./test/", launch.browser=T, port=1221)
 ```
  
 ## Authentication with a JSON file via Service Accounts
+
 You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow.  The end user could supply this JSON file, or you can upload your own JSON file to your applications. 
 This involves downloading a secret JSON key with the authentication details.  More details are available from Google here: Using OAuth2.0 for Server to Server Applications[https://developers.google.com/identity/protocols/OAuth2ServiceAccount]
 To use, go to your Project in the Google Developement Console and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
@@ -227,10 +242,83 @@ analytics_url <- function(shortUrl,
 }
 analytics_url("https://goo.gl/2FcFVQbk")
 ```
+
 ## Authentication via RStudio Addin
+
 From version `0.3.0` a RStudio Addin is available via the RStudio Addin menu once you load the package, or via `googleAuthR:::gar_gadget()`
 It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.
 ![googleAuthRGadget](https://storage.googleapis.com/mark-edmondson-public-files/myObject)
+
+## Authentication in RMarkdown via JavaScript
+
+From version `0.4.0` there are two functions that can be called from within RMarkdown for authentication.  They use JavaScript, rather than R/Shiny to authenticate, as an RMarkdown document can not read the URL tokens.
+
+A demo and example are available here: `https://mark.shinyapps.io/googleAuthRMarkdown/`
+
+### Setup
+
+The RMarkdown document YAML needs runtime shiny and to be a HTML document:
+
+```
+output: html_document
+runtime: shiny
+```
+
+Locally, you have to run the RMarkdown document on the specified port configured in Google console (`1221` for the default shared project of `googleAuthR`), configured via `options(shiny.port = 1221)`
+
+This means you shouldn’t launch the RMarkdown via the Run button in RStudio as that starts a new R session without your set options.
+
+Instead set the options and run via `rmarkdown::run("myfile.Rmd")`
+
+```r
+options(shiny.port = 1221)
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/plus.me")
+rmarkdown::run("googleAuthRMarkdown.Rmd")
+```
+
+When publishing, you also need to add the domain to the Javascript origins in the Google API console. Use `127.0.0.1:XXX` where XXX is your chosen Shiny port for local testing.
+
+### Example of RMarkdown authentication
+
+Below creates a button that when clicked makes a popup for Google authentication:
+
+```r
+library(googleAuthR)
+
+gar_auth_jsUI("auth_demo", login_text = "Click Me")
+
+```
+The authentication token is available via the server side module command:
+
+```
+auth <- callModule(gar_auth_js, "auth_demo")
+```
+Pass the auth token to API functions. Below example using googleID to return G+ user info.
+```
+# devtools::install_github("MarkEdmondson1234/googleID")
+library(googleID)
+
+user_info <- reactive({
+  
+  req(auth())
+  
+  with_shiny(get_user_info,
+             shiny_access_token = auth())
+  
+})
+```
+You can now output the user data taken from the G+ API:
+
+```
+## creates an output
+renderUI({
+  
+  req(user_info())
+  
+  h1("Hello ", user_info()$displayName)
+  
+})
+```
 
 ## Auto-authentication
 
@@ -471,7 +559,7 @@ gar_create_package(vision_api,
 
 ### Auto-build all libraries
 
-A loop to build all the Google libraries is shown below, the results of which is available in this Github repo.
+A loop to build all the Google libraries is shown below, the results of which is available in this [Github repo](https://github.com/MarkEdmondson1234/autoGoogleAPI).
 
 ```r
 library(googleAuthR)

@@ -1,6 +1,6 @@
 # News Updates
 
-# v0.3.1.9000
+# v0.4.0
 
 * Add client based authentication in JavaScript plus example app
 * Add check to `gar_auth_service` to see if you have downloaded right JSON file
@@ -16,6 +16,7 @@
 * Fix bug where you couldn't pass in the file location of the ".httr-oauth" location to `gar_auth()`
 * `gar_auth` now raises errors not NULL for passing incorrect token file locations of tokens
 * `gar_auth` respects renamed `.httr-oauth` tokens now via `getOption("googleAuthR.httr_oauth_cache")`
+* Add link to Github repo with auto-generated packages: `https://github.com/MarkEdmondson1234/autoGoogleAPI`
 
 # v0.3.1 - CRAN
 

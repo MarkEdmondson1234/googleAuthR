@@ -26,7 +26,7 @@ google_analytics_account_list <- function(){
 
 
 test_that("The auth JSON file can be found",{
-  
+  skip_on_cran()
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
@@ -41,7 +41,7 @@ test_that("The auth JSON file can be found",{
 })
 
 test_that("The auth httr file can be found",{
-  
+  skip_on_cran()
   filep <- getOption("googleAuthR.httr_oauth_cache")
   
   if(class(filep) == "character") {
@@ -53,20 +53,20 @@ test_that("The auth httr file can be found",{
 })
 
 test_that("Can authenticate .httr passed as a file", {
-  
+  skip_on_cran()
   expect_s3_class(gar_auth("httr-oauth.rds"), "Token2.0")
   
 })
 
 
 test_that("Can authenticate .httr looking for existing file", {
-  
+  skip_on_cran()
   expect_s3_class(gar_auth(), "Token2.0")
   
 })
 
 test_that("Can authenticate .httr passing a token", {
-  
+  skip_on_cran()
   tt <- gar_auth()
   
   expect_s3_class(gar_auth(tt), "Token2.0")
@@ -75,7 +75,7 @@ test_that("Can authenticate .httr passing a token", {
 
 
 test_that("Can authenticate JSON settings", {
-  
+  skip_on_cran()
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
@@ -90,7 +90,7 @@ test_that("Can authenticate JSON settings", {
 })
 
 test_that("Test scopes are set", {
-  
+  skip_on_cran()
   scopes <- getOption("googleAuthR.scopes.selected")
   expected_scopes <- c("https://www.googleapis.com/auth/webmasters",
                        "https://www.googleapis.com/auth/analytics",
@@ -105,7 +105,7 @@ test_that("Test scopes are set", {
 
 
 test_that("Can authenticate default auto settings", {
-  
+  skip_on_cran()
   default_scopes <- getOption("googleAuthR.scopes.selected")
   
   token <- gar_auto_auth(default_scopes, 
@@ -117,7 +117,7 @@ test_that("Can authenticate default auto settings", {
 })
 
 test_that("Right message when wrong token file location given", {
-  
+  skip_on_cran()
   options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
   
   expect_s3_class(gar_auth(), "Token2.0")
@@ -127,14 +127,14 @@ test_that("Right message when wrong token file location given", {
 context("API generator")
 
 test_that("A generated API function works", {
-  
+  skip_on_cran()
   lw <- list_websites()
   expect_s3_class(list_websites(), "data.frame")
   
 })
 
 test_that("Another generated API function works", {
-  
+  skip_on_cran()
   uu <- google_analytics_account_list()
   expect_equal(uu$kind, "analytics#accountSummaries")
   

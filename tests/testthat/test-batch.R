@@ -76,7 +76,7 @@ test_walk <- function(){
 context("Batching")
 
 test_that("Can authenticate JSON settings (Batch)", {
-  
+  skip_on_cran()
   filep <- Sys.getenv("GAR_AUTH_FILE")
   if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
   
@@ -91,7 +91,7 @@ test_that("Can authenticate JSON settings (Batch)", {
 })
 
 test_that("A batch call works", {
-  
+  skip_on_cran()
   ggg <- gar_batch(list(list_websites(), google_analytics_account_list()))
   
   expect_s3_class(ggg[[1]], "data.frame")
@@ -99,7 +99,7 @@ test_that("A batch call works", {
 })
 
 test_that("A walk batch call works but with no returned data", {
-  
+  skip_on_cran()
   gg <- test_walk()
   expect_type(gg, "list")
 })
