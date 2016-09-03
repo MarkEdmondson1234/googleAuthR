@@ -25,7 +25,8 @@ Imports:
 Suggests:
     covr,
     knitr,
-    RSelenium
+    RSelenium,
+    callr
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
