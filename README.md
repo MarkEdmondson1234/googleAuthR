@@ -3,7 +3,7 @@
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
 [![Coverage Status](https://img.shields.io/codecov/c/github/MarkEdmondson1234/googleAuthR/master.svg)](https://codecov.io/github/MarkEdmondson1234/googleAuthR?branch=master)
 
-Build libraries for Google APIs with OAuth2 for both local and Shiny app use.
+Auto-build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 This guide is also available at the [googleAuthR website](http://code.markedmondson.me/googleAuthR/)
 # Table of Contents
 * [Example libraries](https://github.com/MarkEdmondson1234/googleAuthR#r-google-api-libraries-using-googleauthr)
@@ -264,6 +264,8 @@ For local use, delete the `.httr-oauth` file.
 For service level accounts delete the JSON file.
 For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through.  To force this every time, activate the parameter `revoke=TRUE` within the `googleAuth` function.
 
+# Build a Google API library 
+
 ## Generating your function
 
 Creating your own API should then be a matter of consulting the Google API documentation, and filling in the required details.
@@ -435,6 +437,36 @@ walkData <- function(ga, ga_pars, start, end){
   walked_data
 }
 ```
+
+## Auto-build libraries
+
+New in `0.4` is helper functions that use Google's [API Discovery service](https://developers.google.com/discovery/).
+
+This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs.  At the time of writing this is 152 libraries.
+
+Get a list of the current APIs via `gar_discovery_apis_list()`
+
+```r
+all_apis <- gar_discovery_apis_list()
+```
+
+To get details of a particular API, use its name and version in the `gar_discovery_api()` function:
+
+```r
+a_api <- gar_discovery_api("urlshortener", "v1")
+```
+
+You can then pass this list to `gar_create_package()` along with a folder path to create all the files necessary for an R library.  There are arguments to set it up with RStudio project files, do a CRAN CMD check and upload it to Github
+
+```r
+vision_api <- gar_discovery_api("vision", "v1")
+gar_create_package(vision_api,
+                   "/Users/mark/dev/R/autoGoogleAPI/",
+                   rstudio = FALSE,
+                   github = FALSE)
+
+```
+
 ## Example with goo.gl
 
 Below is an example building a link shortner R package using `googleAuthR`.

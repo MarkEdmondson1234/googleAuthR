@@ -7,9 +7,11 @@
 #' @param github If TRUE will upload package to your github
 #' @param format If TRUE will use \link[formatR]{tidy_eval} on content
 #' 
+#' @details 
+#' 
 #' For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
 #' 
-#' Uses \link[devtools]{create} to create a package structure then 
+#' Uses devtools' \link[devtools]{create} to create a package structure then 
 #'   \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
 #'   starting files for a Google API package.
 #' 

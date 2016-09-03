@@ -5,7 +5,12 @@ function_docs <- function(api_json_resource_method, api_json){
   order_names <- c(api_json_resource_method$parameterOrder, 
                    setdiff(names(api_json_resource_method$parameters), 
                            api_json_resource_method$parameterOrder))
-  ordered_method_parameters <- api_json_resource_method$parameters[order_names]
+  if(!is.null(order_names) & !length(order_names) == 0){
+    ordered_method_parameters <- api_json_resource_method$parameters[order_names]
+  } else {
+    ordered_method_parameters <- api_json_resource_method$parameters
+  }
+
   
   params <- paste(collapse = "\n#' ", sep = "\n#'",
                   lapply(names(ordered_method_parameters), 
@@ -122,8 +127,14 @@ object_docs <- function(properties_name, properties){
 function_params <- function(api_json_resource_method, api_json){
   
   order_names <- c(api_json_resource_method$parameterOrder, 
-                   setdiff(names(api_json_resource_method$parameters), api_json_resource_method$parameterOrder))
-  ordered_method_parameters <- api_json_resource_method$parameters[order_names]
+                   setdiff(names(api_json_resource_method$parameters), 
+                           api_json_resource_method$parameterOrder))
+
+  if(!is.null(order_names) & !length(order_names) == 0){
+    ordered_method_parameters <- api_json_resource_method$parameters[order_names]
+  } else {
+    ordered_method_parameters <- api_json_resource_method$parameters
+  }
   
   ## add api objects
   if(!is.null(api_json_resource_method$request)){

@@ -18,19 +18,20 @@ gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
 
 \item{github}{If TRUE will upload package to your github}
 
-\item{format}{If TRUE will use \link[formatR]{tidy_eval} on content
-
-For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
-
-Uses \link[devtools]{create} to create a package structure then 
-  \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
-  starting files for a Google API package.}
+\item{format}{If TRUE will use \link[formatR]{tidy_eval} on content}
 }
 \value{
 If check is TRUE, the results of the CRAN check, else FALSE
 }
 \description{
 Create a Google API package
+}
+\details{
+For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
+
+Uses devtools' \link[devtools]{create} to create a package structure then 
+  \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
+  starting files for a Google API package.
 }
 \seealso{
 \url{https://developers.google.com/discovery/v1/reference/apis/list}
