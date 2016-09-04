@@ -1,5 +1,9 @@
 # News Updates
 
+# v0.4.0.9000
+
+* tbd
+
 # v0.4.0
 
 * Add client based authentication in JavaScript plus example app
@@ -18,7 +22,7 @@
 * `gar_auth` respects renamed `.httr-oauth` tokens now via `getOption("googleAuthR.httr_oauth_cache")`
 * Add link to Github repo with auto-generated packages: `https://github.com/MarkEdmondson1234/autoGoogleAPI`
 
-# v0.3.1 - CRAN
+# v0.3.1
 
 * Add link to [example shiny app](https://mark.shinyapps.io/googleAuthRexample/)
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response - should now work
