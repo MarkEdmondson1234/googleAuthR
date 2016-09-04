@@ -24,7 +24,8 @@ Imports:
     roxygen2 (>= 5.0.0)
 Suggests:
     covr,
-    rmarkdown
+    rmarkdown,
+    knitr
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
