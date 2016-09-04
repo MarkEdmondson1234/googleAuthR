@@ -70,12 +70,17 @@ Authentication <- R6::R6Class(
 gar_auth <- function(token = NULL,
                      new_user = FALSE) {
   
+  httr_file <- getOption("googleAuthR.httr_oauth_cache")
+  if(inherits(httr_file, "logical")){
+    httr_file <- ".httr-oauth"
+  }
+  
   if(new_user) {
     Authentication$set("public", "token", NULL, overwrite=TRUE)
     Authentication$set("public", "websites", data.frame(siteURL="None", permissionLevel="N/A"), overwrite=TRUE)
-    if(file.exists(".httr-oauth")){
-      myMessage("Removing old credentials ...", level=2)
-      file.remove(".httr-oauth")     
+    if(file.exists(httr_file)){
+      myMessage("Removing old credentials ... ", httr_file, level=2)
+      file.remove(httr_file)     
     }
     
   }
