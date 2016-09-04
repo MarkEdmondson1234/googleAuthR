@@ -27,5 +27,5 @@ Suggests:
     rmarkdown
 License: MIT + file LICENSE
 LazyData: true
-VignetteBuilder: rmarkdown
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1
