@@ -228,7 +228,7 @@ gar_shiny_getUrl <- function(session){
     url <- paste0(session$clientData$url_protocol,
                   "//",
                   hostname,
-                  if(!is.null(port)) paste0(":",port),
+                  if(port != "") paste0(":", port),
                   if(pathname != "/") pathname) 
     
     myMessage("Shiny URL detected as: ", url, level=1)
