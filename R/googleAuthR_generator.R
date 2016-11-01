@@ -313,7 +313,13 @@ doHttrRequest <- function(url,
   if(!is.null(customConfig)){
     stopifnot(inherits(customConfig, "list"))
 
-    arg_list <- c(arg_list, customConfig[setdiff(names(customConfig), "encode")])
+    ## fix bug where unnamed customConfigs were ignored
+    ## encode is only named customConfig that has an effect
+    if(!is.null(names(customConfig))){
+      arg_list <- c(arg_list, customConfig[names(customConfig) == ""])
+    } else {
+      arg_list <- c(arg_list, customConfig)
+    }
 
   }
 

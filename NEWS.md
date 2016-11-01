@@ -2,7 +2,7 @@
 
 # v0.4.0.9000
 
-* tbd
+* Fix bug where unnamed customConfigs were ignored
 
 # v0.4.0
 
