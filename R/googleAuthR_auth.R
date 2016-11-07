@@ -5,7 +5,6 @@
 Authentication <- R6::R6Class(
   "Authentication",
   public = list(
-    websites = "initial",
     token = NULL,
     shiny = FALSE,
     app_url = NULL
@@ -77,7 +76,6 @@ gar_auth <- function(token = NULL,
   
   if(new_user) {
     Authentication$set("public", "token", NULL, overwrite=TRUE)
-    Authentication$set("public", "websites", data.frame(siteURL="None", permissionLevel="N/A"), overwrite=TRUE)
     if(file.exists(httr_file)){
       myMessage("Removing old credentials ... ", httr_file, level=2)
       file.remove(httr_file)     

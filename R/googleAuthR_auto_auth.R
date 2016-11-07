@@ -67,11 +67,11 @@ gar_auto_auth <- function(required_scopes,
     if(file.exists(auth_file)){
       ## Service JSON file
       if(tools::file_ext(auth_file) == "json"){
-        myMessage("Auto-auth - json")
+        myMessage("Auto-auth - json", level = 2)
         out <- gar_auth_service(auth_file)
       } else {
         ## .httr-oauth file
-        cat("\nAuto-auth - .httr-oauth\n")
+        myMessage("Auto-auth - .httr-oauth", level = 2)
         token <- readRDS(auth_file)
 
         out <- gar_auth(token = token[[1]])

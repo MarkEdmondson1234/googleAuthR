@@ -2,7 +2,8 @@
 
 # v0.4.0.9000
 
-* tbd
+* Correct bug of incorrect redirect URL when no port (#45)
+* Catch error for retry if no status response at all
 
 # v0.4.0
 

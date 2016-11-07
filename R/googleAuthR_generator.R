@@ -199,7 +199,11 @@ retryRequest <- function(f){
   } else {
     the_request <- try(f)
   }
-
+  
+  if(is.error(the_request)){
+    warning("Request failed before finding status code. Retrying.")
+    status_code <- 500 
+  }
 
   status_code <- as.character(the_request$status_code)
   

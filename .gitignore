@@ -11,3 +11,5 @@ secrets.tar
 
 tests/testthat/httr-oauth.rds
 httr-oauth.rds
+
+inst/shiny/rsconnect/shinyapps.io/mark/googleAuthRtestv4.dcf
