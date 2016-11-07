@@ -202,10 +202,12 @@ retryRequest <- function(f){
   
   if(is.error(the_request)){
     warning("Request failed before finding status code. Retrying.")
-    status_code <- 500 
+    status_code <- "500"
+  } else {
+    status_code <- as.character(the_request$status_code)
   }
 
-  status_code <- as.character(the_request$status_code)
+
   
   if(!(grepl("^20",status_code))){
     myMessage("Request Status Code: ", status_code, level = 3)
