@@ -212,17 +212,24 @@ retryRequest <- function(f){
   if(!(grepl("^20",status_code))){
     myMessage("Request Status Code: ", status_code, level = 3)
 
-    content <- jsonlite::fromJSON(httr::content(the_request,
+    content <- try(jsonlite::fromJSON(httr::content(the_request,
                                               as = "text",
                                               type = "application/json",
-                                              encoding = "UTF-8"))
+                                              encoding = "UTF-8")))
+    if(is.error(content)){
+      
+      warning("No JSON content found in request")
+      error <- "Could not fetch response"
+      
+    } else if(exists("error", where=content)) {
 
-    if(exists("error", where=content)) {
       error <- content$error$message
-      myMessage("JSON fetch error: ",paste(error), level = 2)
+
     } else {
       error <- "Unspecified Error"
     }
+    
+    myMessage("JSON fetch error: ",paste(error), level = 2)
 
     if(grepl("^5|429",status_code)){
       for(i in 1:getOption("googleAuthR.tryAttempts")){
