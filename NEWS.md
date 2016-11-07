@@ -4,6 +4,7 @@
 
 * Correct bug of incorrect redirect URL when no port (#45)
 * Catch error for retry if no status response at all
+* Fix bug where unnamed customConfigs were ignored
 
 # v0.4.0
 
