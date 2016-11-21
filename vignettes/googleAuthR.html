@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Mark Edmondson" />
+
+<meta name="date" content="2016-11-21" />
+
+<title>googleAuthR User Guide</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">googleAuthR User Guide</h1>
+<h4 class="author"><em>Mark Edmondson</em></h4>
+<h4 class="date"><em>2016-11-21</em></h4>
+
+
+
+<div id="googleauthr---google-api-client-library-for-r" class="section level1">
+<h1>googleAuthR - Google API Client Library for R</h1>
+<p>Build libraries for Google APIs with OAuth2 for both local and Shiny app use.</p>
+<p>This guide is also available at the <a href="http://code.markedmondson.me/googleAuthR/">googleAuthR website</a></p>
+<div id="r-google-api-libraries-using-googleauthr" class="section level2">
+<h2>R Google API libraries using googleAuthR</h2>
+<p>Here is a list of <a href="https://developers.google.com/apis-explorer/#p/">available Google APIs</a> to make with this library. The below libraries are all cross-compatible as they use <code>googleAuthR</code> for authentication backend e.g. can use just one OAuth2 login flow and can be used in multi-user Shiny apps.</p>
+<ul>
+<li><a href="http://code.markedmondson.me/searchConsoleR/">searchConsoleR</a> - Search Console API</li>
+<li><a href="http://code.markedmondson.me/bigQueryR/">bigQueryR</a> - BigQuery API. Part of the cloudyr project.</li>
+<li><a href="http://code.markedmondson.me/googleAnalyticsR/">googleAnalyticsR</a> - Google Analytics API</li>
+<li><a href="https://github.com/MarkEdmondson1234/gtmR">gtmR</a> - Google Tag Manager API (in progress)</li>
+<li><a href="https://github.com/MarkEdmondson1234/googleID">googleID</a> - Simple user info from G+ API for Shiny app authentication flows.</li>
+<li><a href="http://code.markedmondson.me/googleCloudStorageR/">googleCloudStorageR</a> - Google Cloud Storage API</li>
+<li><a href="https://github.com/cloudyr/RoogleVision">RoogleVision</a> - R Package for Image Recogntion, Object Detection, and OCR using the Google’s Cloud Vision API</li>
+</ul>
+<p>Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool.</p>
+<p><code>googleAuthR</code> now has an R package generator which makes R package skeletons you can use to build your own Google API R package upon. Browse through the 154 options at this <a href="https://github.com/MarkEdmondson1234/autoGoogleAPI">Github repository</a>.</p>
+</div>
+<div id="example-shiny-app" class="section level2">
+<h2>Example Shiny app</h2>
+<p>An example shiny app with Google authentication is <a href="https://mark.shinyapps.io/googleAuthRexample/">deployed to shinyapps.io here</a>.</p>
+<p>It uses the example app that is available in <code>system.file(&quot;shiny&quot;, package=&quot;googleAuthR&quot;)</code></p>
+</div>
+<div id="example-rmarkdown-app" class="section level2">
+<h2>Example RMarkdown app</h2>
+<p>From <code>v4</code> the authentication flow also works in RMarkdown documents, by using JavaScript instead of R/Shiny to talk with Google servers.</p>
+<p>A how-to and example is available at this RMarkdown document: <code>https://mark.shinyapps.io/googleAuthRMarkdown/</code></p>
+</div>
+<div id="thanks-to" class="section level2">
+<h2>Thanks to:</h2>
+<ul>
+<li>Jenny Bryan and her work on the <a href="https://github.com/jennybc/googlesheets">googlesheets</a> package that this work derives from.</li>
+<li>Hadley Wickham for <a href="https://github.com/hadley/httr">httr’s OAuth2</a> excellence</li>
+<li>RStudio team for <a href="http://shiny.rstudio.com/">Shiny</a></li>
+<li><a href="https://github.com/jdeboer">Johann de Boer</a> for some code contributions.</li>
+</ul>
+</div>
+<div id="install" class="section level2">
+<h2>Install</h2>
+<p>GoogleAuthR version 0.3.0 is now available on CRAN</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;googleAuthR&quot;</span>)</code></pre></div>
+<p>Check out <a href="NEWS.md">News</a> to see the features of the development version. If you want to use the development version on Github, install via:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## load the library or download it if necessary
+if(!<span class="kw">require</span>(googleAuthR)){
+  if(!<span class="kw">require</span>(devtools)){
+    <span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)
+  } else {
+    devtools::<span class="kw">install_github</span>(<span class="st">&quot;MarkEdmondson1234/googleAuthR&quot;</span>)
+  }
+}
+<span class="kw">library</span>(googleAuthR)</code></pre></div>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>This guide is available at: <code>vignette(&quot;googleAuthR&quot;)</code> This library allows you to authenticate easily via local use in an OAuth2 flow; within a Shiny app; or via service accounts. The main two functions are <code>gar_auth()</code> and <code>gar_api_generator()</code>.</p>
+<div id="gar_auth" class="section level3">
+<h3><code>gar_auth</code></h3>
+<p>This takes care of getting the authentication token, storing it and refreshing. Use it before any call to a Google library.</p>
+</div>
+<div id="gar_api_generator" class="section level3">
+<h3><code>gar_api_generator</code></h3>
+<p>This creates functions for you to use to interact with Google APIs. Use it within your own function definitions, to query the Google API you want.</p>
+</div>
+</div>
+<div id="google-api-setup" class="section level2">
+<h2>Google API Setup</h2>
+<p><code>googleAuthR</code> has a default project setup with APIs activated for several APIs, but it is recommended you use your own Client IDs as the login screen will be big and scary for users with so many APIs to approve.</p>
+<p>It is preferred to configure your functions to only use the scopes they need. Scopes you need will be specified in the Google API documentation.</p>
+<p>Set scopes via the option <code>googleAuthR.scopes.selected</code>.</p>
+<p>The below example sets scopes for Search Console, Google Analytics and Tag Manager:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="st">&quot;googleAuthR.scopes.selected&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/webmasters&quot;</span>,
+                                          <span class="st">&quot;https://www.googleapis.com/auth/analytics&quot;</span>,
+                                          <span class="st">&quot;https://www.googleapis.com/auth/tagmanager.readonly&quot;</span>))</code></pre></div>
+<div id="set-up-steps" class="section level3">
+<h3>Set up steps</h3>
+<ol style="list-style-type: decimal">
+<li>Set up your project in the Google API Console to use the Google API you want.</li>
+</ol>
+<div id="for-local-use" class="section level4">
+<h4>For local use</h4>
+<ol start="2" style="list-style-type: decimal">
+<li>Click ‘Create a new Client ID’, and choose “Installed Application”.</li>
+<li>Note your Client ID and secret.</li>
+<li>Modify these options after <code>googleAuthR</code> has been loaded:</li>
+</ol>
+<ul>
+<li><code>options(&quot;googleAuthR.client_id&quot; = &quot;YOUR_CLIENT_ID&quot;)</code></li>
+<li><code>options(&quot;googleAuthR.client_secret&quot; = &quot;YOUR_CLIENT_SECRET&quot;)</code></li>
+</ul>
+</div>
+<div id="for-shiny-use" class="section level4">
+<h4>For Shiny use</h4>
+<ol start="2" style="list-style-type: decimal">
+<li>Click ‘Create a new Client ID’, and choose “Web Application”.</li>
+<li>Note your Client ID and secret.</li>
+<li>Add the URL of where your Shiny app will run, with no port number. e.g. <a href="https://mark.shinyapps.io/searchConsoleRDemo/" class="uri">https://mark.shinyapps.io/searchConsoleRDemo/</a></li>
+<li>And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. <code>http://127.0.0.1:1221</code></li>
+<li>In your Shiny script modify these options:</li>
+</ol>
+<ul>
+<li><code>options(&quot;googleAuthR.webapp.client_id&quot; = &quot;YOUR_CLIENT_ID&quot;)</code></li>
+<li><code>options(&quot;googleAuthR.webapp.client_secret&quot; = &quot;YOUR_CLIENT_SECRET&quot;)</code></li>
+</ul>
+<ol start="7" style="list-style-type: decimal">
+<li>Run the app locally specifying the port number you used e.g. <code>shiny::runApp(port=1221)</code></li>
+<li>Or deploy to your Shiny Server that deploys to web port (80 or 443).</li>
+</ol>
+</div>
+<div id="activate-api" class="section level4">
+<h4>Activate API</h4>
+<ol style="list-style-type: decimal">
+<li>Click on “APIs”</li>
+<li>Select and activate the API you want to use.</li>
+<li>Go to the documentation and find the API scope URL</li>
+<li><p>Set option in your R script for the scope e.g.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="st">&quot;googleAuthR.scopes.selected&quot;</span> =<span class="st"> </span>
+<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/urlshortener&quot;</span>))</code></pre></div></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="building-your-own-functions" class="section level2">
+<h2>Building your own functions</h2>
+<p>If the above is successful, then you should go through the Google login flow in your browser when you run this command:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR::<span class="kw">gar_auth</span>()</code></pre></div>
+<p>If you ever need to authenticate with a new user, use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR::<span class="kw">gar_auth</span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>Authentication token is cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
+</div>
+<div id="authentication-with-no-browser" class="section level2">
+<h2>Authentication with no browser</h2>
+<p>If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the <code>.httr-oauth</code> file to the folder of your script.</p>
+</div>
+<div id="authentication-with-shiny" class="section level2">
+<h2>Authentication with Shiny</h2>
+<p>If you want to create a Shiny app just using your data, upload the app with your own <code>.httr-oauth</code>. If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, googleAuthR provides these functions to help make the Google login process as easy as possible. As of 0.3.0 googleAuthR uses <a href="http://shiny.rstudio.com/articles/modules.html">Shiny Modules</a>. This means less code and the ability to have multiple login buttons on the same app.</p>
+<ul>
+<li><code>googleAuth</code> - creates the authentication token and login button styling</li>
+<li><code>googleAuthUI</code> - creates the server side login button for users to authenticate with.</li>
+<li><code>with_shiny()</code> - wraps your API functions so they can be passed the user’s authentication token.</li>
+</ul>
+<div id="shiny-authentication-example" class="section level4">
+<h4>Shiny authentication example</h4>
+<p>This is the example <a href="https://mark.shinyapps.io/googleAuthRexample/">deployed to shinyapps.io here</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## in global.R
+<span class="kw">library</span>(googleAuthR)
+<span class="kw">library</span>(shiny)
+<span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">&quot;https://www.googleapis.com/auth/urlshortener&quot;</span>)
+<span class="kw">options</span>(<span class="dt">googleAnalyticsR.webapp.client_id =</span> <span class="st">&quot;YOUR_PROJECT_KEY&quot;</span>)
+<span class="kw">options</span>(<span class="dt">googleAnalyticsR.webapp.client_secret =</span> <span class="st">&quot;YOUR_CLIENT_SECRET&quot;</span>)
+shorten_url &lt;-<span class="st"> </span>function(url){
+  
+  body =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">longUrl =</span> url
+  )
+  
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;POST&quot;</span>,
+                         <span class="dt">data_parse_function =</span> function(x) x$id)
+  
+  <span class="kw">f</span>(<span class="dt">the_body =</span> body)
+  
+}
+## server.R
+<span class="kw">source</span>(<span class="st">&quot;global.R&quot;</span>)
+server &lt;-<span class="st"> </span>function(input, output, session){
+  
+  ## Create access token and render login button
+  access_token &lt;-<span class="st"> </span><span class="kw">callModule</span>(googleAuth, <span class="st">&quot;loginButton&quot;</span>)
+  
+  short_url_output &lt;-<span class="st"> </span><span class="kw">eventReactive</span>(input$submit, {
+    ## wrap existing function with_shiny
+    ## pass the reactive token in shiny_access_token
+    ## pass other named arguments
+    <span class="kw">with_shiny</span>(<span class="dt">f =</span> shorten_url, 
+               <span class="dt">shiny_access_token =</span> <span class="kw">access_token</span>(),
+               <span class="dt">url=</span>input$url)
+    
+  })
+  
+  output$short_url &lt;-<span class="st"> </span><span class="kw">renderText</span>({
+    
+    <span class="kw">short_url_output</span>()
+    
+  })
+}
+## ui.R
+ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
+  <span class="kw">googleAuthUI</span>(<span class="st">&quot;loginButton&quot;</span>),
+  <span class="kw">textInput</span>(<span class="st">&quot;url&quot;</span>, <span class="st">&quot;Enter URL&quot;</span>),
+  <span class="kw">actionButton</span>(<span class="st">&quot;submit&quot;</span>, <span class="st">&quot;Shorten URL&quot;</span>),
+  <span class="kw">textOutput</span>(<span class="st">&quot;short_url&quot;</span>)
+)
+### If the above global.R, server.R and ui.R files are in folder &quot;test&quot; like so:
+## /home
+##    |-&gt;/test/
+##            /global.R
+##            /ui.R
+##            /server.R
+##
+## Port 1221 has been set in your Google Project options as the port to listen to
+## as explained in authentication setup section
+## run below in /home directory
+shiny::<span class="kw">runApp</span>(<span class="st">&quot;./test/&quot;</span>, <span class="dt">launch.browser=</span>T, <span class="dt">port=</span><span class="dv">1221</span>)</code></pre></div>
+</div>
+</div>
+<div id="authentication-with-a-json-file-via-service-accounts" class="section level2">
+<h2>Authentication with a JSON file via Service Accounts</h2>
+<p>You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow. The end user could supply this JSON file, or you can upload your own JSON file to your applications. This involves downloading a secret JSON key with the authentication details. More details are available from Google here: Using OAuth2.0 for Server to Server Applications[<a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount" class="uri">https://developers.google.com/identity/protocols/OAuth2ServiceAccount</a>] To use, go to your Project in the Google Developement Console and select JSON Key type. Save the JSON file to your computer and supply the file location to the function <code>gar_auth_service()</code></p>
+<p>Navigate to the JSON file from the Google Developer Console via: Credentials &gt; New credentials &gt; Service account Key &gt; Select service account &gt; Key type = JSON</p>
+<p>An example using a service account JSON file for authentication is shown below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+service_token &lt;-<span class="st"> </span><span class="kw">gar_auth_service</span>(<span class="dt">json_file=</span><span class="st">&quot;~/location/of/the/json/secret.json&quot;</span>)
+analytics_url &lt;-<span class="st"> </span>function(shortUrl, 
+                          <span class="dt">timespan =</span> <span class="kw">c</span>(<span class="st">&quot;allTime&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;week&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;twoHours&quot;</span>)){
+  
+  timespan &lt;-<span class="st"> </span><span class="kw">match.arg</span>(timespan)
+  
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;GET&quot;</span>,
+                         <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;shortUrl&quot;</span>,
+                                          <span class="dt">projection =</span> <span class="st">&quot;FULL&quot;</span>),
+                         <span class="dt">data_parse_function =</span> function(x) { 
+                           a &lt;-<span class="st"> </span>x$analytics 
+                           <span class="kw">return</span>(a[timespan][[<span class="dv">1</span>]])
+                         })
+  
+  <span class="kw">f</span>(<span class="dt">pars_arguments =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> shortUrl))
+}
+<span class="kw">analytics_url</span>(<span class="st">&quot;https://goo.gl/2FcFVQbk&quot;</span>)</code></pre></div>
+</div>
+<div id="authentication-via-rstudio-addin" class="section level2">
+<h2>Authentication via RStudio Addin</h2>
+<p>From version <code>0.3.0</code> a RStudio Addin is available via the RStudio Addin menu once you load the package, or via <code>googleAuthR:::gar_gadget()</code> It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.</p>
+</div>
+<div id="authentication-in-rmarkdown-via-javascript" class="section level2">
+<h2>Authentication in RMarkdown via JavaScript</h2>
+<p>From version <code>0.4.0</code> there are two functions that can be called from within RMarkdown for authentication. They use JavaScript, rather than R/Shiny to authenticate, as an RMarkdown document can not read the URL tokens.</p>
+<p>A demo and example are available here: <code>https://mark.shinyapps.io/googleAuthRMarkdown/</code></p>
+<div id="setup" class="section level3">
+<h3>Setup</h3>
+<p>The RMarkdown document YAML needs runtime shiny and to be a HTML document:</p>
+<pre><code>output: html_document
+runtime: shiny</code></pre>
+<p>Locally, you have to run the RMarkdown document on the specified port configured in Google console (<code>1221</code> for the default shared project of <code>googleAuthR</code>), configured via <code>options(shiny.port = 1221)</code></p>
+<p>This means you shouldn’t launch the RMarkdown via the Run button in RStudio as that starts a new R session without your set options.</p>
+<p>Instead set the options and run via <code>rmarkdown::run(&quot;myfile.Rmd&quot;)</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">shiny.port =</span> <span class="dv">1221</span>)
+<span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">&quot;https://www.googleapis.com/auth/plus.me&quot;</span>)
+rmarkdown::<span class="kw">run</span>(<span class="st">&quot;googleAuthRMarkdown.Rmd&quot;</span>)</code></pre></div>
+<p>When publishing, you also need to add the domain to the Javascript origins in the Google API console. Use <code>127.0.0.1:XXX</code> where XXX is your chosen Shiny port for local testing.</p>
+</div>
+<div id="example-of-rmarkdown-authentication" class="section level3">
+<h3>Example of RMarkdown authentication</h3>
+<p>Below creates a button that when clicked makes a popup for Google authentication:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+
+<span class="kw">gar_auth_jsUI</span>(<span class="st">&quot;auth_demo&quot;</span>, <span class="dt">login_text =</span> <span class="st">&quot;Click Me&quot;</span>)</code></pre></div>
+<p>The authentication token is available via the server side module command:</p>
+<pre><code>auth &lt;- callModule(gar_auth_js, &quot;auth_demo&quot;)</code></pre>
+<p>Pass the auth token to API functions. Below example using googleID to return G+ user info.</p>
+<pre><code># devtools::install_github(&quot;MarkEdmondson1234/googleID&quot;)
+library(googleID)
+
+user_info &lt;- reactive({
+  
+  req(auth())
+  
+  with_shiny(get_user_info,
+             shiny_access_token = auth())
+  
+})</code></pre>
+<p>You can now output the user data taken from the G+ API:</p>
+<pre><code>## creates an output
+renderUI({
+  
+  req(user_info())
+  
+  h1(&quot;Hello &quot;, user_info()$displayName)
+  
+})</code></pre>
+</div>
+</div>
+<div id="auto-authentication" class="section level2">
+<h2>Auto-authentication</h2>
+<p>From version <code>0.4.0</code> auto-authentication can be performed upon a package load.</p>
+<p>This requires the setup of environment variables either in your <code>.Renviron</code> file or via <code>Sys.setenv()</code> to point to a previously created authentication file. This file can be either a <code>.httr-oauth</code> file created via <code>gar_auth()</code> or a Google service account JSON downloaded from the Google API console.</p>
+<p>This file will then be used for authentication via <code>gar_auth_auto</code>. You can call this function yourself in scripts or R sessions, but its main intention is to be called in the <code>.onAttach</code> function via <code>gar_attach_auth_auto</code>, so that you will authenticate right after you load the library via <code>library(yourlibrary)</code></p>
+<p>An example from <code>googleCloudStorageR</code> is shown below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">.onAttach &lt;-<span class="st"> </span>function(libname, pkgname){
+
+  googleAuthR::<span class="kw">gar_attach_auto_auth</span>(<span class="st">&quot;https://www.googleapis.com/auth/devstorage.full_control&quot;</span>,
+                                    <span class="dt">environment_var =</span> <span class="st">&quot;GCS_AUTH_FILE&quot;</span>)
+}</code></pre></div>
+<p>..which calls an environment variable set in <code>~/.Renvion</code>:</p>
+<pre><code>GCS_AUTH_FILE=&quot;/Users/mark/auth/my_auth_file.json&quot;</code></pre>
+</div>
+<div id="revoking-authentication" class="section level2">
+<h2>Revoking Authentication</h2>
+<p>For local use, delete the <code>.httr-oauth</code> file. For service level accounts delete the JSON file. For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through. To force this every time, activate the parameter <code>revoke=TRUE</code> within the <code>googleAuth</code> function.</p>
+</div>
+</div>
+<div id="building-a-google-api-library" class="section level1">
+<h1>Building a Google API library</h1>
+<div id="generating-your-function" class="section level2">
+<h2>Generating your function</h2>
+<p>Creating your own API should then be a matter of consulting the Google API documentation, and filling in the required details. <code>gar_api_generator</code> has these components:</p>
+<ul>
+<li><code>baseURI</code> - all APIs have a base for every API call</li>
+<li><code>http_header</code> - what type of request, most common are GET and POST</li>
+<li><code>path_args</code> - some APIs need you to alter the URL folder structure when calling, e.g. <code>/account/{accountId}/</code> where <code>accountId</code> is variable.</li>
+<li><code>pars_args</code> - other APIS require you to send URL parameters e.g. <code>?account={accountId}</code> where <code>accountId</code> is variable.</li>
+<li><code>data_parse_function</code> - [optional] If the API call returns data, it will be available in <code>$content</code>. You can create a parsing function that transforms it in to something you can work with (for instance, a dataframe)</li>
+</ul>
+<p>Example below for generating a function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;POST&quot;</span>,
+                         <span class="dt">data_parse_function =</span> function(x) x$id)</code></pre></div>
+</div>
+<div id="using-your-generated-function" class="section level2">
+<h2>Using your generated function</h2>
+<p>The function generated uses <code>path_args</code> and <code>pars_args</code> to create a template, but when the function is called you will want to pass dynamic data to them. This is done via the <code>path_arguments</code> and <code>pars_arguments</code> parameters. <code>path_args</code> and <code>pars_args</code> and <code>path_arguments</code> and <code>pars_arguments</code> all accept named lists. If a name in <code>path_args</code> is present in <code>path_arguments</code>, then it is substituted in. This way you can pass dynamic parameters to the constructed function. Likewise for <code>pars_args</code> and <code>pars_arguments</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Create a function that requires a path argument /accounts/{accountId}
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/example&quot;</span>,
+                         <span class="st">&quot;POST&quot;</span>,
+                         <span class="dt">path_args =</span> <span class="kw">list</span>(<span class="dt">accounts =</span> <span class="st">&quot;defaultAccountId&quot;</span>)
+                         <span class="dt">data_parse_function =</span> function(x) x$id)
+                             
+## When using f(), pass the path_arguments function to it 
+## with the same name to modify &quot;defaultAccountId&quot;:
+  result &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dt">path_arguments =</span> <span class="kw">list</span>(<span class="dt">accounts =</span> <span class="st">&quot;myAccountId&quot;</span>))</code></pre></div>
+<div id="body-data" class="section level3">
+<h3>Body data</h3>
+<p>A lot of Google APIs look for you to send data in the Body of the request. This is done after you construct the function. <code>googleAuthR</code> uses <code>httr</code>’s JSON parsing via <code>jsonlite</code> to construct JSON from R lists.</p>
+<p>Construct your list, then use <code>jsonlite::toJSON</code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
+</div>
+<div id="parsing-data" class="section level3">
+<h3>Parsing data</h3>
+<p>Not all API calls return data, but if they do: If you have no <code>data_parse_function</code> then the function returns the whole request object. The content is available in <code>$content</code>. You can then parse this yourself, or pass a function in to do it for you. If you parse in a function into <code>data_parse_function</code>, it works on the response’s <code>$content</code>. Example below of the differences between having a data parsing function and not:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  ## the body object that will be passed in
+  body =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">longUrl =</span> <span class="st">&quot;http://www.google.com&quot;</span>
+  )
+  
+  ## no data parsing function
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;POST&quot;</span>)
+                         
+  no_parse &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dt">the_body =</span> body)
+  
+  ## parsed data, only taking request$content$id
+  f2 &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                          <span class="st">&quot;POST&quot;</span>,
+                          <span class="dt">data_parse_function =</span> function(x) x$id)
+  
+  parsed &lt;-<span class="st"> </span><span class="kw">f2</span>(<span class="dt">the_body =</span> body)
+  
+  ## str(no_parse) has full details of API response.
+  ## just looking at no_parse$content as this is what API returns
+  &gt;<span class="st"> </span><span class="kw">str</span>(no_parse$content)
+  List of <span class="dv">3</span>
+   $<span class="st"> </span>kind   :<span class="st"> </span>chr <span class="st">&quot;urlshortener#url&quot;</span>
+   $<span class="st"> </span>id     :<span class="st"> </span>chr <span class="st">&quot;http://goo.gl/ZwT9pG&quot;</span>
+   $<span class="st"> </span>longUrl:<span class="st"> </span>chr <span class="st">&quot;http://www.google.com/&quot;</span>
+ 
+  ## compare to the above - equivalent to no_parse$content$id 
+  &gt;<span class="st"> </span><span class="kw">str</span>(parsed)
+   chr <span class="st">&quot;http://goo.gl/mCYw2i&quot;</span>
+                             </code></pre></div>
+<p>The response is turned from JSON to a dataframe if possible, via <code>jsonlite::fromJSON</code></p>
+</div>
+<div id="skip-parsing" class="section level3">
+<h3>Skip parsing</h3>
+<p>In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason. For these cases, you can use the option <code>option(&quot;googleAuthR.rawResponse&quot; = TRUE)</code> to skip all tests and return the raw response. Here is an example of this from the googleCloudStorageR library:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gcs_get_object &lt;-<span class="st"> </span>function(bucket, 
+                           object_name){
+  ## skip JSON parsing on output as we epxect a CSV
+  <span class="kw">options</span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">TRUE</span>)
+  
+  ## do the request
+  ob &lt;-<span class="st"> </span>googleAuthR::<span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/storage/v1/&quot;</span>,
+                                       <span class="dt">path_args =</span> <span class="kw">list</span>(<span class="dt">b =</span> bucket,
+                                                        <span class="dt">o =</span> object_name),
+                                       <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">alt =</span> <span class="st">&quot;media&quot;</span>))
+  req &lt;-<span class="st"> </span><span class="kw">ob</span>()
+  
+  ## set it back to FALSE for other API calls.
+  <span class="kw">options</span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">FALSE</span>)
+  req
+}</code></pre></div>
+</div>
+<div id="batching-api-requests" class="section level3">
+<h3>Batching API requests</h3>
+<p>If you are doing many API calls, you can speed this up a lot by using the batch option. This takes the API functions you have created and wraps them in the <code>gar_batch</code> function to request them all in one POST call. You then recieve the responses in a list. Note that this does not count as one call for API limits purposes, it just speeds up the processing. The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## from search console API
+list_websites &lt;-<span class="st"> </span>function() {
+  
+  l &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/webmasters/v3/sites&quot;</span>,
+                                      <span class="st">&quot;GET&quot;</span>,
+                                      <span class="dt">data_parse_function =</span> function(x) x$siteEntry)
+  <span class="kw">l</span>()
+}
+## from goo.gl API
+user_history &lt;-<span class="st"> </span>function(){
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url/history&quot;</span>,
+                         <span class="st">&quot;GET&quot;</span>,
+                         <span class="dt">data_parse_function =</span> function(x) x$items)
+  
+  <span class="kw">f</span>()
+}
+googleAuthR::<span class="kw">gar_auth</span>(<span class="dt">new_user=</span>T)
+ggg &lt;-<span class="st"> </span><span class="kw">gar_batch</span>(<span class="kw">list</span>(<span class="kw">list_websites</span>(), <span class="kw">user_history</span>()))</code></pre></div>
+<div id="walking-through-batch-requests" class="section level4">
+<h4>Walking through batch requests</h4>
+<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling. A function to enable this is implemented at <code>gar_batch_walk</code>, with an example below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">walkData &lt;-<span class="st"> </span>function(ga, ga_pars, start, end){
+  dates &lt;-<span class="st"> </span><span class="kw">as.character</span>(
+    <span class="kw">seq</span>(<span class="kw">as.Date</span>(start, <span class="dt">format=</span><span class="st">&quot;%Y-%m-%d&quot;</span>),
+        <span class="kw">as.Date</span>(end, <span class="dt">format=</span><span class="st">&quot;%Y-%m-%d&quot;</span>),
+        <span class="dt">by=</span><span class="dv">1</span>))
+  ga_pars$samplingLevel &lt;-<span class="st"> &quot;HIGHER_PRECISION&quot;</span>
+  anyBatchSampled &lt;-<span class="st"> </span><span class="ot">FALSE</span>
+  samplePercent   &lt;-<span class="st"> </span><span class="dv">0</span>
+  
+  
+  ## this is applied to each batch to keep tally of meta data
+  bf &lt;-<span class="st"> </span>function(batch_data){
+    <span class="kw">lapply</span>(batch_data, function(the_data) {
+      if(<span class="kw">attr</span>(the_data, <span class="st">'containsSampledData'</span>)) anyBatchSampled &lt;&lt;-<span class="st"> </span><span class="ot">TRUE</span>
+      samplePercent &lt;&lt;-<span class="st"> </span>samplePercent +<span class="st"> </span><span class="kw">attr</span>(the_data, <span class="st">&quot;samplePercent&quot;</span>)
+    })
+    batch_data
+  }
+  ## the walk through batch function. 
+  ## In this case both start-date and end-date are set to the date iteration
+  ## if the output is parsed as a dataframe, it also includes a rbind function
+  ## otherwise, it will return a list of lists
+  walked_data &lt;-<span class="st"> </span>googleAuthR::<span class="kw">gar_batch_walk</span>(ga,
+                                             dates,
+                                             <span class="dt">gar_pars =</span> ga_pars,
+                                             <span class="dt">pars_walk =</span> <span class="kw">c</span>(<span class="st">&quot;start-date&quot;</span>, <span class="st">&quot;end-date&quot;</span>),
+                                             <span class="dt">batch_function =</span> bf,
+                                             <span class="dt">data_frame_output =</span> <span class="ot">TRUE</span>)
+  <span class="kw">message</span>(<span class="st">&quot;Walked through all dates. Total Results: [&quot;</span>, <span class="kw">NROW</span>(walked_data), <span class="st">&quot;]&quot;</span>)
+  <span class="kw">attr</span>(walked_data, <span class="st">&quot;dateRange&quot;</span>) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">startDate =</span> start, <span class="dt">endDate =</span> end)
+  <span class="kw">attr</span>(walked_data, <span class="st">&quot;totalResults&quot;</span>) &lt;-<span class="st"> </span><span class="kw">NROW</span>(walked_data)
+  <span class="kw">attr</span>(walked_data, <span class="st">&quot;samplingLevel&quot;</span>) &lt;-<span class="st"> &quot;HIGHER_PRECISION, WALKED&quot;</span>
+  <span class="kw">attr</span>(walked_data, <span class="st">&quot;containsSampledData&quot;</span>) &lt;-<span class="st"> </span>anyBatchSampled
+  <span class="kw">attr</span>(walked_data, <span class="st">&quot;samplePercent&quot;</span>) &lt;-<span class="st"> </span>samplePercent /<span class="st"> </span><span class="kw">length</span>(dates)
+  walked_data
+}</code></pre></div>
+</div>
+</div>
+</div>
+<div id="auto-build-libraries" class="section level2">
+<h2>Auto-build libraries</h2>
+<p>New in <code>0.4</code> is helper functions that use Google’s <a href="https://developers.google.com/discovery/">API Discovery service</a>.</p>
+<p>This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs. At the time of writing this is 152 libraries.</p>
+<p>These libraries aren’t intended to be submitted to CRAN or used straight away, but should take away a lot of documentation and function building work so you can concentrate on tests, examples and helper functions for your users.</p>
+<p>Get a list of the current APIs via <code>gar_discovery_apis_list()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_apis &lt;-<span class="st"> </span><span class="kw">gar_discovery_apis_list</span>()</code></pre></div>
+<p>To get details of a particular API, use its name and version in the <code>gar_discovery_api()</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a_api &lt;-<span class="st"> </span><span class="kw">gar_discovery_api</span>(<span class="st">&quot;urlshortener&quot;</span>, <span class="st">&quot;v1&quot;</span>)</code></pre></div>
+<p>You can then pass this list to <code>gar_create_package()</code> along with a folder path to create all the files necessary for an R library. There are arguments to set it up with RStudio project files, do a <code>CRAN CMD check</code> and upload it to Github.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vision_api &lt;-<span class="st"> </span><span class="kw">gar_discovery_api</span>(<span class="st">&quot;vision&quot;</span>, <span class="st">&quot;v1&quot;</span>)
+<span class="kw">gar_create_package</span>(vision_api,
+                   <span class="st">&quot;/Users/mark/dev/R/autoGoogleAPI/&quot;</span>,
+                   <span class="dt">rstudio =</span> <span class="ot">FALSE</span>,
+                   <span class="dt">github =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div id="auto-build-all-libraries" class="section level3">
+<h3>Auto-build all libraries</h3>
+<p>A loop to build all the Google libraries is shown below, the results of which is available in this <a href="https://github.com/MarkEdmondson1234/autoGoogleAPI">Github repo</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+
+api_df &lt;-<span class="st"> </span><span class="kw">gar_discovery_apis_list</span>()
+
+api_json_list &lt;-<span class="st"> </span><span class="kw">mapply</span>(gar_discovery_api, api_df$name, api_df$version)
+
+## WARNING: this takes a couple of hours
+check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_json_list, 
+                        gar_create_package, 
+                        <span class="dt">directory =</span> <span class="st">&quot;/Users/mark/dev/R/autoGoogleAPI&quot;</span>,
+                        <span class="dt">github =</span> <span class="ot">FALSE</span>)</code></pre></div>
+</div>
+</div>
+<div id="example-with-goo.gl" class="section level2">
+<h2>Example with goo.gl</h2>
+<p>Below is an example building a link shortner R package using <code>googleAuthR</code>. It was done referring to the <a href="https://developers.google.com/url-shortener/v1/getting_started">documentation for Google URL shortener</a>. Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.</p>
+<ol style="list-style-type: decimal">
+<li>Creating a project</li>
+<li>Activate API</li>
+<li>Provide scope</li>
+<li>Specify the base URL (in this case <code>https://www.googleapis.com/urlshortener/v1/url</code>)</li>
+<li>Specify the httr request type e.g. <code>POST</code></li>
+<li>Constructing a body request</li>
+<li>Giving the response format</li>
+</ol>
+<div id="example-goo.gl-r-library" class="section level3">
+<h3>Example goo.gl R library</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+## change the native googleAuthR scopes to the one needed.
+<span class="kw">options</span>(<span class="st">&quot;googleAuthR.scopes.selected&quot;</span> =<span class="st"> </span>
+<span class="st">        </span><span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/urlshortener&quot;</span>))
+<span class="co">#' Shortens a url using goo.gl</span>
+<span class="co">#'</span>
+<span class="co">#' @param url URl to shorten with goo.gl</span>
+<span class="co">#' </span>
+<span class="co">#' @return a string of the short URL</span>
+shorten_url &lt;-<span class="st"> </span>function(url){
+  
+  body =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">longUrl =</span> url
+  )
+  
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;POST&quot;</span>,
+                         <span class="dt">data_parse_function =</span> function(x) x$id)
+  
+  <span class="kw">f</span>(<span class="dt">the_body =</span> body)
+  
+}
+<span class="co">#' Expands a url that has used goo.gl</span>
+<span class="co">#'</span>
+<span class="co">#' @param shortUrl Url that was shortened with goo.gl</span>
+<span class="co">#' </span>
+<span class="co">#' @return a string of the expanded URL</span>
+expand_url &lt;-<span class="st"> </span>function(shortUrl){
+  
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;GET&quot;</span>,
+                         <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;shortUrl&quot;</span>),
+                         <span class="dt">data_parse_function =</span> function(x) x)
+                         
+  <span class="kw">f</span>(<span class="dt">pars_arguments =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> shortUrl))
+  
+}
+<span class="co">#' Get analyitcs of a url that has used goo.gl</span>
+<span class="co">#'</span>
+<span class="co">#' @param shortUrl Url that was shortened with goo.gl</span>
+<span class="co">#' @param timespan The time period for the analytics data</span>
+<span class="co">#' </span>
+<span class="co">#' @return a dataframe of the goo.gl Url analytics</span>
+analytics_url &lt;-<span class="st"> </span>function(shortUrl, 
+                          <span class="dt">timespan =</span> <span class="kw">c</span>(<span class="st">&quot;allTime&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;week&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;twoHours&quot;</span>)){
+  
+  timespan &lt;-<span class="st"> </span><span class="kw">match.arg</span>(timespan)
+    
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;GET&quot;</span>,
+                         <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;shortUrl&quot;</span>,
+                                          <span class="dt">projection =</span> <span class="st">&quot;FULL&quot;</span>),
+                         <span class="dt">data_parse_function =</span> function(x) { 
+                                    a &lt;-<span class="st"> </span>x$analytics 
+                                    <span class="kw">return</span>(a[timespan][[<span class="dv">1</span>]])
+                                    })
+  
+  <span class="kw">f</span>(<span class="dt">pars_arguments =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> shortUrl))
+}
+<span class="co">#' Get the history of the authenticated user</span>
+<span class="co">#' </span>
+<span class="co">#' @return a dataframe of the goo.gl user's history</span>
+user_history &lt;-<span class="st"> </span>function(){
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url/history&quot;</span>,
+                         <span class="st">&quot;GET&quot;</span>,
+                         <span class="dt">data_parse_function =</span> function(x) x$items)
+  
+  <span class="kw">f</span>()
+}</code></pre></div>
+<p>To use the above functions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<span class="co"># go through authentication flow</span>
+<span class="kw">gar_auth</span>()
+s &lt;-<span class="st"> </span><span class="kw">shorten_url</span>(<span class="st">&quot;http://markedmondson.me&quot;</span>)
+s
+<span class="kw">expand_url</span>(s)
+<span class="kw">analytics_url</span>(s, <span class="dt">timespan =</span> <span class="st">&quot;month&quot;</span>)
+<span class="kw">user_history</span>()</code></pre></div>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
