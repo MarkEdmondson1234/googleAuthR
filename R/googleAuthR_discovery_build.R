@@ -184,9 +184,10 @@ function_body <- function(api_json_resource_method, api_json){
   fb <- paste0(
     api_url,
     "# ", api_json_resource_method$id,"\n",
-    "f <- gar_api_generator(url, \n",
+    pars_list,"\n",
+    "f <- googleAuthR::gar_api_generator(url, \n",
     "'",api_json_resource_method$httpMethod,"',\t\n",
-    pars_list,
+    if(!is.null(pars_list)) "pars_args = rmNullObs(pars),\n" else "\n",
     "data_parse_function = function(x) x)\n\n",
     function_call,
     "\n",
@@ -208,7 +209,7 @@ object_body <- function(properties_name, properties){
   if(length(prop) == 0 ) return("list()\n\n}\n")
 
   paste0("\nstructure(list(", 
-         paste(paste0("`",names(prop),"`"),
+         paste(paste0("'",names(prop),"'"),
                prop,
                sep = " = ",
                collapse = ","), 

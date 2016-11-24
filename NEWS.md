@@ -1,12 +1,15 @@
-# News Updates
-
 # v0.4.0.9000
+
+## Major changes
 
 * Correct bug of incorrect redirect URL when no port (#45)
 * Catch error for retry if no status response at all
 * Fix bug where unnamed customConfigs were ignored
+* Fixes to discovery API package creations, order of parameters and NULL parameters
 
 # v0.4.0
+
+## Major changes
 
 * Add client based authentication in JavaScript plus example app
 * Add check to `gar_auth_service` to see if you have downloaded right JSON file
@@ -26,11 +29,15 @@
 
 # v0.3.1
 
+## Major changes
+
 * Add link to [example shiny app](https://mark.shinyapps.io/googleAuthRexample/)
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response - should now work
 * A successfull request is now classed as all response codes matching ^20 e.g. 201, 204 etc.
 
 # v0.3.0 
+
+## Major changes
 
 * Document default options in `?googleAuthR`
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response.
@@ -46,6 +53,8 @@
 * Migrated shiny functions to Shiny Modules (#27)
 
 # v0.2 
+
+## Major changes
 
 * Added ability to add your own custom headers to requests via `customConfig` in `gar_api_generator`
 * Add 'localhost' to shiny URL detection. 
@@ -64,6 +73,8 @@
 * added gzip to headers
 
 # v0.1 - CRAN
+
+## Major changes
 
 * Shiny compatibility
 * Local authentication compatibility

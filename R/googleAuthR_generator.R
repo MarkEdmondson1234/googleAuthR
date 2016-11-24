@@ -218,7 +218,7 @@ retryRequest <- function(f){
                                               encoding = "UTF-8")))
     if(is.error(content)){
       
-      warning("No JSON content found in request")
+      warning("No JSON content found in request", call. = FALSE)
       error <- "Could not fetch response"
       
     } else if(exists("error", where=content)) {

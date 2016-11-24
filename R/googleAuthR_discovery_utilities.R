@@ -33,6 +33,7 @@ make_f_arguments <- function(f_name, arguments, exclude = NULL){
 }
 
 
+
 make_api_url_string <- function(api_json_resource_method, api_json){
   
   start_url <- paste0(api_json$baseUrl, api_json_resource_method$path)
@@ -56,7 +57,12 @@ type_parameters <- function(api_json_resource_method, type = c("path","query")){
   type <- match.arg(type)
   pars <- api_json_resource_method$parameters
   
-  unlist(lapply(names(pars), function(x) if(pars[[x]]$location == type) x))
+  order_names <- c(api_json_resource_method$parameterOrder, 
+                   setdiff(names(api_json_resource_method$parameters), 
+                           api_json_resource_method$parameterOrder))
+  
+  unlist(lapply(order_names, function(x) if(pars[[x]]$location == type) x))
+  # unlist(lapply(names(pars), function(x) if(pars[[x]]$location == type) x))
   
 }
 
@@ -70,9 +76,9 @@ make_pars_list <- function(api_json_resource_method){
                       make_pars_entry,
                       api_json_resource_method = api_json_resource_method)
   paste0(
-    "pars_args = list(\n",
+    "pars = list(\n",
     paste(collapse = ",", list_vars),
-    "),\n" 
+    ")\n" 
   )
   
 }

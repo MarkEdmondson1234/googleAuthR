@@ -1,0 +1,350 @@
+---
+title: "Building your own Google R library"
+author: "Mark Edmondson"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Building your own Google R library}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Build a Google API library for R
+
+## Generating your function
+
+Creating your own API should be a matter of consulting the Google API documentation, and filling in the required details.
+
+`gar_api_generator()` has these components:
+
+* `baseURI` - all APIs have a base for every API call
+* `http_header` - what type of request, most common are GET and POST
+* `path_args` - some APIs need you to alter the URL folder structure when calling, e.g. `/account/{accountId}/` where `accountId` is variable.
+* `pars_args` - other APIS require you to send URL parameters e.g. `?account={accountId}` where `accountId` is variable.
+* `data_parse_function` - [optional] If the API call returns data, it will be available in `$content`. You can create a parsing function that transforms it in to something you can work with (for instance, a dataframe)
+
+Example below for generating a function:
+
+```r
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x$id)
+```
+
+## Using your generated function
+
+The function generated uses `path_args` and `pars_args` to create a template, but when the function is called you will want to pass dynamic data to them.  This is done via the `path_arguments` and `pars_arguments` parameters.
+
+`path_args` and `pars_args` and `path_arguments` and `pars_arguments` all accept named lists.
+
+If a name in `path_args` is present in `path_arguments`, then it is substituted in.  This way you can pass dynamic parameters to the constructed function.  Likewise for `pars_args` and `pars_arguments`.
+
+```r
+## Create a function that requires a path argument /accounts/{accountId}
+  f <- gar_api_generator("https://www.googleapis.com/example",
+                         "POST",
+                         path_args = list(accounts = "defaultAccountId")
+                         data_parse_function = function(x) x$id)
+                             
+## When using f(), pass the path_arguments function to it 
+## with the same name to modify "defaultAccountId":
+  result <- f(path_arguments = list(accounts = "myAccountId"))
+```
+
+### Body data
+
+A lot of Google APIs look for you to send data in the Body of the request.  This is done after you construct the function.
+ `googleAuthR` uses `httr`'s JSON parsing via `jsonlite` to construct JSON from R lists.
+ 
+ Construct your list, then use `jsonlite::toJSON` to check if its in the correct format as specified by the Google documentation.  This is often the hardest part using the API.
+ 
+### Parsing data
+
+Not all API calls return data, but if they do:
+
+If you have no `data_parse_function` then the function returns the whole request object.  The content is available in `$content`.  You can then parse this yourself, or pass a function in to do it for you.
+
+If you parse in a function into `data_parse_function`, it works on the response's `$content`.
+
+Example below of the differences between having a data parsing function and not:
+
+```r
+  ## the body object that will be passed in
+  body = list(
+    longUrl = "http://www.google.com"
+  )
+  
+  ## no data parsing function
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST")
+                         
+  no_parse <- f(the_body = body)
+  
+  ## parsed data, only taking request$content$id
+  f2 <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                          "POST",
+                          data_parse_function = function(x) x$id)
+  
+  parsed <- f2(the_body = body)
+  
+  ## str(no_parse) has full details of API response.
+  ## just looking at no_parse$content as this is what API returns
+  > str(no_parse$content)
+  List of 3
+   $ kind   : chr "urlshortener#url"
+   $ id     : chr "http://goo.gl/ZwT9pG"
+   $ longUrl: chr "http://www.google.com/"
+ 
+  ## compare to the above - equivalent to no_parse$content$id 
+  > str(parsed)
+   chr "http://goo.gl/mCYw2i"
+                             
+```
+
+The response is turned from JSON to a dataframe if possible, via `jsonlite::fromJSON`
+
+### Skip parsing
+
+In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.
+For these cases, you can use the option `option("googleAuthR.rawResponse" = TRUE)` to skip all tests and return the raw response.
+Here is an example of this from the googleCloudStorageR library:
+```r
+gcs_get_object <- function(bucket, 
+                           object_name){
+  ## skip JSON parsing on output as we epxect a CSV
+  options(googleAuthR.rawResponse = TRUE)
+  
+  ## do the request
+  ob <- googleAuthR::gar_api_generator("https://www.googleapis.com/storage/v1/",
+                                       path_args = list(b = bucket,
+                                                        o = object_name),
+                                       pars_args = list(alt = "media"))
+  req <- ob()
+  
+  ## set it back to FALSE for other API calls.
+  options(googleAuthR.rawResponse = FALSE)
+  req
+}
+```
+
+## Batching API requests
+
+If you are doing many API calls, you can speed this up a lot by using the batch option.
+This takes the API functions you have created and wraps them in the `gar_batch` function to request them all in one POST call.  You then recieve the responses in a list.
+Note that this does not count as one call for API limits purposes, it just speeds up the processing.
+The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.
+
+```r
+## from search console API
+list_websites <- function() {
+  
+  l <- gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
+                                      "GET",
+                                      data_parse_function = function(x) x$siteEntry)
+  l()
+}
+## from goo.gl API
+user_history <- function(){
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
+                         "GET",
+                         data_parse_function = function(x) x$items)
+  
+  f()
+}
+googleAuthR::gar_auth(new_user=T)
+ggg <- gar_batch(list(list_websites(), user_history()))
+```
+
+#### Walking through batch requests
+
+A common batch task is to walk through the same API call, modifying only one parameter.  An example includes walking through Google Analytics API calls by date to avoid sampling.
+A function to enable this is implemented at `gar_batch_walk`, with an example below:
+```r
+walkData <- function(ga, ga_pars, start, end){
+  dates <- as.character(
+    seq(as.Date(start, format="%Y-%m-%d"),
+        as.Date(end, format="%Y-%m-%d"),
+        by=1))
+  ga_pars$samplingLevel <- "HIGHER_PRECISION"
+  anyBatchSampled <- FALSE
+  samplePercent   <- 0
+  
+  
+  ## this is applied to each batch to keep tally of meta data
+  bf <- function(batch_data){
+    lapply(batch_data, function(the_data) {
+      if(attr(the_data, 'containsSampledData')) anyBatchSampled <<- TRUE
+      samplePercent <<- samplePercent + attr(the_data, "samplePercent")
+    })
+    batch_data
+  }
+  ## the walk through batch function. 
+  ## In this case both start-date and end-date are set to the date iteration
+  ## if the output is parsed as a dataframe, it also includes a rbind function
+  ## otherwise, it will return a list of lists
+  walked_data <- googleAuthR::gar_batch_walk(ga,
+                                             dates,
+                                             gar_pars = ga_pars,
+                                             pars_walk = c("start-date", "end-date"),
+                                             batch_function = bf,
+                                             data_frame_output = TRUE)
+  message("Walked through all dates. Total Results: [", NROW(walked_data), "]")
+  attr(walked_data, "dateRange") <- list(startDate = start, endDate = end)
+  attr(walked_data, "totalResults") <- NROW(walked_data)
+  attr(walked_data, "samplingLevel") <- "HIGHER_PRECISION, WALKED"
+  attr(walked_data, "containsSampledData") <- anyBatchSampled
+  attr(walked_data, "samplePercent") <- samplePercent / length(dates)
+  walked_data
+}
+```
+
+## Auto-build libraries
+
+New in `0.4` is helper functions that use Google's [API Discovery service](https://developers.google.com/discovery/).
+
+This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs.  At the time of writing this is 152 libraries.
+
+These libraries aren't intended to be submitted to CRAN or used straight away, but should take away a lot of documentation and function building work so you can concentrate on tests, examples and helper functions for your users.
+
+Get a list of the current APIs via `gar_discovery_apis_list()`
+
+```r
+all_apis <- gar_discovery_apis_list()
+```
+
+To get details of a particular API, use its name and version in the `gar_discovery_api()` function:
+
+```r
+a_api <- gar_discovery_api("urlshortener", "v1")
+```
+
+You can then pass this list to `gar_create_package()` along with a folder path to create all the files necessary for an R library.  There are arguments to set it up with RStudio project files, do a `CRAN CMD check` and upload it to Github.
+
+```r
+vision_api <- gar_discovery_api("vision", "v1")
+gar_create_package(vision_api,
+                   "/Users/mark/dev/R/autoGoogleAPI/",
+                   rstudio = FALSE,
+                   github = FALSE)
+
+```
+
+### Auto-build all libraries
+
+A loop to build all the Google libraries is shown below, the results of which is available in this [Github repo](https://github.com/MarkEdmondson1234/autoGoogleAPI).
+
+```r
+library(googleAuthR)
+
+api_df <- gar_discovery_apis_list()
+
+api_json_list <- mapply(gar_discovery_api, api_df$name, api_df$version)
+
+## WARNING: this takes a couple of hours
+check_results <- lapply(api_json_list, 
+                        gar_create_package, 
+                        directory = "/Users/mark/dev/R/autoGoogleAPI",
+                        github = FALSE)
+
+```
+
+## Example with goo.gl
+
+Below is an example building a link shortner R package using `googleAuthR`.
+It was done referring to the [documentation for Google URL shortener](https://developers.google.com/url-shortener/v1/getting_started).
+Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.
+
+1. Creating a project
+2. Activate API
+3. Provide scope
+4. Specify the base URL (in this case `https://www.googleapis.com/urlshortener/v1/url`)
+5. Specify the httr request type e.g. `POST`
+6. Constructing a body request
+7. Giving the response format
+
+### Example goo.gl R library
+
+```r
+library(googleAuthR)
+## change the native googleAuthR scopes to the one needed.
+options("googleAuthR.scopes.selected" = 
+        c("https://www.googleapis.com/auth/urlshortener"))
+#' Shortens a url using goo.gl
+#'
+#' @param url URl to shorten with goo.gl
+#' 
+#' @return a string of the short URL
+shorten_url <- function(url){
+  
+  body = list(
+    longUrl = url
+  )
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x$id)
+  
+  f(the_body = body)
+  
+}
+#' Expands a url that has used goo.gl
+#'
+#' @param shortUrl Url that was shortened with goo.gl
+#' 
+#' @return a string of the expanded URL
+expand_url <- function(shortUrl){
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "GET",
+                         pars_args = list(shortUrl = "shortUrl"),
+                         data_parse_function = function(x) x)
+                         
+  f(pars_arguments = list(shortUrl = shortUrl))
+  
+}
+#' Get analyitcs of a url that has used goo.gl
+#'
+#' @param shortUrl Url that was shortened with goo.gl
+#' @param timespan The time period for the analytics data
+#' 
+#' @return a dataframe of the goo.gl Url analytics
+analytics_url <- function(shortUrl, 
+                          timespan = c("allTime", "month", "week","day","twoHours")){
+  
+  timespan <- match.arg(timespan)
+    
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "GET",
+                         pars_args = list(shortUrl = "shortUrl",
+                                          projection = "FULL"),
+                         data_parse_function = function(x) { 
+                                    a <- x$analytics 
+                                    return(a[timespan][[1]])
+                                    })
+  
+  f(pars_arguments = list(shortUrl = shortUrl))
+}
+#' Get the history of the authenticated user
+#' 
+#' @return a dataframe of the goo.gl user's history
+user_history <- function(){
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
+                         "GET",
+                         data_parse_function = function(x) x$items)
+  
+  f()
+}
+```
+
+To use the above functions:
+
+```r
+library(googleAuthR)
+# go through authentication flow
+gar_auth()
+s <- shorten_url("http://markedmondson.me")
+s
+expand_url(s)
+analytics_url(s, timespan = "month")
+user_history()
+```

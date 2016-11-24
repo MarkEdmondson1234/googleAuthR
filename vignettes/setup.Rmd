@@ -1,0 +1,58 @@
+---
+title: "Google API Setup"
+author: "Mark Edmondson"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Google API Setup}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`googleAuthR` has a default project setup with APIs activated for several APIs, but it is recommended you use your own Client IDs as the login screen will be big and scary for users with so many APIs to approve.  
+It is preferred to configure your functions to only use the scopes they need.  Scopes you need will be specified in the Google API documentation. 
+Set scopes via the option `googleAuthR.scopes.selected`.
+
+The below example sets scopes for Search Console, Google Analytics and Tag Manager:
+
+```r
+options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webmasters",
+                                          "https://www.googleapis.com/auth/analytics",
+                                          "https://www.googleapis.com/auth/tagmanager.readonly"))
+```
+
+# Set up steps
+
+1. Set up your project in the Google API Console to use the Google API you want.
+
+## For local use
+
+2. Click 'Create a new Client ID', and choose "Installed Application".
+3. Note your Client ID and secret.
+4. Modify these options after `googleAuthR` has been loaded:
+  + `options("googleAuthR.client_id" = "YOUR_CLIENT_ID")`
+  + `options("googleAuthR.client_secret" = "YOUR_CLIENT_SECRET")`
+  
+## For Shiny use
+
+2. Click 'Create a new Client ID', and choose "Web Application".
+3. Note your Client ID and secret.
+4. Add the URL of where your Shiny app will run, with no port number. e.g. https://mark.shinyapps.io/searchConsoleRDemo/
+5. And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. `http://127.0.0.1:1221`
+6. In your Shiny script modify these options:
+  + `options("googleAuthR.webapp.client_id" = "YOUR_CLIENT_ID")`
+  + `options("googleAuthR.webapp.client_secret" = "YOUR_CLIENT_SECRET")`
+7. Run the app locally specifying the port number you used e.g. `shiny::runApp(port=1221)`
+8. Or deploy to your Shiny Server that deploys to web port (80 or 443).
+
+# Activate API
+
+1. Click on "APIs"
+2. Select and activate the API you want to use.
+3. Go to the documentation and find the API scope URL
+4. Set option in your R script for the scope e.g. 
+
+```r
+options("googleAuthR.scopes.selected" = 
+      c("https://www.googleapis.com/auth/urlshortener"))
+```

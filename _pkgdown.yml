@@ -1,0 +1,42 @@
+title: googleAuthR
+template:
+  params:
+    bootswatch: cerulean
+navbar:
+  title: "googleAuthR"
+  type: inverse
+  left:
+    - text: "Authentication with Google"
+      href: articles/google-authentication-types.html
+    - text: "Building Google APIs for R"
+      href: articles/building.html
+    - text: "Help"
+      menu:
+      - text: "Reference"
+        href: reference/index.html
+      - text: "News"
+        href: news/index.html
+reference:
+  - title: "Authentication"
+    contents:
+      - gar_auth 
+      - gar_auth_service
+      - gar_attach_auto_auth
+      - gar_auto_auth
+  - title: "Shiny authentication helpers"
+    contents:
+      - googleAuth
+      - googleAuthUI
+      - gar_auth_js
+      - gar_auth_jsUI
+  - title: "Building packages"
+    contents:
+      - gar_api_generator
+      - matches("batch")
+  - title: "Discovery API"
+    contents:
+      - gar_create_package
+      - gar_discovery_api
+      - gar_discovery_apis_list
+
+      

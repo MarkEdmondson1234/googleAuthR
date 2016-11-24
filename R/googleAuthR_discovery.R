@@ -201,7 +201,24 @@ gar_create_api_skeleton <- function(filename,
       "\n"
       )
   
+  support_functions <- paste0(
+    "#' A helper function that tests whether an object is either NULL _or_\n",
+    "#' a list of NULLs\n",
+    "#'\n",
+    "#' @keywords internal\n",
+    "  is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))\n",
+    "\n",   
+    "   #' Recursively step down into list, removing all such objects\n",
+    "   #'\n",
+    "   #' @keywords internal\n",
+    "   rmNullObs <- function(x) {\n",
+    "     x <- Filter(Negate(is.NullOb), x)\n",
+    "     lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)\n",
+    "   }\n"
+  )
+  
   add_line(header, temp)
+  add_line(support_functions, temp)
   
   ## apis can have methods at varying steps into JSON tree
   ## find the methods to extract into API
