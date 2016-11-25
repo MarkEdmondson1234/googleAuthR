@@ -22,9 +22,17 @@ A token
 This takes the metadata auth token in a Google Compute Engine instance as authentication source
 }
 \details{
+\code{service_account} is \code{default} or the service account email 
+e.g. \code{"service-account-key-json@projectname.iam.gserviceaccount.com"}
+
 Google Compute Engine instances come with their own authentication tokens.  
-If you want to use them make sure their service account email is added to accounts you want to get data from 
-e.g. add the Compute Engine default service account email to a Google Analytics view you want to get data from via \code{googleAnalyticsR}
+
+It has no refresh token so you need to call for a fresh token after approx. one hour. 
+The metadata token will refresh itself when it has about 60 seconds left.
+
+You can only use for scopes specified when creating the instance.
+
+If you want to use them make sure their service account email is added to accounts you want to get data from.
 
 If this function is called on a non-Google Compute Engine instance it will return \code{NULL}
 }
