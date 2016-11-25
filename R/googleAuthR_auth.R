@@ -342,6 +342,10 @@ gar_gce_auth <- function(service_account = "default",
                        cache_path = getOption("googleAuthR.httr_oauth_cache"))
   
   myMessage("Authenticated on Google Compute Engine", level = 2)
+  
+  ## for other google auth on a server (such as Google Analytics) need to manually do tokens via OOB
+  options(httr_oob_default = TRUE)
+  
   ## puts it in environment
   gar_auth(token_formatted)
   
