@@ -6,6 +6,7 @@
 * Catch error for retry if no status response at all
 * Fix bug where unnamed customConfigs were ignored
 * Fixes to discovery API package creations, order of parameters and NULL parameters
+* Add authentication option when using Google Compute Engine `gar_gce_auth()` (#52)
 
 # v0.4.0
 
