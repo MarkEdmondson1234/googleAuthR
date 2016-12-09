@@ -57,18 +57,18 @@ test_that("Can create auto package", {
   
 })
 
-test_that("Can create vision package", {
-  skip_on_cran()
-  tmp <- tempdir()
-  on.exit(unlink(tmp))
-  
-  da1 <- gar_discovery_api("vision","v1")
-  
-  gg <- gar_create_package(da1, tmp, check = TRUE, github = FALSE)
-  
-  expect_s3_class(gg, "check_results")
-  
-})
+# test_that("Can create vision package", {
+#   skip_on_cran()
+#   tmp <- tempdir()
+#   on.exit(unlink(tmp))
+#   
+#   da1 <- gar_discovery_api("vision","v1")
+#   
+#   gg <- gar_create_package(da1, tmp, check = TRUE, github = FALSE)
+#   
+#   expect_s3_class(gg, "check_results")
+#   
+# })
 
 test_that("Name of package is valid",{
   skip_on_cran()

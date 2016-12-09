@@ -13,3 +13,6 @@ cran-comments\.md
 ^secrets\.tar\.enc$
 ^httr-oauth\.rds$
 ^\.httr-oauth\.enc$
+^README\.Rmd$
+^_pkgdown\.yml$
+^docs.*
