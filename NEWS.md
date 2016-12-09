@@ -7,6 +7,7 @@
 * Fix bug where unnamed customConfigs were ignored
 * Fixes to discovery API package creations, order of parameters and NULL parameters
 * Add authentication option when using Google Compute Engine `gar_gce_auth()` (#52)
+* Add a warning if the cached `.httr-oauth` token has different scopes to the ones specified at time of authentication (#53)
 
 # v0.4.0
 

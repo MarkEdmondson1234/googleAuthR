@@ -85,6 +85,9 @@ gar_auth <- function(token = NULL,
   
   if(is.null(token)) {
     
+    ## check if current cached token has same scopes as those set in options
+    check_cached_scopes()
+    
     endpoint <- httr::oauth_endpoints("google")
     
     app <- httr::oauth_app("google", 
@@ -96,8 +99,6 @@ gar_auth <- function(token = NULL,
                                          scope = getOption("googleAuthR.scopes.selected"), 
                                          cache = getOption("googleAuthR.httr_oauth_cache"))   
 
-    
-    
     stopifnot(is_legit_token(google_token))
     
     Authentication$set("public", "token", google_token, overwrite=TRUE)
@@ -181,7 +182,7 @@ token_exists <- function() {
     if(file.exists(httr_cache)) {
       myMessage(paste("NOTE: a ", httr_cache ,
                       " file exists in current working",
-                      "directory.\n Run gar_auth() to use the",
+                      "directory.\n Run authentication function to use the",
                       "credentials cached for this session."), level=3)
     } else {
       myMessage(paste("No ", httr_cache ,
@@ -270,7 +271,8 @@ gar_auth_service <- function(json_file, scope = getOption("googleAuthR.scopes.se
   scope <- paste(scope, collapse=" ")
   
   if(is.null(secrets$private_key)){
-    stop("private_key not found in JSON - have you downloaded the correct JSON file? (Service Account Keys, not service account client)")
+    stop("$private_key not found in JSON - have you downloaded the correct JSON file? 
+         (Service Account Keys, not service account client)")
   }
   
   google_token <- httr::oauth_service_token(endpoint, secrets, scope)
@@ -349,4 +351,32 @@ gar_gce_auth <- function(service_account = "default",
   ## puts it in environment
   gar_auth(token_formatted)
   
+}
+
+
+#' Check token scopes
+## check if scopes are set correctly
+check_cached_scopes <- function(){
+  
+  httr_cache <- getOption("googleAuthR.httr_oauth_cache")
+  if(class(httr_cache) == "logical"){
+    httr_cache <- ".httr-oauth"
+  }
+  google_token <- try(suppressWarnings(readRDS(httr_cache)[[1]]), silent = TRUE)
+
+  out <- TRUE
+  if(!is.error(google_token)){
+    if(!all(google_token$params$scope %in%
+            getOption("googleAuthR.scopes.selected"))){
+      warning(paste0("option(googleAuthR.scopes.selected) not same scopes as current cached token ", httr_cache, ", will need reauthentication.  
+                     \nToken scopes: ", 
+                     paste(google_token$params$scope, collapse = " "),
+                     "\ngetOption(googleAuthR.scopes.selected): ",
+                     paste(getOption("googleAuthR.scopes.selected"), collapse = " "),
+                     collapse = " "), call. = FALSE)
+      out <- FALSE
+    }
+  }
+  
+  out
 }
