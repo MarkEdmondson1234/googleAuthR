@@ -104,21 +104,12 @@ gar_auth <- function(token = NULL,
     Authentication$set("public", "token", google_token, overwrite=TRUE)
     
   } else {
-    
+    ## supplied a file path or Token object
     if(is_legit_token(token)) {
       google_token <- token
     } else {
       myMessage("Reading token from file path", level = 2)
-      google_token <- try(suppressWarnings(readRDS(token)[[1]]), silent = TRUE)
-      
-      if(is.error(google_token)) {
-        stop(sprintf("Cannot read token from alleged .rds file:\n%s",
-                          token))
-      } else if(!is_legit_token(google_token)) {
-          
-        stop(sprintf("File does not contain a proper token:\n%s", token))
-
-      }
+      google_token <- read_cache_token(token_path = getOption("googleAuthR.httr_oauth_cache"))
     }
     
     Authentication$set("public", "token", google_token, overwrite=TRUE)
@@ -127,6 +118,21 @@ gar_auth <- function(token = NULL,
   
   return(invisible(Authentication$public_fields$token)) 
   
+}
+
+## httr cache files such as .httr-oauth can hold multiple tokens for different scopes.
+## this selects the token that covers the scope given
+read_cache_token <- function(token_path = getOption("googleAuthR.httr_oauth_cache")){
+  if(inherits(token_path, "logical")){
+    token_path <- ".httr-oauth"
+  }
+  myMessage("Reading token from file path", level = 2)
+  google_token <- try(suppressWarnings(readRDS(token_path)), silent = TRUE)
+  if(is.error(google_token)) {
+    stop(sprintf("Cannot read token from alleged .rds file:\n%s",
+                 token_path))
+  }
+  google_token
 }
 
 #' Retrieve Google token from environment and configs for httr
