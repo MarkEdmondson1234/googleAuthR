@@ -8,6 +8,7 @@
 * Fixes to discovery API package creations, order of parameters and NULL parameters
 * Add authentication option when using Google Compute Engine `gar_gce_auth()` (#52)
 * Add a warning if the cached `.httr-oauth` token has different scopes to the ones specified at time of authentication (#53)
+* Add debug body aid: if `option(googleAuthR.verbose = 0)` then a request with a body will write to a file `request_debug.rds` in working directory
 
 # v0.4.0
 

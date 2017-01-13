@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2016-11-25" />
+<meta name="date" content="2017-01-13" />
 
 <title>Building your own Google R library</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Building your own Google R library</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2016-11-25</em></h4>
+<h4 class="date"><em>2017-01-13</em></h4>
 
 
 
@@ -110,6 +110,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3>Body data</h3>
 <p>A lot of Google APIs look for you to send data in the Body of the request. This is done after you construct the function. <code>googleAuthR</code> uses <code>httr</code>’s JSON parsing via <code>jsonlite</code> to construct JSON from R lists.</p>
 <p>Construct your list, then use <code>jsonlite::toJSON</code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
+<p>To aid debugging use the <code>option(googleAuthR.verbose = 0)</code> to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called <code>request_debug.rds</code> in the working directory.</p>
 </div>
 <div id="parsing-data" class="section level3">
 <h3>Parsing data</h3>

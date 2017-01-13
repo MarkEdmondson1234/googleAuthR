@@ -340,6 +340,14 @@ doHttrRequest <- function(url,
     tt <- try(myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T), 
                         level = 2))
     if(is.error(tt)) myMessage("Could not parse body JSON", level = 2)
+    
+    ## if verbose = 0 then write the JSON body to a file
+    if(getOption("googleAuthR.verbose") == 0){
+      write_out <- list(url = url,
+                        request_type = request_type,
+                        body_json = jsonlite::toJSON(the_body, auto_unbox=T))
+      saveRDS(write_out, file = "request_debug.rds")
+    }
   }
   
 
