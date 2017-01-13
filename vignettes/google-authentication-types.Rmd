@@ -49,8 +49,8 @@ This is the example [deployed to shinyapps.io here](https://mark.shinyapps.io/go
 library(googleAuthR)
 library(shiny)
 options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/urlshortener")
-options(googleAnalyticsR.webapp.client_id = "YOUR_PROJECT_KEY")
-options(googleAnalyticsR.webapp.client_secret = "YOUR_CLIENT_SECRET")
+options(googleAuthR.webapp.client_id = "YOUR_PROJECT_KEY")
+options(googleAuthR.webapp.client_secret = "YOUR_CLIENT_SECRET")
 shorten_url <- function(url){
   
   body = list(
