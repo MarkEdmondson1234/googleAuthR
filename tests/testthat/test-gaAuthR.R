@@ -54,13 +54,15 @@ test_that("The auth httr file can be found",{
 
 test_that("Can authenticate .httr passed as a file", {
   skip_on_cran()
-  expect_s3_class(gar_auth("httr-oauth.rds"), "Token2.0")
+  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+  expect_s3_class(gar_auth("httr-oauth.rds")[[1]], "Token2.0")
   
 })
 
 
 test_that("Can authenticate .httr looking for existing file", {
   skip_on_cran()
+  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
   expect_s3_class(gar_auth(), "Token2.0")
   
 })

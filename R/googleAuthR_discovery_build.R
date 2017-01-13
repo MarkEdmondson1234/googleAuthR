@@ -186,7 +186,7 @@ function_body <- function(api_json_resource_method, api_json){
     "# ", api_json_resource_method$id,"\n",
     pars_list,"\n",
     "f <- googleAuthR::gar_api_generator(url, \n",
-    "'",api_json_resource_method$httpMethod,"',\t\n",
+    "'",api_json_resource_method$httpMethod,"',",
     if(!is.null(pars_list)) "pars_args = rmNullObs(pars),\n" else "\n",
     "data_parse_function = function(x) x)\n\n",
     function_call,
