@@ -59,6 +59,61 @@ A lot of Google APIs look for you to send data in the Body of the request.  This
  Construct your list, then use `jsonlite::toJSON` to check if its in the correct format as specified by the Google documentation.  This is often the hardest part using the API.
  
 To aid debugging use the `option(googleAuthR.verbose = 0)` to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called `request_debug.rds` in the working directory.
+
+Example:
+
+```r
+library(googleAuthR)
+library(googleAnalyticsR)
+options(googleAuthR.verbose = 0)
+
+ga_auth()
+blah <- google_analytics_4(1212121, date_range = c(Sys.Date() - 7, Sys.Date()), metrics = "sessions")
+Calling APIv4....
+Single v4 batch
+Token exists.
+Valid local token
+Request: https://analyticsreporting.googleapis.com/v4/reports:batchGet/
+Body JSON parsed to: {"reportRequests":[{"viewId":"ga:121211","dateRanges":[{"startDate":"2017-01-06","endDate":"2017-01-13"}],"samplingLevel":"DEFAULT","metrics":[{"expression":"ga:sessions","alias":"sessions","formattingType":"METRIC_TYPE_UNSPECIFIED"}],"pageToken":"0","pageSize":1000,"includeEmptyRows":true}]}
+-> POST /v4/reports:batchGet/ HTTP/1.1
+-> Host: analyticsreporting.googleapis.com
+-> User-Agent: googleAuthR/0.4.0.9000 (gzip)
+-> Accept: application/json, text/xml, application/xml, */*
+-> Content-Type: application/json
+-> Accept-Encoding: gzip
+-> Authorization: Bearer ya29XXXXX_EhpEot1ZPNP28MUmSz5EyQ7lY3kgNCFEefYv-Zof3a1RSwezgMJ5llCO44TA9iHi51c
+-> Content-Length: 295
+-> 
+>> {"reportRequests":[{"viewId":"ga:1212121","dateRanges":[{"startDate":"2017-01-06","endDate":"2017-01-13"}],"samplingLevel":"DEFAULT","metrics":[{"expression":"ga:sessions","alias":"sessions","formattingType":"METRIC_TYPE_UNSPECIFIED"}],"pageToken":"0","pageSize":1000,"includeEmptyRows":true}]}
+
+<- HTTP/1.1 200 OK
+<- Content-Type: application/json; charset=UTF-8
+<- Vary: Origin
+<- Vary: X-Origin
+<- Vary: Referer
+<- Content-Encoding: gzip
+<- Date: Fri, 13 Jan 2017 10:45:38 GMT
+<- Server: ESF
+<- Cache-Control: private
+<- X-XSS-Protection: 1; mode=block
+<- X-Frame-Options: SAMEORIGIN
+<- X-Content-Type-Options: nosniff
+<- Alt-Svc: quic=":443"; ma=2592000; v="35,34"
+<- Transfer-Encoding: chunked
+<- 
+Downloaded [1] rows from a total of [1].
+
+> readRDS("request_debug.rds")
+$url
+[1] "https://analyticsreporting.googleapis.com/v4/reports:batchGet/"
+
+$request_type
+[1] "POST"
+
+$body_json
+{"reportRequests":[{"viewId":"ga:1212121","dateRanges":[{"startDate":"2017-01-06","endDate":"2017-01-13"}],"samplingLevel":"DEFAULT","metrics":[{"expression":"ga:sessions","alias":"sessions","formattingType":"METRIC_TYPE_UNSPECIFIED"}],"pageToken":"0","pageSize":1000,"includeEmptyRows":true}]}
+
+```
  
 ### Parsing data
 
