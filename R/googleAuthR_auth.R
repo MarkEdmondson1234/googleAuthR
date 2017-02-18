@@ -106,9 +106,8 @@ gar_auth <- function(token = NULL,
   } else {
     ## supplied a file path or Token object
     if(is_legit_token(token)) {
-      google_token <- token
+      google_token <- token[[1]]
     } else {
-      myMessage("Reading token from file path", level = 2)
       google_token <- read_cache_token(token_path = getOption("googleAuthR.httr_oauth_cache"))
     }
     
@@ -132,6 +131,12 @@ read_cache_token <- function(token_path = getOption("googleAuthR.httr_oauth_cach
     stop(sprintf("Cannot read token from alleged .rds file:\n%s",
                  token_path))
   }
+  
+  if(inherits(google_token, "list")){
+    myMessage("Found a list, return token in first element.")
+    google_token <- google_token[[1]]
+  }
+  
   google_token
 }
 
@@ -216,6 +221,12 @@ is_legit_token <- function(x) {
   
   if(!inherits(x, "Token2.0")) {
     myMessage("Not a Token2.0 object. Found:", class(x), level=2)
+    if(!inherits(x, "list")){
+      if(inherits(x[[1]], "Token2.0")){
+        myMessage("Its a list of Token2.0 objects though")
+        return(TRUE)
+      }
+    }
     return(FALSE)
   }
   

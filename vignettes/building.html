@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-01-13" />
+<meta name="date" content="2017-02-18" />
 
 <title>Building your own Google R library</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Building your own Google R library</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-01-13</em></h4>
+<h4 class="date"><em>2017-02-18</em></h4>
 
 
 
@@ -111,6 +111,56 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>A lot of Google APIs look for you to send data in the Body of the request. This is done after you construct the function. <code>googleAuthR</code> uses <code>httr</code>’s JSON parsing via <code>jsonlite</code> to construct JSON from R lists.</p>
 <p>Construct your list, then use <code>jsonlite::toJSON</code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
 <p>To aid debugging use the <code>option(googleAuthR.verbose = 0)</code> to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called <code>request_debug.rds</code> in the working directory.</p>
+<p>Example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<span class="kw">library</span>(googleAnalyticsR)
+<span class="kw">options</span>(<span class="dt">googleAuthR.verbose =</span> <span class="dv">0</span>)
+
+<span class="kw">ga_auth</span>()
+blah &lt;-<span class="st"> </span><span class="kw">google_analytics_4</span>(<span class="dv">1212121</span>, <span class="dt">date_range =</span> <span class="kw">c</span>(<span class="kw">Sys.Date</span>() -<span class="st"> </span><span class="dv">7</span>, <span class="kw">Sys.Date</span>()), <span class="dt">metrics =</span> <span class="st">&quot;sessions&quot;</span>)
+Calling APIv4....
+Single v4 batch
+Token exists.
+Valid local token
+Request:<span class="st"> </span>https:<span class="er">//</span>analyticsreporting.googleapis.com/v4/reports:batchGet/
+Body JSON parsed to:<span class="st"> </span>{<span class="st">&quot;reportRequests&quot;</span>:[{<span class="st">&quot;viewId&quot;</span>:<span class="st">&quot;ga:121211&quot;</span>,<span class="st">&quot;dateRanges&quot;</span>:[{<span class="st">&quot;startDate&quot;</span>:<span class="st">&quot;2017-01-06&quot;</span>,<span class="st">&quot;endDate&quot;</span>:<span class="st">&quot;2017-01-13&quot;</span>}],<span class="st">&quot;samplingLevel&quot;</span>:<span class="st">&quot;DEFAULT&quot;</span>,<span class="st">&quot;metrics&quot;</span>:[{<span class="st">&quot;expression&quot;</span>:<span class="st">&quot;ga:sessions&quot;</span>,<span class="st">&quot;alias&quot;</span>:<span class="st">&quot;sessions&quot;</span>,<span class="st">&quot;formattingType&quot;</span>:<span class="st">&quot;METRIC_TYPE_UNSPECIFIED&quot;</span>}],<span class="st">&quot;pageToken&quot;</span>:<span class="st">&quot;0&quot;</span>,<span class="st">&quot;pageSize&quot;</span>:<span class="dv">1000</span>,<span class="st">&quot;includeEmptyRows&quot;</span>:true}]}
+-&gt;<span class="st"> </span>POST /v4/reports:batchGet/<span class="st"> </span>HTTP/<span class="fl">1.1</span>
+-&gt;<span class="st"> </span>Host:<span class="st"> </span>analyticsreporting.googleapis.com
+-&gt;<span class="st"> </span>User-Agent:<span class="st"> </span>googleAuthR/<span class="fl">0.4.0.9000</span> (gzip)
+-&gt;<span class="st"> </span>Accept:<span class="st"> </span>application/json, text/xml, application/xml, *<span class="er">/*</span>
+-&gt;<span class="st"> </span>Content-Type:<span class="st"> </span>application/json
+-&gt;<span class="st"> </span>Accept-Encoding:<span class="st"> </span>gzip
+-&gt;<span class="st"> </span>Authorization:<span class="st"> </span>Bearer ya29XXXXX_EhpEot1ZPNP28MUmSz5EyQ7lY3kgNCFEefYv-Zof3a1RSwezgMJ5llCO44TA9iHi51c
+-&gt;<span class="st"> </span>Content-Length:<span class="st"> </span><span class="dv">295</span>
+-&gt;<span class="st"> </span>
+<span class="er">&gt;&gt;</span><span class="st"> </span>{<span class="st">&quot;reportRequests&quot;</span>:[{<span class="st">&quot;viewId&quot;</span>:<span class="st">&quot;ga:1212121&quot;</span>,<span class="st">&quot;dateRanges&quot;</span>:[{<span class="st">&quot;startDate&quot;</span>:<span class="st">&quot;2017-01-06&quot;</span>,<span class="st">&quot;endDate&quot;</span>:<span class="st">&quot;2017-01-13&quot;</span>}],<span class="st">&quot;samplingLevel&quot;</span>:<span class="st">&quot;DEFAULT&quot;</span>,<span class="st">&quot;metrics&quot;</span>:[{<span class="st">&quot;expression&quot;</span>:<span class="st">&quot;ga:sessions&quot;</span>,<span class="st">&quot;alias&quot;</span>:<span class="st">&quot;sessions&quot;</span>,<span class="st">&quot;formattingType&quot;</span>:<span class="st">&quot;METRIC_TYPE_UNSPECIFIED&quot;</span>}],<span class="st">&quot;pageToken&quot;</span>:<span class="st">&quot;0&quot;</span>,<span class="st">&quot;pageSize&quot;</span>:<span class="dv">1000</span>,<span class="st">&quot;includeEmptyRows&quot;</span>:true}]}
+
+&lt;-<span class="st"> </span>HTTP/<span class="fl">1.1</span> <span class="dv">200</span> OK
+&lt;-<span class="st"> </span>Content-Type:<span class="st"> </span>application/json; charset=UTF<span class="dv">-8</span>
+&lt;-<span class="st"> </span>Vary:<span class="st"> </span>Origin
+&lt;-<span class="st"> </span>Vary:<span class="st"> </span>X-Origin
+&lt;-<span class="st"> </span>Vary:<span class="st"> </span>Referer
+&lt;-<span class="st"> </span>Content-Encoding:<span class="st"> </span>gzip
+&lt;-<span class="st"> </span>Date:<span class="st"> </span>Fri, <span class="dv">13</span> Jan <span class="dv">2017</span> <span class="dv">10</span>:<span class="dv">45</span>:<span class="dv">38</span> GMT
+&lt;-<span class="st"> </span>Server:<span class="st"> </span>ESF
+&lt;-<span class="st"> </span>Cache-Control:<span class="st"> </span>private
+&lt;-<span class="st"> </span>X-XSS-Protection:<span class="st"> </span><span class="dv">1</span>; mode=block
+&lt;-<span class="st"> </span>X-Frame-Options:<span class="st"> </span>SAMEORIGIN
+&lt;-<span class="st"> </span>X-Content-Type-Options:<span class="st"> </span>nosniff
+&lt;-<span class="st"> </span>Alt-Svc:<span class="st"> </span>quic=<span class="st">&quot;:443&quot;</span>; ma=<span class="dv">2592000</span>; v=<span class="st">&quot;35,34&quot;</span>
+&lt;-<span class="st"> </span>Transfer-Encoding:<span class="st"> </span>chunked
+&lt;-<span class="st"> </span>
+Downloaded [<span class="dv">1</span>] rows from a total of [<span class="dv">1</span>].
+
+&gt;<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;request_debug.rds&quot;</span>)
+$url
+[<span class="dv">1</span>] <span class="st">&quot;https://analyticsreporting.googleapis.com/v4/reports:batchGet/&quot;</span>
+
+$request_type
+[<span class="dv">1</span>] <span class="st">&quot;POST&quot;</span>
+
+$body_json
+{<span class="st">&quot;reportRequests&quot;</span>:[{<span class="st">&quot;viewId&quot;</span>:<span class="st">&quot;ga:1212121&quot;</span>,<span class="st">&quot;dateRanges&quot;</span>:[{<span class="st">&quot;startDate&quot;</span>:<span class="st">&quot;2017-01-06&quot;</span>,<span class="st">&quot;endDate&quot;</span>:<span class="st">&quot;2017-01-13&quot;</span>}],<span class="st">&quot;samplingLevel&quot;</span>:<span class="st">&quot;DEFAULT&quot;</span>,<span class="st">&quot;metrics&quot;</span>:[{<span class="st">&quot;expression&quot;</span>:<span class="st">&quot;ga:sessions&quot;</span>,<span class="st">&quot;alias&quot;</span>:<span class="st">&quot;sessions&quot;</span>,<span class="st">&quot;formattingType&quot;</span>:<span class="st">&quot;METRIC_TYPE_UNSPECIFIED&quot;</span>}],<span class="st">&quot;pageToken&quot;</span>:<span class="st">&quot;0&quot;</span>,<span class="st">&quot;pageSize&quot;</span>:<span class="dv">1000</span>,<span class="st">&quot;includeEmptyRows&quot;</span>:true}]}</code></pre></div>
 </div>
 <div id="parsing-data" class="section level3">
 <h3>Parsing data</h3>
