@@ -106,7 +106,7 @@ gar_auth <- function(token = NULL,
   } else {
     ## supplied a file path or Token object
     if(is_legit_token(token)) {
-      google_token <- token[[1]]
+      google_token <- token
     } else {
       google_token <- read_cache_token(token_path = getOption("googleAuthR.httr_oauth_cache"))
     }
