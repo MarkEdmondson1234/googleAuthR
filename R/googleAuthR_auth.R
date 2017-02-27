@@ -137,15 +137,19 @@ gar_token_info <- function(){
   myMessage("Token cache file: ", token$cache_path, level = 3)
   myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 2)
   myMessage("Hash: ", token$hash(), level = 2)
-  myMessage("App key:", token$app$key, level = 2)
-  myMessage("Method:", method, level = 2)
+  
+  if(!is.null(token$app$key)){
+    myMessage("App key: ", token$app$key, level = 2)
+  }
+
+  myMessage("Method: ", method, level = 2)
   
   ## service
   if(!is.null(token$secrets)){
-    myMessage("Type:", token$secrets$type, level = 2)
-    myMessage("ProjectID:", token$secrets$project_id, level = 2)
-    myMessage("Client email:", token$secrets$client_email, level = 2)
-    myMessage("ClientID:", token$secrets$client_id, level = 2)
+    myMessage("Type: ", token$secrets$type, level = 2)
+    myMessage("ProjectID: ", token$secrets$project_id, level = 2)
+    myMessage("Client email: ", token$secrets$client_email, level = 2)
+    myMessage("ClientID: ", token$secrets$client_id, level = 2)
   }
 }
 
@@ -394,10 +398,11 @@ gar_gce_auth <- function(service_account = "default",
   
   ## for other google auth on a server (such as Google Analytics) need to manually do tokens via OOB
   options(httr_oob_default = TRUE)
+  Authentication$set("public", "method", "gce_auth", overwrite=TRUE)
   
   ## puts it in environment
   gar_auth(token_formatted)
-  Authentication$set("public", "method", "gce_auth", overwrite=TRUE)
+
 }
 
 
