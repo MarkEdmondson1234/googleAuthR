@@ -97,4 +97,3 @@ Other shiny auth functions: \code{\link{authReturnCode}},
   \code{\link{reactiveAccessToken}},
   \code{\link{renderLogin}}, \code{\link{with_shiny}}
 }
-

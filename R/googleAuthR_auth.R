@@ -6,8 +6,7 @@ Authentication <- R6::R6Class(
   "Authentication",
   public = list(
     token = NULL,
-    shiny = FALSE,
-    app_url = NULL
+    method = NULL
   ),
   lock_objects = F,
   parent_env = emptyenv()
@@ -102,21 +101,52 @@ gar_auth <- function(token = NULL,
     stopifnot(is_legit_token(google_token))
     
     Authentication$set("public", "token", google_token, overwrite=TRUE)
+    Authentication$set("public", "method", "new_token", overwrite=TRUE)
     
   } else {
     ## supplied a file path or Token object
     if(is_legit_token(token)) {
+      ## a token object, just return it back
       google_token <- token
+      Authentication$set("public", "method", "passed_token", overwrite=TRUE)
     } else {
-      google_token <- read_cache_token(token_path = getOption("googleAuthR.httr_oauth_cache"))
+      ## a file path to a token
+      options("googleAuthR.httr_oauth_cache" = token)
+      google_token <- read_cache_token(token_path = token)
+      google_token$cache_path <- token
+      Authentication$set("public", "method", "filepath", overwrite=TRUE)
     }
     
     Authentication$set("public", "token", google_token, overwrite=TRUE)
     
   }
-  
+  gar_token_info()
   return(invisible(Authentication$public_fields$token)) 
   
+}
+
+#' Get current token summary
+#' 
+#' Get details on the current active auth token to help debug issues
+#' 
+#' @export
+gar_token_info <- function(){
+  token <- Authentication$public_fields$token
+  method <- Authentication$public_fields$method
+  
+  myMessage("Token cache file: ", token$cache_path, level = 3)
+  myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 2)
+  myMessage("Hash: ", token$hash(), level = 2)
+  myMessage("App key:", token$app$key, level = 2)
+  myMessage("Method:", method, level = 2)
+  
+  ## service
+  if(!is.null(token$secrets)){
+    myMessage("Type:", token$secrets$type, level = 2)
+    myMessage("ProjectID:", token$secrets$project_id, level = 2)
+    myMessage("Client email:", token$secrets$client_email, level = 2)
+    myMessage("ClientID:", token$secrets$client_id, level = 2)
+  }
 }
 
 ## httr cache files such as .httr-oauth can hold multiple tokens for different scopes.
@@ -160,7 +190,7 @@ get_google_token <- function(shiny_return_token=NULL) {
     
     
   } else { #shiny session
-    
+    Authentication$set("public", "method", "shiny", overwrite=TRUE)
     token <- shiny_return_token
     
   }
@@ -295,7 +325,7 @@ gar_auth_service <- function(json_file, scope = getOption("googleAuthR.scopes.se
   google_token <- httr::oauth_service_token(endpoint, secrets, scope)
   
   Authentication$set("public", "token", google_token, overwrite=TRUE)
-  
+  Authentication$set("public", "method", "service_json", overwrite=TRUE)
   myMessage("Returning service token", level=1)
   
   return(invisible(Authentication$public_fields$token))
@@ -367,7 +397,7 @@ gar_gce_auth <- function(service_account = "default",
   
   ## puts it in environment
   gar_auth(token_formatted)
-  
+  Authentication$set("public", "method", "gce_auth", overwrite=TRUE)
 }
 
 

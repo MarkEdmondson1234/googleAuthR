@@ -21,4 +21,3 @@ Other batch functions: \code{\link{doBatchRequest}},
   \code{\link{parseBatchResponse}}
 }
 \keyword{internal}
-

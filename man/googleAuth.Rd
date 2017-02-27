@@ -98,4 +98,3 @@ shinyApp(ui = ui, server = server)
 \seealso{
 Other shiny module functions: \code{\link{googleAuthUI}}
 }
-

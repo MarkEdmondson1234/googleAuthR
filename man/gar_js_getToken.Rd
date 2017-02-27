@@ -11,4 +11,3 @@ gar_js_getToken(token, client.id = getOption("googleAuthR.webapp.client_id"),
 Create a httr token from a js token
 }
 \keyword{internal}
-

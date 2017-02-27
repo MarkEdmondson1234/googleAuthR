@@ -92,4 +92,3 @@ Other shiny auth functions: \code{\link{authReturnCode}},
   \code{\link{revokeEventObserver}},
   \code{\link{with_shiny}}
 }
-

@@ -30,4 +30,3 @@ Substitute in a (nested) list
 \keyword{template,}
 \keyword{the}
 \keyword{value}
-

@@ -16,4 +16,3 @@ Boolean
 Checks that a valid Shiny session object has been passed.
 }
 \keyword{internal}
-

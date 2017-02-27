@@ -19,4 +19,3 @@ Other authentication functions: \code{\link{gar_attach_auto_auth}},
   \code{\link{token_exists}}
 }
 \keyword{internal}
-

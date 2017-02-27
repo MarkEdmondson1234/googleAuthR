@@ -10,4 +10,3 @@ RFC_convert(RFC, drop_time = FALSE)
 Converts RFC3339 to as.Date
 }
 \keyword{internal}
-

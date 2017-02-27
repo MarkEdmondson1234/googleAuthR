@@ -28,4 +28,3 @@ A Javascript Google authorisation flow for Shiny apps.
 \details{
 Shiny Module for use with \link{gar_auth_js}
 }
-

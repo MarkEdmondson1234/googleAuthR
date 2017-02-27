@@ -19,4 +19,3 @@ If passed an object such as a nested list, will apply function
   on inner elements that are not lists.
 }
 \keyword{internal}
-

@@ -13,4 +13,3 @@ retryRequest(f)
 ReTry API requests for certain errors using exponential backoff.
 }
 \keyword{internal}
-

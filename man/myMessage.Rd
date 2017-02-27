@@ -17,4 +17,3 @@ Customer message log level
 \details{
 0 = everything, 1 = debug, 2=normal, 3=important
 }
-

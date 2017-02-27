@@ -36,6 +36,7 @@ To work on travis, you will need one auth token for the library load in the home
 \code{openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out auth.json -d}
 \code{openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out tests/testthat/auth.json -d}
 }
+
 \examples{
 
 \dontrun{
@@ -60,4 +61,3 @@ Other authentication functions: \code{\link{gar_auth_service}},
   \code{\link{get_google_token}},
   \code{\link{is_legit_token}}, \code{\link{token_exists}}
 }
-

@@ -31,4 +31,3 @@ This changes the auth type depending on if its local or on Shiny
 Example of params: c(param1="foo", param2="bar")
 }
 \keyword{internal}
-
