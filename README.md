@@ -1,6 +1,6 @@
 # googleAuthR - Google API Client Library for R
 
-[![CRAN](http://www.r-pkg.org/badges/version/googleAuthR)](http://cran.r-project.org/package=googleAuthR)
+[![CRAN](http://www.r-pkg.org/badges/version/googleAuthR)](https://cran.r-project.org/package=googleAuthR)
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
 [![Coverage Status](https://img.shields.io/codecov/c/github/MarkEdmondson1234/googleAuthR/master.svg)](https://codecov.io/github/MarkEdmondson1234/googleAuthR?branch=master)
 
