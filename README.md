@@ -70,13 +70,19 @@ library(googleAuthR)
 This guide is available at: `vignette("googleAuthR")`
 This library allows you to authenticate easily via local use in an OAuth2 flow; within a Shiny app; or via service accounts. 
 The main two functions are `gar_auth()` and `gar_api_generator()`.
+
 ### `gar_auth`
+
 This takes care of getting the authentication token, storing it and refreshing. 
 Use it before any call to a Google library.
+
 ### `gar_api_generator`
+
 This creates functions for you to use to interact with Google APIs.
 Use it within your own function definitions, to query the Google API you want.
+
 ## Google API Setup
+
 `googleAuthR` has a default project setup with APIs activated for several APIs, but it is recommended you use your own Client IDs as the login screen will be big and scary for users with so many APIs to approve.  
 It is preferred to configure your functions to only use the scopes they need.  Scopes you need will be specified in the Google API documentation. 
 Set scopes via the option `googleAuthR.scopes.selected`.
@@ -86,6 +92,7 @@ options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webma
                                           "https://www.googleapis.com/auth/analytics",
                                           "https://www.googleapis.com/auth/tagmanager.readonly"))
 ```
+
 ### Set up steps
 
 1. Set up your project in the Google API Console to use the Google API you want.
@@ -348,6 +355,7 @@ GCS_AUTH_FILE="/Users/mark/auth/my_auth_file.json"
 
 
 ## Revoking Authentication
+
 For local use, delete the `.httr-oauth` file.
 For service level accounts delete the JSON file.
 For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through.  To force this every time, activate the parameter `revoke=TRUE` within the `googleAuth` function.
@@ -363,16 +371,21 @@ Creating your own API should then be a matter of consulting the Google API docum
 * `path_args` - some APIs need you to alter the URL folder structure when calling, e.g. `/account/{accountId}/` where `accountId` is variable.
 * `pars_args` - other APIS require you to send URL parameters e.g. `?account={accountId}` where `accountId` is variable.
 * `data_parse_function` - [optional] If the API call returns data, it will be available in `$content`. You can create a parsing function that transforms it in to something you can work with (for instance, a dataframe)
+
 Example below for generating a function:
+
 ```r
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
                          "POST",
                          data_parse_function = function(x) x$id)
 ```
+
 ## Using your generated function
+
 The function generated uses `path_args` and `pars_args` to create a template, but when the function is called you will want to pass dynamic data to them.  This is done via the `path_arguments` and `pars_arguments` parameters.
 `path_args` and `pars_args` and `path_arguments` and `pars_arguments` all accept named lists.
 If a name in `path_args` is present in `path_arguments`, then it is substituted in.  This way you can pass dynamic parameters to the constructed function.  Likewise for `pars_args` and `pars_arguments`.
+
 ```r
 ## Create a function that requires a path argument /accounts/{accountId}
   f <- gar_api_generator("https://www.googleapis.com/example",
@@ -384,6 +397,7 @@ If a name in `path_args` is present in `path_arguments`, then it is substituted 
 ## with the same name to modify "defaultAccountId":
   result <- f(path_arguments = list(accounts = "myAccountId"))
 ```
+
 ### Body data
 
 A lot of Google APIs look for you to send data in the Body of the request.  This is done after you construct the function.
@@ -396,7 +410,9 @@ A lot of Google APIs look for you to send data in the Body of the request.  This
 Not all API calls return data, but if they do:
 If you have no `data_parse_function` then the function returns the whole request object.  The content is available in `$content`.  You can then parse this yourself, or pass a function in to do it for you.
 If you parse in a function into `data_parse_function`, it works on the response's `$content`.
+
 Example below of the differences between having a data parsing function and not:
+
 ```r
   ## the body object that will be passed in
   body = list(

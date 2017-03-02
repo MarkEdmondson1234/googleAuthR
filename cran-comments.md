@@ -1,28 +1,18 @@
 ## Test environments
-* local OS X install, R 3.3.0
-* ubuntu 12.04 (on travis-ci), R 3.3.1
-* win-builder, R 3.3.0
+* local OS X install, R 3.3.2
+* ubuntu 12.04 (on travis-ci), R 3.3.2
+* Windows Server 2008 R2 SP1, R-release, 32/64 bit (on r-hub), R 3.3.2 
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
 There was 1 NOTE:
 
-* checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Mark Edmondson <m@sunholo.com>'
-
-  License components with restrictions and base license permitting such:
-    MIT + file LICENSE
-  File 'LICENSE':
-    YEAR: 2016
-    COPYRIGHT HOLDER: Sunholo Ltd.
-
-  Possibly mis-spelled words in DESCRIPTION:
-    API (4:47)
-    APIs (5:66)
-    OAuth (4:40, 5:52)
-  
-  These are spelt as intended.
+* Namespaces in Imports field not imported from:
+     'R6'
+     All declared Imports should be used.
+     
+R6 is a runtime dependency
   
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of googleAuthR 
@@ -31,6 +21,7 @@ I have also run R CMD check on downstream dependencies of googleAuthR
 * googleAnalyticsR
 * searchConsoleR
 * googleCloudStorageR
+* googleComputeEngineR
 
 All packages passed.
   
