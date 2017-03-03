@@ -18,4 +18,3 @@ UI part of shiny module, use with \link{googleAuth}
 \seealso{
 Other shiny module functions: \code{\link{googleAuth}}
 }
-

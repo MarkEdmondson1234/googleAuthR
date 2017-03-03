@@ -96,4 +96,3 @@ Other shiny auth functions: \code{\link{authReturnCode}},
   \code{\link{renderLogin}},
   \code{\link{revokeEventObserver}}
 }
-

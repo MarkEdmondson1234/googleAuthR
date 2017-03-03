@@ -74,7 +74,7 @@ gar_auto_auth <- function(required_scopes,
         myMessage("Auto-auth - .httr-oauth", level = 2)
         token <- readRDS(auth_file)
 
-        out <- gar_auth(token = token[[1]])
+        out <- gar_auth(token = token)
 
       }
     } else {
@@ -104,7 +104,7 @@ gar_auto_auth <- function(required_scopes,
 #' 
 #' If you are using Travis to make tests, then a specific environment name for a Travis auth file is also needed, that should be relative to the home directory of your Github repository.  
 #' 
-#' You should then also encrypt the auth file and include the encrypted file in your Github repository.  See \href{https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html#tokens-for-testing}{googlesheets vignette on managing auth tokens} and \href{https://docs.travis-ci.com/user/encrypting-files/}{Travis encrypting files how-to} for background.
+#' You should then also encrypt the auth file and include the encrypted file in your Github repository.  See \href{https://CRAN.R-project.org/package=googlesheets/vignettes/managing-auth-tokens.html#tokens-for-testing}{googlesheets vignette on managing auth tokens} and \href{https://docs.travis-ci.com/user/encrypting-files/}{Travis encrypting files how-to} for background.
 #' 
 #' To work on travis, you will need one auth token for the library load in the home folder, and another in the \code{testthat} folder.  You can achieve this by using the same encrypted file command twice within your \code{.travis.yml} configuration, writing out to the two different folders:
 #' 

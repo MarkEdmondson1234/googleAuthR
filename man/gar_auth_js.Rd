@@ -22,4 +22,3 @@ Shiny Module for use with \link{gar_auth_jsUI}
 \details{
 Call via \code{shiny::callModule(gar_auth_js, "your_id")}
 }
-

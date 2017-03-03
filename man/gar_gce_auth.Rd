@@ -43,4 +43,3 @@ Other authentication functions: \code{\link{gar_attach_auto_auth}},
   \code{\link{get_google_token}},
   \code{\link{is_legit_token}}, \code{\link{token_exists}}
 }
-

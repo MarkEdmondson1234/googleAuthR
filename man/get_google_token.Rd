@@ -23,4 +23,3 @@ Other authentication functions: \code{\link{gar_attach_auto_auth}},
   \code{\link{is_legit_token}}, \code{\link{token_exists}}
 }
 \keyword{internal}
-

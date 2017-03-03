@@ -29,4 +29,3 @@ Other shiny auth functions: \code{\link{createCode}},
   \code{\link{with_shiny}}
 }
 \keyword{internal}
-

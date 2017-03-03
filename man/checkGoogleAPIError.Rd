@@ -19,4 +19,3 @@ checkGoogleAPIError(req,
 Get Google API errors
 }
 \keyword{internal}
-

@@ -1,4 +1,7 @@
-# v0.4.0.9000
+# v0.5.0.9000
+
+
+# v0.5.0
 
 ## Major changes
 
@@ -9,6 +12,8 @@
 * Add authentication option when using Google Compute Engine `gar_gce_auth()` (#52)
 * Add a warning if the cached `.httr-oauth` token has different scopes to the ones specified at time of authentication (#53)
 * Add debug body aid: if `option(googleAuthR.verbose = 0)` then a request with a body will write to a file `request_debug.rds` in working directory
+* Passing in a file location token to `gar_auth("file-location.rds")` will only load the first element `[[1]]` if that token is a list of `Token2.0` class objects
+* Add debug tool `gar_token_info()` which will report on current authentication. Available at `options(googleAuthR.verbose = 2)`
 
 # v0.4.0
 

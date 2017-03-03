@@ -16,4 +16,3 @@ boolean if it works.
 Check API data token
 }
 \keyword{internal}
-

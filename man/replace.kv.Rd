@@ -18,4 +18,3 @@ a list like template but with values replace from replace
 Create a modified list
 }
 \keyword{internal}
-

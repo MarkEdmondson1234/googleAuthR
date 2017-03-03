@@ -54,4 +54,3 @@ Other batch functions: \code{\link{applyDataParseFunction}},
   \code{\link{makeBatchRequest}},
   \code{\link{parseBatchResponse}}
 }
-

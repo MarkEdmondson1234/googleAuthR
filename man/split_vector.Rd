@@ -20,4 +20,3 @@ a list of vectors split not including split point
 Why doesn't this exist?
 }
 \keyword{internal}
-

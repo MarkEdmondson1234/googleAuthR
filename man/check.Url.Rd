@@ -20,4 +20,3 @@ Modified url if successful, raises an error if not.
 Checks Urls are in right format for API request
 }
 \keyword{internal}
-

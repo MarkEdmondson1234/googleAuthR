@@ -9,4 +9,3 @@ gar_gadget()
 \description{
 Gadget for easy authentication
 }
-
