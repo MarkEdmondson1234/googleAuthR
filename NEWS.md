@@ -1,5 +1,8 @@
 # v0.5.0.9000
 
+## Major changes
+
+* Fix bug in `gar_auto_auth` where it expects a file.path not a token object
 
 # v0.5.0
 

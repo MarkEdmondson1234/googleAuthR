@@ -72,9 +72,8 @@ gar_auto_auth <- function(required_scopes,
       } else {
         ## .httr-oauth file
         myMessage("Auto-auth - .httr-oauth", level = 2)
-        token <- readRDS(auth_file)
 
-        out <- gar_auth(token = token)
+        out <- gar_auth(token = auth_file)
 
       }
     } else {
