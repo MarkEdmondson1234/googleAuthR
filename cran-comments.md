@@ -3,22 +3,9 @@
 * ubuntu 12.04 (on travis-ci), R 3.3.2
 * Windows Server 2008 R2 SP1, R-release, 32/64 bit (on r-hub), R 3.3.2 
 
-## CRAN submission 1 feedback
+## Only a month since last submission
 
-Found the following (possibly) invalid URLs:
- URL: http://cran.r-project.org/package=googleAuthR
-   From: README.md
-   CRAN URL not in canonical form
- URL: https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html#tokens-for-testing
-   From: man/gar_attach_auto_auth.Rd
-   Status: 200
-   Message: OK
-   CRAN URL not in canonical form
- The canonical URL of the CRAN page for a package is 
-   https://CRAN.R-project.org/package=pkgname
- Canonical CRAN.R-project.org URLs use https.
- 
-Now fixed
+Apologies, but I found a bug that would prevent downstream libraries loading in some edge cases.
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 

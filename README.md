@@ -49,12 +49,16 @@ An example shiny app with Google authentication is [deployed to shinyapps.io her
 
 ## Install
 
-GoogleAuthR version 0.3.0 is now available on CRAN
+googleAuthR is available on CRAN
+
 ```r
 install.packages("googleAuthR")
 ```
+
 Check out [News](NEWS.md) to see the features of the development version.
+
 If you want to use the development version on Github, install via:
+
 ```r
 ## load the library or download it if necessary
 if(!require(googleAuthR)){
