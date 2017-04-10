@@ -156,10 +156,9 @@ authReturnCode <- function(session,
               pars$state, 
               " Expected:", 
               securityCode)
-      return(NULL)
     } 
   }
-  
+ 
   if(!is.null(pars$code)){
     return(pars$code)
   } else {
