@@ -34,6 +34,11 @@ gar_auto_auth <- function(required_scopes,
                           environment_var = "GAR_AUTH_FILE",
                           travis_environment_var = "TRAVIS_GAR_AUTH_FILE"){
   
+  if(is.null(required_scopes)){
+    myMessage("No scopes have been set, set them via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) - no authentication attempted.", level = 3)
+    return(NULL)
+  }
+  
   testthat::expect_type(required_scopes, "character")
   testthat::expect_type(environment_var, "character")
   testthat::expect_length(environment_var, 1)
@@ -133,6 +138,11 @@ gar_auto_auth <- function(required_scopes,
 gar_attach_auto_auth <- function(required_scopes,
                                  environment_var = "GAR_AUTH_FILE",
                                  travis_environment_var = "TRAVIS_GAR_AUTH_FILE"){
+  
+  if(is.null(required_scopes)){
+    myMessage("No scopes have been set, set them via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) - no authentication attempted.", level = 3)
+    return(NULL)
+  }
   
   testthat::expect_type(required_scopes, "character")
   testthat::expect_type(environment_var, "character")

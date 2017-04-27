@@ -1,6 +1,6 @@
 # 0.5.1.9000
 
-* ...
+* Default demo project scopes now NULL, set your own Google Project via `options(googleAuthR.scopes.selected)`
 
 # v0.5.1
 
