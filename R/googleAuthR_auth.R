@@ -129,28 +129,37 @@ gar_auth <- function(token = NULL,
 #' 
 #' Get details on the current active auth token to help debug issues
 #' 
+#' @param detail_level How much info to show
+#' 
 #' @export
-gar_token_info <- function(){
+gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", default = 3)){
   token <- Authentication$public_fields$token
   method <- Authentication$public_fields$method
   
-  myMessage("Token cache file: ", token$cache_path, level = 3)
-  myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 2)
-  myMessage("Hash: ", token$hash(), level = 2)
-  
-  if(!is.null(token$app$key)){
-    myMessage("App key: ", token$app$key, level = 2)
+  if(detail_level >= 3){
+    myMessage("Token cache file: ", token$cache_path, level = 3)
+    myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 3)
+  } else if(detail_level == 2){
+    myMessage("Hash: ", token$hash(), level = 2)
+    
+    if(!is.null(token$app$key)){
+      myMessage("App key: ", token$app$key, level = 2)
+    }
+    
+    myMessage("Method: ", method, level = 2)
+    
+    ## service
+    if(!is.null(token$secrets)){
+      myMessage("Type: ", token$secrets$type, level = 2)
+      myMessage("ProjectID: ", token$secrets$project_id, level = 2)
+      myMessage("Client email: ", token$secrets$client_email, level = 2)
+      myMessage("ClientID: ", token$secrets$client_id, level = 2)
+    }
+  } else if(detail_level == 1){
+    NULL
   }
 
-  myMessage("Method: ", method, level = 2)
-  
-  ## service
-  if(!is.null(token$secrets)){
-    myMessage("Type: ", token$secrets$type, level = 2)
-    myMessage("ProjectID: ", token$secrets$project_id, level = 2)
-    myMessage("Client email: ", token$secrets$client_email, level = 2)
-    myMessage("ClientID: ", token$secrets$client_id, level = 2)
-  }
+
 }
 
 ## httr cache files such as .httr-oauth can hold multiple tokens for different scopes.

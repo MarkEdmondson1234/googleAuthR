@@ -4,7 +4,10 @@
 \alias{gar_token_info}
 \title{Get current token summary}
 \usage{
-gar_token_info()
+gar_token_info(detail_level = getOption("googleAuthR.verbose", default = 3))
+}
+\arguments{
+\item{detail_level}{How much info to show}
 }
 \description{
 Get details on the current active auth token to help debug issues
