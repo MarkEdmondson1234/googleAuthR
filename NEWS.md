@@ -1,6 +1,7 @@
 # 0.5.1.9000
 
 * Default demo project scopes now NULL, set your own Google Project via `options(googleAuthR.scopes.selected)`
+* Add ability to return the email of the service account on a GCE instance, `gar_gce_auth_email`
 
 # v0.5.1
 
