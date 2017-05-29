@@ -80,7 +80,7 @@ gar_gce_auth <- function(service_account = "default",
 gar_gce_auth_email <- function(service_account = "default"){
   
   call_url <- sprintf("http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/", 
-                      "default")
+                      service_account)
   req <- try(httr::GET(call_url, httr::add_headers(`Metadata-Flavor` = "Google")), 
              silent = TRUE)
   if (is.error(req)) {
