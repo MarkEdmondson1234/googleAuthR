@@ -1,12 +1,33 @@
-# find the function call we want, e.g. in the package testing
-mock_call <- function(){
-  call_funcs <- as.character(sys.calls())
-  package_funcs <- ls(paste0("package:",packageName()))
-  just_funcs <- gsub("^(.+)\\(.+$", "\\1", call_funcs)
-  out <- just_funcs[just_funcs %in% package_funcs]
-  if(length(out) != 1){
-    stop("Matched more than one function for mock_call", out)
+#' Setup which package to perform mock testing upon
+#' 
+#' This helps make sure the right functions are mocked
+#' 
+#' @param package_name The package to cache API calls for
+#' 
+#' Only functions within the package will be mocked.  
+#' The \code{options(googleAuthR.mock_test = TRUE)} flag will also need to be on.
+#' 
+#' You can also set the package via \code{options(googleAuthR.mock_package = "yourPackage")}
+#' 
+#' @export
+gar_setup_mock <- function(package_name){
+  
+  options(googleAuthR.mock_package = package_name)
+  
+}
+
+
+# get the functions to test
+mock_call <- function(package_name = getOption("googleAuthR.mock_package")){
+  
+  if(package_name == ""){
+    stop("Need to set the package to mock API calls against using gar_setup_mock()")
   }
+  
+  call_funcs <- as.character(sys.calls())
+  package_funcs <- ls(paste0("package:",package_name))
+  just_funcs <- gsub("^(.+)\\(.+$", "\\1", call_funcs)
+  out <- just_funcs[just_funcs %in% package_funcs][[1]]
   myMessage("Matched package call: ", out, level = 3)
   out
 }

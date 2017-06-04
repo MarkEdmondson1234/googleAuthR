@@ -313,11 +313,14 @@ Set `option(googleAuthR.mock_tests = TRUE)` in your testing suite.  Now API call
 
 If a cache is not available whilst the `option(googleAuthR.mock_tests = TRUE)` is on, then a cache will be created.  You can see which functions are cached using `gar_mock_list()` and delete the cache with `gar_mock_delete()`
 
+You also need to specify which package you are testing with `options(googleAuthR.mock_package = "mypackage")` or using `gar_setup_mock()`
+
 Within testing suites, put the flag at the start of the script:
 
 ```r
 library(testthat)
 options(googleAuthR.mock_test = TRUE)
+options(googleAuthR.mock_package = "mypackage")
 ...etc..
 
 test_that("I can call this API", {
