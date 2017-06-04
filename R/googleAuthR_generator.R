@@ -360,9 +360,8 @@ doHttrRequest <- function(url,
   
   if(mock_test){
     ## check for presence of API output saved in mock folder
-    # call_func <- sys.call(1)
     call_func <- mock_call()
-    hash_string <- make_mock_hash(call_func)
+    hash_string <- make_mock_hash(call_func, arg_list)
     myMessage("Mock API test for ", call_func, level = 3)
     cache_name <- file.path("tests","mock", hash_string)
     ## create directories if needed
@@ -384,7 +383,7 @@ doHttrRequest <- function(url,
       saveRDS(req, file = cache_name)
       
       ## save meta data
-      save_mock_cache(call_func)
+      save_mock_cache(call_func, arg_list)
     }
     
   } else {

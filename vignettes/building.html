@@ -319,9 +319,11 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
 <p>From version <code>&gt;0.5.1</code> you can create caches of API calls that can be used within unit tests.</p>
 <p>Set <code>option(googleAuthR.mock_tests = TRUE)</code> in your testing suite. Now API calls will be compared with a cache located within <code>tests/mock/</code> and if they have a cached call with the same arguments no API call will actually be made. This allows you to perform tests when offline and without needing to deal with authentication issues when publishing online such as Travis.</p>
 <p>If a cache is not available whilst the <code>option(googleAuthR.mock_tests = TRUE)</code> is on, then a cache will be created. You can see which functions are cached using <code>gar_mock_list()</code> and delete the cache with <code>gar_mock_delete()</code></p>
+<p>You also need to specify which package you are testing with <code>options(googleAuthR.mock_package = &quot;mypackage&quot;)</code> or using <code>gar_setup_mock()</code></p>
 <p>Within testing suites, put the flag at the start of the script:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
 <span class="kw">options</span>(<span class="dt">googleAuthR.mock_test =</span> <span class="ot">TRUE</span>)
+<span class="kw">options</span>(<span class="dt">googleAuthR.mock_package =</span> <span class="st">&quot;mypackage&quot;</span>)
 ...etc..
 
 <span class="kw">test_that</span>(<span class="st">&quot;I can call this API&quot;</span>, {

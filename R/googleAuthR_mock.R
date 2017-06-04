@@ -26,8 +26,8 @@ mock_call <- function(package_name = getOption("googleAuthR.mock_package")){
   
   call_funcs <- as.character(sys.calls())
   package_funcs <- ls(paste0("package:",package_name))
-  just_funcs <- gsub("^(.+)\\(.+$", "\\1", call_funcs)
-  out <- just_funcs[just_funcs %in% package_funcs][[1]]
+  just_funcs <- gsub("^(.+?)\\(.*\\)$", "\\1", call_funcs)
+  out <- sys.calls()[just_funcs %in% package_funcs][[1]]
   myMessage("Matched package call: ", out, level = 3)
   out
 }
@@ -62,15 +62,15 @@ gar_mock_delete <- function(){
 }
 
 
-make_mock_hash <- function(call_func){
+make_mock_hash <- function(call_func, arg_list){
   lcf <- as.list(call_func)
   call_args_string <- paste(names(lcf[-1]), lcf[-1], collapse = ",", sep="=")
-  digest::digest(paste(lcf[[1]], call_args_string, sep =":"))
+  digest::digest(paste(lcf[[1]], call_args_string, sep =":"), arg_list)
 }
 
 # save the mock data
 ## save meta data
-save_mock_cache <- function(call_func) {
+save_mock_cache <- function(call_func, arg_list) {
   meta_cache <- file.path("tests","mock","cached_list.rds")
   if(file.exists(meta_cache)){
     cached_list <- readRDS(meta_cache)
@@ -80,10 +80,12 @@ save_mock_cache <- function(call_func) {
   
   lcf <- as.list(call_func)
   call_args_string <- paste(names(lcf[-1]), lcf[-1], collapse = ",", sep="=")
+  arg_list_string <- paste(names(arg_list), unlist(arg_list), collapse = ",", sep="=")
 
   this_cache <- data.frame(function_name = as.character(lcf[[1]]), 
                            arguments = call_args_string,
-                           hash = make_mock_hash(call_func),
+                           arg_list = arg_list_string, 
+                           hash = make_mock_hash(call_func, arg_list),
                            created = Sys.time(), 
                            stringsAsFactors = FALSE)
   

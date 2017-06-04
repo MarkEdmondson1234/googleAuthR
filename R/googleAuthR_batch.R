@@ -34,42 +34,7 @@ gar_batch <- function(call_list, ...){
             shiny_access_token = function_list[[1]]$shiny_access_token)
   
   ## call doHttrRequest with batched together functions
-  
-  ## if mock testing
-  mock_test <- getOption("googleAuthR.mock_test")
-  assertthat::assert_that(
-    is.logical(mock_test)
-  )
-  if(mock_test){
-    ## check for presence of API output saved in mock folder
-    # call_func <- sys.call(1)
-    call_func <- mock_call()
-    hash_string <- make_mock_hash(call_func)
-    myMessage("Mock API test for ", call_func, level = 3)
-    cache_name <- file.path("tests","mock", hash_string)
-    ## create directories if needed
-    dir.create("tests", showWarnings = FALSE)
-    dir.create(file.path("tests","mock"), showWarnings = FALSE)    
-    cache_exists <- file.exists(cache_name)
-    ## if present, use mock result instead
-    if(cache_exists){
-      myMessage("Reading cached API call from ", cache_name, level = 3)
-      mock_cache <- readRDS(cache_name)
-      req <- mock_cache
-    } else {
-      myMessage("No cache found, making API call", level = 3)
-      ## otherwise, do call and save mock result
-      req <- doBatchRequest(l)
-      myMessage("Saving cached API call to ", cache_name, level = 3)
-      saveRDS(req, file = cache_name)
-      
-      ## save meta data
-      save_mock_cache(call_func)
-    }
-    
-  } else {
-    req <- doBatchRequest(l)
-  }
+  req <- doBatchRequest(l)
   
   if(grepl("404 Not Found", httr::content(req,as="text", encoding = "UTF-8"))){
     stop("Batch Request: 404 Not Found")
@@ -362,8 +327,47 @@ doBatchRequest <- function(batched){
   # ensure batch requests only occur per second to help calculation of QPS limits
   Sys.sleep(1)
   
-  retryRequest(do.call("POST", 
-                       args = arg_list,
-                       envir = asNamespace("httr")))
+  ## if mock testing
+  mock_test <- getOption("googleAuthR.mock_test")
+  assertthat::assert_that(
+    is.logical(mock_test)
+  )
+  if(mock_test){
+    ## check for presence of API output saved in mock folder
+    # call_func <- sys.call(1)
+    call_func <- mock_call()
+    hash_string <- make_mock_hash(call_func, arg_list)
+    myMessage("Mock API test for ", call_func, level = 3)
+    cache_name <- file.path("tests","mock", hash_string)
+    ## create directories if needed
+    dir.create("tests", showWarnings = FALSE)
+    dir.create(file.path("tests","mock"), showWarnings = FALSE)    
+    cache_exists <- file.exists(cache_name)
+    ## if present, use mock result instead
+    if(cache_exists){
+      myMessage("Reading cached API call from ", cache_name, level = 3)
+      mock_cache <- readRDS(cache_name)
+      req <- mock_cache
+    } else {
+      myMessage("No cache found, making API call", level = 3)
+      ## otherwise, do call and save mock result
+      req <- retryRequest(do.call("POST", 
+                                  args = arg_list,
+                                  envir = asNamespace("httr")))
+      
+      myMessage("Saving cached API call to ", cache_name, level = 3)
+      saveRDS(req, file = cache_name)
+      
+      ## save meta data
+      save_mock_cache(call_func, arg_list)
+    }
+    
+  } else {
+    req <- retryRequest(do.call("POST", 
+                         args = arg_list,
+                         envir = asNamespace("httr")))
+  }
+  
+  req
   
 }
