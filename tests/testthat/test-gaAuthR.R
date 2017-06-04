@@ -1,6 +1,12 @@
 library(testthat)
 library(googleAuthR)
 options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/webmasters",
+                                        "https://www.googleapis.com/auth/urlshortener"))
+options(googleAuthR.client_id = "201908948134-rm1ij8ursrfcbkv9koc0aqver84b04r7.apps.googleusercontent.com")
+options(googleAuthR.client_secret = "nksRJZ5K3nm9FUWsAtBoBArz")
+options(googleAuthR.webapp.client_id = "201908948134-cjjs89cffh3k429vi7943ftpk3jg36ed.apps.googleusercontent.com")
+options(googleAuthR.webapp.client_secret = "mE7rHl0-iNtzyI1MQia-mg1o")
 
 context("Auth")
 
@@ -13,15 +19,13 @@ list_websites <- function() {
   l()
 }
 
-## from google Analytics API
-google_analytics_account_list <- function(){
-  
-  url <- "https://www.googleapis.com/analytics/v3/management/accountSummaries"
-  acc_sum <- gar_api_generator(url,
-                               "GET",
-                               data_parse_function = function(x) x)
-  
-  acc_sum()
+## from search console API
+list_websites2 <- function(dummy_arg = 3) {
+  print(dummy_arg)
+  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
+                                      "GET",
+                                      data_parse_function = function(x) x$siteEntry)
+  l()
 }
 
 
@@ -130,13 +134,26 @@ context("API generator")
 test_that("A generated API function works", {
   skip_on_cran()
   lw <- list_websites()
-  expect_s3_class(list_websites(), "data.frame")
+  expect_s3_class(lw, "data.frame")
   
 })
 
-test_that("Another generated API function works", {
-  skip_on_cran()
-  uu <- google_analytics_account_list()
-  expect_equal(uu$kind, "analytics#accountSummaries")
+test_that("Mock an API function", {
+  options(googleAuthR.mock_test = TRUE)
+  lw <- list_websites()
+  expect_s3_class(lw, "data.frame")
+  lw2 <- list_websites()
+  expect_equal(lw, lw2)
+})
+
+test_that("Mock with different arguments", {
+  options(googleAuthR.mock_test = TRUE)
+  lw <- list_websites2()
+  expect_s3_class(lw, "data.frame")
+  lw2 <- list_websites2(4)
+  expect_s3_class(lw2, "data.frame")
+  
   
 })
+
+

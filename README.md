@@ -1,4 +1,4 @@
-# googleAuthR - Google API Client Library for R
+# googleAuthR - Google API R Client
 
 [![CRAN](http://www.r-pkg.org/badges/version/googleAuthR)](https://cran.r-project.org/package=googleAuthR)
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)

@@ -305,6 +305,32 @@ check_results <- lapply(api_json_list,
 
 ```
 
+## Testing your library with mock API calls
+
+From version `>0.5.1` you can create caches of API calls that can be used within unit tests.
+
+Set `option(googleAuthR.mock_tests = TRUE)` in your testing suite.  Now API calls will be compared with a cache located within `tests/mock/` and if they have a cached call with the same arguments no API call will actually be made.  This allows you to perform tests when offline and without needing to deal with authentication issues when publishing online such as Travis. 
+
+If a cache is not available whilst the `option(googleAuthR.mock_tests = TRUE)` is on, then a cache will be created.  You can see which functions are cached using `gar_mock_list()` and delete the cache with `gar_mock_delete()`
+
+Within testing suites, put the flag at the start of the script:
+
+```r
+library(testthat)
+options(googleAuthR.mock_test = TRUE)
+...etc..
+
+test_that("I can call this API", {
+
+  call_api()
+
+})
+```
+
+Run this once through with your own local authentication, then once all the caches are built you can upload to GitHub.  Be sure you only upload caches you don't mind being public.
+
+The cache is made at the point of when the API call is made, so any changes you make to parsing etc. will affect the results.
+
 ## Example with goo.gl
 
 Below is an example building a link shortner R package using `googleAuthR`.

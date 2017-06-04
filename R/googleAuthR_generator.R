@@ -352,24 +352,68 @@ doHttrRequest <- function(url,
   }
   
 
-
-  req <- retryRequest(do.call(request_type,
-                              args = arg_list,
-                              envir = asNamespace("httr")))
-
-  rawResponse <- getOption("googleAuthR.rawResponse")
-  if(!rawResponse){
-    if(checkGoogleAPIError(req)){
-      content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
-      content <- jsonlite::fromJSON(content,
-                                    simplifyVector = simplifyVector)
-      req$content <- content
+  ## if mock testing
+  mock_test <- getOption("googleAuthR.mock_test")
+  assertthat::assert_that(
+    is.logical(mock_test)
+  )
+  
+  if(mock_test){
+    ## check for presence of API output saved in mock folder
+    call_func <- sys.call(1)
+    hash_string <- make_mock_hash(call_func)
+    myMessage("Mock API test for ", call_func, level = 3)
+    cache_name <- file.path("tests","mock", hash_string)
+    ## create directories if needed
+    dir.create("tests", showWarnings = FALSE)
+    dir.create(file.path("tests","mock"), showWarnings = FALSE)    
+    cache_exists <- file.exists(cache_name)
+    ## if present, use mock result instead
+    if(cache_exists){
+      myMessage("Reading cached API call from ", cache_name, level = 3)
+      mock_cache <- readRDS(cache_name)
+      req <- mock_cache
+    } else {
+      myMessage("No cache found, making API call", level = 3)
+      ## otherwise, do call and save mock result
+      req <- retryRequest(do.call(request_type,
+                                  args = arg_list,
+                                  envir = asNamespace("httr")))
+      myMessage("Saving cached API call to ", cache_name, level = 3)
+      saveRDS(req, file = cache_name)
+      
+      ## save meta data
+      save_mock_cache(call_func)
     }
+    
   } else {
-    myMessage("No checks on content due to option googleAuthR.rawResponse, returning raw", level=2)
-    req
+    req <- retryRequest(do.call(request_type,
+                                args = arg_list,
+                                envir = asNamespace("httr")))
   }
 
+
+  ## do we parse or return raw response
+  rawResponse <- getOption("googleAuthR.rawResponse")
+  assertthat::assert_that(
+    is.logical(rawResponse)
+  )
+  if(rawResponse){
+    myMessage("No checks on content due to option googleAuthR.rawResponse, returning raw", level=2)
+    return(req)
+  }
+  
+  ## will raise error if checks not passed
+  good_call <- checkGoogleAPIError(req)
+  
+  if(good_call){
+    content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
+    content <- jsonlite::fromJSON(content,
+                                  simplifyVector = simplifyVector)
+    req$content <- content
+  } else {
+    warning("API checks failed, returning request without JSON parsing")
+  }
 
   req
 }
@@ -386,55 +430,47 @@ checkGoogleAPIError <- function(req,
                                 batched=FALSE) {
 
   ## from a batched request, we already have content
-  skip_checks <- FALSE
-  
   if(batched){
     myMessage("Skipping API checks for batch content_type", level=2)
-    skip_checks <- TRUE
+    return(TRUE)
+  }
+    
+  ga.json <- httr::content(req, 
+                           as = "text", 
+                           type = "application/json", 
+                           encoding = "UTF-8")
+  
+  if(is.null(ga.json)) {
+    warning("JSON parsing was NULL")
+    return(FALSE)
   }
   
-  if(!skip_checks){
-    
-    ga.json <- httr::content(req, 
-                             as = "text", 
-                             type = "application/json", 
-                             encoding = "UTF-8")
-    
-    if(is.null(ga.json)) {
-      warning('JSON parsing was NULL')
-      return(FALSE)
-    }
-    
-    if(nchar(ga.json) > 0) {
-      ga.json <- jsonlite::fromJSON(ga.json)
-    } else {
-      warning("No JSON content detected")
-      return(FALSE)
-    }
-
-    if(!is.null(req$headers$`content-type`)){
-      if(!(req$headers$`content-type` %in% ok_content_types)) {
-
-        stop(sprintf(paste("Not expecting content-type to be:\n%s"),
-                     req$headers[["content-type"]]))
-
-      }
-    } else {
-      myMessage("No content-type returned.", level=1)
-      return(FALSE)
-    }
-
-    ## get error message from API
-    if (!is.null(ga.json$error$message)) {
-      gar_token_info(2)
-      stop("JSON fetch error: ", paste(ga.json$error$message))
-    }
-    
-    httr::stop_for_status(req)
-
+  if(nchar(ga.json) > 0) {
+    ga.json <- jsonlite::fromJSON(ga.json)
   } else {
-    ga.json <- req
+    warning("No JSON content detected")
+    return(FALSE)
   }
-
+  
+  if(!is.null(req$headers$`content-type`)){
+    if(!(req$headers$`content-type` %in% ok_content_types)) {
+      
+      stop(sprintf(paste("Not expecting content-type to be:\n%s"),
+                   req$headers[["content-type"]]))
+      
+    }
+  } else {
+    warning("No content-type returned.")
+    return(FALSE)
+  }
+  
+  ## get error message from API
+  if (!is.null(ga.json$error$message)) {
+    gar_token_info(2)
+    stop("JSON fetch error: ", paste(ga.json$error$message))
+  }
+  
+  httr::stop_for_status(req)
+  
   TRUE
 }

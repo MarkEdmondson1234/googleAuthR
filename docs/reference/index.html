@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -25,12 +25,14 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -84,94 +86,182 @@
       <div class="row">
   <div class="col-md-9">
     <div class="page-header">
-      <h1>Function reference</h1>
-      <h4>version&nbsp;0.4.0.9000</h4>
+      <h1>
+        Reference
+        <small>version&nbsp;0.5.1.9000</small>
+      </h1>
     </div>
 
     <div class="contents">
-      <h2 id="section-authentication" class="hasAnchor"><a href="#section-authentication" class="anchor"></a>Authentication</h2>
-      <p class="section-desc"></p>
+      <table class="ref-index">
 
-      
-      <p><a href="gar_attach_auto_auth.html">Auto Authentication function for use within .onAttach</a></p>
-      <ul>
-        <li><code><a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a></code></li>
-      </ul>
-      
-      <p><a href="gar_auth_service.html">JSON service account authentication</a></p>
-      <ul>
-        <li><code><a href="gar_auth_service.html">gar_auth_service</a></code></li>
-      </ul>
-      
-      <p><a href="gar_auth.html">Authorize </a></p>
-      <ul>
-        <li><code><a href="gar_auth.html">gar_auth</a></code></li>
-      </ul>
-      
-      <p><a href="gar_auto_auth.html">Perform auto authentication</a></p>
-      <ul>
-        <li><code><a href="gar_auto_auth.html">gar_auto_auth</a></code></li>
-      </ul>
-          <h2 id="section-shiny-authentication-helpers" class="hasAnchor"><a href="#section-shiny-authentication-helpers" class="anchor"></a>Shiny authentication helpers</h2>
-      <p class="section-desc"></p>
+      <colgroup>
+        <col class="alias" />
+        <col class="title" />
+      </colgroup>
 
-      
-      <p><a href="gar_auth_js.html">Shiny JavaScript Google Authorisation [Server Module]</a></p>
-      <ul>
-        <li><code><a href="gar_auth_js.html">gar_auth_js</a></code></li>
-      </ul>
-      
-      <p><a href="gar_auth_jsUI.html">Shiny JavaScript Google Authorisation [UI Module]</a></p>
-      <ul>
-        <li><code><a href="gar_auth_jsUI.html">gar_auth_jsUI</a></code></li>
-      </ul>
-      
-      <p><a href="googleAuth.html">Server side google auth (Shiny Module)</a></p>
-      <ul>
-        <li><code><a href="googleAuth.html">googleAuth</a></code></li>
-      </ul>
-      
-      <p><a href="googleAuthUI.html">A Login button (Shiny Module)</a></p>
-      <ul>
-        <li><code><a href="googleAuthUI.html">googleAuthUI</a></code></li>
-      </ul>
-          <h2 id="section-building-packages" class="hasAnchor"><a href="#section-building-packages" class="anchor"></a>Building packages</h2>
-      <p class="section-desc"></p>
-
-      
-      <p><a href="gar_api_generator.html">googleAuthR data fetch function generator</a></p>
-      <ul>
-        <li><code><a href="gar_api_generator.html">gar_api_generator</a></code></li>
-      </ul>
-      
-      <p><a href="gar_batch_walk.html">Walk data through batches</a></p>
-      <ul>
-        <li><code><a href="gar_batch_walk.html">gar_batch_walk</a></code></li>
-      </ul>
-      
-      <p><a href="gar_batch.html">Turn a list of gar_fetch_functions into batch functions</a></p>
-      <ul>
-        <li><code><a href="gar_batch.html">gar_batch</a></code></li>
-      </ul>
-          <h2 id="section-discovery-api" class="hasAnchor"><a href="#section-discovery-api" class="anchor"></a>Discovery API</h2>
-      <p class="section-desc"></p>
-
-      
-      <p><a href="gar_create_package.html">Create a Google API package</a></p>
-      <ul>
-        <li><code><a href="gar_create_package.html">gar_create_package</a></code></li>
-      </ul>
-      
-      <p><a href="gar_discovery_api.html">Get meta data details for specified Google API</a></p>
-      <ul>
-        <li><code><a href="gar_discovery_api.html">gar_discovery_api</a></code></li>
-      </ul>
-      
-      <p><a href="gar_discovery_apis_list.html">Get a list of Google API libraries</a></p>
-      <ul>
-        <li><code><a href="gar_discovery_apis_list.html">gar_discovery_apis_list</a></code></li>
-      </ul>
-    
+      <tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-authentication" class="hasAnchor"><a href="#section-authentication" class="anchor"></a>Authentication</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_auth.html">gar_auth</a></code> </p>
+          </td>
+          <td><p>Authorize <code>googleAuthR</code></p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_auth_service.html">gar_auth_service</a></code> </p>
+          </td>
+          <td><p>JSON service account authentication</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_attach_auto_auth.html">gar_attach_auto_auth</a></code> </p>
+          </td>
+          <td><p>Auto Authentication function for use within .onAttach</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_auto_auth.html">gar_auto_auth</a></code> </p>
+          </td>
+          <td><p>Perform auto authentication</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_auth_js.html">gar_auth_js</a></code> </p>
+          </td>
+          <td><p>Shiny JavaScript Google Authorisation [Server Module]</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_auth_jsUI.html">gar_auth_jsUI</a></code> </p>
+          </td>
+          <td><p>Shiny JavaScript Google Authorisation [UI Module]</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_gce_auth_email.html">gar_gce_auth_email</a></code> </p>
+          </td>
+          <td><p>Get the service email via GCE metadata</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_gce_auth.html">gar_gce_auth</a></code> </p>
+          </td>
+          <td><p>Authenticate on Google Compute Engine</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-shiny-authentication-helpers" class="hasAnchor"><a href="#section-shiny-authentication-helpers" class="anchor"></a>Shiny authentication helpers</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="googleAuth.html">googleAuth</a></code> </p>
+          </td>
+          <td><p>Server side google auth (Shiny Module)</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="googleAuthUI.html">googleAuthUI</a></code> </p>
+          </td>
+          <td><p>A Login button (Shiny Module)</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_auth_js.html">gar_auth_js</a></code> </p>
+          </td>
+          <td><p>Shiny JavaScript Google Authorisation [Server Module]</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_auth_jsUI.html">gar_auth_jsUI</a></code> </p>
+          </td>
+          <td><p>Shiny JavaScript Google Authorisation [UI Module]</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-building-packages" class="hasAnchor"><a href="#section-building-packages" class="anchor"></a>Building packages</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_api_generator.html">gar_api_generator</a></code> </p>
+          </td>
+          <td><p>googleAuthR data fetch function generator</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_batch_walk.html">gar_batch_walk</a></code> </p>
+          </td>
+          <td><p>Walk data through batches</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_batch.html">gar_batch</a></code> </p>
+          </td>
+          <td><p>Turn a list of gar_fetch_functions into batch functions</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-testing-with-mock-api" class="hasAnchor"><a href="#section-testing-with-mock-api" class="anchor"></a>Testing with Mock API</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_mock_delete.html">gar_mock_delete</a></code> </p>
+          </td>
+          <td><p>Delete mock API caches</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_mock_list.html">gar_mock_list</a></code> </p>
+          </td>
+          <td><p>See which functions have mock cache</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-discovery-api" class="hasAnchor"><a href="#section-discovery-api" class="anchor"></a>Discovery API</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_create_package.html">gar_create_package</a></code> </p>
+          </td>
+          <td><p>Create a Google API package</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_discovery_api.html">gar_discovery_api</a></code> </p>
+          </td>
+          <td><p>Get meta data details for specified Google API</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="gar_discovery_apis_list.html">gar_discovery_apis_list</a></code> </p>
+          </td>
+          <td><p>Get a list of Google API libraries</p></td>
+        </tr>
+      </tbody>
+      </table>
     </div>
   </div>
 
@@ -181,6 +271,7 @@
       <li><a href="#section-authentication">Authentication</a></li>
       <li><a href="#section-shiny-authentication-helpers">Shiny authentication helpers</a></li>
       <li><a href="#section-building-packages">Building packages</a></li>
+      <li><a href="#section-testing-with-mock-api">Testing with Mock API</a></li>
       <li><a href="#section-discovery-api">Discovery API</a></li>
     </ul>
   </div>

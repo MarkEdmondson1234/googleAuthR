@@ -23,6 +23,7 @@ reference:
       - gar_auth_service
       - gar_attach_auto_auth
       - gar_auto_auth
+      - matches("auth")
   - title: "Shiny authentication helpers"
     contents:
       - googleAuth
@@ -33,6 +34,9 @@ reference:
     contents:
       - gar_api_generator
       - matches("batch")
+  - title: "Testing with Mock API"
+    contents:
+      - matches("mock")
   - title: "Discovery API"
     contents:
       - gar_create_package

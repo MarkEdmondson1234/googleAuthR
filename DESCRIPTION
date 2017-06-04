@@ -24,6 +24,7 @@ Imports:
 Suggests:
     roxygen2 (>= 5.0.0),
     covr,
+    digest,
     rmarkdown,
     knitr
 License: MIT + file LICENSE

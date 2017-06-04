@@ -3,6 +3,7 @@
   op <- options()
   op.googleAuthR <- list(
     googleAuthR.rawResponse = FALSE,
+    googleAuthR.mock_test = FALSE,
     googleAuthR.httr_oauth_cache = TRUE,
     googleAuthR.verbose = 3,
     # googleAuthR.client_id = "201908948134-rm1ij8ursrfcbkv9koc0aqver84b04r7.apps.googleusercontent.com",

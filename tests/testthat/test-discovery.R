@@ -77,7 +77,7 @@ test_that("Name of package is valid",{
   
   da1 <- gar_discovery_api("admin","datatransfer_v1")
   
-  gg <- gar_create_package(da1, tmp, check = TRUE, github = FALSE)
+  gg <- gar_create_package(da1, tmp, check = FALSE, github = FALSE)
   
   expect_s3_class(gg, "check_results")
   
@@ -90,7 +90,7 @@ test_that("c unrecognised escape character is avoided",{
   
   da1 <- gar_discovery_api("bigquery","v2")
   
-  gg <- gar_create_package(da1, tmp, check = TRUE, github = FALSE)
+  gg <- gar_create_package(da1, tmp, check = FALSE, github = FALSE)
   
   expect_s3_class(gg, "check_results")
   
@@ -103,7 +103,7 @@ test_that("googleservicemanagement is valid",{
   
   da1 <- gar_discovery_api("servicemanagement","v1")
   
-  gg <- gar_create_package(da1, tmp, check = TRUE, github = FALSE)
+  gg <- gar_create_package(da1, tmp, check = FALSE, github = FALSE)
   
   expect_s3_class(gg, "check_results")
   

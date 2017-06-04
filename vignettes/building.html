@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-02-18" />
+<meta name="date" content="2017-06-04" />
 
 <title>Building your own Google R library</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Building your own Google R library</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-02-18</em></h4>
+<h4 class="date"><em>2017-06-04</em></h4>
 
 
 
@@ -314,6 +314,24 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
                         <span class="dt">github =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
 </div>
+<div id="testing-your-library-with-mock-api-calls" class="section level2">
+<h2>Testing your library with mock API calls</h2>
+<p>From version <code>&gt;0.5.1</code> you can create caches of API calls that can be used within unit tests.</p>
+<p>Set <code>option(googleAuthR.mock_tests = TRUE)</code> in your testing suite. Now API calls will be compared with a cache located within <code>tests/mock/</code> and if they have a cached call with the same arguments no API call will actually be made. This allows you to perform tests when offline and without needing to deal with authentication issues when publishing online such as Travis.</p>
+<p>If a cache is not available whilst the <code>option(googleAuthR.mock_tests = TRUE)</code> is on, then a cache will be created. You can see which functions are cached using <code>gar_mock_list()</code> and delete the cache with <code>gar_mock_delete()</code></p>
+<p>Within testing suites, put the flag at the start of the script:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
+<span class="kw">options</span>(<span class="dt">googleAuthR.mock_test =</span> <span class="ot">TRUE</span>)
+...etc..
+
+<span class="kw">test_that</span>(<span class="st">&quot;I can call this API&quot;</span>, {
+
+  <span class="kw">call_api</span>()
+
+})</code></pre></div>
+<p>Run this once through with your own local authentication, then once all the caches are built you can upload to GitHub. Be sure you only upload caches you don’t mind being public.</p>
+<p>The cache is made at the point of when the API call is made, so any changes you make to parsing etc. will affect the results.</p>
+</div>
 <div id="example-with-goo.gl" class="section level2">
 <h2>Example with goo.gl</h2>
 <p>Below is an example building a link shortner R package using <code>googleAuthR</code>. It was done referring to the <a href="https://developers.google.com/url-shortener/v1/getting_started">documentation for Google URL shortener</a>. Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.</p>
@@ -417,7 +435,7 @@ s
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
