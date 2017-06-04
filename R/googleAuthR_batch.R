@@ -335,14 +335,8 @@ doBatchRequest <- function(batched){
   )
   if(mock_test){
     ## check for presence of API output saved in mock folder
-    # call_func <- sys.call(1)
-    call_func <- mock_call()
-    hash_string <- make_mock_hash(call_func, arg_list)
-    myMessage("Mock API test for ", call_func, level = 3)
-    cache_name <- file.path("tests","mock", hash_string)
-    ## create directories if needed
-    dir.create("tests", showWarnings = FALSE)
-    dir.create(file.path("tests","mock"), showWarnings = FALSE)    
+    cache_name <- make_mock_cache_name(arg_list)   
+    
     cache_exists <- file.exists(cache_name)
     ## if present, use mock result instead
     if(cache_exists){
@@ -360,7 +354,7 @@ doBatchRequest <- function(batched){
       saveRDS(req, file = cache_name)
       
       ## save meta data
-      save_mock_cache(call_func, arg_list)
+      save_mock_cache(mock_call(), arg_list)
     }
     
   } else {

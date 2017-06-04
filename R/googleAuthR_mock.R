@@ -1,3 +1,18 @@
+# make the mock cache name
+make_mock_cache_name <- function(arg_list){
+  call_func <- mock_call()
+  hash_string <- make_mock_hash(call_func, arg_list)
+  myMessage("Mock API test for ", call_func, level = 3)
+  
+  ## create directories if needed
+  dir.create("tests", showWarnings = FALSE)
+  dir.create(file.path("tests","mock"), showWarnings = FALSE)    
+  
+  file.path("tests","mock", hash_string)
+
+}
+
+
 #' Setup which package to perform mock testing upon
 #' 
 #' This helps make sure the right functions are mocked
