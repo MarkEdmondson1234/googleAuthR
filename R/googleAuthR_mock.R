@@ -1,3 +1,17 @@
+# find the function call we want, e.g. in the package testing
+mock_call <- function(){
+  call_funcs <- as.character(sys.calls())
+  package_funcs <- ls(paste0("package:",packageName()))
+  just_funcs <- gsub("^(.+)\\(.+$", "\\1", call_funcs)
+  out <- just_funcs[just_funcs %in% package_funcs]
+  if(length(out) != 1){
+    stop("Matched more than one function for mock_call", out)
+  }
+  myMessage("Matched package call: ", out, level = 3)
+  out
+}
+
+
 #' See which functions have mock cache
 #' 
 #' When testing API calls, see which functions have API caches 

@@ -360,7 +360,8 @@ doHttrRequest <- function(url,
   
   if(mock_test){
     ## check for presence of API output saved in mock folder
-    call_func <- sys.call(1)
+    # call_func <- sys.call(1)
+    call_func <- mock_call()
     hash_string <- make_mock_hash(call_func)
     myMessage("Mock API test for ", call_func, level = 3)
     cache_name <- file.path("tests","mock", hash_string)
