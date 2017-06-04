@@ -155,11 +155,12 @@ gar_api_generator <- function(baseURI,
         }
 
       } else {
+        ## batching
         req <- list(req_url = req_url,
                     shiny_access_token = shiny_access_token,
                     http_header = http_header,
                     the_body = the_body,
-                    name = gsub("/|var/folders/","",tempfile()))
+                    name = digest::digest(c(req_url, the_body)))                    
 
         if(!is.null(data_parse_function)){
           req <- c(req, data_parse_function = data_parse_function)

@@ -278,7 +278,8 @@ makeBatchRequest <- function(f){
     
     header <- paste(boundary,
                     "Content-Type: application/http",
-                    paste0("Content-ID: ",f$name),
+                    # paste0("Content-ID: ",f$name),
+                    paste0("Content-ID: ", digest::digest(batch_body)),
                     sep = "\r\n")
     body_header <- paste(req,
                          "Content-Type: application/json",
@@ -319,8 +320,7 @@ doBatchRequest <- function(batched){
                    encode = "multipart",
                    httr::add_headers("Accept-Encoding" = "gzip"),
                    httr::user_agent(paste0("googleAuthR/",packageVersion("googleAuthR"), " (gzip)")),
-                   httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch"),
-                   httr::add_headers("Content-ID" = digest::digest(batched$parsed))
+                   httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
                    )
   
   myMessage("Making Batch API call", level=2)
