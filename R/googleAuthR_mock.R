@@ -28,7 +28,7 @@ mock_call <- function(package_name = getOption("googleAuthR.mock_package")){
   package_funcs <- ls(paste0("package:",package_name))
   just_funcs <- gsub("^(.+?)\\(.*\\)$", "\\1", call_funcs)
   out <- sys.calls()[just_funcs %in% package_funcs][[1]]
-  myMessage("Matched package call: ", out, level = 3)
+  myMessage("Matched package call: ", out, level = 2)
   out
 }
 
@@ -65,7 +65,9 @@ gar_mock_delete <- function(){
 make_mock_hash <- function(call_func, arg_list){
   lcf <- as.list(call_func)
   call_args_string <- paste(names(lcf[-1]), lcf[-1], collapse = ",", sep="=")
-  digest::digest(paste(lcf[[1]], call_args_string, sep =":"), arg_list)
+  arg_list_string <- paste(names(arg_list), unlist(arg_list), collapse = ",", sep="=")
+  
+  digest::digest(paste(lcf[[1]], call_args_string, arg_list_string, sep =":"))
 }
 
 # save the mock data

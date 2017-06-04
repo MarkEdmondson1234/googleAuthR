@@ -119,7 +119,7 @@ gar_batch_walk <- function(f,
     
     ## do the API call in batches
     # batch_data <- httr::with_verbose(googleAuthR::gar_batch(fl, ...))
-    batch_data <- googleAuthR::gar_batch(fl, ...)
+    batch_data <- gar_batch(fl, ...)
     
     if(!is.null(batch_function)) {
       batch_data <- batch_function(batch_data)
@@ -318,8 +318,9 @@ doBatchRequest <- function(batched){
                    body = batched$parsed,
                    encode = "multipart",
                    httr::add_headers("Accept-Encoding" = "gzip"),
-                   httr::user_agent("libcurl/7.43.0 r-curl/0.9.3 httr/1.0.0 googleAuthR/0.1.2 (gzip)"),
-                   httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
+                   httr::user_agent(paste0("googleAuthR/",packageVersion("googleAuthR"), " (gzip)")),
+                   httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch"),
+                   httr::add_headers("Content-ID" = digest::digest(batched$parsed))
                    )
   
   myMessage("Making Batch API call", level=2)
