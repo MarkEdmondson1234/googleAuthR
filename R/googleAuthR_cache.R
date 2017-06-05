@@ -1,14 +1,34 @@
-# make the mock cache name
-make_mock_cache_name <- function(arg_list){
-  call_func <- mock_call()
-  hash_string <- make_mock_hash(call_func, arg_list)
-  myMessage("Mock API test for ", call_func, level = 3)
+# read from cache - return NULL if its not there
+read_cache <- function(arg_list, cache_dir = "mock"){
+  ## check for presence of API output saved in mock folder
+  cache_name <- make_cache_name(arg_list, cache_dir = cache_dir)   
+  
+  cache_exists <- file.exists(cache_name)
+  
+  ## if present, use mock result instead
+  if(cache_exists){
+    myMessage("# Cached API call from ", cache_name, level = 3)
+    cat("\n# Cached API call from ", cache_name) # also cat for test logs
+    mock_cache <- readRDS(cache_name)
+    req <- mock_cache
+  } else {
+    req <- NULL
+  }
+  
+  req
+}
+
+
+# make the cache name
+make_cache_name <- function(arg_list, cache_dir = "mock"){
+  call_func <- cache_call()
+  hash_string <- make_cache_hash(call_func, arg_list)
+  myMessage("Caching API call for ", call_func, level = 3)
   
   ## create directories if needed
-  dir.create("tests", showWarnings = FALSE)
-  dir.create(file.path("tests","mock"), showWarnings = FALSE)    
+  dir.create(cache_dir, showWarnings = FALSE)    
   
-  file.path("tests","mock", hash_string)
+  file.path(cache_dir, hash_string)
 
 }
 
@@ -25,15 +45,15 @@ make_mock_cache_name <- function(arg_list){
 #' You can also set the package via \code{options(googleAuthR.mock_package = "yourPackage")}
 #' 
 #' @export
-gar_setup_mock <- function(package_name){
+gar_setup_cache <- function(package_name){
   
-  options(googleAuthR.mock_package = package_name)
+  options(googleAuthR.cache_package = package_name)
   
 }
 
 
 # get the functions to test
-mock_call <- function(package_name = getOption("googleAuthR.mock_package")){
+cache_call <- function(package_name = getOption("googleAuthR.cache_package")){
   
   if(package_name == ""){
     stop("Need to set the package to mock API calls against using gar_setup_mock()")
@@ -54,30 +74,30 @@ mock_call <- function(package_name = getOption("googleAuthR.mock_package")){
 #'   activated when \code{options(googleAuthR.mock_test = TRUE)}
 #' 
 #' @export
-gar_mock_list <- function(){
-  mock_dir <- file.path("tests","mock","cached_list.rds")
+gar_cache_list <- function(cache_dir = "mock"){
+  cache_meta <- file.path(cache_dir,"cached_list.rds")
 
-  if(!file.exists(mock_dir)){
-    stop("No mock meta data found in ", normalizePath(mock_dir))
+  if(!file.exists(cache_meta)){
+    stop("No cache meta data found in ", normalizePath(cache_meta))
   }
   
-  readRDS(mock_dir)
+  readRDS(cache_meta)
 
 }
 
 #' Delete mock API caches
 #' @export
-gar_mock_delete <- function(){
-  mock_dir <- file.path("tests","mock")
-  if(!file.exists(mock_dir)){
-    stop("No mock meta data found in ", normalizePath(mock_dir))
+gar_cache_delete <- function(cache_dir = "mock"){
+
+  if(!file.exists(cache_dir)){
+    stop("No mock meta data found in ", normalizePath(cache_dir))
   }
   
-  unlink(mock_dir, recursive = TRUE)
+  unlink(cache_dir, recursive = TRUE)
 }
 
 
-make_mock_hash <- function(call_func, arg_list){
+make_cache_hash <- function(call_func, arg_list){
   lcf <- as.list(call_func)
   call_args_string <- paste(names(lcf[-1]), lcf[-1], collapse = ",", sep="=")
   arg_list_string <- paste(names(arg_list), unlist(arg_list), collapse = ",", sep="=")
@@ -85,10 +105,18 @@ make_mock_hash <- function(call_func, arg_list){
   digest::digest(paste(lcf[[1]], call_args_string, arg_list_string, sep =":"))
 }
 
-# save the mock data
+# save the cache data
 ## save meta data
-save_mock_cache <- function(call_func, arg_list) {
-  meta_cache <- file.path("tests","mock","cached_list.rds")
+save_cache <- function(req, call_func, arg_list, cache_dir = "mock") {
+  
+  ## save req cache
+  cache_name <- make_cache_name(arg_list, cache_dir = cache_dir)
+  myMessage("Saving cached API call to ", cache_name, level = 3)
+  cat("\n# Saving cached API call to ", cache_name) # also cat for test logs
+  saveRDS(req, file = cache_name)
+  
+  ## save meta data
+  meta_cache <- file.path(cache_dir,"cached_list.rds")
   if(file.exists(meta_cache)){
     cached_list <- readRDS(meta_cache)
   } else {

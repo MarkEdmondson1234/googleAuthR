@@ -333,35 +333,33 @@ doBatchRequest <- function(batched){
   assertthat::assert_that(
     is.logical(mock_test)
   )
-  if(mock_test){
-    ## check for presence of API output saved in mock folder
-    cache_name <- make_mock_cache_name(arg_list)   
+  
+  use_cache <- mock_test
+  
+  if(use_cache){
     
-    cache_exists <- file.exists(cache_name)
-    ## if present, use mock result instead
-    if(cache_exists){
-      myMessage("Reading cached API call from ", cache_name, level = 3)
-      mock_cache <- readRDS(cache_name)
-      req <- mock_cache
-    } else {
+    ## cache dir will eventually be settable, default for mock tests
+    req <- read_cache(arg_list, cache_dir = "mock")
+    
+    if(is.null(req)){
+      
       myMessage("No cache found, making API call", level = 3)
-      ## otherwise, do call and save mock result
+      
       req <- retryRequest(do.call("POST", 
                                   args = arg_list,
                                   envir = asNamespace("httr")))
       
-      myMessage("Saving cached API call to ", cache_name, level = 3)
-      saveRDS(req, file = cache_name)
-      
-      ## save meta data
-      save_mock_cache(mock_call(), arg_list)
+      ## save cache data
+      save_cache(req, call_func = cache_call(), arg_list = arg_list, cache_dir = "mock")
     }
     
   } else {
     req <- retryRequest(do.call("POST", 
-                         args = arg_list,
-                         envir = asNamespace("httr")))
+                                args = arg_list,
+                                envir = asNamespace("httr")))
   }
+  
+  
   
   req
   
