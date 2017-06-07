@@ -1,32 +1,95 @@
+# cache global
+.gar_cache <- new.env(parent = emptyenv())
+.gar_cache$cache <- NULL  # what type of caching
+.gar_cache$api <- NULL # if in memory, the objects cache
+
+gar_set_cache <- function(cache){
+  assertthat::assert_that(
+    assertthat::is.string(cache)
+  )
+  cache <- match.arg(cache)
+  .gar_cache$cache <- cache
+}
+
+gar_empty_cache <- function(){
+  .gar_cache$cache <- NULL
+}
+
+load_cache <- function(cache_name, type){
+  assertthat::assert_that(
+    assertthat::is.string(type)
+  )
+  
+  if(type != "memory"){
+
+    if(file.exists(cache_name)){
+      out <- readRDS(cache_name)
+
+    } else {
+      out <- NULL
+    }
+
+  } else {
+    ## NULL if not there
+    out <- .gar_cache$api[[cache_name]]
+  }
+  
+  if(!is.null(out)){
+    myMessage("# Cached API call from ", cache_name, level = 2)
+    cat("\n# Cached API call from ", cache_name) # also cat for test logs
+  }
+  
+  out
+}
+
+put_cache <- function(obj, cache_name, type){
+  assertthat::assert_that(
+    assertthat::is.string(type)
+  )
+  
+  if(type != "memory"){
+
+    dir.create(type, showWarnings = FALSE)    
+    
+
+    saveRDS(obj, file = cache_name)
+  } else {
+    save_to_mem(obj, cache_name = cache_name)
+  }
+  
+  myMessage("Saving cached API call to ", cache_name, level = 2)
+  cat("\n# Saving cached API call to ", cache_name) # also cat for test logs
+  
+  TRUE
+}
+
+save_to_mem <- function(obj, cache_name){
+  .gar_cache$api[[cache_name]] <- obj
+}
+
 # read from cache - return NULL if its not there
-read_cache <- function(arg_list, cache_dir = "mock"){
+read_cache <- function(arg_list, cache_dir){
+
+  assertthat::assert_that(
+    assertthat::is.string(cache_dir)
+  )
   ## check for presence of API output saved in mock folder
   cache_name <- make_cache_name(arg_list, cache_dir = cache_dir)   
   
-  cache_exists <- file.exists(cache_name)
-  
-  ## if present, use mock result instead
-  if(cache_exists){
-    myMessage("# Cached API call from ", cache_name, level = 3)
-    cat("\n# Cached API call from ", cache_name) # also cat for test logs
-    mock_cache <- readRDS(cache_name)
-    req <- mock_cache
-  } else {
-    req <- NULL
-  }
-  
-  req
+  load_cache(cache_name, type = cache_dir)
+
 }
 
 
 # make the cache name
-make_cache_name <- function(arg_list, cache_dir = "mock"){
+make_cache_name <- function(arg_list, cache_dir){
+  assertthat::assert_that(
+    assertthat::is.string(cache_dir)
+  )
+  
   call_func <- cache_call()
   hash_string <- make_cache_hash(call_func, arg_list)
-  myMessage("Caching API call for ", call_func, level = 3)
-  
-  ## create directories if needed
-  dir.create(cache_dir, showWarnings = FALSE)    
+  myMessage("Lookup cache API call for ", call_func, level = 1)
   
   file.path(cache_dir, hash_string)
 
@@ -77,11 +140,12 @@ cache_call <- function(package_name = getOption("googleAuthR.cache_package")){
 gar_cache_list <- function(cache_dir = "mock"){
   cache_meta <- file.path(cache_dir,"cached_list.rds")
 
-  if(!file.exists(cache_meta)){
+  the_list <- load_cache(cache_meta, cache_dir)
+  if(is.null(the_list)){
     stop("No cache meta data found in ", normalizePath(cache_meta))
   }
   
-  readRDS(cache_meta)
+  the_list
 
 }
 
@@ -93,7 +157,13 @@ gar_cache_delete <- function(cache_dir = "mock"){
     stop("No mock meta data found in ", normalizePath(cache_dir))
   }
   
-  unlink(cache_dir, recursive = TRUE)
+  if(cache_dir != "memory"){
+    unlink(cache_dir, recursive = TRUE)
+  } else {
+    .gar_cache$api <- NULL # if in memory, the objects cache
+  }
+  
+
 }
 
 
@@ -108,20 +178,15 @@ make_cache_hash <- function(call_func, arg_list){
 # save the cache data
 ## save meta data
 save_cache <- function(req, call_func, arg_list, cache_dir = "mock") {
-  
+
   ## save req cache
   cache_name <- make_cache_name(arg_list, cache_dir = cache_dir)
-  myMessage("Saving cached API call to ", cache_name, level = 3)
-  cat("\n# Saving cached API call to ", cache_name) # also cat for test logs
-  saveRDS(req, file = cache_name)
+
+  put_cache(req, cache_name = cache_name, cache_dir)
   
   ## save meta data
-  meta_cache <- file.path(cache_dir,"cached_list.rds")
-  if(file.exists(meta_cache)){
-    cached_list <- readRDS(meta_cache)
-  } else {
-    cached_list <- NULL
-  }
+  meta_name <- file.path(cache_dir,"cached_list.rds")
+  cached_list <- load_cache(meta_name, type = cache_dir)
   
   lcf <- as.list(call_func)
   call_args_string <- paste(names(lcf[-1]), lcf[-1], collapse = ",", sep="=")
@@ -130,11 +195,12 @@ save_cache <- function(req, call_func, arg_list, cache_dir = "mock") {
   this_cache <- data.frame(function_name = as.character(lcf[[1]]), 
                            arguments = call_args_string,
                            arg_list = arg_list_string, 
-                           hash = make_mock_hash(call_func, arg_list),
+                           hash = make_cache_hash(call_func, arg_list),
                            created = Sys.time(), 
+                           cache_location = cache_dir,
                            stringsAsFactors = FALSE)
   
   cached_list <- rbind(this_cache, cached_list)
-  saveRDS(cached_list, file = meta_cache)
-  myMessage("Updated cached_list ", meta_cache, level = 3)
+  put_cache(cached_list, cache_name = meta_name, cache_dir)
+  myMessage("Updated cached_list ", meta_name, level = 1)
 }
