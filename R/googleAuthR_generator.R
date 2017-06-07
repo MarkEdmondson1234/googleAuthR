@@ -353,18 +353,24 @@ doHttrRequest <- function(url,
   }
   
 
+  ## check if using cache
+  if(!is.null(gar_cache_get_loc())){
+    use_cache <- TRUE
+  }
+  
+  
   ## if mock testing
   mock_test <- getOption("googleAuthR.mock_test")
-  assertthat::assert_that(
-    is.logical(mock_test)
-  )
-  
-  use_cache <- mock_test
+  if(mock_test){
+    gar_cache_set_loc("mock")
+    use_cache <- TRUE
+  }
   
   if(use_cache){
     
+    cache_dir <- gar_cache_get_loc()
     ## cache dir will eventually be settable, default for mock tests
-    req <- read_cache(arg_list, cache_dir = "mock")
+    req <- read_cache(arg_list, cache_dir = cache_dir)
     
     if(is.null(req)){
       
@@ -376,7 +382,7 @@ doHttrRequest <- function(url,
                                   envir = asNamespace("httr")))
       
       ## save cache data
-      save_cache(req, call_func = cache_call(), arg_list = arg_list, cache_dir = "mock")
+      save_cache(req, call_func = cache_call(), arg_list = arg_list, cache_dir = cache_dir)
     }
     
   } else {

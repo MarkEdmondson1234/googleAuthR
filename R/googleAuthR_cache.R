@@ -3,17 +3,37 @@
 .gar_cache$cache <- NULL  # what type of caching
 .gar_cache$api <- NULL # if in memory, the objects cache
 
-gar_set_cache <- function(cache){
+#' Set cache location
+#' 
+#' These functions let you set the cache behaviour for your API calls
+#' 
+#' @param cache The directory to save cache to, or \code{"memory"} to save to RAM
+#' 
+#' @details 
+#' 
+#' This is ignored if \code{getOption("googleAuthR.mock_test") == TRUE} 
+#'   as the cache will default to folder \code{"mock"}
+#' 
+#' @export
+gar_cache_set_loc <- function(cache){
   assertthat::assert_that(
     assertthat::is.string(cache)
   )
-  cache <- match.arg(cache)
   .gar_cache$cache <- cache
 }
 
-gar_empty_cache <- function(){
+#' @rdname gar_cache_set_loc
+#' @export
+gar_cache_get_loc <- function(){
+  .gar_cache$cache
+}
+
+#' @rdname gar_cache_set_loc
+#' @export
+gar_cache_empty <- function(){
   .gar_cache$cache <- NULL
 }
+
 
 load_cache <- function(cache_name, type){
   assertthat::assert_that(
@@ -137,7 +157,7 @@ cache_call <- function(package_name = getOption("googleAuthR.cache_package")){
 #'   activated when \code{options(googleAuthR.mock_test = TRUE)}
 #' 
 #' @export
-gar_cache_list <- function(cache_dir = "mock"){
+gar_cache_list <- function(cache_dir = gar_cache_get_loc()){
   cache_meta <- file.path(cache_dir,"cached_list.rds")
 
   the_list <- load_cache(cache_meta, cache_dir)
@@ -151,7 +171,7 @@ gar_cache_list <- function(cache_dir = "mock"){
 
 #' Delete mock API caches
 #' @export
-gar_cache_delete <- function(cache_dir = "mock"){
+gar_cache_delete <- function(cache_dir = gar_cache_get_loc()){
 
   if(!file.exists(cache_dir)){
     stop("No mock meta data found in ", normalizePath(cache_dir))
