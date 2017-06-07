@@ -236,7 +236,7 @@ Credentials > New credentials > Service account Key > Select service account > K
 An example using a service account JSON file for authentication is shown below:
 ```r
 library(googleAuthR)
-service_token <- gar_auth_service(json_file="~/location/of/the/json/secret.json")
+set_service_token("~/location/of/the/json/secret.json")
 analytics_url <- function(shortUrl, 
                           timespan = c("allTime", "month", "week","day","twoHours")){
   
