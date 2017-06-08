@@ -352,6 +352,8 @@ doHttrRequest <- function(url,
     }
   }
   
+  ## default
+  use_cache <- FALSE
 
   ## check if using cache
   if(!is.null(gar_cache_get_loc())){
