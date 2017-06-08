@@ -56,7 +56,10 @@ load_cache <- function(cache_name, type){
   
   if(!is.null(out)){
     myMessage("# Cached API call from ", cache_name, level = 2)
-    cat("\n# Cached API call from ", cache_name) # also cat for test logs
+    if(getOption("googleAuthR.verbose") < 3){
+      cat("\n# Cached API call from ", cache_name) # also cat for test logs
+    }
+
   }
   
   out
@@ -78,7 +81,10 @@ put_cache <- function(obj, cache_name, type){
   }
   
   myMessage("Saving cached API call to ", cache_name, level = 2)
-  cat("\n# Saving cached API call to ", cache_name) # also cat for test logs
+  if(getOption("googleAuthR.verbose") < 3){
+    cat("\n# Saving cached API call to ", cache_name) # also cat for test logs
+  }
+
   
   TRUE
 }
@@ -140,6 +146,12 @@ cache_call <- function(package_name = getOption("googleAuthR.cache_package")){
   
   if(package_name == ""){
     stop("Need to set the package to mock API calls against using gar_setup_mock()")
+  }
+  
+  if(package_name %in%  loadedNamespaces()){
+    myMessage("Do cache for library", package_name, level = 2)
+  } else {
+    stop("gar_cache_get_loc() is set to ", gar_cache_get_loc(), " but getOption('googleAuthR.cache_package') is set to ", package_name, " which is not loaded.")
   }
   
   call_funcs <- as.character(sys.calls())

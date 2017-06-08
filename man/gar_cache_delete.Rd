@@ -4,7 +4,7 @@
 \alias{gar_cache_delete}
 \title{Delete mock API caches}
 \usage{
-gar_cache_delete(cache_dir = "mock")
+gar_cache_delete(cache_dir = gar_cache_get_loc())
 }
 \description{
 Delete mock API caches

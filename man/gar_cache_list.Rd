@@ -4,7 +4,7 @@
 \alias{gar_cache_list}
 \title{See which functions have mock cache}
 \usage{
-gar_cache_list(cache_dir = "mock")
+gar_cache_list(cache_dir = gar_cache_get_loc())
 }
 \description{
 When testing API calls, see which functions have API caches 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/googleAuthR_utility.R
 \name{myMessage}
 \alias{myMessage}
-\title{Customer message log level}
+\title{Custom message log level}
 \usage{
 myMessage(..., level = 2)
 }
@@ -12,8 +12,9 @@ myMessage(..., level = 2)
 \item{level}{The severity}
 }
 \description{
-Customer message log level
+Custom message log level
 }
 \details{
 0 = everything, 1 = debug, 2=normal, 3=important
 }
+\keyword{internal}
