@@ -328,6 +328,9 @@ doBatchRequest <- function(batched){
   # ensure batch requests only occur per second to help calculation of QPS limits
   Sys.sleep(1)
   
+  ## default
+  use_cache <- FALSE
+  
   ## check if using cache
   if(!is.null(gar_cache_get_loc())){
     use_cache <- TRUE
