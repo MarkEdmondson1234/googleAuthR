@@ -351,8 +351,6 @@ doBatchRequest <- function(batched){
     
     if(is.null(req)){
       
-      myMessage("No cache found, making API call", level = 3)
-      
       req <- retryRequest(do.call("POST", 
                                   args = arg_list,
                                   envir = asNamespace("httr")))

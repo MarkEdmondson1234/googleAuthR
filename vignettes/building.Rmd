@@ -320,7 +320,7 @@ Within testing suites, put the flag at the start of the script:
 ```r
 library(testthat)
 options(googleAuthR.mock_test = TRUE)
-options(googleAuthR.mock_package = "mypackage")
+options(googleAuthR.cache_package = "mypackage")
 ...etc..
 
 test_that("I can call this API", {
@@ -333,6 +333,18 @@ test_that("I can call this API", {
 Run this once through with your own local authentication, then once all the caches are built you can upload to GitHub.  Be sure you only upload caches you don't mind being public.
 
 The cache is made at the point of when the API call is made, so any changes you make to parsing etc. will affect the results.
+
+## Caching API calls
+
+You can also set up local caching of API calls.  Activate by using the `gar_cache_set_loc()`  function with either `memory` to store in RAM or the name of a folder to store `.rds` files, and specifying which function to cache calls from via `gar_setup_cache("name_of_package")`. 
+
+Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call.  If it does not it will make the API call, and save the response to where you have specified in  `gar_cache_set_loc()`
+
+List the caches active using `gar_cache_list()` and remove them by either deleting the files in the cache directory or running `gar_cache_delete()`
+
+This can be local for large requests that may timeout or 500 error sometimes.  Re-running the API call will read from cache for the progress you have made so far, so much speeding up reruns. 
+
+Obviously be careful to only use this where you know the API request won't change - if you wnat to refresh the cache you will need to set the caching off or delete the individual cache file in the directory - the hash name of the cache should be consistent. 
 
 ## Example with goo.gl
 

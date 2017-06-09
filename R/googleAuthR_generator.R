@@ -263,26 +263,31 @@ retryRequest <- function(f){
 #' @family data fetching functions
 checkTokenAPI <- function(shiny_access_token=NULL){
 
+  if(!is.null(gar_cache_get_loc())){
+    myMessage("Skipping token checks as using cache", level = 3)
+    return(TRUE)
+  }
+  
   if(is.null(shiny_access_token)){
     ## local token
     token <- Authentication$public_fields$token
 
     if(token_exists() && is_legit_token(token)) {
       myMessage("Valid local token", level = 1)
-      TRUE
+      return(TRUE)
     } else {
       warning("Invalid local token")
-      FALSE
+      return(FALSE)
     }
 
   } else {
     ## is it a valid shiny token passed?
     if(is_legit_token(shiny_access_token)){
       myMessage("Valid Shiny token", level = 1)
-      TRUE
+      return(TRUE)
     } else {
       warning("Invalid Shiny token")
-      FALSE
+      return(FALSE)
     }
   }
 
@@ -376,8 +381,6 @@ doHttrRequest <- function(url,
     
     if(is.null(req)){
       
-      myMessage("No cache found, making API call", level = 3)
-      
       ## otherwise, do call and save cache result
       req <- retryRequest(do.call(request_type,
                                   args = arg_list,
@@ -449,7 +452,7 @@ checkGoogleAPIError <- function(req,
   if(nchar(ga.json) > 0) {
     ga.json <- jsonlite::fromJSON(ga.json)
   } else {
-    warning("No JSON content detected")
+    warning("No JSON content detected", call. = FALSE)
     return(FALSE)
   }
   
@@ -457,7 +460,7 @@ checkGoogleAPIError <- function(req,
     if(!(req$headers$`content-type` %in% ok_content_types)) {
       
       stop(sprintf(paste("Not expecting content-type to be:\n%s"),
-                   req$headers[["content-type"]]))
+                   req$headers[["content-type"]]), call. = FALSE)
       
     }
   } else {
@@ -468,7 +471,7 @@ checkGoogleAPIError <- function(req,
   ## get error message from API
   if (!is.null(ga.json$error$message)) {
     gar_token_info(2)
-    stop("JSON fetch error: ", paste(ga.json$error$message))
+    stop("JSON fetch error: ", paste(ga.json$error$message), call. = FALSE)
   }
   
   httr::stop_for_status(req)

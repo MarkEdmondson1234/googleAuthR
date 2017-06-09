@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-06-04" />
+<meta name="date" content="2017-06-09" />
 
 <title>Building your own Google R library</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Building your own Google R library</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-06-04</em></h4>
+<h4 class="date"><em>2017-06-09</em></h4>
 
 
 
@@ -323,7 +323,7 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
 <p>Within testing suites, put the flag at the start of the script:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
 <span class="kw">options</span>(<span class="dt">googleAuthR.mock_test =</span> <span class="ot">TRUE</span>)
-<span class="kw">options</span>(<span class="dt">googleAuthR.mock_package =</span> <span class="st">&quot;mypackage&quot;</span>)
+<span class="kw">options</span>(<span class="dt">googleAuthR.cache_package =</span> <span class="st">&quot;mypackage&quot;</span>)
 ...etc..
 
 <span class="kw">test_that</span>(<span class="st">&quot;I can call this API&quot;</span>, {
@@ -333,6 +333,14 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
 })</code></pre></div>
 <p>Run this once through with your own local authentication, then once all the caches are built you can upload to GitHub. Be sure you only upload caches you don’t mind being public.</p>
 <p>The cache is made at the point of when the API call is made, so any changes you make to parsing etc. will affect the results.</p>
+</div>
+<div id="caching-api-calls" class="section level2">
+<h2>Caching API calls</h2>
+<p>You can also set up local caching of API calls. Activate by using the <code>gar_cache_set_loc()</code> function with either <code>memory</code> to store in RAM or the name of a folder to store <code>.rds</code> files, and specifying which function to cache calls from via <code>gar_setup_cache(&quot;name_of_package&quot;)</code>.</p>
+<p>Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call. If it does not it will make the API call, and save the response to where you have specified in <code>gar_cache_set_loc()</code></p>
+<p>List the caches active using <code>gar_cache_list()</code> and remove them by either deleting the files in the cache directory or running <code>gar_cache_delete()</code></p>
+<p>This can be local for large requests that may timeout or 500 error sometimes. Re-running the API call will read from cache for the progress you have made so far, so much speeding up reruns.</p>
+<p>Obviously be careful to only use this where you know the API request won’t change - if you wnat to refresh the cache you will need to set the caching off or delete the individual cache file in the directory - the hash name of the cache should be consistent.</p>
 </div>
 <div id="example-with-goo.gl" class="section level2">
 <h2>Example with goo.gl</h2>

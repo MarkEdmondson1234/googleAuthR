@@ -55,11 +55,13 @@ load_cache <- function(cache_name, type){
   }
   
   if(!is.null(out)){
-    myMessage("# Cached API call from ", cache_name, level = 2)
+    myMessage("# Cached API call from ", cache_name, level = 3)
     if(getOption("googleAuthR.verbose") < 3){
       cat("\n# Cached API call from ", cache_name) # also cat for test logs
     }
 
+  } else {
+    myMessage("No cache found, making API call", level = 3)
   }
   
   out
@@ -186,7 +188,7 @@ gar_cache_list <- function(cache_dir = gar_cache_get_loc()){
 gar_cache_delete <- function(cache_dir = gar_cache_get_loc()){
 
   if(!file.exists(cache_dir)){
-    stop("No mock meta data found in ", normalizePath(cache_dir))
+    stop("No cache meta data found in ", normalizePath(cache_dir))
   }
   
   if(cache_dir != "memory"){
@@ -201,6 +203,12 @@ gar_cache_delete <- function(cache_dir = gar_cache_get_loc()){
 
 make_cache_hash <- function(call_func, arg_list){
   lcf <- as.list(call_func)
+  
+  ## ignore config in arg_list so unauthenticated calls can be cached
+  if(!is.null(arg_list$config)){
+    arg_list$config <- NULL
+  }
+  
   call_args_string <- paste(names(lcf[-1]), lcf[-1], collapse = ",", sep="=")
   arg_list_string <- paste(names(arg_list), unlist(arg_list), collapse = ",", sep="=")
   

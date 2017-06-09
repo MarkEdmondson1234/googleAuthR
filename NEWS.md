@@ -3,6 +3,7 @@
 * Default demo project scopes now NULL, set your own Google Project via `options(googleAuthR.scopes.selected)`
 * Add ability to return the email of the service account on a GCE instance, `gar_gce_auth_email`
 * Add ability to cache API calls results for mock testing (#68) set `options(googleAuthR.mock_test = TRUE)` to use
+* Add ability to cache API calls into memory or writing to local disk (#69)
 
 # v0.5.1
 
