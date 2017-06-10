@@ -4,10 +4,12 @@
 \alias{gar_setup_cache}
 \title{Setup which package to perform mock testing upon}
 \usage{
-gar_setup_cache(package_name)
+gar_setup_cache(package_name, location = "memory")
 }
 \arguments{
-\item{package_name}{The package to cache API calls for
+\item{package_name}{The package to cache API calls for}
+
+\item{location}{Where to put the cache.  Use \code{memory} to place in RAM, other location of directory
 
 Only functions within the package will be mocked.  
 The \code{options(googleAuthR.mock_test = TRUE)} flag will also need to be on.

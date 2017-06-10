@@ -129,6 +129,7 @@ make_cache_name <- function(arg_list, cache_dir){
 #' This helps make sure the right functions are mocked
 #' 
 #' @param package_name The package to cache API calls for
+#' @param location Where to put the cache.  Use \code{memory} to place in RAM, other location of directory
 #' 
 #' Only functions within the package will be mocked.  
 #' The \code{options(googleAuthR.mock_test = TRUE)} flag will also need to be on.
@@ -136,8 +137,12 @@ make_cache_name <- function(arg_list, cache_dir){
 #' You can also set the package via \code{options(googleAuthR.mock_package = "yourPackage")}
 #' 
 #' @export
-gar_setup_cache <- function(package_name){
-  
+gar_setup_cache <- function(package_name, location = "memory"){
+  assertthat::assert_that(
+    assertthat::is.string(package_name),
+    assertthat::is.string(location)    
+  )
+  gar_cache_set_loc(location)
   options(googleAuthR.cache_package = package_name)
   
 }
