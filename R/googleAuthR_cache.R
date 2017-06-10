@@ -9,10 +9,6 @@
 #' 
 #' @param cache The directory to save cache to, or \code{"memory"} to save to RAM
 #' 
-#' @details 
-#' 
-#' This is ignored if \code{getOption("googleAuthR.mock_test") == TRUE} 
-#'   as the cache will default to folder \code{"mock"}
 #' 
 #' @export
 gar_cache_set_loc <- function(cache){
@@ -136,7 +132,7 @@ make_cache_name <- function(arg_list, cache_dir){
 #' You can also set the package via \code{options(googleAuthR.mock_package = "yourPackage")}
 #' 
 #' @export
-gar_setup_cache <- function(package_name, location = "memory"){
+gar_cache_setup <- function(package_name, location = "memory"){
   assertthat::assert_that(
     assertthat::is.string(package_name),
     assertthat::is.string(location)    
@@ -155,7 +151,7 @@ cache_call <- function(package_name = getOption("googleAuthR.cache_package")){
   }
   
   if(package_name %in%  loadedNamespaces()){
-    myMessage("Do cache for library", package_name, level = 2)
+    myMessage("Do cache for library ", package_name, level = 2)
   } else {
     stop("gar_cache_get_loc() is set to ", gar_cache_get_loc(), " but getOption('googleAuthR.cache_package') is set to ", package_name, " which is not loaded.")
   }
@@ -176,6 +172,11 @@ cache_call <- function(package_name = getOption("googleAuthR.cache_package")){
 #' 
 #' @export
 gar_cache_list <- function(cache_dir = gar_cache_get_loc()){
+  
+  if(is.null(cache_dir)){
+    stop("No cache directory set via gar_cache_settings()")
+  }
+  
   cache_meta <- file.path(cache_dir,"cached_list.rds")
 
   the_list <- load_cache(cache_meta, cache_dir)
@@ -189,7 +190,7 @@ gar_cache_list <- function(cache_dir = gar_cache_get_loc()){
 
 #' Delete mock API caches
 #' @export
-gar_cache_delete <- function(cache_dir = gar_cache_get_loc()){
+gar_cache_delete <- function(cache_dir =  gar_cache_get_loc()){
 
   if(!file.exists(cache_dir)){
     stop("No cache meta data found in ", normalizePath(cache_dir))
@@ -223,6 +224,11 @@ make_cache_hash <- function(call_func, arg_list){
 ## save meta data
 save_cache <- function(req, call_func, arg_list, cache_dir = "mock") {
 
+  cache_function <- getOption("googleAuthR.cache_function")
+  if(!cache_function(req)){
+    myMessage("Not saving cache as getOption('googleAuthR.cache_function')(req) == FALSE", level = 2)
+    return(NULL)
+  }
   ## save req cache
   cache_name <- make_cache_name(arg_list, cache_dir = cache_dir)
 

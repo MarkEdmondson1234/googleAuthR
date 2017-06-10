@@ -365,14 +365,6 @@ doHttrRequest <- function(url,
       use_cache <- TRUE
   }
   
-  
-  ## if mock testing
-  mock_test <- getOption("googleAuthR.mock_test")
-  if(mock_test){
-    gar_cache_set_loc("mock")
-    use_cache <- TRUE
-  }
-  
   if(use_cache){
     
     cache_dir <- gar_cache_get_loc()

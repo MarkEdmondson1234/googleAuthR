@@ -18,7 +18,3 @@ gar_cache_empty()
 \description{
 These functions let you set the cache behaviour for your API calls
 }
-\details{
-This is ignored if \code{getOption("googleAuthR.mock_test") == TRUE} 
-  as the cache will default to folder \code{"mock"}
-}
