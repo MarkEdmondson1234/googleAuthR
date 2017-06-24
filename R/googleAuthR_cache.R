@@ -21,7 +21,11 @@ gar_cache_set_loc <- function(cache){
 #' @rdname gar_cache_set_loc
 #' @export
 gar_cache_get_loc <- function(){
-  .gar_cache$cache
+  cache <- .gar_cache$cache
+  if(!is.null(cache)){
+    myMessage("Getting cache location:", cache, level = 3)
+  }
+  cache
 }
 
 #' @rdname gar_cache_set_loc

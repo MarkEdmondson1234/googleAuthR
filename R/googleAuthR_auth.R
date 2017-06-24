@@ -136,6 +136,10 @@ gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", defau
   token <- Authentication$public_fields$token
   method <- Authentication$public_fields$method
   
+  if(is.null(token)){
+    myMessage("No token found")
+    return(NULL)
+  }
   if(detail_level >= 3){
     myMessage("Token cache file: ", token$cache_path, level = 3)
     myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 3)

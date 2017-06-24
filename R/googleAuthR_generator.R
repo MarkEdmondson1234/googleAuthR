@@ -10,7 +10,7 @@
 #' @param customConfig list of httr options such as \code{httr::use_proxy}
 #'   or \code{httr::add_headers} that will be added to the request.
 #' @param simplifyVector Passed to jsonlite::fromJSON for response parsing
-#' 
+#'
 #' @details
 #' \strong{path_args} and \strong{pars_args} add default values to the baseURI.
 #'   NULL entries are removed. Use "" if you want an empty argument.
@@ -160,7 +160,7 @@ gar_api_generator <- function(baseURI,
                     shiny_access_token = shiny_access_token,
                     http_header = http_header,
                     the_body = the_body,
-                    name = digest::digest(c(req_url, the_body)))                    
+                    name = digest::digest(c(req_url, the_body)))
 
         if(!is.null(data_parse_function)){
           req <- c(req, data_parse_function = data_parse_function)
@@ -192,15 +192,15 @@ gar_api_generator <- function(baseURI,
 #'
 #' @keywords internal
 retryRequest <- function(f){
-  
+
   verbose <- getOption("googleAuthR.verbose")
-  
+
   if(verbose <= 1){
     the_request <- try(httr::with_verbose(f))
   } else {
     the_request <- try(f)
   }
-  
+
   if(is.error(the_request)){
     warning("Request failed before finding status code. Retrying.")
     status_code <- "500"
@@ -209,7 +209,7 @@ retryRequest <- function(f){
   }
 
 
-  
+
   if(!(grepl("^20",status_code))){
     myMessage("Request Status Code: ", status_code, level = 3)
 
@@ -218,10 +218,10 @@ retryRequest <- function(f){
                                               type = "application/json",
                                               encoding = "UTF-8")))
     if(is.error(content)){
-      
+
       warning("No JSON content found in request", call. = FALSE)
       error <- "Could not fetch response"
-      
+
     } else if(exists("error", where=content)) {
 
       error <- content$error$message
@@ -229,13 +229,13 @@ retryRequest <- function(f){
     } else {
       error <- "Unspecified Error"
     }
-    
+
     myMessage("JSON fetch error: ",paste(error), level = 2)
 
     if(grepl("^5|429",status_code)){
       for(i in 1:getOption("googleAuthR.tryAttempts")){
-        myMessage("Trying again: ", i, " of ", 
-                  getOption("googleAuthR.tryAttempts"), 
+        myMessage("Trying again: ", i, " of ",
+                  getOption("googleAuthR.tryAttempts"),
                   level = 3)
         Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
@@ -267,7 +267,7 @@ checkTokenAPI <- function(shiny_access_token=NULL){
     myMessage("Skipping token checks as using cache", level = 3)
     return(TRUE)
   }
-  
+
   if(is.null(shiny_access_token)){
     ## local token
     token <- Authentication$public_fields$token
@@ -319,12 +319,23 @@ doHttrRequest <- function(url,
                           customConfig=NULL,
                           simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
 
+  ## check if cached call
+  
+  ## default
+  use_cache <- FALSE
+  
+  ## check if using cache
+  if(!is.null(gar_cache_get_loc())){
+    use_cache <- TRUE
+  }
+  
+  
   arg_list <- list(url = url,
-                   config = get_google_token(shiny_access_token),
+                   # config = get_google_token(shiny_access_token),
                    body = the_body,
                    encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
                    httr::add_headers("Accept-Encoding" = "gzip"),
-                   httr::user_agent(paste0("googleAuthR/", 
+                   httr::user_agent(paste0("googleAuthR/",
                                            packageVersion("googleAuthR"),
                                            " (gzip)"))
                    )
@@ -343,46 +354,45 @@ doHttrRequest <- function(url,
   }
 
   if(!is.null(the_body) && arg_list$encode == "json"){
-    tt <- try(myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T), 
+    tt <- try(myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T),
                         level = 2))
     if(is.error(tt)) myMessage("Could not parse body JSON", level = 2)
-    
+
     ## if verbose = 0 then write the JSON body to a file
     if(getOption("googleAuthR.verbose") == 0){
       write_out <- list(url = url,
                         request_type = request_type,
                         body_json = jsonlite::toJSON(the_body, auto_unbox=T))
       saveRDS(write_out, file = "request_debug.rds")
-      myMessage("Written url, request_type and body_json to file 'request_debug.rds'.  Use readRDS('request_debug.rds') to see it. ", level = 1)
+      myMessage("Written url, request_type and body_json to file 'request_debug.rds'.  
+                Use readRDS('request_debug.rds') to see it. ", level = 1)
     }
   }
-  
-  ## default
-  use_cache <- FALSE
 
-  ## check if using cache
-  if(!is.null(gar_cache_get_loc())){
-      use_cache <- TRUE
-  }
-  
+
   if(use_cache){
-    
+    myMessage("Using cache", level = 2)
     cache_dir <- gar_cache_get_loc()
     ## cache dir will eventually be settable, default for mock tests
     req <- read_cache(arg_list, cache_dir = cache_dir)
-    
     if(is.null(req)){
+      myMessage("No cache found", level = 3)
+      
+      # do google token check here, not before so cache can work with no token
+      arg_list$config = get_google_token(shiny_access_token)
       
       ## otherwise, do call and save cache result
       req <- retryRequest(do.call(request_type,
                                   args = arg_list,
                                   envir = asNamespace("httr")))
-      
+
       ## save cache data
       save_cache(req, call_func = cache_call(), arg_list = arg_list, cache_dir = cache_dir)
     }
-    
+
   } else {
+    # do google token check here, not before so cache can work with no token
+    arg_list$config = get_google_token(shiny_access_token)
     req <- retryRequest(do.call(request_type,
                                 args = arg_list,
                                 envir = asNamespace("httr")))
@@ -398,10 +408,10 @@ doHttrRequest <- function(url,
     myMessage("No checks on content due to option googleAuthR.rawResponse, returning raw", level=2)
     return(req)
   }
-  
+
   ## will raise error if checks not passed
   good_call <- checkGoogleAPIError(req)
-  
+
   if(good_call){
     content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
     content <- jsonlite::fromJSON(content,
@@ -430,43 +440,43 @@ checkGoogleAPIError <- function(req,
     myMessage("Skipping API checks for batch content_type", level=2)
     return(TRUE)
   }
-    
-  ga.json <- httr::content(req, 
-                           as = "text", 
-                           type = "application/json", 
+
+  ga.json <- httr::content(req,
+                           as = "text",
+                           type = "application/json",
                            encoding = "UTF-8")
-  
+
   if(is.null(ga.json)) {
     warning("JSON parsing was NULL")
     return(FALSE)
   }
-  
+
   if(nchar(ga.json) > 0) {
     ga.json <- jsonlite::fromJSON(ga.json)
   } else {
     warning("No JSON content detected", call. = FALSE)
     return(FALSE)
   }
-  
+
   if(!is.null(req$headers$`content-type`)){
     if(!(req$headers$`content-type` %in% ok_content_types)) {
-      
+
       stop(sprintf(paste("Not expecting content-type to be:\n%s"),
                    req$headers[["content-type"]]), call. = FALSE)
-      
+
     }
   } else {
     warning("No content-type returned.")
     return(FALSE)
   }
-  
+
   ## get error message from API
   if (!is.null(ga.json$error$message)) {
     gar_token_info(2)
     stop("JSON fetch error: ", paste(ga.json$error$message), call. = FALSE)
   }
-  
+
   httr::stop_for_status(req)
-  
+
   TRUE
 }
