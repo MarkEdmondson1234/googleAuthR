@@ -10,6 +10,7 @@
 #' @param customConfig list of httr options such as \code{httr::use_proxy}
 #'   or \code{httr::add_headers} that will be added to the request.
 #' @param simplifyVector Passed to jsonlite::fromJSON for response parsing
+#' @param checkTrailingSlash Default TRUE will append a trailing slash to baseURI if missing
 #'
 #' @details
 #' \strong{path_args} and \strong{pars_args} add default values to the baseURI.
@@ -58,11 +59,24 @@ gar_api_generator <- function(baseURI,
                               pars_args = NULL,
                               data_parse_function=NULL,
                               customConfig=NULL,
-                              simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
+                              simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector"),
+                              checkTrailingSlash = TRUE){
 
+  assertthat::assert_that(
+    assertthat::is.string(baseURI),
+    is.logical(checkTrailingSlash),
+    is.logical(simplifyVector)
+  )
+  
   http_header <- match.arg(http_header)
-  if(substr(baseURI,nchar(baseURI),nchar(baseURI))!="/") baseURI <- paste0(baseURI, "/")
-
+  
+  if(checkTrailingSlash){
+    if(substr(baseURI,nchar(baseURI),nchar(baseURI))!="/") {
+      myMessage("No trailing slash in URL, adding it.", level = 2)
+      baseURI <- paste0(baseURI, "/")
+    }
+  }
+  
   path <- NULL
   pars <- NULL
 

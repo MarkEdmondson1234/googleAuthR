@@ -7,7 +7,8 @@
 gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
   "PATCH"), path_args = NULL, pars_args = NULL,
   data_parse_function = NULL, customConfig = NULL,
-  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"))
+  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"),
+  checkTrailingSlash = TRUE)
 }
 \arguments{
 \item{baseURI}{The stem of the API call.}
@@ -24,6 +25,8 @@ gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
 or \code{httr::add_headers} that will be added to the request.}
 
 \item{simplifyVector}{Passed to jsonlite::fromJSON for response parsing}
+
+\item{checkTrailingSlash}{Default TRUE will append a trailing slash to baseURI if missing}
 }
 \value{
 A function that can fetch the Google API data you specify
