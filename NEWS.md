@@ -1,5 +1,6 @@
 # 0.5.1.9000
 
+* A Slack team set up for googleAuthR package support, sign up via https://goo.gl/forms/d541yrJoDFMrrSJp1
 * Default demo project scopes now NULL, set your own Google Project via `options(googleAuthR.scopes.selected)`
 * Add ability to return the email of the service account on a GCE instance, `gar_gce_auth_email`
 * Add ability to cache API calls into memory or writing to local disk (#69 and #68)

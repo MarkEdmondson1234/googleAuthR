@@ -7,6 +7,8 @@
 Auto-build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 This guide is also available at the [googleAuthR website](http://code.markedmondson.me/googleAuthR/)
 
+The [`googleAuthRverse`](https://googleauthrverse.slack.com) Slack team has been setup for support for using `googleAuthR` and the libraries it helps create.  Sign up via this [Google form](https://goo.gl/forms/d541yrJoDFMrrSJp1) to get access. 
+
 ## Table of Contents
 
 * [Example libraries](https://github.com/MarkEdmondson1234/googleAuthR#r-google-api-libraries-using-googleauthr)
