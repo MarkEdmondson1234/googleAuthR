@@ -7,7 +7,7 @@ navbar:
   type: inverse
   left:
     - text: "Authentication with Google"
-      href: articles/google-authentication-types.html
+      href: "articles/google-authentication-types.html"
     - text: "Building Google APIs for R"
       href: articles/building.html
     - text: "Help"

@@ -10,7 +10,7 @@
     googleAuthR.client_secret = Sys.getenv("GAR_CLIENT_SECRET"),
     googleAuthR.webapp.client_id = Sys.getenv("GAR_WEB_CLIENTID"),
     googleAuthR.webapp.client_secret = Sys.getenv("GAR_WEB_CLIENT_SECRET"),
-    googleAuthR.scopes.selected = Sys.getenv("GAR_SCOPES"),
+    googleAuthR.scopes.selected = strsplit(Sys.getenv("GAR_SCOPES"), split = ",", fixed=TRUE)[[1]],
     googleAuthR.webapp.port = 1221,
     googleAuthR.jsonlite.simplifyVector = TRUE,
     googleAuthR.ok_content_types=c("application/json; charset=UTF-8", "text/html; charset=UTF-8"),
