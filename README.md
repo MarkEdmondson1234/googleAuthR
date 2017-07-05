@@ -31,7 +31,7 @@ The below libraries are all cross-compatible as they use `googleAuthR` for authe
 * [searchConsoleR](http://code.markedmondson.me/searchConsoleR/) - Search Console API
 * [bigQueryR](http://code.markedmondson.me/bigQueryR/) - BigQuery API. Part of the cloudyr project.
 * [googleAnalyticsR](http://code.markedmondson.me/googleAnalyticsR/) - Google Analytics API
-* [gtmR](https://github.com/MarkEdmondson1234/gtmR) - Google Tag Manager API (in progress)
+* [googleTagManagerR](https://github.com/IronistM/googleTagManageR) - Google Tag Manager API by IronistM
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
 * [googleCloudStorageR](http://code.markedmondson.me/googleCloudStorageR/) - Google Cloud Storage API
 * [RoogleVision](https://github.com/cloudyr/RoogleVision) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API

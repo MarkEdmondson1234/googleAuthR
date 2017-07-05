@@ -1,7 +1,12 @@
 # 0.5.1.9000
 
 * A Slack team set up for googleAuthR package support, sign up via https://goo.gl/forms/d541yrJoDFMrrSJp1
-* Default demo project scopes now NULL, set your own Google Project via `options(googleAuthR.scopes.selected)`
+* Default demo project scopes now NULL, set your own Google Project via `options(googleAuthR.scopes.selected)` or by setting up environment arguments:
+   - `googleAuthR.client_id = Sys.getenv("GAR_CLIENTID")`
+   - `googleAuthR.client_secret = Sys.getenv("GAR_CLIENT_SECRET")`
+   - `googleAuthR.webapp.client_id = Sys.getenv("GAR_WEB_CLIENTID")`
+   - `googleAuthR.webapp.client_secret = Sys.getenv("GAR_WEB_CLIENT_SECRET")`
+   - `googleAuthR.scopes.selected = Sys.getenv("GAR_SCOPES")`
 * Add ability to return the email of the service account on a GCE instance, `gar_gce_auth_email`
 * Add ability to cache API calls into memory or writing to local disk (#69 and #68)
 * Make optional a trailing slash on URIs (#73)

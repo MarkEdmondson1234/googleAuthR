@@ -151,7 +151,7 @@ gar_attach_auto_auth <- function(required_scopes,
   scopes <- getOption("googleAuthR.scopes.selected")
   if(any(!(required_scopes %in% scopes))){
     packageStartupMessage("Setting scopes to ", paste(required_scopes, collapse = " and "))
-    packageStartupMessage("If you need additional scopes set do so via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) before loading library and include one required scope.")
+    packageStartupMessage("Set any additional scopes via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) before loading library.")
     new_scopes <- required_scopes
   } else {
     new_scopes <- scopes
