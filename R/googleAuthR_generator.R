@@ -120,80 +120,83 @@ gar_api_generator <- function(baseURI,
       shiny_access_token <- NULL
     }
 
+    if(!checkTokenAPI(shiny_access_token)){
+      stop("Invalid token", call. = FALSE)
+    }
+
+    ## for path_arguments present, change path_args
+    if(!is.null(path_arguments)){
+      path_args <- substitute.list(path_args, path_arguments)
+      path <- paste(names(path_args), path_args, sep="/", collapse="/" )
+    }
+    
+    ## for pars_arguments present, change pars_args
+    if(!is.null(pars_arguments)){
+      pars_args <- substitute.list(pars_args, pars_arguments)
+      pars <- paste(names(pars_args), pars_args, sep='=', collapse='&')
+    }
+    
+    if(!is.null(pars_args)){
+      pars <- paste0("?", pars)
+    }
+    
+    req_url <- paste0(baseURI, path, pars)
+    
     ## if called with gar_batch wrapper set batch to TRUE
     with_gar_batch <- which(grepl("gar_batch", all_envs))
     if(any(with_gar_batch)){
-      batch <- TRUE
+      ## batching
+      req <- list(req_url = req_url,
+                  shiny_access_token = shiny_access_token,
+                  http_header = http_header,
+                  the_body = the_body,
+                  name = digest::digest(c(req_url, the_body)))
+      
+      if(!is.null(data_parse_function)){
+        req <- c(req, data_parse_function = data_parse_function)
+      }
+      ## early return for batching
+      return(req)
     }
 
-    if(checkTokenAPI(shiny_access_token)){
-
-      ## for path_arguments present, change path_args
-      if(!is.null(path_arguments)){
-
-        path_args <- substitute.list(path_args, path_arguments)
-        path <- paste(names(path_args), path_args, sep="/", collapse="/" )
-      }
-
-      ## for pars_arguments present, change pars_args
-      if(!is.null(pars_arguments)){
-
-        pars_args <- substitute.list(pars_args, pars_arguments)
-        pars <- paste(names(pars_args), pars_args, sep='=', collapse='&')
-      }
-
-      if(!is.null(pars_args)){
-        pars <- paste0("?", pars)
-      }
-
-      req_url <- paste0(baseURI, path, pars)
-
-      if(!batch){
-        myMessage("Request: ", req_url, level = 2)
-        req <- doHttrRequest(req_url,
-                             shiny_access_token=shiny_access_token,
-                             request_type=http_header,
-                             the_body=the_body,
-                             customConfig=customConfig,
-                             simplifyVector=simplifyVector)
-
-        if(!is.null(data_parse_function)){
-          reqtry <- try(data_parse_function(req$content, ...))
-          if(any(is.error(reqtry), is.null(reqtry))){
-            warning("API Data failed to parse.  Returning parsed from JSON content.
-                    Use this to test against your data_parse_function.")
-            req <- req$parsed_content
-          } else {
-            req <- reqtry
-          }
-        }
-
-      } else {
-        ## batching
-        req <- list(req_url = req_url,
-                    shiny_access_token = shiny_access_token,
-                    http_header = http_header,
-                    the_body = the_body,
-                    name = digest::digest(c(req_url, the_body)))
-
-        if(!is.null(data_parse_function)){
-          req <- c(req, data_parse_function = data_parse_function)
-        }
-
-      }
-
-
-
+    myMessage("Request: ", req_url, level = 2)
+    
+    cached_call <- !is.null(gar_cache_get_loc())
+    if(cached_call){
+      req <- memDoHttrRequest(req_url,
+                              shiny_access_token=shiny_access_token,
+                              request_type=http_header,
+                              the_body=the_body,
+                              customConfig=customConfig,
+                              simplifyVector=simplifyVector)
+      
     } else {
-      stop("Invalid Token")
+      req <- doHttrRequest(req_url,
+                           shiny_access_token=shiny_access_token,
+                           request_type=http_header,
+                           the_body=the_body,
+                           customConfig=customConfig,
+                           simplifyVector=simplifyVector)
     }
-
+    
+    
+    if(!is.null(data_parse_function)){
+      reqtry <- try(data_parse_function(req$content, ...))
+      if(any(is.error(reqtry), is.null(reqtry))){
+        warning("API Data failed to parse.  Returning parsed from JSON content.
+                    Use this to test against your data_parse_function.")
+        req <- req$parsed_content
+      } else {
+        req <- reqtry
+      }
+    }
+    
     req
-
+    
   }
   ##returns a function that can call the API
   func
-
+  
 }
 
 
@@ -277,10 +280,10 @@ retryRequest <- function(f){
 #' @family data fetching functions
 checkTokenAPI <- function(shiny_access_token=NULL){
 
-  # if(!is.null(gar_cache_get_loc())){
-  #   myMessage("Skipping token checks as using cache", level = 3)
-  #   return(TRUE)
-  # }
+  if(!is.null(gar_cache_get_loc())){
+    myMessage("Skipping token checks as using cache", level = 3)
+    return(TRUE)
+  }
 
   if(is.null(shiny_access_token)){
     ## local token
