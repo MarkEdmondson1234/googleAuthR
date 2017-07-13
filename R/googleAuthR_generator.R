@@ -352,11 +352,7 @@ doHttrRequest <- function(url,
                               envir = asNamespace("httr")))
   
   ## do we parse or return raw response
-  rawResponse <- getOption("googleAuthR.rawResponse")
-  assertthat::assert_that(
-    is.logical(rawResponse)
-  )
-  if(rawResponse){
+  if(getOption("googleAuthR.rawResponse")){
     myMessage("No checks on content due to option googleAuthR.rawResponse, 
               returning raw", level=2)
     return(req)
