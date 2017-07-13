@@ -39,11 +39,11 @@ gar_auto_auth <- function(required_scopes,
     return(NULL)
   }
   
-  testthat::expect_type(required_scopes, "character")
-  testthat::expect_type(environment_var, "character")
-  testthat::expect_length(environment_var, 1)
-  testthat::expect_type(travis_environment_var, "character")
-  testthat::expect_length(travis_environment_var, 1)
+  assertthat::assert_that(
+    is.character(required_scopes),
+    assertthat::is.string(environment_var),
+    assertthat::is.string(travis_environment_var)
+  )
   
   if(!any(getOption("googleAuthR.scopes.selected") %in% required_scopes)){
     stop("Cannot authenticate - options(googleAuthR.scopes.selected) needs to be set to include", 

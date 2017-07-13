@@ -18,6 +18,8 @@ gar_auth_jsUI <- function(id,
                           login_text = "Log In",
                           logout_text = "Log Out"){
 
+  
+  check_package_loaded("shiny")
   ns <- shiny::NS(id)
 
   shiny::tagList(
@@ -70,7 +72,7 @@ gar_auth_jsUI <- function(id,
 #' @import shiny
 #' @export
 gar_auth_js <- function(input, output, session){
-
+    check_package_loaded("shiny")
     js_token <- shiny::reactive({
       shiny::validate(
         shiny::need(input$js_auth_access_token, "Authenticate")
@@ -101,7 +103,7 @@ gar_auth_js <- function(input, output, session){
 gar_js_getToken <- function(token,
                             client.id     = getOption("googleAuthR.webapp.client_id"),
                             client.secret = getOption("googleAuthR.webapp.client_secret")){
-  
+  check_package_loaded("shiny")
   gar_app <- httr::oauth_app("google", key = client.id, secret = client.secret)
   
   scope_list <- getOption("googleAuthR.scope")
@@ -147,7 +149,7 @@ createCode <- function(seed=NULL, num=20){
 #' @keywords internal
 authReturnCode <- function(session, 
                            securityCode=getOption("googleAuthR.securitycode")){
-  
+  check_package_loaded("shiny")
   pars <- shiny::parseQueryString(session$clientData$url_search)
   
   if(!is.null(pars$state)){
@@ -367,6 +369,7 @@ gar_shiny_getToken <- function(code,
 #'     ))
 #' }
 reactiveAccessToken <- function(session){
+  check_package_loaded("shiny")
   message("reactiveAccessToken is deprecated as of googleAuthR 0.3.0. Use googleAuth() and googleAuthUI() instead.")
   shiny::reactive({
     ## gets all the parameters in the URL. The auth code should be one of them.
@@ -463,6 +466,7 @@ reactiveAccessToken <- function(session){
 #'     ))
 #' }
 loginOutput <- function(output_name){
+  check_package_loaded("shiny")
   message("loginOutput is deprecated as of googleAuthR 0.3.0. Use googleAuth() and googleAuthUI() instead.")
   shiny::uiOutput(output_name)
 }
@@ -567,6 +571,7 @@ renderLogin <- function(session,
                         access_type = c("online","offline"),
                         approval_prompt = c("auto","force"),
                         revoke = FALSE){
+  check_package_loaded("shiny")
   message("renderLogin is deprecated as of googleAuthR 0.3.0. Use googleAuth() and googleAuthUI() instead.")
   access_type <- match.arg(access_type)
   approval_prompt <- match.arg(approval_prompt)
@@ -612,7 +617,7 @@ renderLogin <- function(session,
 #' @family shiny module functions
 #' @export
 googleAuthUI <- function(id){
-  
+  check_package_loaded("shiny")
   ns <- shiny::NS(id)
   
   shiny::uiOutput(ns("googleAuthUi"))
@@ -704,7 +709,7 @@ googleAuth <- function(input, output, session,
                        access_type = c("online","offline"),
                        approval_prompt = c("auto","force"),
                        revoke = FALSE){
-  
+  check_package_loaded("shiny")
   access_type <- match.arg(access_type)
   approval_prompt <- match.arg(approval_prompt)
   ns <- session$ns
@@ -855,6 +860,7 @@ googleAuth <- function(input, output, session,
 #'     ))
 #' } 
 revokeEventObserver <- function(access_token, input){
+  check_package_loaded("shiny")
   message("revokeEventObserver is deprecated as of googleAuthR 0.3.0. Use googleAuth() and googleAuthUI() instead.")  
   shiny::observeEvent(input$revoke, {
 
@@ -943,7 +949,6 @@ revokeEventObserver <- function(access_token, input){
 #'     ))
 #' }
 with_shiny <- function(f, shiny_access_token=NULL, ...){
-
   if(is.null(shiny_access_token)) 
     stop("Need to provide the reactive access token in shiny_access_token argument. e.g. shiny_access_token=access_token()")
 
