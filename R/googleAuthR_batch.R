@@ -315,7 +315,7 @@ makeBatchRequest <- function(f){
 doBatchRequest <- function(batched){
   
   arg_list <- list(url = "https://www.googleapis.com/batch", 
-                   # config = get_google_token(batched$shiny_access_token), 
+                   config = get_google_token(batched$shiny_access_token), 
                    body = batched$parsed,
                    encode = "multipart",
                    httr::add_headers("Accept-Encoding" = "gzip"),
@@ -328,8 +328,6 @@ doBatchRequest <- function(batched){
   # ensure batch requests only occur per second to help calculation of QPS limits
   Sys.sleep(1)
   
-  # do google token check here, not before so cache can work with no token
-  arg_list$config <- get_google_token(batched$shiny_access_token)
   req <- retryRequest(do.call("POST", 
                               args = arg_list,
                               envir = asNamespace("httr")))

@@ -334,7 +334,7 @@ doHttrRequest <- function(url,
                           simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
   
   arg_list <- list(url = url,
-                   # config = get_google_token(shiny_access_token),
+                   config = get_google_token(shiny_access_token),
                    body = the_body,
                    encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
                    httr::add_headers("Accept-Encoding" = "gzip"),
@@ -343,35 +343,9 @@ doHttrRequest <- function(url,
                                            " (gzip)"))
                    )
 
-  if(!is.null(customConfig)){
-    stopifnot(inherits(customConfig, "list"))
-
-    ## fix bug where unnamed customConfigs were ignored
-    ## encode is only named customConfig that has an effect
-    if(!is.null(names(customConfig))){
-      arg_list <- c(arg_list, customConfig[names(customConfig) == ""])
-    } else {
-      arg_list <- c(arg_list, customConfig)
-    }
-
-  }
-
-  if(!is.null(the_body) && arg_list$encode == "json"){
-    tt <- try(myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T),
-                        level = 2))
-    if(is.error(tt)) myMessage("Could not parse body JSON", level = 2)
-
-    ## if verbose = 0 then write the JSON body to a file
-    if(getOption("googleAuthR.verbose") == 0){
-      write_out <- list(url = url,
-                        request_type = request_type,
-                        body_json = jsonlite::toJSON(the_body, auto_unbox=T))
-      saveRDS(write_out, file = "request_debug.rds")
-      myMessage("Written url, request_type and body_json to file 'request_debug.rds'.  
-                Use readRDS('request_debug.rds') to see it. ", level = 1)
-    }
-  }
-
+  arg_list <- modify_custom_config(arg_list, customConfig = customConfig)
+  
+  check_body(arg_list, the_body, request_type)
 
   req <- retryRequest(do.call(request_type,
                               args = arg_list,
@@ -383,7 +357,8 @@ doHttrRequest <- function(url,
     is.logical(rawResponse)
   )
   if(rawResponse){
-    myMessage("No checks on content due to option googleAuthR.rawResponse, returning raw", level=2)
+    myMessage("No checks on content due to option googleAuthR.rawResponse, 
+              returning raw", level=2)
     return(req)
   }
 
@@ -391,15 +366,65 @@ doHttrRequest <- function(url,
   good_call <- checkGoogleAPIError(req)
 
   if(good_call){
-    content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
+    content <- httr::content(req, 
+                             as = "text", 
+                             type = "application/json",
+                             encoding = "UTF-8")
+    
     content <- jsonlite::fromJSON(content,
                                   simplifyVector = simplifyVector)
     req$content <- content
+    
   } else {
     warning("API checks failed, returning request without JSON parsing")
   }
 
   req
+}
+
+
+check_body <- function(arg_list, the_body, request_type){
+  
+  if(!is.null(the_body) && arg_list$encode == "json"){
+    
+    tryCatch({
+      myMessage("Body JSON parsed to: ", 
+                jsonlite::toJSON(the_body, auto_unbox=T),
+                level = 2)
+    }, error = function(ex){
+      myMessage("Could not parse body JSON", level = 2)
+    })
+    
+    
+    ## if verbose = 0 then write the JSON body to a file
+    if(getOption("googleAuthR.verbose") == 0){
+      write_out <- list(url = arg_list$url,
+                        request_type = request_type,
+                        body_json = jsonlite::toJSON(the_body, auto_unbox=T))
+      saveRDS(write_out, file = "request_debug.rds")
+      myMessage("Written url, request_type and body_json to file 'request_debug.rds'.  
+                Use readRDS('request_debug.rds') to see it. ", level = 1)
+    }
+  }
+
+}
+
+modify_custom_config <- function(arg_list, customConfig){
+  if(!is.null(customConfig)){
+    assertthat::assert_that(
+      is.list(customConfig)
+    )
+    ## fix bug where unnamed customConfigs were ignored
+    ## encode is only named customConfig that has an effect
+    if(!is.null(names(customConfig))){
+      arg_list <- c(arg_list, customConfig[names(customConfig) == ""])
+    } else {
+      arg_list <- c(arg_list, customConfig)
+    }
+    
+  }
+  
+  arg_list
 }
 
 #' Get Google API errors
