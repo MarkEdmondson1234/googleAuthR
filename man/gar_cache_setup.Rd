@@ -7,10 +7,13 @@
 gar_cache_setup(mcache = memoise::cache_memory())
 }
 \arguments{
-\item{mcache}{A cache method from \link[memoise]{memoise}. If \code{NULL} will empty.}
+\item{mcache}{A cache method from \link[memoise]{memoise}. If \code{NULL} will do no caching.}
 }
 \description{
-If set, googleAuthR dependecies will start caching API responses
+To cache to a file system use \code{memoise::cache_filesystem("cache_folder")}, 
+  suitable for unit testing and works between R sessions. 
+
+The cached API calls do not need authentication to be active, but need this function to set caching first.
 }
 \details{
 This helps make sure the right functions are mocked
