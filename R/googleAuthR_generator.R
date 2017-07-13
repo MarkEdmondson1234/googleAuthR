@@ -277,10 +277,10 @@ retryRequest <- function(f){
 #' @family data fetching functions
 checkTokenAPI <- function(shiny_access_token=NULL){
 
-  if(!is.null(gar_cache_get_loc())){
-    myMessage("Skipping token checks as using cache", level = 3)
-    return(TRUE)
-  }
+  # if(!is.null(gar_cache_get_loc())){
+  #   myMessage("Skipping token checks as using cache", level = 3)
+  #   return(TRUE)
+  # }
 
   if(is.null(shiny_access_token)){
     ## local token
@@ -332,17 +332,6 @@ doHttrRequest <- function(url,
                           the_body=NULL,
                           customConfig=NULL,
                           simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
-
-  ## check if cached call
-  
-  ## default
-  use_cache <- FALSE
-  
-  ## check if using cache
-  if(!is.null(gar_cache_get_loc())){
-    use_cache <- TRUE
-  }
-  
   
   arg_list <- list(url = url,
                    # config = get_google_token(shiny_access_token),
@@ -384,35 +373,10 @@ doHttrRequest <- function(url,
   }
 
 
-  if(use_cache){
-    myMessage("Using cache", level = 2)
-    cache_dir <- gar_cache_get_loc()
-    ## cache dir will eventually be settable, default for mock tests
-    req <- read_cache(arg_list, cache_dir = cache_dir)
-    if(is.null(req)){
-      myMessage("No cache found", level = 3)
-      
-      # do google token check here, not before so cache can work with no token
-      arg_list$config = get_google_token(shiny_access_token)
-      
-      ## otherwise, do call and save cache result
-      req <- retryRequest(do.call(request_type,
-                                  args = arg_list,
-                                  envir = asNamespace("httr")))
-
-      ## save cache data
-      save_cache(req, call_func = cache_call(), arg_list = arg_list, cache_dir = cache_dir)
-    }
-
-  } else {
-    # do google token check here, not before so cache can work with no token
-    arg_list$config = get_google_token(shiny_access_token)
-    req <- retryRequest(do.call(request_type,
-                                args = arg_list,
-                                envir = asNamespace("httr")))
-  }
-
-
+  req <- retryRequest(do.call(request_type,
+                              args = arg_list,
+                              envir = asNamespace("httr")))
+  
   ## do we parse or return raw response
   rawResponse <- getOption("googleAuthR.rawResponse")
   assertthat::assert_that(
