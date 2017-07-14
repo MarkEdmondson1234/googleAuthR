@@ -5,7 +5,7 @@
     googleAuthR.rawResponse = FALSE,
     googleAuthR.httr_oauth_cache = TRUE,
     googleAuthR.verbose = 3,
-    googleAuthR.cache_function = function(req) {TRUE},
+    googleAuthR.cache_function = ~TRUE,
     googleAuthR.client_id = Sys.getenv("GAR_CLIENTID"),
     googleAuthR.client_secret = Sys.getenv("GAR_CLIENT_SECRET"),
     googleAuthR.webapp.client_id = Sys.getenv("GAR_WEB_CLIENTID"),

@@ -1,6 +1,7 @@
 # cache global
 .gar_cache <- new.env(parent = emptyenv())
 .gar_cache$cache <- NULL  # what type of caching
+.gar_cache$req <- NULL # global so the cache function can check if it should cache or not
 
 #' Set cache location
 #' 
@@ -66,9 +67,15 @@ memDoHttrRequest <- function(req_url,
                              simplifyVector){
   myMessage("Using caching", level = 3)
   
-  cachedHttrRequest <- memoise::memoise(doHttrRequest, 
-                                        cache = gar_cache_get_loc())
-  
+  cache_function <- getOption("googleAuthR.cache_function")
+  cachedHttrRequest <- do.call("memoise",
+                               args = list(
+                                 f = doHttrRequest,
+                                 cache_function,
+                                 cache = gar_cache_get_loc(),
+                                 envir = asNamespace("memoise")
+                               ))
+
   existing_cache <- memoise::has_cache(cachedHttrRequest)(
     req_url,
     shiny_access_token=shiny_access_token,
@@ -84,10 +91,15 @@ memDoHttrRequest <- function(req_url,
     myMessage("Make cache file", level = 3)
   }
   
-  cachedHttrRequest(req_url,
-                    shiny_access_token=shiny_access_token,
-                    request_type=request_type,
-                    the_body=the_body,
-                    customConfig=customConfig,
-                    simplifyVector=simplifyVector)
+  req <- cachedHttrRequest(req_url,
+                           shiny_access_token=shiny_access_token,
+                           request_type=request_type,
+                           the_body=the_body,
+                           customConfig=customConfig,
+                           simplifyVector=simplifyVector)
+
+  ## send result to a global so it can be checked via cache_function
+  .gar_cache$req <- req
+  
+  req
 }
