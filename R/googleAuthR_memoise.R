@@ -59,22 +59,15 @@ gar_cache_setup <- function(mcache=memoise::cache_memory()){
   
 }
 
+#' @import memoise
 memDoHttrRequest <- function(req_url,
                              shiny_access_token,
                              request_type,
                              the_body,
                              customConfig,
                              simplifyVector){
-  myMessage("Using caching", level = 3)
-  
-  cache_function <- getOption("googleAuthR.cache_function")
-  cachedHttrRequest <- do.call("memoise",
-                               args = list(
-                                 f = doHttrRequest,
-                                 cache_function,
-                                 cache = gar_cache_get_loc(),
-                                 envir = asNamespace("memoise")
-                               ))
+
+  cachedHttrRequest <- memoise::memoise(doHttrRequest, cache = gar_cache_get_loc())
 
   existing_cache <- memoise::has_cache(cachedHttrRequest)(
     req_url,
@@ -86,9 +79,9 @@ memDoHttrRequest <- function(req_url,
   )
   
   if(existing_cache){
-    myMessage("Reading cache file", level = 3)
+    myMessage("Reading cache", level = 3)
   } else {
-    myMessage("Make cache file", level = 3)
+    myMessage("Making new cache", level = 3)
   }
   
   req <- cachedHttrRequest(req_url,
@@ -97,9 +90,14 @@ memDoHttrRequest <- function(req_url,
                            the_body=the_body,
                            customConfig=customConfig,
                            simplifyVector=simplifyVector)
-
-  ## send result to a global so it can be checked via cache_function
-  .gar_cache$req <- req
+  
+  ## check request against cache_function to see whether to cache result is TRUE
+  cache_function <- getOption("googleAuthR.cache_function", default = function() TRUE)
+  
+  if(!cache_function(req)){
+    myMessage("Forgetting cache", level = 3)
+    memoise::forget(cachedHttrRequest)
+  }
   
   req
 }
