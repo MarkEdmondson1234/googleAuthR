@@ -102,3 +102,32 @@ memDoHttrRequest <- function(req_url,
   
   req
 }
+
+memDoBatchRequest <- function(l){
+  
+  cachedBatchedRequest <- memoise::memoise(doBatchRequest, cache = gar_cache_get_loc())
+  
+  existing_cache <- memoise::has_cache(cachedBatchedRequest)(l)
+  
+  if(existing_cache){
+    myMessage("Reading batched cache", level = 3)
+  } else {
+    myMessage("Making new batched cache", level = 3)
+  }
+  
+  req <- cachedBatchedRequest(l)
+  
+  ## check request against cache_function to see whether to cache result is TRUE
+  cache_function <- getOption("googleAuthR.cache_function", default = function() TRUE)
+  
+  if(!cache_function(req)){
+    myMessage("Forgetting cache", level = 3)
+    memoise::forget(cachedBatchedRequest)
+  } else {
+    myMessage("Passed cache_function", level = 1)
+  }
+  
+  req
+  
+  
+}

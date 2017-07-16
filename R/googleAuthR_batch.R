@@ -34,7 +34,12 @@ gar_batch <- function(call_list, ...){
             shiny_access_token = function_list[[1]]$shiny_access_token)
   
   ## call doHttrRequest with batched together functions
-  req <- doBatchRequest(l)
+  cached_call <- !is.null(gar_cache_get_loc())
+  if(cached_call){
+    req <- memDoBatchRequest(l)
+  } else {
+    req <- doBatchRequest(l)
+  }
   
   if(grepl("404 Not Found", httr::content(req,as="text", encoding = "UTF-8"))){
     stop("Batch Request: 404 Not Found")
