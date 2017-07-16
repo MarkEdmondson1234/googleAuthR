@@ -69,7 +69,6 @@ gar_auth_jsUI <- function(id,
 #' @param session shiny session
 #'
 #' @return A httr reactive OAuth2.0 token
-#' @import shiny
 #' @export
 gar_auth_js <- function(input, output, session){
     check_package_loaded("shiny")
