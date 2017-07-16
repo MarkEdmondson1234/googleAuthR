@@ -4,7 +4,7 @@ r_packages:
 - knitr
 - covr
 notifications:
-  slack: googleauthrverse:tGfXjSD58cQSEr1YuzQ5hKPS
+  slack: edmondsons:kgTokxui4ZzTsqdD19tCoozf
   email:
     on_success: change
     on_failure: change
