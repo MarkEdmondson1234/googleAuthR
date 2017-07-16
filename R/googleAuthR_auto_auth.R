@@ -144,9 +144,10 @@ gar_attach_auto_auth <- function(required_scopes,
     return(NULL)
   }
   
-  testthat::expect_type(required_scopes, "character")
-  testthat::expect_type(environment_var, "character")
-  testthat::expect_length(environment_var, 1)
+  assertthat::assert_that(
+    is.character(required_scopes),
+    assertthat::is.string(environment_var)
+  )
   
   scopes <- getOption("googleAuthR.scopes.selected")
   if(any(!(required_scopes %in% scopes))){
