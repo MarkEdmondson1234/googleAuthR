@@ -1,7 +1,6 @@
 # cache global
 .gar_cache <- new.env(parent = emptyenv())
 .gar_cache$cache <- NULL  # what type of caching
-.gar_cache$req <- NULL # global so the cache function can check if it should cache or not
 
 #' Set cache location
 #' 
@@ -97,6 +96,8 @@ memDoHttrRequest <- function(req_url,
   if(!cache_function(req)){
     myMessage("Forgetting cache", level = 3)
     memoise::forget(cachedHttrRequest)
+  } else {
+    myMessage("Passed cache_function", level = 1)
   }
   
   req
