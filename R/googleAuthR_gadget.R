@@ -1,7 +1,8 @@
 #' Gadget for easy authentication
 #' 
 gar_gadget <- function(){
-
+  check_package_loaded("shiny")
+  check_package_loaded("miniUI")
   ui <- miniUI::miniPage(
     miniUI::gadgetTitleBar("googleAuthR Authentication", right = NULL),
     miniUI::miniContentPanel(

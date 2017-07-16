@@ -34,7 +34,12 @@ gar_batch <- function(call_list, ...){
             shiny_access_token = function_list[[1]]$shiny_access_token)
   
   ## call doHttrRequest with batched together functions
-  req <- doBatchRequest(l)
+  cached_call <- !is.null(gar_cache_get_loc())
+  if(cached_call){
+    req <- memDoBatchRequest(l)
+  } else {
+    req <- doBatchRequest(l)
+  }
   
   if(grepl("404 Not Found", httr::content(req,as="text", encoding = "UTF-8"))){
     stop("Batch Request: 404 Not Found")
@@ -315,7 +320,7 @@ makeBatchRequest <- function(f){
 doBatchRequest <- function(batched){
   
   arg_list <- list(url = "https://www.googleapis.com/batch", 
-                   # config = get_google_token(batched$shiny_access_token), 
+                   config = get_google_token(batched$shiny_access_token), 
                    body = batched$parsed,
                    encode = "multipart",
                    httr::add_headers("Accept-Encoding" = "gzip"),
@@ -328,40 +333,9 @@ doBatchRequest <- function(batched){
   # ensure batch requests only occur per second to help calculation of QPS limits
   Sys.sleep(1)
   
-  ## default
-  use_cache <- FALSE
-  
-  ## check if using cache
-  if(!is.null(gar_cache_get_loc())){
-    use_cache <- TRUE
-  }
-  
-  if(use_cache){
-    
-    cache_dir <- gar_cache_get_loc()
-    ## cache dir will eventually be settable, default for mock tests
-    req <- read_cache(arg_list, cache_dir = cache_dir)
-    
-    if(is.null(req)){
-      # do google token check here, not before so cache can work with no token
-      arg_list$config <-  get_google_token(batched$shiny_access_token)
-      req <- retryRequest(do.call("POST", 
-                                  args = arg_list,
-                                  envir = asNamespace("httr")))
-      
-      ## save cache data
-      save_cache(req, call_func = cache_call(), arg_list = arg_list, cache_dir = cache_dir)
-    }
-    
-  } else {
-    # do google token check here, not before so cache can work with no token
-    arg_list$config <- get_google_token(batched$shiny_access_token)
-    req <- retryRequest(do.call("POST", 
-                                args = arg_list,
-                                envir = asNamespace("httr")))
-  }
-  
-  
+  req <- retryRequest(do.call("POST", 
+                              args = arg_list,
+                              envir = asNamespace("httr")))
   
   req
   

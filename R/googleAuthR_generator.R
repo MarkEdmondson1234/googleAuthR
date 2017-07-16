@@ -120,80 +120,83 @@ gar_api_generator <- function(baseURI,
       shiny_access_token <- NULL
     }
 
+    if(!checkTokenAPI(shiny_access_token)){
+      stop("Invalid token", call. = FALSE)
+    }
+
+    ## for path_arguments present, change path_args
+    if(!is.null(path_arguments)){
+      path_args <- substitute.list(path_args, path_arguments)
+      path <- paste(names(path_args), path_args, sep="/", collapse="/" )
+    }
+    
+    ## for pars_arguments present, change pars_args
+    if(!is.null(pars_arguments)){
+      pars_args <- substitute.list(pars_args, pars_arguments)
+      pars <- paste(names(pars_args), pars_args, sep='=', collapse='&')
+    }
+    
+    if(!is.null(pars_args)){
+      pars <- paste0("?", pars)
+    }
+    
+    req_url <- paste0(baseURI, path, pars)
+    
     ## if called with gar_batch wrapper set batch to TRUE
     with_gar_batch <- which(grepl("gar_batch", all_envs))
     if(any(with_gar_batch)){
-      batch <- TRUE
+      ## batching
+      req <- list(req_url = req_url,
+                  shiny_access_token = shiny_access_token,
+                  http_header = http_header,
+                  the_body = the_body,
+                  name = digest::digest(c(req_url, the_body)))
+      
+      if(!is.null(data_parse_function)){
+        req <- c(req, data_parse_function = data_parse_function)
+      }
+      ## early return for batching
+      return(req)
     }
 
-    if(checkTokenAPI(shiny_access_token)){
-
-      ## for path_arguments present, change path_args
-      if(!is.null(path_arguments)){
-
-        path_args <- substitute.list(path_args, path_arguments)
-        path <- paste(names(path_args), path_args, sep="/", collapse="/" )
-      }
-
-      ## for pars_arguments present, change pars_args
-      if(!is.null(pars_arguments)){
-
-        pars_args <- substitute.list(pars_args, pars_arguments)
-        pars <- paste(names(pars_args), pars_args, sep='=', collapse='&')
-      }
-
-      if(!is.null(pars_args)){
-        pars <- paste0("?", pars)
-      }
-
-      req_url <- paste0(baseURI, path, pars)
-
-      if(!batch){
-        myMessage("Request: ", req_url, level = 2)
-        req <- doHttrRequest(req_url,
-                             shiny_access_token=shiny_access_token,
-                             request_type=http_header,
-                             the_body=the_body,
-                             customConfig=customConfig,
-                             simplifyVector=simplifyVector)
-
-        if(!is.null(data_parse_function)){
-          reqtry <- try(data_parse_function(req$content, ...))
-          if(any(is.error(reqtry), is.null(reqtry))){
-            warning("API Data failed to parse.  Returning parsed from JSON content.
-                    Use this to test against your data_parse_function.")
-            req <- req$parsed_content
-          } else {
-            req <- reqtry
-          }
-        }
-
-      } else {
-        ## batching
-        req <- list(req_url = req_url,
-                    shiny_access_token = shiny_access_token,
-                    http_header = http_header,
-                    the_body = the_body,
-                    name = digest::digest(c(req_url, the_body)))
-
-        if(!is.null(data_parse_function)){
-          req <- c(req, data_parse_function = data_parse_function)
-        }
-
-      }
-
-
-
+    myMessage("Request: ", req_url, level = 2)
+    
+    cached_call <- !is.null(gar_cache_get_loc())
+    if(cached_call){
+      req <- memDoHttrRequest(req_url,
+                              shiny_access_token=shiny_access_token,
+                              request_type=http_header,
+                              the_body=the_body,
+                              customConfig=customConfig,
+                              simplifyVector=simplifyVector)
+      
     } else {
-      stop("Invalid Token")
+      req <- doHttrRequest(req_url,
+                           shiny_access_token=shiny_access_token,
+                           request_type=http_header,
+                           the_body=the_body,
+                           customConfig=customConfig,
+                           simplifyVector=simplifyVector)
     }
-
+    
+    
+    if(!is.null(data_parse_function)){
+      reqtry <- try(data_parse_function(req$content, ...))
+      if(any(is.error(reqtry), is.null(reqtry))){
+        warning("API Data failed to parse.  Returning parsed from JSON content.
+                    Use this to test against your data_parse_function.")
+        req <- req$parsed_content
+      } else {
+        req <- reqtry
+      }
+    }
+    
     req
-
+    
   }
   ##returns a function that can call the API
   func
-
+  
 }
 
 
@@ -332,20 +335,9 @@ doHttrRequest <- function(url,
                           the_body=NULL,
                           customConfig=NULL,
                           simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
-
-  ## check if cached call
-  
-  ## default
-  use_cache <- FALSE
-  
-  ## check if using cache
-  if(!is.null(gar_cache_get_loc())){
-    use_cache <- TRUE
-  }
-  
   
   arg_list <- list(url = url,
-                   # config = get_google_token(shiny_access_token),
+                   config = get_google_token(shiny_access_token),
                    body = the_body,
                    encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
                    httr::add_headers("Accept-Encoding" = "gzip"),
@@ -354,27 +346,58 @@ doHttrRequest <- function(url,
                                            " (gzip)"))
                    )
 
-  if(!is.null(customConfig)){
-    stopifnot(inherits(customConfig, "list"))
+  arg_list <- modify_custom_config(arg_list, customConfig = customConfig)
+  
+  check_body(arg_list, the_body, request_type)
 
-    ## fix bug where unnamed customConfigs were ignored
-    ## encode is only named customConfig that has an effect
-    if(!is.null(names(customConfig))){
-      arg_list <- c(arg_list, customConfig[names(customConfig) == ""])
-    } else {
-      arg_list <- c(arg_list, customConfig)
-    }
-
+  req <- retryRequest(do.call(request_type,
+                              args = arg_list,
+                              envir = asNamespace("httr")))
+  
+  ## do we parse or return raw response
+  if(getOption("googleAuthR.rawResponse")){
+    myMessage("No checks on content due to option googleAuthR.rawResponse, 
+              returning raw", level=2)
+    return(req)
   }
 
-  if(!is.null(the_body) && arg_list$encode == "json"){
-    tt <- try(myMessage("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T),
-                        level = 2))
-    if(is.error(tt)) myMessage("Could not parse body JSON", level = 2)
+  ## will raise error if checks not passed
+  good_call <- checkGoogleAPIError(req)
 
+  if(good_call){
+    content <- httr::content(req, 
+                             as = "text", 
+                             type = "application/json",
+                             encoding = "UTF-8")
+    
+    content <- jsonlite::fromJSON(content,
+                                  simplifyVector = simplifyVector)
+    req$content <- content
+    
+  } else {
+    warning("API checks failed, returning request without JSON parsing")
+  }
+
+  req
+}
+
+
+check_body <- function(arg_list, the_body, request_type){
+  
+  if(!is.null(the_body) && arg_list$encode == "json"){
+    
+    tryCatch({
+      myMessage("Body JSON parsed to: ", 
+                jsonlite::toJSON(the_body, auto_unbox=T),
+                level = 2)
+    }, error = function(ex){
+      myMessage("Could not parse body JSON", level = 2)
+    })
+    
+    
     ## if verbose = 0 then write the JSON body to a file
     if(getOption("googleAuthR.verbose") == 0){
-      write_out <- list(url = url,
+      write_out <- list(url = arg_list$url,
                         request_type = request_type,
                         body_json = jsonlite::toJSON(the_body, auto_unbox=T))
       saveRDS(write_out, file = "request_debug.rds")
@@ -383,59 +406,24 @@ doHttrRequest <- function(url,
     }
   }
 
+}
 
-  if(use_cache){
-    myMessage("Using cache", level = 2)
-    cache_dir <- gar_cache_get_loc()
-    ## cache dir will eventually be settable, default for mock tests
-    req <- read_cache(arg_list, cache_dir = cache_dir)
-    if(is.null(req)){
-      myMessage("No cache found", level = 3)
-      
-      # do google token check here, not before so cache can work with no token
-      arg_list$config = get_google_token(shiny_access_token)
-      
-      ## otherwise, do call and save cache result
-      req <- retryRequest(do.call(request_type,
-                                  args = arg_list,
-                                  envir = asNamespace("httr")))
-
-      ## save cache data
-      save_cache(req, call_func = cache_call(), arg_list = arg_list, cache_dir = cache_dir)
+modify_custom_config <- function(arg_list, customConfig){
+  if(!is.null(customConfig)){
+    assertthat::assert_that(
+      is.list(customConfig)
+    )
+    ## fix bug where unnamed customConfigs were ignored
+    ## encode is only named customConfig that has an effect
+    if(!is.null(names(customConfig))){
+      arg_list <- c(arg_list, customConfig[names(customConfig) == ""])
+    } else {
+      arg_list <- c(arg_list, customConfig)
     }
-
-  } else {
-    # do google token check here, not before so cache can work with no token
-    arg_list$config = get_google_token(shiny_access_token)
-    req <- retryRequest(do.call(request_type,
-                                args = arg_list,
-                                envir = asNamespace("httr")))
+    
   }
-
-
-  ## do we parse or return raw response
-  rawResponse <- getOption("googleAuthR.rawResponse")
-  assertthat::assert_that(
-    is.logical(rawResponse)
-  )
-  if(rawResponse){
-    myMessage("No checks on content due to option googleAuthR.rawResponse, returning raw", level=2)
-    return(req)
-  }
-
-  ## will raise error if checks not passed
-  good_call <- checkGoogleAPIError(req)
-
-  if(good_call){
-    content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
-    content <- jsonlite::fromJSON(content,
-                                  simplifyVector = simplifyVector)
-    req$content <- content
-  } else {
-    warning("API checks failed, returning request without JSON parsing")
-  }
-
-  req
+  
+  arg_list
 }
 
 #' Get Google API errors

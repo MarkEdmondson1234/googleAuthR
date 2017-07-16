@@ -138,22 +138,3 @@ test_that("A generated API function works", {
   
 })
 
-test_that("Mock an API function", {
-  options(googleAuthR.mock_test = TRUE)
-  lw <- list_websites()
-  expect_s3_class(lw, "data.frame")
-  lw2 <- list_websites()
-  expect_equal(lw, lw2)
-})
-
-test_that("Mock with different arguments", {
-  options(googleAuthR.mock_test = TRUE)
-  lw <- list_websites2()
-  expect_s3_class(lw, "data.frame")
-  lw2 <- list_websites2(4)
-  expect_s3_class(lw2, "data.frame")
-  
-  
-})
-
-

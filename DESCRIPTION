@@ -13,20 +13,22 @@ BugReports: https://github.com/MarkEdmondson1234/googleAuthR/issues
 Depends:
     R (>= 3.2.0)
 Imports:
-    devtools (>= 1.12.0),
+    assertthat (>= 0.2.0),
     httr (>= 1.1.0),
     jsonlite (>= 0.9.16),
     R6 (>= 2.1.0),
-    shiny (>= 0.13.2),
-    testthat (>= 1.0.2),
-    formatR (>= 1.4),
-    miniUI (>= 0.1.1)
+    memoise (>= 1.1.0)
 Suggests:
-    roxygen2 (>= 5.0.0),
     covr,
+    devtools (>= 1.12.0),
     digest,
+    formatR (>= 1.4),
+    knitr,
+    miniUI (>= 0.1.1),
     rmarkdown,
-    knitr
+    roxygen2 (>= 5.0.0),
+    shiny (>= 0.13.2),
+    testthat (>= 1.0.2)
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
