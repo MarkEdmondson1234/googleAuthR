@@ -79,8 +79,10 @@ memDoHttrRequest <- function(req_url,
   
   if(existing_cache){
     myMessage("Reading cache", level = 3)
+    if(Sys.getenv("CI") == "true") cat("\n#Reading cache on CI")
   } else {
     myMessage("Making new cache", level = 3)
+    if(Sys.getenv("CI") == "true") cat("\n#Making new cache on CI")
   }
   
   req <- cachedHttrRequest(req_url,
