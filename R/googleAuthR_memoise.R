@@ -19,8 +19,12 @@ gar_cache_set_loc <- function(cache){
 #' @export
 gar_cache_get_loc <- function(){
   cache <- .gar_cache$cache
+
   if(!is.null(cache)){
     myMessage("Getting API cache func", level = 1)
+    if(Sys.getenv("CI") == "true") cat("\n#Cache str CI: ", str(cache), "\n")
+  } else {
+    if(Sys.getenv("CI") == "true") cat("\n#Cache is NULL\n")
   }
   cache
 }
@@ -79,10 +83,10 @@ memDoHttrRequest <- function(req_url,
   
   if(existing_cache){
     myMessage("Reading cache", level = 3)
-    if(Sys.getenv("CI") == "true") cat("\n#Reading cache on CI")
+    if(Sys.getenv("CI") == "true") cat("\n#Reading cache on CI\n")
   } else {
     myMessage("Making new cache", level = 3)
-    if(Sys.getenv("CI") == "true") cat("\n#Making new cache on CI")
+    if(Sys.getenv("CI") == "true") cat("\n#Making new cache on CI\n")
   }
   
   req <- cachedHttrRequest(req_url,
