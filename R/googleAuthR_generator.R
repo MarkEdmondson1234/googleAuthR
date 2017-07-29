@@ -67,16 +67,16 @@ gar_api_generator <- function(baseURI,
     is.logical(checkTrailingSlash),
     is.logical(simplifyVector)
   )
-  
+
   http_header <- match.arg(http_header)
-  
+
   if(checkTrailingSlash){
     if(substr(baseURI,nchar(baseURI),nchar(baseURI))!="/") {
       myMessage("No trailing slash in URL, adding it.", level = 2)
       baseURI <- paste0(baseURI, "/")
     }
   }
-  
+
   path <- NULL
   pars <- NULL
 
@@ -129,19 +129,19 @@ gar_api_generator <- function(baseURI,
       path_args <- substitute.list(path_args, path_arguments)
       path <- paste(names(path_args), path_args, sep="/", collapse="/" )
     }
-    
+
     ## for pars_arguments present, change pars_args
     if(!is.null(pars_arguments)){
       pars_args <- substitute.list(pars_args, pars_arguments)
       pars <- paste(names(pars_args), pars_args, sep='=', collapse='&')
     }
-    
+
     if(!is.null(pars_args)){
       pars <- paste0("?", pars)
     }
-    
+
     req_url <- paste0(baseURI, path, pars)
-    
+
     ## if called with gar_batch wrapper set batch to TRUE
     with_gar_batch <- which(grepl("gar_batch", all_envs))
     if(any(with_gar_batch)){
@@ -151,7 +151,7 @@ gar_api_generator <- function(baseURI,
                   http_header = http_header,
                   the_body = the_body,
                   name = digest::digest(c(req_url, the_body)))
-      
+
       if(!is.null(data_parse_function)){
         req <- c(req, data_parse_function = data_parse_function)
       }
@@ -160,7 +160,7 @@ gar_api_generator <- function(baseURI,
     }
 
     myMessage("Request: ", req_url, level = 2)
-    
+
     cached_call <- !is.null(gar_cache_get_loc())
     if(cached_call){
       req <- memDoHttrRequest(req_url,
@@ -169,7 +169,7 @@ gar_api_generator <- function(baseURI,
                               the_body=the_body,
                               customConfig=customConfig,
                               simplifyVector=simplifyVector)
-      
+
     } else {
       req <- doHttrRequest(req_url,
                            shiny_access_token=shiny_access_token,
@@ -178,8 +178,8 @@ gar_api_generator <- function(baseURI,
                            customConfig=customConfig,
                            simplifyVector=simplifyVector)
     }
-    
-    
+
+
     if(!is.null(data_parse_function)){
       reqtry <- try(data_parse_function(req$content, ...))
       if(any(is.error(reqtry), is.null(reqtry))){
@@ -190,13 +190,13 @@ gar_api_generator <- function(baseURI,
         req <- reqtry
       }
     }
-    
+
     req
-    
+
   }
   ##returns a function that can call the API
   func
-  
+
 }
 
 
@@ -266,7 +266,7 @@ retryRequest <- function(f){
   if(is.error(the_request)){
     stop(error.message(the_request))
   }
-  
+
   the_request
 }
 
@@ -337,7 +337,7 @@ doHttrRequest <- function(url,
                           the_body=NULL,
                           customConfig=NULL,
                           simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
-  
+
   arg_list <- list(verb = request_type,
                    url = url,
                    config = get_google_token(shiny_access_token),
@@ -350,17 +350,17 @@ doHttrRequest <- function(url,
                    )
 
   arg_list <- modify_custom_config(arg_list, customConfig = customConfig)
-  
+
   check_body(arg_list, the_body, request_type)
 
   ## httr's retry, and googleAuthR's
   req <- retryRequest(do.call("RETRY",
                               args = arg_list,
                               envir = asNamespace("httr")))
-  
+
   ## do we parse or return raw response
   if(getOption("googleAuthR.rawResponse")){
-    myMessage("No checks on content due to option googleAuthR.rawResponse, 
+    myMessage("No checks on content due to option googleAuthR.rawResponse,
               returning raw", level=2)
     return(req)
   }
@@ -369,15 +369,15 @@ doHttrRequest <- function(url,
   good_call <- checkGoogleAPIError(req)
 
   if(good_call){
-    content <- httr::content(req, 
-                             as = "text", 
+    content <- httr::content(req,
+                             as = "text",
                              type = "application/json",
                              encoding = "UTF-8")
-    
+
     content <- jsonlite::fromJSON(content,
                                   simplifyVector = simplifyVector)
     req$content <- content
-    
+
   } else {
     warning("API checks failed, returning request without JSON parsing")
   }
@@ -387,25 +387,25 @@ doHttrRequest <- function(url,
 
 
 check_body <- function(arg_list, the_body, request_type){
-  
+
   if(!is.null(the_body) && arg_list$encode == "json"){
-    
+
     tryCatch({
-      myMessage("Body JSON parsed to: ", 
+      myMessage("Body JSON parsed to: ",
                 jsonlite::toJSON(the_body, auto_unbox=T),
                 level = 2)
     }, error = function(ex){
       myMessage("Could not parse body JSON", level = 2)
     })
-    
-    
+
+
     ## if verbose = 0 then write the JSON body to a file
     if(getOption("googleAuthR.verbose") == 0){
       write_out <- list(url = arg_list$url,
                         request_type = request_type,
                         body_json = jsonlite::toJSON(the_body, auto_unbox=T))
       saveRDS(write_out, file = "request_debug.rds")
-      myMessage("Written url, request_type and body_json to file 'request_debug.rds'.  
+      myMessage("Written url, request_type and body_json to file 'request_debug.rds'.
                 Use readRDS('request_debug.rds') to see it. ", level = 1)
     }
   }
@@ -424,9 +424,9 @@ modify_custom_config <- function(arg_list, customConfig){
     } else {
       arg_list <- c(arg_list, customConfig)
     }
-    
+
   }
-  
+
   arg_list
 }
 
@@ -463,9 +463,9 @@ checkGoogleAPIError <- function(req,
     warning("No JSON content detected", call. = FALSE)
     return(FALSE)
   }
-  
+
   ## make all checks to headers lowercase (#78)
-  names(req$headers) <- tolower(req$headers)
+  names(req$headers) <- tolower(names(req$headers))
 
   if(!is.null(req$headers$`content-type`)){
     ## charset not strictly required so "application/json" doesn't fail "application/json; charset=UTF-8" (#78)
