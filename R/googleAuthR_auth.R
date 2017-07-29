@@ -198,6 +198,11 @@ read_cache_token <- function(token_path = getOption("googleAuthR.httr_oauth_cach
 #' @family authentication functions
 get_google_token <- function(shiny_return_token=NULL) {
   
+  if(any(which(grepl("with_mock_API", as.character(sys.calls()))))){
+    myMessage("Skipping token checks as using with_mock_API", level = 3)
+    return(NULL)
+  }
+  
   if(is.null(shiny_return_token)){
     token <- Authentication$public_fields$token
     

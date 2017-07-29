@@ -13,6 +13,7 @@
 * Add ability to cache API calls into memory or writing to local disk (#69 and #68)
 * Make optional a trailing slash on URIs (#73)
 * Improve header checks to be more RFC compliant (#78)
+* Use `httr`s `RETRY` function for retries that handles handles better (#67)
 
 # v0.5.1
 
