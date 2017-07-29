@@ -225,8 +225,6 @@ retryRequest <- function(f){
     status_code <- as.character(the_request$status_code)
   }
 
-
-
   if(!(grepl("^20",status_code))){
     myMessage("Request Status Code: ", status_code, level = 3)
 
@@ -250,10 +248,9 @@ retryRequest <- function(f){
     myMessage("JSON fetch error: ",paste(error), level = 2)
 
     if(grepl("^5|429",status_code)){
-      for(i in 1:getOption("googleAuthR.tryAttempts")){
-        myMessage("Trying again: ", i, " of ",
-                  getOption("googleAuthR.tryAttempts"),
-                  level = 3)
+      try_attempts <- getOption("googleAuthR.tryAttempts")
+      for(i in 1:try_attempts){
+        myMessage("Trying again: ", i, " of ", try_attempts, level = 3)
         Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
         if(grepl("^20",status_code)) break
@@ -265,6 +262,11 @@ retryRequest <- function(f){
 
   }
 
+  ## either reraise the error or should be good now
+  if(is.error(the_request)){
+    stop(error.message(the_request))
+  }
+  
   the_request
 }
 
@@ -336,7 +338,8 @@ doHttrRequest <- function(url,
                           customConfig=NULL,
                           simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
   
-  arg_list <- list(url = url,
+  arg_list <- list(verb = request_type,
+                   url = url,
                    config = get_google_token(shiny_access_token),
                    body = the_body,
                    encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
@@ -350,7 +353,8 @@ doHttrRequest <- function(url,
   
   check_body(arg_list, the_body, request_type)
 
-  req <- retryRequest(do.call(request_type,
+  ## httr's retry, and googleAuthR's
+  req <- retryRequest(do.call("RETRY",
                               args = arg_list,
                               envir = asNamespace("httr")))
   
@@ -459,10 +463,13 @@ checkGoogleAPIError <- function(req,
     warning("No JSON content detected", call. = FALSE)
     return(FALSE)
   }
+  
+  ## make all checks to headers lowercase (#78)
+  names(req$headers) <- tolower(req$headers)
 
   if(!is.null(req$headers$`content-type`)){
-    if(!(req$headers$`content-type` %in% ok_content_types)) {
-
+    ## charset not strictly required so "application/json" doesn't fail "application/json; charset=UTF-8" (#78)
+    if(!(any(startsWith(ok_content_types, req$headers$`content-type`)))) {
       stop(sprintf(paste("Not expecting content-type to be:\n%s"),
                    req$headers[["content-type"]]), call. = FALSE)
 

@@ -22,7 +22,7 @@ gar_cache_get_loc <- function(){
 
   if(!is.null(cache)){
     myMessage("Getting API cache func", level = 1)
-    if(Sys.getenv("CI") == "true") cat("\n#Cache str CI: ", str(cache), "\n")
+    if(Sys.getenv("CI") == "true") cat("\n#Cache str CI: ", cache()$keys, "\n")
   } else {
     if(Sys.getenv("CI") == "true") cat("\n#Cache is NULL\n")
   }

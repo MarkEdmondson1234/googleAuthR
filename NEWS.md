@@ -1,5 +1,7 @@
 # 0.5.1.9000
 
+## Major changes
+
 * A Slack team set up for googleAuthR package support, sign up via https://goo.gl/forms/d541yrJoDFMrrSJp1
 * Default demo project scopes now NULL, set your own Google Project via `options()` or by setting up environment arguments (#74):
    - `GAR_CLIENTID`
@@ -10,6 +12,7 @@
 * Add ability to return the email of the service account on a GCE instance, `gar_gce_auth_email`
 * Add ability to cache API calls into memory or writing to local disk (#69 and #68)
 * Make optional a trailing slash on URIs (#73)
+* Improve header checks to be more RFC compliant (#78)
 
 # v0.5.1
 
