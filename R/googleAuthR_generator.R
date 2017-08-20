@@ -245,7 +245,7 @@ retryRequest <- function(f){
       error <- "Unspecified Error"
     }
 
-    myMessage("JSON fetch error: ",paste(error), level = 2)
+    myMessage("API returned error: ",paste(error), level = 2)
 
     if(grepl("^5|429",status_code)){
       try_attempts <- getOption("googleAuthR.tryAttempts")
@@ -488,7 +488,7 @@ checkGoogleAPIError <- function(req,
   ## get error message from API
   if (!is.null(ga.json$error$message)) {
     gar_token_info(2)
-    stop("JSON fetch error: ", paste(ga.json$error$message), call. = FALSE)
+    stop("API returned: ", paste(ga.json$error$message), call. = FALSE)
   }
 
   httr::stop_for_status(req)
