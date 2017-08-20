@@ -1,16 +1,28 @@
 .onLoad <- function(libname, pkgname) {
   
+  sys_or_null <- function(x){
+    sys <- Sys.getenv(x)
+    if(sys == "") return(NULL)
+    sys
+  }
+  
+  scopes_split <- function(x){
+    sys <- sys_or_null("GAR_SCOPES")
+    if(is.null(sys)) return(NULL)
+    strsplit(sys, 
+             split = ",", fixed=TRUE)[[1]]
+  }
   op <- options()
   op.googleAuthR <- list(
     googleAuthR.rawResponse = FALSE,
     googleAuthR.httr_oauth_cache = TRUE,
     googleAuthR.verbose = 3,
     googleAuthR.cache_function = function(req) if(req$status_code != 200) FALSE else TRUE,
-    googleAuthR.client_id = Sys.getenv("GAR_CLIENTID"),
-    googleAuthR.client_secret = Sys.getenv("GAR_CLIENT_SECRET"),
-    googleAuthR.webapp.client_id = Sys.getenv("GAR_WEB_CLIENTID"),
-    googleAuthR.webapp.client_secret = Sys.getenv("GAR_WEB_CLIENT_SECRET"),
-    googleAuthR.scopes.selected = strsplit(Sys.getenv("GAR_SCOPES"), split = ",", fixed=TRUE)[[1]],
+    googleAuthR.client_id = sys_or_null("GAR_CLIENTID"),
+    googleAuthR.client_secret = sys_or_null("GAR_CLIENT_SECRET"),
+    googleAuthR.webapp.client_id = sys_or_null("GAR_WEB_CLIENTID"),
+    googleAuthR.webapp.client_secret = sys_or_null("GAR_WEB_CLIENT_SECRET"),
+    googleAuthR.scopes.selected = scopes_split("GAR_SCOPES"),
     googleAuthR.webapp.port = 1221,
     googleAuthR.jsonlite.simplifyVector = TRUE,
     googleAuthR.ok_content_types=c("application/json; charset=UTF-8", "text/html; charset=UTF-8"),
