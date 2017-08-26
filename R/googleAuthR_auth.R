@@ -250,14 +250,13 @@ token_exists <- function() {
     } else {
       myMessage(paste("No ", httr_cache ,
                       " file exists in current working directory.",
-                      " Run gar_auth() to provide credentials."), level=3)
+                      " Do library authentication steps to provide credentials."), level=3)
     }
     
-    myMessage("Token doesn't exist", level=3)
-    FALSE
+    return(FALSE)
   } else {
     myMessage("Token exists.", level=2)
-    TRUE      
+    return(TRUE)      
   }
 }
 

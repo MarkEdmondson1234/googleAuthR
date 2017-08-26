@@ -300,7 +300,7 @@ checkTokenAPI <- function(shiny_access_token=NULL){
       myMessage("Valid local token", level = 1)
       return(TRUE)
     } else {
-      warning("Invalid local token")
+      myMessage("Invalid local token", level = 1)
       return(FALSE)
     }
 
@@ -310,7 +310,7 @@ checkTokenAPI <- function(shiny_access_token=NULL){
       myMessage("Valid Shiny token", level = 1)
       return(TRUE)
     } else {
-      warning("Invalid Shiny token")
+      myMessage("Invalid Shiny token", level = 1)
       return(FALSE)
     }
   }
