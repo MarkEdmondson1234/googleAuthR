@@ -65,64 +65,112 @@ Authentication <- R6::R6Class(
 #'
 #' @export
 #' @family authentication functions
+#' @import assertthat
 gar_auth <- function(token = NULL,
                      new_user = FALSE) {
   
+  ## Up to 0.4.0 this coud be TRUE, FALSE or a character file location.  Now only file location allowed. 
   httr_file <- getOption("googleAuthR.httr_oauth_cache")
-  if(inherits(httr_file, "logical")){
-    httr_file <- ".httr-oauth"
+  
+  if(is.flag(httr_file)){
+    stop("option('googleAuthR.httr_oauth_cache') must be set to valid cache file location, 
+         not TRUE or FALSE - (example: '.httr-oauth')", 
+         call. = FALSE)
   }
+  
+  ## we only support writing auth cache files
+  assert_that(is.string(httr_file),
+              is.flag(new_user))
   
   if(new_user) {
-    Authentication$set("public", "token", NULL, overwrite=TRUE)
-    if(file.exists(httr_file)){
-      myMessage("Removing old credentials ... ", httr_file, level=2)
-      file.remove(httr_file)     
-    }
-    
+    rm_old_user_cache(httr_file)
   }
   
-  if(is.null(token)) {
+  if(is.null(token)) {     ## supplied no token
     
-    ## check if current cached token has same scopes as those set in options
-    check_cached_scopes()
+    google_token <- make_new_token()
     
-    endpoint <- httr::oauth_endpoints("google")
+  } else if(is_legit_token(token)){     ## supplied a Token object
     
-    app <- httr::oauth_app("google", 
-                           key = getOption("googleAuthR.client_id"), 
-                           secret = getOption("googleAuthR.client_secret"))
+    Authentication$set("public", "method", "passed_token", overwrite=TRUE)
     
-    google_token <- httr::oauth2.0_token(endpoint = endpoint, 
-                                         app = app,
-                                         scope = getOption("googleAuthR.scopes.selected"), 
-                                         cache = getOption("googleAuthR.httr_oauth_cache"))   
+    ## just return it back
+    google_token <- token
 
-    stopifnot(is_legit_token(google_token))
+  } else if(is.string(token)){ ## a filepath
     
-    Authentication$set("public", "token", google_token, overwrite=TRUE)
-    Authentication$set("public", "method", "new_token", overwrite=TRUE)
-    
+    google_token <- read_cache_token(token_path = token)
+
   } else {
-    ## supplied a file path or Token object
-    if(is_legit_token(token)) {
-      ## a token object, just return it back
-      google_token <- token
-      Authentication$set("public", "method", "passed_token", overwrite=TRUE)
-    } else {
-      ## a file path to a token
-      options("googleAuthR.httr_oauth_cache" = token)
-      google_token <- read_cache_token(token_path = token)
-      google_token$cache_path <- token
-      Authentication$set("public", "method", "filepath", overwrite=TRUE)
-    }
-    
-    Authentication$set("public", "token", google_token, overwrite=TRUE)
-    
+    stop("Unrecognised token object - class ", class(token), call. = FALSE)
   }
-  gar_token_info()
-  return(invisible(Authentication$public_fields$token)) 
   
+  ## set the global session token
+  Authentication$set("public", "token", google_token, overwrite=TRUE)
+  
+  ## output info on token saved
+  gar_token_info()
+  
+  ## return from the R6 object just to check it went ok, but this is google_token above
+  return(invisible(google_token)) 
+  
+}
+
+#' @noRd
+rm_old_user_cache <- function(httr_file){
+  Authentication$set("public", "token", NULL, overwrite=TRUE)
+  if(file.exists(httr_file)){
+    myMessage("Removing old cached credentials from: ", normalizePath(httr_file), level = 3)
+    file.remove(httr_file)     
+  }
+}
+
+#' @noRd
+#' @importFrom httr oauth_endpoints oauth_app oauth2.0_token
+make_new_token <- function(){
+
+  
+  endpoint <- oauth_endpoints("google")
+  
+  key    <- getOption("googleAuthR.client_id")
+  secret <- getOption("googleAuthR.client_secret")
+  scope  <- getOption("googleAuthR.scopes.selected")
+  cache  <- getOption("googleAuthR.httr_oauth_cache")
+  
+  if(key == ""){
+    stop("option('googleAuthR.client_id') has not been set", call. = FALSE)
+  }
+  
+  if(secret == ""){
+    stop("option('googleAuthR.client_secret') has not been set", call. = FALSE)
+  }
+  
+  if(scope == ""){
+    stop("option('googleAuthR.scopes.selected') has not been set", call. = FALSE)
+  }
+  
+  if(cache == ""){
+    stop("option('googleAuthR.httr_oauth_cache') has not been set", call. = FALSE)
+  }
+  
+  app <- oauth_app("google", 
+                   key = key, 
+                   secret = secret)
+  
+  google_token <- oauth2.0_token(endpoint = endpoint, 
+                                 app = app,
+                                 scope = scope, 
+                                 cache = cache)   
+  
+
+  
+  stopifnot(is_legit_token(google_token))
+  
+  ## set globals
+  Authentication$set("public", "token", google_token, overwrite=TRUE)
+  Authentication$set("public", "method", "new_token", overwrite=TRUE)
+  
+  google_token
 }
 
 #' Get current token summary
@@ -137,28 +185,29 @@ gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", defau
   method <- Authentication$public_fields$method
   
   if(is.null(token)){
-    myMessage("No token found")
+    myMessage("No token found", level = 3)
     return(NULL)
   }
   if(detail_level >= 3){
     myMessage("Token cache file: ", token$cache_path, level = 3)
-    myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 3)
+
+    ## service
+    if(!is.null(token$secrets)){
+      myMessage("Type: ", token$secrets$type, level = 3)
+      myMessage("ProjectID: ", token$secrets$project_id, level = 3)
+      myMessage("Client email: ", token$secrets$client_email, level = 3)
+      myMessage("ClientID: ", token$secrets$client_id, level = 3)
+    }
+    
   } else if(detail_level == 2){
     myMessage("Hash: ", token$hash(), level = 2)
-    
+    myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 2)
     if(!is.null(token$app$key)){
       myMessage("App key: ", token$app$key, level = 2)
     }
     
     myMessage("Method: ", method, level = 2)
     
-    ## service
-    if(!is.null(token$secrets)){
-      myMessage("Type: ", token$secrets$type, level = 2)
-      myMessage("ProjectID: ", token$secrets$project_id, level = 2)
-      myMessage("Client email: ", token$secrets$client_email, level = 2)
-      myMessage("ClientID: ", token$secrets$client_id, level = 2)
-    }
   } else if(detail_level == 1){
     NULL
   }
@@ -166,25 +215,45 @@ gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", defau
 
 }
 
-## httr cache files such as .httr-oauth can hold multiple tokens for different scopes.
-## this selects the token that covers the scope given
-read_cache_token <- function(token_path = getOption("googleAuthR.httr_oauth_cache")){
-  if(inherits(token_path, "logical")){
-    token_path <- ".httr-oauth"
-  }
+#' Reads a token form a filepath
+#' 
+#' Also sets the option of token cache name to the supplied filepath "googleAuthR.httr_oauth_cache"
+#' 
+#' httr cache files such as .httr-oauth can hold multiple tokens for different scopes, 
+#'   this only returns the first one and raises a warning if there are multiple in the rds file
+#' @noRd
+#' @import assertthat
+read_cache_token <- function(token_path){
+  
+  assert_that(is.readable(token_path))
+  
   myMessage("Reading token from file path", level = 2)
-  google_token <- try(suppressWarnings(readRDS(token_path)), silent = TRUE)
-  if(is.error(google_token)) {
-    stop(sprintf("Cannot read token from alleged .rds file:\n%s",
-                 token_path))
+  
+  google_token <- tryCatch({suppressWarnings(readRDS(token_path))},
+                           error = function(ex){
+                             warning(sprintf("Cannot read token from alleged .rds file:\n%s",
+                                             token_path))
+                             stop(ex)
+                           })
+  
+  if(is.list(google_token)){
+    #warning("Multiple httr-tokens in cache ",token_path, ", only returning first found token")
+    google_token <- google_token[[1]]
+  } else if(is.token2.0(google_token)){
+    myMessage("Read token successfully from file", level = 2)
+  } else {
+    stop("Unknown object read from ", token_path, " of class ", class(google_token))
   }
   
-  if(inherits(google_token, "list")){
-    myMessage("Found a list, return token in first element.")
-    google_token <- google_token[[1]]
-  }
+  options("googleAuthR.httr_oauth_cache" = token_path)
+  google_token$cache_path <- token_path
+  Authentication$set("public", "method", "filepath", overwrite=TRUE)
   
   google_token
+}
+
+is.token2.0 <- function(x){
+  inherits(x, "Token2.0")
 }
 
 #' Retrieve Google token from environment and configs for httr
@@ -229,18 +298,16 @@ get_google_token <- function(shiny_return_token=NULL) {
 #'
 #' @keywords internal
 #' @family authentication functions
+#' @import assertthat
 token_exists <- function() {
   
   token <- Authentication$public_fields$token
   
-  httr_cache <- getOption("googleAuthR.httr_oauth_cache")
-  if(class(httr_cache) == "logical"){
-    httr_cache <- ".httr-oauth"
-  }
-  
   if(is.null(token)) {
     
     myMessage("No authorization yet in this session!", level=3)
+    httr_cache <- getOption("googleAuthR.httr_oauth_cache")
+    assert_that(is.string(httr_cache))
     
     if(file.exists(httr_cache)) {
       myMessage(paste("NOTE: a ", httr_cache ,
@@ -274,8 +341,8 @@ is_legit_token <- function(x) {
     myMessage("Not a Token2.0 object. Found:", class(x), level=2)
     if(!inherits(x, "list")){
       if(inherits(x[[1]], "Token2.0")){
-        myMessage("Its a list of Token2.0 objects though")
-        return(TRUE)
+        warning("Passed a list of Token2.0 objects, not a Token2.0 object.")
+        return(FALSE)
       }
     }
     return(FALSE)
@@ -295,6 +362,9 @@ is_legit_token <- function(x) {
     myMessage("Authorization error. No access token obtained.", level=3)
     return(FALSE)
   }
+  
+  ## check if current cached token has same scopes as those set in options
+  check_cached_scopes()
   
   TRUE
 }
@@ -359,24 +429,30 @@ gar_auth_service <- function(json_file, scope = getOption("googleAuthR.scopes.se
 check_cached_scopes <- function(){
   
   httr_cache <- getOption("googleAuthR.httr_oauth_cache")
-  if(class(httr_cache) == "logical"){
-    httr_cache <- ".httr-oauth"
+  if(!file.exists(httr_cache)){
+    myMessage("No cache file found to check scopes", level = 2)
+    return(NULL)
   }
-  google_token <- try(suppressWarnings(readRDS(httr_cache)[[1]]), silent = TRUE)
-
-  out <- TRUE
-  if(!is.error(google_token)){
-    if(!all(google_token$params$scope %in%
-            getOption("googleAuthR.scopes.selected"))){
-      warning(paste0("option(googleAuthR.scopes.selected) not same scopes as current cached token ", httr_cache, ", will need reauthentication.  
-                     \nToken scopes: ", 
-                     paste(google_token$params$scope, collapse = " "),
-                     "\ngetOption(googleAuthR.scopes.selected): ",
-                     paste(getOption("googleAuthR.scopes.selected"), collapse = " "),
-                     collapse = " "), call. = FALSE)
-      out <- FALSE
-    }
-  }
+  google_token <- tryCatch({
+    readRDS(httr_cache)
+  }, error = function(ex){
+    stop("Problem reading cached token from ", normalizePath(httr_cache))
+  })
   
-  out
+  current_scopes <- google_token$params$scope
+  option_scopes  <- getOption("googleAuthR.scopes.selected")
+  
+  if(!all(current_scopes %in% option_scopes)){
+    warning(paste0("option(googleAuthR.scopes.selected) not same scopes as current cached token ", 
+                    httr_cache, ", may cause issues with authentication.  
+                     \nCurrent Token scopes: ", 
+                   paste(google_token$params$scope, collapse = " "),
+                   "\ngetOption(googleAuthR.scopes.selected): ",
+                   paste(getOption("googleAuthR.scopes.selected"), collapse = " "),
+                   collapse = " "), call. = FALSE)
+    return(FALSE)
+  }
+
+  TRUE
+
 }

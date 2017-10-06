@@ -15,7 +15,7 @@
   op <- options()
   op.googleAuthR <- list(
     googleAuthR.rawResponse = FALSE,
-    googleAuthR.httr_oauth_cache = TRUE,
+    googleAuthR.httr_oauth_cache = ".httr-oauth",
     googleAuthR.verbose = 3,
     googleAuthR.cache_function = function(req) if(req$status_code != 200) FALSE else TRUE,
     googleAuthR.client_id = sys_or_null("GAR_CLIENTID"),

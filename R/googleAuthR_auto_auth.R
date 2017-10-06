@@ -28,6 +28,7 @@
 #'
 #' @export
 #' @family authentication functions
+#' @import assertthat
 gar_auto_auth <- function(required_scopes,
                           new_user = FALSE, 
                           no_auto = FALSE,
@@ -35,14 +36,15 @@ gar_auto_auth <- function(required_scopes,
                           travis_environment_var = "TRAVIS_GAR_AUTH_FILE"){
   
   if(is.null(required_scopes)){
-    myMessage("No scopes have been set, set them via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) - no authentication attempted.", level = 3)
+    myMessage("No scopes have been set, set them via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) 
+              - no authentication attempted.", level = 3)
     return(NULL)
   }
   
-  assertthat::assert_that(
+  assert_that(
     is.character(required_scopes),
-    assertthat::is.string(environment_var),
-    assertthat::is.string(travis_environment_var)
+    is.string(environment_var),
+    is.string(travis_environment_var)
   )
   
   if(!any(getOption("googleAuthR.scopes.selected") %in% required_scopes)){
@@ -135,6 +137,7 @@ gar_auto_auth <- function(required_scopes,
 #' @return Invisible, used for its side effects of calling auto-authentication.
 #' @export
 #' @family authentication functions
+#' @import assertthat
 gar_attach_auto_auth <- function(required_scopes,
                                  environment_var = "GAR_AUTH_FILE",
                                  travis_environment_var = "TRAVIS_GAR_AUTH_FILE"){
@@ -144,9 +147,9 @@ gar_attach_auto_auth <- function(required_scopes,
     return(NULL)
   }
   
-  assertthat::assert_that(
+  assert_that(
     is.character(required_scopes),
-    assertthat::is.string(environment_var)
+    is.string(environment_var)
   )
   
   scopes <- getOption("googleAuthR.scopes.selected")
@@ -161,11 +164,15 @@ gar_attach_auto_auth <- function(required_scopes,
   
   if(Sys.getenv(environment_var) != ""){
     
-    googleAuthR::gar_auto_auth(required_scopes = required_scopes,
-                               environment_var = environment_var,
-                               travis_environment_var = travis_environment_var)
-    
-    packageStartupMessage("Successfully authenticated via ", Sys.getenv(environment_var))
+    tryCatch({gar_auto_auth(required_scopes = required_scopes,
+                            environment_var = environment_var,
+                            travis_environment_var = travis_environment_var)
+      
+      packageStartupMessage("Successfully authenticated via ", Sys.getenv(environment_var))
+    }, error = function(ex){
+      packageStartupMessage("Auto-authentication failed via ", Sys.getenv(environment_var))
+      warning(ex)
+    })
   }
   
   invisible()

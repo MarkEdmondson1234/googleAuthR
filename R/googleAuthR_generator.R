@@ -72,7 +72,7 @@ gar_api_generator <- function(baseURI,
 
   if(checkTrailingSlash){
     if(substr(baseURI,nchar(baseURI),nchar(baseURI))!="/") {
-      myMessage("No trailing slash in URL, adding it.", level = 2)
+      myMessage("No trailing slash in URL, adding it.", level = 1)
       baseURI <- paste0(baseURI, "/")
     }
   }
