@@ -21,10 +21,10 @@ gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT", "DELETE",
 
 \item{data_parse_function}{A function that takes a request response, parses it and returns the data you need.}
 
-\item{customConfig}{list of httr options such as \code{httr::use_proxy}
-or \code{httr::add_headers} that will be added to the request.}
+\item{customConfig}{list of httr options such as \link[httr]{use_proxy}
+or \link[httr]{add_headers} that will be added to the request.}
 
-\item{simplifyVector}{Passed to jsonlite::fromJSON for response parsing}
+\item{simplifyVector}{Passed to \link[jsonlite]{fromJSON} for response parsing}
 
 \item{checkTrailingSlash}{Default TRUE will append a trailing slash to baseURI if missing}
 }

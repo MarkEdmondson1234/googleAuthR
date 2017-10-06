@@ -7,9 +7,9 @@
 #' @param path_args A named list with name=folder in request URI, value=the function variable.
 #' @param pars_args A named list with name=parameter in request URI, value=the function variable.
 #' @param data_parse_function A function that takes a request response, parses it and returns the data you need.
-#' @param customConfig list of httr options such as \code{httr::use_proxy}
-#'   or \code{httr::add_headers} that will be added to the request.
-#' @param simplifyVector Passed to jsonlite::fromJSON for response parsing
+#' @param customConfig list of httr options such as \link[httr]{use_proxy}
+#'   or \link[httr]{add_headers} that will be added to the request.
+#' @param simplifyVector Passed to \link[jsonlite]{fromJSON} for response parsing
 #' @param checkTrailingSlash Default TRUE will append a trailing slash to baseURI if missing
 #'
 #' @details
@@ -340,6 +340,8 @@ checkTokenAPI <- function(shiny_access_token=NULL){
 #' @details Example of params: c(param1="foo", param2="bar")
 #'
 #' @importFrom utils packageVersion
+#' @importFrom httr add_headers user_agent content
+#' @importFrom jsonlite fromJSON
 #' @keywords internal
 doHttrRequest <- function(url,
                           shiny_access_token = NULL,
@@ -353,10 +355,10 @@ doHttrRequest <- function(url,
                    config = get_google_token(shiny_access_token),
                    body = the_body,
                    encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
-                   httr::add_headers("Accept-Encoding" = "gzip"),
-                   httr::user_agent(paste0("googleAuthR/",
-                                           packageVersion("googleAuthR"),
-                                           " (gzip)"))
+                   add_headers("Accept-Encoding" = "gzip"),
+                   user_agent(paste0("googleAuthR/",
+                                     packageVersion("googleAuthR"),
+                                     " (gzip)"))
                    )
 
   arg_list <- modify_custom_config(arg_list, customConfig = customConfig)
@@ -379,13 +381,13 @@ doHttrRequest <- function(url,
   good_call <- checkGoogleAPIError(req)
 
   if(good_call){
-    content <- httr::content(req,
-                             as = "text",
-                             type = "application/json",
-                             encoding = "UTF-8")
-
-    content <- jsonlite::fromJSON(content,
-                                  simplifyVector = simplifyVector)
+    content <- content(req,
+                       as = "text",
+                       type = "application/json",
+                       encoding = "UTF-8")
+    
+    content <- fromJSON(content, simplifyVector = simplifyVector)
+    
     req$content <- content
 
   } else {
@@ -407,7 +409,6 @@ check_body <- function(arg_list, the_body, request_type){
     }, error = function(ex){
       myMessage("Could not parse body JSON", level = 2)
     })
-
 
     ## if verbose = 0 then write the JSON body to a file
     if(getOption("googleAuthR.verbose") == 0){
@@ -447,6 +448,8 @@ modify_custom_config <- function(arg_list, customConfig){
 #' @param batched called from gar_batch or not
 #'
 #' @keywords internal
+#' @importFrom httr content stop_for_status
+#' @importFrom jsonlite fromJSON
 checkGoogleAPIError <- function(req,
                                 ok_content_types=getOption("googleAuthR.ok_content_types"),
                                 batched=FALSE) {
@@ -457,18 +460,18 @@ checkGoogleAPIError <- function(req,
     return(TRUE)
   }
 
-  ga.json <- httr::content(req,
-                           as = "text",
-                           type = "application/json",
-                           encoding = "UTF-8")
-
+  ga.json <- content(req,
+                     as = "text",
+                     type = "application/json",
+                     encoding = "UTF-8")
+  
   if(is.null(ga.json)) {
     warning("JSON parsing was NULL")
     return(FALSE)
   }
 
   if(nchar(ga.json) > 0) {
-    ga.json <- jsonlite::fromJSON(ga.json)
+    ga.json <- fromJSON(ga.json)
   } else {
     warning("No JSON content detected", call. = FALSE)
     return(FALSE)
@@ -496,7 +499,7 @@ checkGoogleAPIError <- function(req,
     stop("API returned: ", paste(ga.json$error$message), call. = FALSE)
   }
 
-  httr::stop_for_status(req)
+  stop_for_status(req)
 
   TRUE
 }

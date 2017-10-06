@@ -90,7 +90,12 @@ gar_auth <- function(token = NULL,
     
     google_token <- make_new_token()
     
-  } else if(is_legit_token(token)){     ## supplied a Token object
+  } else if(is.token2.0(token)){     ## supplied a Token object
+    
+    legit <- is_legit_token(token)
+    if(!legit){
+      stop("Invalid token passed to function", call. = FALSE)
+    }
     
     Authentication$set("public", "method", "passed_token", overwrite=TRUE)
     
@@ -111,7 +116,7 @@ gar_auth <- function(token = NULL,
   ## output info on token saved
   gar_token_info()
   
-  ## return from the R6 object just to check it went ok, but this is google_token above
+  ## return google_token above
   return(invisible(google_token)) 
   
 }
@@ -129,7 +134,6 @@ rm_old_user_cache <- function(httr_file){
 #' @importFrom httr oauth_endpoints oauth_app oauth2.0_token
 make_new_token <- function(){
 
-  
   endpoint <- oauth_endpoints("google")
   
   key    <- getOption("googleAuthR.client_id", "")
@@ -162,8 +166,6 @@ make_new_token <- function(){
                                  scope = scope, 
                                  cache = cache)   
   
-
-  
   stopifnot(is_legit_token(google_token))
   
   ## set globals
@@ -181,7 +183,7 @@ make_new_token <- function(){
 #' 
 #' @export
 gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", default = 3)){
-  token <- Authentication$public_fields$token
+  token  <- Authentication$public_fields$token
   method <- Authentication$public_fields$method
   
   if(is.null(token)){
@@ -237,7 +239,7 @@ read_cache_token <- function(token_path){
                            })
   
   if(is.list(google_token)){
-    #warning("Multiple httr-tokens in cache ",token_path, ", only returning first found token")
+    myMessage("Multiple httr-tokens in cache ",token_path, ", only returning first found token", level = 2)
     google_token <- google_token[[1]]
   } else if(is.token2.0(google_token)){
     myMessage("Read token successfully from file", level = 2)
@@ -399,13 +401,15 @@ is_legit_token <- function(x) {
 #' 
 #' @export
 #' @family authentication functions
+#' @importFrom httr oauth_endpoints oauth_service_token
+#' @importFrom jsonlite fromJSON
 gar_auth_service <- function(json_file, scope = getOption("googleAuthR.scopes.selected")){
   
   stopifnot(file.exists(json_file))
   
-  endpoint <- httr::oauth_endpoints("google")
+  endpoint <- oauth_endpoints("google")
   
-  secrets  <- jsonlite::fromJSON(json_file)
+  secrets  <- fromJSON(json_file)
   scope <- paste(scope, collapse=" ")
   
   if(is.null(secrets$private_key)){
@@ -413,7 +417,7 @@ gar_auth_service <- function(json_file, scope = getOption("googleAuthR.scopes.se
          (Service Account Keys, not service account client)")
   }
   
-  google_token <- httr::oauth_service_token(endpoint, secrets, scope)
+  google_token <- oauth_service_token(endpoint, secrets, scope)
   
   Authentication$set("public", "token", google_token, overwrite=TRUE)
   Authentication$set("public", "method", "service_json", overwrite=TRUE)

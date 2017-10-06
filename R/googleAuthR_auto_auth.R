@@ -29,6 +29,7 @@
 #' @export
 #' @family authentication functions
 #' @import assertthat
+#' @importFrom tools file_ext
 gar_auto_auth <- function(required_scopes,
                           new_user = FALSE, 
                           no_auto = FALSE,
@@ -73,7 +74,7 @@ gar_auto_auth <- function(required_scopes,
     ## auth_file specified in environment_var
     if(file.exists(auth_file)){
       ## Service JSON file
-      if(tools::file_ext(auth_file) == "json"){
+      if(file_ext(auth_file) == "json"){
         myMessage("Auto-auth - json", level = 2)
         out <- gar_auth_service(auth_file)
       } else {
@@ -170,7 +171,7 @@ gar_attach_auto_auth <- function(required_scopes,
       
       packageStartupMessage("Successfully authenticated via ", Sys.getenv(environment_var))
     }, error = function(ex){
-      packageStartupMessage("Auto-authentication failed via ", Sys.getenv(environment_var))
+      packageStartupMessage("Failed! Auto-authentication via ", Sys.getenv(environment_var))
       warning(ex)
     })
   }

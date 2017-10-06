@@ -1,26 +1,30 @@
 #' Gadget for easy authentication
-#' 
+#' @noRd
+#' @import shiny
+#' @import miniUI
 gar_gadget <- function(){
   check_package_loaded("shiny")
   check_package_loaded("miniUI")
-  ui <- miniUI::miniPage(
-    miniUI::gadgetTitleBar("googleAuthR Authentication", right = NULL),
-    miniUI::miniContentPanel(
-      shiny::uiOutput("button"),
-      shiny::uiOutput("scope_selector")
+  ui <- miniPage(
+    gadgetTitleBar("googleAuthR Authentication", right = NULL),
+    miniContentPanel(
+      selectInput("api", label = "Select API to prefill scopes", choices = NULL)
+      actionButton("get_scope", label = "Prefill scope"),
+      uiOutput("button"),
+      uiOutput("scope_selector")
     )
   )
   
   server <- function(input, output, session) {
     
-    returning <- shiny::reactive(authReturnCode(session))
+    returning <- reactive(authReturnCode(session))
     
-    output$button <- shiny::renderUI({
+    output$button <- renderUI({
       
       if(is.null(returning())){
         googleAuthUI("gadget")
       } else {
-        shiny::helpText("Your R session is now authenticated, and you can close this window.")
+        helpText("Your R session is now authenticated, and you can close this window.")
       }
 
     })
@@ -107,6 +111,20 @@ gar_gadget <- function(){
                                "scopes_selected",
                                choices = scopes,
                                selected = scopes)
+    })
+    
+    #update API list
+    observe({
+      
+      apis <- gar_discovery_apis_list()
+      
+      choices <- apis$id
+      names(choices) <- paste(apis$name, apis$version)
+      
+      updateSelectInput(session,
+                        "api",
+                        choices = choices)
+      
     })
     
   }
