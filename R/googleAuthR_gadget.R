@@ -8,10 +8,10 @@ gar_gadget <- function(){
   ui <- miniPage(
     gadgetTitleBar("googleAuthR Authentication", right = NULL),
     miniContentPanel(
-      selectInput("api", label = "Select API to prefill scopes", choices = NULL),
-      actionButton("get_scope", label = "Prefill scope"),
       uiOutput("button"),
-      uiOutput("scope_selector")
+      selectInput("api", label = "Select API to prefill scopes", choices = NULL),
+      uiOutput("scope_selector"),
+      div()
     )
   )
   
@@ -29,31 +29,28 @@ gar_gadget <- function(){
 
     })
     
-    output$scope_selector <- shiny::renderUI({
+    output$scope_selector <- renderUI({
       
       if(is.null(returning())){
-        out <- shiny::tagList(
-          shiny::selectInput("scopes_selected", 
-                             label = "API scopes for authentication",
+        out <- tagList(
+          selectInput("scopes_selected", 
+                             label = "Current API scopes",
                              choices = getOption("googleAuthR.scopes.selected"),
                              selected = getOption("googleAuthR.scopes.selected"),
                              multiple = TRUE,
                              width = "100%"),
-          shiny::textInput("add_scopes","New scopes", width = "100%"),
-          shiny::actionButton("do_add_scopes","Add scopes", icon = shiny::icon("plus")),
-          shiny::helpText("Google API scopes are listed ", 
-                          shiny::a(href="https://developers.google.com/identity/protocols/googlescopes", 
+          selectInput("add_scopes",label = "Add new scopes", width = "100%", choices = NULL, multiple = TRUE),
+          actionButton("do_add_scopes","Add scopes", icon = icon("plus")),
+          helpText("Google API scopes are listed ", 
+                          a(href="https://developers.google.com/identity/protocols/googlescopes", 
                                    "here", 
                                    target="_blank")),
-          shiny::strong("googleAuthR.client_id"),
-          shiny::helpText(getOption("googleAuthR.client_id")),
-          shiny::strong("googleAuthR.webapp.client_id"),
-          shiny::helpText(getOption("googleAuthR.webapp.client_id")),
-          shiny::strong("shiny.port"),
-          shiny::helpText(getOption("shiny.port")),
-          shiny::hr(),
-          shiny::helpText("Ensure above settings match your", shiny::a(href="https://console.developers.google.com/apis/credentials", "Google console API credentials"), "for successful authentication."),
-          shiny::helpText("googleAuthR defaults for example purposes only.")
+          strong("googleAuthR.client_id"),
+          helpText(getOption("googleAuthR.client_id")),
+          strong("googleAuthR.webapp.client_id"),
+          helpText(getOption("googleAuthR.webapp.client_id")),
+          hr(),
+          helpText("Ensure above settings match your", a(href="https://console.developers.google.com/apis/credentials", "Google console API credentials"), "for successful authentication.")
         )
         } else {
           NULL
@@ -62,13 +59,13 @@ gar_gadget <- function(){
     })
     
     ##update token()
-    shiny::observe({
+    observe({
       
       if(is.null(returning())){
         options("googleAuthR.scopes.selected" = input$scopes_selected)
       }
 
-      token <- shiny::callModule(googleAuth, 
+      token <- callModule(googleAuth, 
                                  "gadget", 
                                  login_text = "Login",
                                  approval_prompt="force")
@@ -76,23 +73,23 @@ gar_gadget <- function(){
       token <- token()
       
       if(!is.null(token)){
-        googleAuthR::gar_auth(token)
+        gar_auth(token)
         message("Authentication complete for: ", 
                 paste(getOption("googleAuthR.scopes.selected"), 
                       sep=",", 
                       collapse =" ")
                 )
         message("You can safely close the browser window.")
-        shiny::stopApp()
+        stopApp()
       }
 
       
     })
     
     #update input$scopes_selected
-    shiny::observeEvent(input$do_add_scopes, {
-      shiny::validate(
-        shiny::need(input$add_scopes,"add_scopes")
+    observeEvent(input$do_add_scopes, {
+      validate(
+        need(input$add_scopes,"add_scopes")
       )
       
       if(is.null(returning())){
@@ -107,16 +104,25 @@ gar_gadget <- function(){
         scopes <- NULL
       }
       
-      shiny::updateSelectInput(session,
-                               "scopes_selected",
-                               choices = scopes,
-                               selected = scopes)
+      updateSelectInput(session,
+                        "scopes_selected",
+                        choices = scopes,
+                        selected = scopes)
+      
+      updateSelectInput(session,
+                        "add_scopes",
+                        choices = c(""))
+    })
+    
+    apis <- reactive({
+      gar_discovery_apis_list()
     })
     
     #update API list
     observe({
+      req(apis())
       
-      apis <- gar_discovery_apis_list()
+      apis <- apis()
       
       choices <- apis$id
       names(choices) <- paste(apis$name, apis$version)
@@ -127,8 +133,24 @@ gar_gadget <- function(){
       
     })
     
+    observe({
+      req(apis())
+      req(input$api)
+      
+      id_obj <- strsplit(input$api, ":")[[1]]
+      
+      api_detail <- gar_discovery_api(id_obj[1], version = id_obj[2])
+      
+      scopes <- names(api_detail$auth$oauth2$scopes)
+      
+      updateSelectInput(session, "add_scopes", choices = scopes, selected = scopes)
+      
+    })
+    
+    
+    
   }
   
-  viewer <- shiny::dialogViewer("googleAuthR")
-  shiny::runGadget(ui, server, viewer = viewer)
+  viewer <- dialogViewer("googleAuthR")
+  runGadget(ui, server, viewer = viewer)
 }

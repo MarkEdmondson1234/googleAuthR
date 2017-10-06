@@ -16,6 +16,7 @@
 * Use `httr`s `RETRY` function for retries that handles handles better (#67)
 * Fix `http2 framing layer error` that sometimes happens in misconfigured http2 servers (#87)
 * Update minimum dependcy to R 3.3.0 to support Shiny function bugs. 
+* RStudio Addin now offers menu to prepopulate scopes for APIs from discovery API. 
  
 # v0.5.1
 
