@@ -8,7 +8,7 @@ gar_gadget <- function(){
   ui <- miniPage(
     gadgetTitleBar("googleAuthR Authentication", right = NULL),
     miniContentPanel(
-      selectInput("api", label = "Select API to prefill scopes", choices = NULL)
+      selectInput("api", label = "Select API to prefill scopes", choices = NULL),
       actionButton("get_scope", label = "Prefill scope"),
       uiOutput("button"),
       uiOutput("scope_selector")
