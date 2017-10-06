@@ -14,7 +14,8 @@
 * Make optional a trailing slash on URIs (#73)
 * Improve header checks to be more RFC compliant (#78)
 * Use `httr`s `RETRY` function for retries that handles handles better (#67)
-
+* Fix `http2 framing layer error` that sometimes happens in misconfigured http2 servers (#87)
+ 
 # v0.5.1
 
 ## Major changes

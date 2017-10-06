@@ -53,6 +53,8 @@
 #'
 #' @return A function that can fetch the Google API data you specify
 #' @export
+#' @import assertthat
+#' @importFrom httr set_config config
 gar_api_generator <- function(baseURI,
                               http_header = c("GET","POST","PUT","DELETE", "PATCH"),
                               path_args = NULL,
@@ -62,11 +64,14 @@ gar_api_generator <- function(baseURI,
                               simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector"),
                               checkTrailingSlash = TRUE){
 
-  assertthat::assert_that(
-    assertthat::is.string(baseURI),
+  assert_that(
+    is.string(baseURI),
     is.logical(checkTrailingSlash),
     is.logical(simplifyVector)
   )
+  
+  ## temp fix until Google severs support HTTP2 properly
+  set_config(config(http_version = 0))
 
   http_header <- match.arg(http_header)
 
