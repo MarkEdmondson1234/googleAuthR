@@ -12,7 +12,7 @@ Authors@R: c(person("Mark", "Edmondson",email = "m@sunholo.com",
 URL: http://code.markedmondson.me/googleAuthR/
 BugReports: https://github.com/MarkEdmondson1234/googleAuthR/issues
 Depends:
-    R (>= 3.2.0)
+    R (>= 3.3.0)
 Imports:
     assertthat (>= 0.2.0),
     httr (>= 1.3.1),
