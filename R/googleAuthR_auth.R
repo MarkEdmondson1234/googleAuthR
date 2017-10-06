@@ -132,10 +132,10 @@ make_new_token <- function(){
   
   endpoint <- oauth_endpoints("google")
   
-  key    <- getOption("googleAuthR.client_id")
-  secret <- getOption("googleAuthR.client_secret")
-  scope  <- getOption("googleAuthR.scopes.selected")
-  cache  <- getOption("googleAuthR.httr_oauth_cache")
+  key    <- getOption("googleAuthR.client_id", "")
+  secret <- getOption("googleAuthR.client_secret", "")
+  scope  <- getOption("googleAuthR.scopes.selected", "")
+  cache  <- getOption("googleAuthR.httr_oauth_cache", "")
   
   if(key == ""){
     stop("option('googleAuthR.client_id') has not been set", call. = FALSE)
