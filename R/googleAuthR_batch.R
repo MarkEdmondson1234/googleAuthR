@@ -317,15 +317,19 @@ makeBatchRequest <- function(f){
 #' 
 #' @keywords internal
 #' @family batch functions
+#' @importFrom httr add_headers user_agent 
 doBatchRequest <- function(batched){
   
-  arg_list <- list(url = "https://www.googleapis.com/batch", 
+  batch_endpoint <- getOption(googleAuthR.batch_endpoint, 
+                              default = "https://www.googleapis.com/batch")
+  
+  arg_list <- list(url = batch_endpoint, 
                    config = get_google_token(batched$shiny_access_token), 
                    body = batched$parsed,
                    encode = "multipart",
-                   httr::add_headers("Accept-Encoding" = "gzip"),
-                   httr::user_agent(paste0("googleAuthR/",packageVersion("googleAuthR"), " (gzip)")),
-                   httr::add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
+                   add_headers("Accept-Encoding" = "gzip"),
+                   user_agent(paste0("googleAuthR/",packageVersion("googleAuthR"), " (gzip)")),
+                   add_headers("Content-Type" = "multipart/mixed; boundary=gar_batch")
                    )
   
   myMessage("Making Batch API call", level=2)

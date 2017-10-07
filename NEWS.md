@@ -15,8 +15,9 @@
 * Improve header checks to be more RFC compliant (#78)
 * Use `httr`s `RETRY` function for retries that handles handles better (#67)
 * Fix `http2 framing layer error` that sometimes happens in misconfigured http2 servers (#87)
-* Update minimum dependcy to R 3.3.0 to support Shiny function bugs. 
+* Update minimum dependency to R 3.3.0 to support Shiny function bugs. 
 * RStudio Addin now offers menu to prepopulate scopes for APIs from discovery API. 
+* Add `googleAuthR.batch_endpoint` option for specific library batches.
  
 # v0.5.1
 

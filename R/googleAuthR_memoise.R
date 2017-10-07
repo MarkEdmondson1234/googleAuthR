@@ -70,9 +70,9 @@ memDoHttrRequest <- function(req_url,
                              customConfig,
                              simplifyVector){
 
-  cachedHttrRequest <- memoise::memoise(doHttrRequest, cache = gar_cache_get_loc())
+  cachedHttrRequest <- memoise(doHttrRequest, cache = gar_cache_get_loc())
 
-  existing_cache <- memoise::has_cache(cachedHttrRequest)(
+  existing_cache <- has_cache(cachedHttrRequest)(
     req_url,
     shiny_access_token=shiny_access_token,
     request_type=request_type,
@@ -99,7 +99,7 @@ memDoHttrRequest <- function(req_url,
   
   if(!cache_function(req)){
     myMessage("Forgetting cache", level = 3)
-    memoise::forget(cachedHttrRequest)
+    forget(cachedHttrRequest)
   } else {
     myMessage("Passed cache_function", level = 1)
   }
@@ -107,9 +107,12 @@ memDoHttrRequest <- function(req_url,
   req
 }
 
+
+#' @noRd
+#' @import memoise
 memDoBatchRequest <- function(l){
   
-  cachedBatchedRequest <- memoise::memoise(doBatchRequest, cache = gar_cache_get_loc())
+  cachedBatchedRequest <- memoise(doBatchRequest, cache = gar_cache_get_loc())
   
   existing_cache <- memoise::has_cache(cachedBatchedRequest)(l)
   

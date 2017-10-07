@@ -14,6 +14,7 @@
   }
   op <- options()
   op.googleAuthR <- list(
+    googleAuthR.batch_endpoint = "https://www.googleapis.com/batch",
     googleAuthR.rawResponse = FALSE,
     googleAuthR.httr_oauth_cache = ".httr-oauth",
     googleAuthR.verbose = 3,
