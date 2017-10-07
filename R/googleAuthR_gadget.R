@@ -50,7 +50,7 @@ gar_gadget <- function(){
           strong("googleAuthR.webapp.client_id"),
           helpText(getOption("googleAuthR.webapp.client_id")),
           hr(),
-          helpText("Ensure above settings match your", a(href="https://console.developers.google.com/apis/credentials", "Google console API credentials"), "for successful authentication.")
+          helpText("Ensure above settings match your", a(target = "_blank", href="https://console.developers.google.com/apis/credentials", "Google console API credentials"), "for successful authentication.")
         )
         } else {
           NULL
