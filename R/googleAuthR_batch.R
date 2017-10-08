@@ -262,6 +262,7 @@ parseBatchResponse <- function(batch_response){
 #' 
 #' @keywords internal
 #' @family batch functions
+#' @importFrom digest digest
 makeBatchRequest <- function(f){
 
   
@@ -284,7 +285,7 @@ makeBatchRequest <- function(f){
     header <- paste(boundary,
                     "Content-Type: application/http",
                     # paste0("Content-ID: ",f$name),
-                    paste0("Content-ID: ", digest::digest(batch_body)),
+                    paste0("Content-ID: ", digest(batch_body)),
                     sep = "\r\n")
     body_header <- paste(req,
                          "Content-Type: application/json",

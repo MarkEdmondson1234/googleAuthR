@@ -20,12 +20,6 @@ gar_cache_set_loc <- function(cache){
 gar_cache_get_loc <- function(){
   cache <- .gar_cache$cache
 
-  if(!is.null(cache)){
-    myMessage("Getting API cache func", level = 1)
-    if(Sys.getenv("CI") == "true") cat("\n#Cache str CI: ", cache()$keys, "\n")
-  } else {
-    if(Sys.getenv("CI") == "true") cat("\n#Cache is NULL\n")
-  }
   cache
 }
 
@@ -37,9 +31,8 @@ gar_cache_empty <- function(){
 }
 
 
-#' Setup which package to perform mock testing upon
+#' Setup where to put cache
 #' 
-#' This helps make sure the right functions are mocked
 #' 
 #' @param mcache A cache method from \link[memoise]{memoise}. If \code{NULL} will do no caching.
 #' 

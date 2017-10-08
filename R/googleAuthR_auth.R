@@ -69,11 +69,13 @@ Authentication <- R6::R6Class(
 gar_auth <- function(token = NULL,
                      new_user = FALSE) {
   
-  ## Up to 0.4.0 this coud be TRUE, FALSE or a character file location.  Now only file location allowed. 
+  ## Up to 0.4.0 this coud be TRUE, FALSE or a character file location.  
+  ## Now only file location allowed. 
   httr_file <- getOption("googleAuthR.httr_oauth_cache")
   
   if(is.flag(httr_file)){
-    stop("option('googleAuthR.httr_oauth_cache') must be set to valid cache file location, 
+    stop("option('googleAuthR.httr_oauth_cache') must be set to 
+         valid cache file location, 
          not TRUE or FALSE - (example: '.httr-oauth')", 
          call. = FALSE)
   }
@@ -217,12 +219,14 @@ gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", defau
 
 }
 
-#' Reads a token form a filepath
+#' Reads a token from a filepath
 #' 
-#' Also sets the option of token cache name to the supplied filepath "googleAuthR.httr_oauth_cache"
+#' Also sets the option of token cache name to the supplied filepath 
+#'   "googleAuthR.httr_oauth_cache"
 #' 
 #' httr cache files such as .httr-oauth can hold multiple tokens for different scopes, 
-#'   this only returns the first one and raises a warning if there are multiple in the rds file
+#'   this only returns the first one and raises a warning if there are multiple 
+#'   in the rds file
 #' @noRd
 #' @import assertthat
 read_cache_token <- function(token_path){

@@ -55,6 +55,7 @@
 #' @export
 #' @import assertthat
 #' @importFrom httr set_config config
+#' @importFrom digest digest
 gar_api_generator <- function(baseURI,
                               http_header = c("GET","POST","PUT","DELETE", "PATCH"),
                               path_args = NULL,
@@ -155,7 +156,7 @@ gar_api_generator <- function(baseURI,
                   shiny_access_token = shiny_access_token,
                   http_header = http_header,
                   the_body = the_body,
-                  name = digest::digest(c(req_url, the_body)))
+                  name = digest(c(req_url, the_body)))
 
       if(!is.null(data_parse_function)){
         req <- c(req, data_parse_function = data_parse_function)

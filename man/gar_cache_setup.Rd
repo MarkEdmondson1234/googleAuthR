@@ -2,7 +2,7 @@
 % Please edit documentation in R/googleAuthR_memoise.R
 \name{gar_cache_setup}
 \alias{gar_cache_setup}
-\title{Setup which package to perform mock testing upon}
+\title{Setup where to put cache}
 \usage{
 gar_cache_setup(mcache = memoise::cache_memory())
 }
@@ -14,7 +14,4 @@ To cache to a file system use \code{memoise::cache_filesystem("cache_folder")},
   suitable for unit testing and works between R sessions. 
 
 The cached API calls do not need authentication to be active, but need this function to set caching first.
-}
-\details{
-This helps make sure the right functions are mocked
 }
