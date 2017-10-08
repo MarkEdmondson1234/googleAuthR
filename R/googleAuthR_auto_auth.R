@@ -6,19 +6,17 @@
 #' @param no_auto If TRUE, ignore auto-authentication settings
 #' @param required_scopes Required scopes needed to authenticate - needs to match at least one
 #' @param environment_var Name of environment var that contains auth file path
-#' @param travis_environment_var Name of Travis environment var that contains auth file path
 #' 
-#' The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} or a Google service JSON file downloaded from the Google API crudential console, with file extension \code{.json}.
+#' The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
+#'   or a Google service JSON file downloaded from the Google API crudential console, 
+#'   with file extension \code{.json}.
 #' 
-#' You can use this in your code to authenticate from a filelocation specified in in file, but it is mainly intended to be called on package load via \link{gar_attach_auto_auth}.
+#' You can use this in your code to authenticate from a filelocation specified in file, 
+#'   but it is mainly intended to be called on package load via \link{gar_attach_auto_auth}.
 #' 
 #' 
 #' \code{environment_var} This is the name that will be called via \link{Sys.getenv} on library load.  The environment variable will contain an absolute file path to the location of an authentication file.
 #' 
-#' \code{travis_environment_var} Name that will be called via \link{Sys.getenv} in Travis tests.  
-#'   As the working directory is different on travis, 
-#'   this environment variable should contain a relative path to your Github repository home folder.
-#'   
 #' @seealso 
 #' 
 #' Help files for \link{.onAttach}
@@ -33,19 +31,18 @@
 gar_auto_auth <- function(required_scopes,
                           new_user = FALSE, 
                           no_auto = FALSE,
-                          environment_var = "GAR_AUTH_FILE",
-                          travis_environment_var = "TRAVIS_GAR_AUTH_FILE"){
+                          environment_var = "GAR_AUTH_FILE"){
   
   if(is.null(required_scopes)){
-    myMessage("No scopes have been set, set them via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) 
+    myMessage("No scopes have been set, set them via 
+               options(googleAuthR.scopes.selected = c('scope1', 'scope2')) 
               - no authentication attempted.", level = 3)
     return(NULL)
   }
   
   assert_that(
     is.character(required_scopes),
-    is.string(environment_var),
-    is.string(travis_environment_var)
+    is.string(environment_var)
   )
   
   if(!any(getOption("googleAuthR.scopes.selected") %in% required_scopes)){
@@ -57,15 +54,7 @@ gar_auto_auth <- function(required_scopes,
     return(invisible(gar_auth(new_user = new_user)))
   }
   
-  ## Travis checks are relative file paths to getwd()
-  if(Sys.getenv(travis_environment_var) != ""){
-    cat("\nAuthentication on travis with ", travis_environment_var)
-    auth_file <- Sys.getenv(travis_environment_var)
-    auth_file <- file.path(getwd(), auth_file)
-    cat("\nAuth file:", auth_file,"\n")
-  } else {
-    auth_file <- Sys.getenv(environment_var)
-  }
+  auth_file <- Sys.getenv(environment_var)
   
   if(auth_file == ""){
     ## normal auth looking for .httr-oauth in working folder or new user
@@ -101,23 +90,10 @@ gar_auto_auth <- function(required_scopes,
 #' 
 #' @param required_scopes A character vector of minimum required scopes for this API library
 #' @param environment_var The name of the environment variable where the filepath to the authentication file is kept
-#' @param travis_environment_var Name of Travis environment var that contains auth file path
 #' 
 #' This function works with \link{gar_auto_auth}.  It is intended to be placed within the \link{.onAttach} hook so that it loads when you load your library.
 #' 
 #' For auto-authentication to work, the environment variable needs to hold a file path to an existing auth file such as created via \link{gar_auth} or a JSON file file download from the Google API console.
-#' 
-#' @section Travis:
-#' 
-#' If you are using Travis to make tests, then a specific environment name for a Travis auth file is also needed, that should be relative to the home directory of your Github repository.  
-#' 
-#' You should then also encrypt the auth file and include the encrypted file in your Github repository.  See \href{https://CRAN.R-project.org/package=googlesheets/vignettes/managing-auth-tokens.html#tokens-for-testing}{googlesheets vignette on managing auth tokens} and \href{https://docs.travis-ci.com/user/encrypting-files/}{Travis encrypting files how-to} for background.
-#' 
-#' To work on travis, you will need one auth token for the library load in the home folder, and another in the \code{testthat} folder.  You can achieve this by using the same encrypted file command twice within your \code{.travis.yml} configuration, writing out to the two different folders:
-#' 
-#' \code{openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out auth.json -d}
-#' \code{openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out tests/testthat/auth.json -d}
-#' 
 #' 
 #' @examples 
 #' 
@@ -140,11 +116,17 @@ gar_auto_auth <- function(required_scopes,
 #' @family authentication functions
 #' @import assertthat
 gar_attach_auto_auth <- function(required_scopes,
-                                 environment_var = "GAR_AUTH_FILE",
-                                 travis_environment_var = "TRAVIS_GAR_AUTH_FILE"){
+                                 environment_var = "GAR_AUTH_FILE"){
   
   if(is.null(required_scopes)){
-    myMessage("No scopes have been set, set them via options(googleAuthR.scopes.selected = c('scope1', 'scope2')) - no authentication attempted.", level = 3)
+    myMessage("No scopes have been set, set them via 
+              options(googleAuthR.scopes.selected = c('scope1', 'scope2')) - 
+              no authentication attempted.", level = 3)
+    return(NULL)
+  }
+  
+  if(Sys.getenv(environment_var) == ""){
+    myMessage("No environment argument found, looked in ", environment_var, level = 3)
     return(NULL)
   }
   
@@ -163,18 +145,14 @@ gar_attach_auto_auth <- function(required_scopes,
   
   options(googleAuthR.scopes.selected = new_scopes)
   
-  if(Sys.getenv(environment_var) != ""){
+  tryCatch({gar_auto_auth(required_scopes = required_scopes,
+                          environment_var = environment_var)
     
-    tryCatch({gar_auto_auth(required_scopes = required_scopes,
-                            environment_var = environment_var,
-                            travis_environment_var = travis_environment_var)
-      
-      packageStartupMessage("Successfully authenticated via ", Sys.getenv(environment_var))
-    }, error = function(ex){
-      packageStartupMessage("Failed! Auto-authentication via ", Sys.getenv(environment_var))
-      warning(ex)
-    })
-  }
+    packageStartupMessage("Successfully authenticated via ", Sys.getenv(environment_var))
+  }, error = function(ex){
+    packageStartupMessage("Failed! Auto-authentication via ", Sys.getenv(environment_var))
+    warning(ex)
+  })
   
   invisible()
   

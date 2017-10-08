@@ -23,7 +23,9 @@ shorten_url <- function(url){
   
 }
 
+
 gar_auth()
+
 options(googleAuthR.verbose = 2)
 
 ## normal API fetch

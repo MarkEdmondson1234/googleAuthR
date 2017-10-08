@@ -107,7 +107,7 @@ memDoBatchRequest <- function(l){
   
   cachedBatchedRequest <- memoise(doBatchRequest, cache = gar_cache_get_loc())
   
-  existing_cache <- memoise::has_cache(cachedBatchedRequest)(l)
+  existing_cache <- has_cache(cachedBatchedRequest)(l)
   
   if(existing_cache){
     myMessage("Reading batched cache", level = 3)
@@ -122,7 +122,7 @@ memDoBatchRequest <- function(l){
   
   if(!cache_function(req)){
     myMessage("Forgetting cache", level = 3)
-    memoise::forget(cachedBatchedRequest)
+    forget(cachedBatchedRequest)
   } else {
     myMessage("Passed cache_function", level = 1)
   }

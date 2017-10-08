@@ -18,6 +18,7 @@
 * Update minimum dependency to R 3.3.0 to support Shiny function bugs. 
 * RStudio Addin now offers menu to prepopulate scopes for APIs from discovery API. 
 * Add `googleAuthR.batch_endpoint` option for specific library batches.
+* Remove TRAVIS support in environment arguments
  
 # v0.5.1
 

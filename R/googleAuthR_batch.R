@@ -21,6 +21,7 @@
 #'  
 #' @export
 #' @family batch functions
+#' @importFrom httr content
 gar_batch <- function(call_list, ...){
   
   # function_list <- lapply(call_list, eval)
@@ -41,7 +42,7 @@ gar_batch <- function(call_list, ...){
     req <- doBatchRequest(l)
   }
   
-  if(grepl("404 Not Found", httr::content(req,as="text", encoding = "UTF-8"))){
+  if(grepl("404 Not Found", content(req,as="text", encoding = "UTF-8"))){
     stop("Batch Request: 404 Not Found")
   }
   
@@ -84,6 +85,7 @@ gar_batch <- function(call_list, ...){
 #' 
 #' @export
 #' @family batch functions
+#' @importFrom utils modifyList
 gar_batch_walk <- function(f,
                            walk_vector,
                            gar_pars=NULL, gar_paths=NULL, the_body=NULL,
@@ -111,9 +113,9 @@ gar_batch_walk <- function(f,
       body_walk_list <- lapply(body_walk, function(z) z = x)
       names(body_walk_list) <- body_walk
       
-      if(length(pars_walk) > 0) gar_pars <- utils::modifyList(gar_pars, pars_walk_list)
-      if(length(path_walk) > 0) gar_paths <- utils::modifyList(gar_paths, path_walk_list)
-      if(length(body_walk) > 0) the_body <- utils::modifyList(the_body, body_walk_list)      
+      if(length(pars_walk) > 0) gar_pars  <- modifyList(gar_pars, pars_walk_list)
+      if(length(path_walk) > 0) gar_paths <- modifyList(gar_paths, path_walk_list)
+      if(length(body_walk) > 0) the_body  <- modifyList(the_body, body_walk_list)      
       ## create the API call
       f(pars_arguments = gar_pars, 
         path_arguments = gar_paths, 
@@ -166,27 +168,18 @@ applyDataParseFunction <- function(function_entry, batch_content, ...){
   
   x <- batch_content[paste0("response",function_entry$name)][[1]]
   
-  id <- x$meta[[1]][2]
-  status <- x$header[[1]][1]
+  id      <- x$meta[[1]][2]
+  status  <- x$header[[1]][1]
   content <- x$content[[1]]
  
-  ## check that its the right response 
-  if(checkGoogleAPIError(content, batched = TRUE)){
-    ## apply data parse function from function_list$data_parse_function    
-    f <- function_entry$data_parse_function
-    contentp <- f(content, ...)
-    if(is.null(contentp)){
-      warning("Error1: parsing data for:", id, " Returning unparsed content.")
-      contentp <- content
-    }
-    
-    contentp
-    
-  } else {
-    warning("Error2: parsing data for:", id, " Returning unparsed content.")
+  ## apply data parse function from function_list$data_parse_function    
+  f <- function_entry$data_parse_function
+  contentp <- f(content, ...)
+  if(is.null(contentp)){
+    warning("Error1: parsing data for:", id, " Returning unparsed content.")
     contentp <- content
   }
-
+  
   contentp
   
 }
