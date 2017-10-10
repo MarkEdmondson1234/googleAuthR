@@ -5,7 +5,8 @@ Title: Easy Authentication with Google OAuth2 API
 Description: Create R functions that interact with OAuth2 Google APIs easily,
     with auto-refresh and Shiny compatibility.
 Authors@R: c(person("Mark", "Edmondson",email = "m@sunholo.com",
-                  role = c("aut", "cre")),
+                  role = c("aut", "cre"),
+                  comment = c(ORCID = "0000-0002-8434-3881")),
            person("Jennifer", "Bryan",email="jenny@stat.ubc.ca", role = "ctb"),
            person("Johann", "deBoer", email="johanndeboer@gmail.com", role = "ctb"),
            person("Neal", "Richardson", email="neal.p.richardson@gmail.com"))
