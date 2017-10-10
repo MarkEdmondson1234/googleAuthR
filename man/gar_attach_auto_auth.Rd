@@ -10,7 +10,9 @@ gar_attach_auto_auth(required_scopes, environment_var = "GAR_AUTH_FILE",
 \arguments{
 \item{required_scopes}{A character vector of minimum required scopes for this API library}
 
-\item{environment_var}{The name of the environment variable where the filepath to the authentication file is kept
+\item{environment_var}{The name of the environment variable where the filepath to the authentication file is kept}
+
+\item{travis_environment_var}{Defunct; now does nothing
 
 This function works with \link{gar_auto_auth}.  It is intended to be placed within the \link{.onAttach} hook so that it loads when you load your library.
 

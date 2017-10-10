@@ -35,7 +35,7 @@ gar_auto_auth <- function(required_scopes,
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
-               options(googleAuthR.scopes.selected = c('scope1', 'scope2')) 
+               options(googleAuthR.scopes.selected) 
               - no authentication attempted.", level = 3)
     return(NULL)
   }
@@ -90,6 +90,7 @@ gar_auto_auth <- function(required_scopes,
 #' 
 #' @param required_scopes A character vector of minimum required scopes for this API library
 #' @param environment_var The name of the environment variable where the filepath to the authentication file is kept
+#' @param travis_environment_var Defunct; now does nothing
 #' 
 #' This function works with \link{gar_auto_auth}.  It is intended to be placed within the \link{.onAttach} hook so that it loads when you load your library.
 #' 
@@ -125,7 +126,7 @@ gar_attach_auto_auth <- function(required_scopes,
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
-              options(googleAuthR.scopes.selected = c('scope1', 'scope2')) - 
+              options(googleAuthR.scopes.selected) - 
               no authentication attempted.", level = 3)
     return(NULL)
   }
