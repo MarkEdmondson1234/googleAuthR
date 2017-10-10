@@ -75,12 +75,11 @@
 #' 
 #' @family shiny auth functions
 #' @export
-#' @importFrom shiny reactive
 reactiveAccessToken <- function(session){
   check_package_loaded("shiny")
   .Deprecated("googleAuth", package = "googleAuthR",
               "reactiveAccessToken is deprecated as of googleAuthR 0.3.0.")
-  reactive({
+  shiny::reactive({
     ## gets all the parameters in the URL. The auth code should be one of them.
     
     if(!is.null(authReturnCode(session))){

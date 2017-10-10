@@ -12,23 +12,22 @@
 #'
 #' @return Shiny UI
 #' @export
-#' @importFrom shiny tagList tags HTML NS
 gar_auth_jsUI <- function(id, 
                           login_class = "btn btn-primary",
                           logout_class = "btn btn-danger",
                           login_text = "Log In",
                           logout_text = "Log Out"){
 
-  
+  ## No @import to avoid making shiny and miniUI an import
   check_package_loaded("shiny")
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
-  tagList(
+  shiny::tagList(
 
-    tags$script(src='https://apis.google.com/js/auth.js'),
-    tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
-    tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class),
-    tags$script(type="text/javascript", HTML(paste0("
+    shiny::tags$script(src='https://apis.google.com/js/auth.js'),
+    shiny::tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
+    shiny::tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class),
+    shiny::tags$script(type="text/javascript", shiny::HTML(paste0("
       var authorizeButton = document.getElementById('",ns("login"),"');
       var signoutButton = document.getElementById('",ns("logout"),"');
       signoutButton.style.display = 'none';
@@ -71,12 +70,11 @@ gar_auth_jsUI <- function(id,
 #'
 #' @return A httr reactive OAuth2.0 token
 #' @export
-#' @importFrom shiny validate need reactive req
 gar_auth_js <- function(input, output, session){
     check_package_loaded("shiny")
-    js_token <- reactive({
-      validate(
-        need(input$js_auth_access_token, "Authenticate")
+    js_token <- shiny::reactive({
+      shiny::validate(
+        shiny::need(input$js_auth_access_token, "Authenticate")
       )
       
       list(access_token = input$js_auth_access_token,
@@ -87,9 +85,9 @@ gar_auth_js <- function(input, output, session){
     })
     
     ## Create access token
-    access_token <- reactive({
+    access_token <- shiny::reactive({
       
-      req(js_token())
+      shiny::req(js_token())
       
       gar_js_getToken(js_token())
       
@@ -150,11 +148,10 @@ createCode <- function(seed=NULL, num=20){
 #' @return The Google auth token in the code URL parameter.
 #' @family shiny auth functions
 #' @keywords internal
-#' @importFrom shiny parseQueryString
 authReturnCode <- function(session, 
                            securityCode=getOption("googleAuthR.securitycode")){
   check_package_loaded("shiny")
-  pars <- parseQueryString(session$clientData$url_search)
+  pars <- shiny::parseQueryString(session$clientData$url_search)
   
   if(!is.null(pars$state)){
     if(pars$state != securityCode){
@@ -307,12 +304,11 @@ gar_shiny_getToken <- function(code,
 #' 
 #' @family shiny module functions
 #' @export
-#' @importFrom shiny NS uiOutput
 googleAuthUI <- function(id){
   check_package_loaded("shiny")
-  ns <- NS(id)
+  shiny::ns <- NS(id)
   
-  uiOutput(ns("googleAuthUi"))
+  shiny::uiOutput(ns("googleAuthUi"))
 }
   
   
@@ -393,7 +389,6 @@ googleAuthUI <- function(id){
 #' 
 #' @family shiny module functions
 #' @export
-#' @import shiny
 googleAuth <- function(input, output, session, 
                        login_text="Login via Google",
                        logout_text="Logout",
