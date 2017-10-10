@@ -116,7 +116,12 @@ gar_auto_auth <- function(required_scopes,
 #' @family authentication functions
 #' @import assertthat
 gar_attach_auto_auth <- function(required_scopes,
-                                 environment_var = "GAR_AUTH_FILE"){
+                                 environment_var = "GAR_AUTH_FILE",
+                                 travis_environment_var = NULL){
+  
+  if(!is.null(travis_environment_var)){
+    warning("travis_environment_var argument is now unsupported and does nothing")
+  }
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 

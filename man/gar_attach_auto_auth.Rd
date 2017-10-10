@@ -5,14 +5,12 @@
 \title{Auto Authentication function for use within .onAttach}
 \usage{
 gar_attach_auto_auth(required_scopes, environment_var = "GAR_AUTH_FILE",
-  travis_environment_var = "TRAVIS_GAR_AUTH_FILE")
+  travis_environment_var = NULL)
 }
 \arguments{
 \item{required_scopes}{A character vector of minimum required scopes for this API library}
 
-\item{environment_var}{The name of the environment variable where the filepath to the authentication file is kept}
-
-\item{travis_environment_var}{Name of Travis environment var that contains auth file path
+\item{environment_var}{The name of the environment variable where the filepath to the authentication file is kept
 
 This function works with \link{gar_auto_auth}.  It is intended to be placed within the \link{.onAttach} hook so that it loads when you load your library.
 
@@ -24,19 +22,6 @@ Invisible, used for its side effects of calling auto-authentication.
 \description{
 To be placed within \link{.onAttach} to auto load an authentication file from an environment variable.
 }
-\section{Travis}{
-
-
-If you are using Travis to make tests, then a specific environment name for a Travis auth file is also needed, that should be relative to the home directory of your Github repository.  
-
-You should then also encrypt the auth file and include the encrypted file in your Github repository.  See \href{https://CRAN.R-project.org/package=googlesheets/vignettes/managing-auth-tokens.html#tokens-for-testing}{googlesheets vignette on managing auth tokens} and \href{https://docs.travis-ci.com/user/encrypting-files/}{Travis encrypting files how-to} for background.
-
-To work on travis, you will need one auth token for the library load in the home folder, and another in the \code{testthat} folder.  You can achieve this by using the same encrypted file command twice within your \code{.travis.yml} configuration, writing out to the two different folders:
-
-\code{openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out auth.json -d}
-\code{openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out tests/testthat/auth.json -d}
-}
-
 \examples{
 
 \dontrun{

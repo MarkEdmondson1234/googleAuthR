@@ -5,8 +5,7 @@
 \title{Perform auto authentication}
 \usage{
 gar_auto_auth(required_scopes, new_user = FALSE, no_auto = FALSE,
-  environment_var = "GAR_AUTH_FILE",
-  travis_environment_var = "TRAVIS_GAR_AUTH_FILE")
+  environment_var = "GAR_AUTH_FILE")
 }
 \arguments{
 \item{required_scopes}{Required scopes needed to authenticate - needs to match at least one}
@@ -15,20 +14,17 @@ gar_auto_auth(required_scopes, new_user = FALSE, no_auto = FALSE,
 
 \item{no_auto}{If TRUE, ignore auto-authentication settings}
 
-\item{environment_var}{Name of environment var that contains auth file path}
+\item{environment_var}{Name of environment var that contains auth file path
 
-\item{travis_environment_var}{Name of Travis environment var that contains auth file path
+The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
+  or a Google service JSON file downloaded from the Google API crudential console, 
+  with file extension \code{.json}.
 
-The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} or a Google service JSON file downloaded from the Google API crudential console, with file extension \code{.json}.
+You can use this in your code to authenticate from a filelocation specified in file, 
+  but it is mainly intended to be called on package load via \link{gar_attach_auto_auth}.
 
-You can use this in your code to authenticate from a filelocation specified in in file, but it is mainly intended to be called on package load via \link{gar_attach_auto_auth}.
 
-
-\code{environment_var} This is the name that will be called via \link{Sys.getenv} on library load.  The environment variable will contain an absolute file path to the location of an authentication file.
-
-\code{travis_environment_var} Name that will be called via \link{Sys.getenv} in Travis tests.  
-  As the working directory is different on travis, 
-  this environment variable should contain a relative path to your Github repository home folder.}
+\code{environment_var} This is the name that will be called via \link{Sys.getenv} on library load.  The environment variable will contain an absolute file path to the location of an authentication file.}
 }
 \value{
 an OAuth token object, specifically a
