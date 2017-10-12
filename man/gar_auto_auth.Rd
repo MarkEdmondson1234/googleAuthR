@@ -14,7 +14,9 @@ gar_auto_auth(required_scopes, new_user = FALSE, no_auto = FALSE,
 
 \item{no_auto}{If TRUE, ignore auto-authentication settings}
 
-\item{environment_var}{Name of environment var that contains auth file path
+\item{environment_var}{Name of environment var that contains auth file path}
+
+\item{travis_environment_var}{No longer supported
 
 The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
   or a Google service JSON file downloaded from the Google API crudential console, 

@@ -8,8 +8,6 @@ gar_check_existing_token(token = Authentication$public_fields$token)
 }
 \arguments{
 \item{token}{A token to check, default current live session token}
-
-\item{level}{Message feedback level, set to lower than 3 to only be visible via \code{option(googleAuthR.verbose)}}
 }
 \value{
 \code{FALSE} if the options and current token do not match, \code{TRUE} if they do.

@@ -3,7 +3,6 @@
 #' Useful for debugging authentication issues
 #' 
 #' @param token A token to check, default current live session token
-#' @param level Message feedback level, set to lower than 3 to only be visible via \code{option(googleAuthR.verbose)}
 #' 
 #' @return \code{FALSE} if the options and current token do not match, \code{TRUE} if they do.
 #' 
