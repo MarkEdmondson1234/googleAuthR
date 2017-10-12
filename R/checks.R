@@ -1,3 +1,58 @@
+#' Check a token vs options
+#' 
+#' Useful for debugging authentication issues
+#' 
+#' @param token A token to check, default current live session token
+#' @param level Message feedback level, set to lower than 3 to only be visible via \code{option(googleAuthR.verbose)}
+#' 
+#' @return \code{FALSE} if the options and current token do not match, \code{TRUE} if they do.
+#' 
+#' @details 
+#' 
+#' Will compare the passed token's settings and compare to set options.  
+#'   If these differ, then reauthentication may be needed.
+#' 
+#' @export
+gar_check_existing_token <- function(token = Authentication$public_fields$token){
+  
+  cache_path <- scopes <- client_id <- client_secret <- FALSE
+  
+  if(is.null(token)){
+    myMessage("No local token found in session")
+    return(FALSE)
+  }
+  
+  cache_path <- is.different(token$cache_path, "googleAuthR.httr_oauth_cache")
+
+  scopes <- is.different(token$params$scope, "googleAuthR.scopes.selected")
+
+  if(!is.null(token$app)){
+    client_id <- is.different(token$app$key, "googleAuthR.client_id")
+    client_secret <- is.different(token$app$secret, "googleAuthR.client_secret")
+    
+  } else {
+    message("No client_id in token, authentication from JSON key file")
+  }
+  
+  ## FALSE if any are different, TRUE if they are not
+  !any(cache_path, scopes, client_id, client_secret)
+}
+
+is.different <- function(token_element, option_name){
+  if(!any(token_element %in% getOption(option_name))){
+    message(sprintf("Token %s != getOption('%s') \n#>Token: %s \n#>Option: %s\n", 
+                    deparse(substitute(token_element)), 
+                    option_name, 
+                    paste(token_element, collapse = " "), 
+                    paste(getOption(option_name), collapse = " ")
+                    )
+            )
+    
+    return(TRUE)
+  }
+  FALSE
+}
+
 #' Check token scopes
 ## check if scopes are set correctly
 check_cached_scopes <- function(){

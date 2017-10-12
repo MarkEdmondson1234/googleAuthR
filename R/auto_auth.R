@@ -31,13 +31,18 @@
 gar_auto_auth <- function(required_scopes,
                           new_user = FALSE, 
                           no_auto = FALSE,
-                          environment_var = "GAR_AUTH_FILE"){
+                          environment_var = "GAR_AUTH_FILE",
+                          travis_environment_var = NULL){
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
                options(googleAuthR.scopes.selected) 
               - no authentication attempted.", level = 3)
     return(NULL)
+  }
+  
+  if(!is.null(travis_environment_var)){
+    warning("travis_environment_var argument is now unsupported and does nothing")
   }
   
   assert_that(

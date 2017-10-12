@@ -29,47 +29,6 @@ list_websites2 <- function(dummy_arg = 3) {
 }
 
 
-test_that("The auth JSON file can be found",{
-  skip_on_cran()
-  filep <- Sys.getenv("GAR_AUTH_FILE")
-  if(filep == "") filep <- Sys.getenv("TRAVIS_GAR_AUTH_FILE")
-  
-  cat("\n==auth JSON file location==\n")
-  cat("=dir: ", getwd(),"\n")
-  cat("=file: ",filep, "\n")
-  cat("=list files:", list.files(),"\n")
-  cat("\n")
-  
-  if(filep != "") expect_true(file.exists(filep))
-  
-})
-
-test_that("The auth httr file can be found",{
-  skip_on_cran()
-  filep <- getOption("googleAuthR.httr_oauth_cache")
-  
-  if(class(filep) == "character") {
-    expect_true(file.exists(filep))
-  } else {
-    skip("No httr file found")
-  }
-  
-})
-
-test_that("Can authenticate .httr passed as a file", {
-  skip_on_cran()
-  expect_s3_class(gar_auth("httr-oauth.rds"), "Token2.0")
-  
-})
-
-
-test_that("Can authenticate .httr looking for existing file", {
-  skip_on_cran()
-  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
-  expect_s3_class(gar_auth(), "Token2.0")
-  
-})
-
 test_that("Can authenticate .httr passing a token", {
   skip_on_cran()
   tt <- gar_auth()

@@ -17,6 +17,7 @@
 * RStudio Addin now offers menu to prepopulate scopes for APIs from discovery API. 
 * Add `googleAuthR.batch_endpoint` option for specific library batches.
 * Remove TRAVIS support in environment arguments
+* Add `gar_check_existing_token()` to improve user feedback on why a reauthentication occurs
 
 ## Bug fixes
 

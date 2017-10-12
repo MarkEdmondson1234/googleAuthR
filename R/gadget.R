@@ -41,7 +41,7 @@ gar_gadget <- function(){
           shiny::selectInput("add_scopes",label = "Add new scopes", width = "100%", choices = NULL, multiple = TRUE),
           shiny::actionButton("do_add_scopes","Add scopes", icon = shiny::icon("plus")),
           shiny::helpText("Google API scopes are listed ", 
-                          a(href="https://developers.google.com/identity/protocols/googlescopes", 
+                          shiny::a(href="https://developers.google.com/identity/protocols/googlescopes", 
                                    "here", 
                                    target="_blank")),
           shiny::strong("googleAuthR.client_id"),

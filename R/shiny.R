@@ -306,9 +306,9 @@ gar_shiny_getToken <- function(code,
 #' @export
 googleAuthUI <- function(id){
   check_package_loaded("shiny")
-  shiny::ns <- shiny::NS(id)
+  ns <- shiny::NS(id)
   
-  shiny::uiOutput(shiny::ns("googleAuthUi"))
+  shiny::uiOutput(ns("googleAuthUi"))
 }
   
   
@@ -453,7 +453,7 @@ googleAuth <- function(input, output, session,
     }
   })
 
-  shiny::observeEvent(input[[shiny::ns("revoke")]], {
+  shiny::observeEvent(input[[ns("revoke")]], {
       
     ## GETS the revoke URL for this user's access_token
     httr::GET(httr::modify_url("https://accounts.google.com/o/oauth2/revoke",

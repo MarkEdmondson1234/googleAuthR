@@ -5,7 +5,7 @@
 \title{Perform auto authentication}
 \usage{
 gar_auto_auth(required_scopes, new_user = FALSE, no_auto = FALSE,
-  environment_var = "GAR_AUTH_FILE")
+  environment_var = "GAR_AUTH_FILE", travis_environment_var = NULL)
 }
 \arguments{
 \item{required_scopes}{Required scopes needed to authenticate - needs to match at least one}

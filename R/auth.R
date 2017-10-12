@@ -2,7 +2,6 @@
 #' 
 #' Used to keep persistent state.
 #' @export
-#' @noRd
 Authentication <- R6::R6Class(
   "Authentication",
   public = list(
@@ -137,6 +136,15 @@ rm_old_user_cache <- function(httr_file){
 #' @importFrom httr oauth_endpoints oauth_app oauth2.0_token
 make_new_token <- function(){
 
+  check_existing <- gar_check_existing_token()
+  if(!check_existing){
+    myMessage("Can't refresh token due to differing options, manual re-authentication required", level = 3)
+    if(!interactive()){
+      stop("Authentication options didn't match existing session token and not interactive session
+           so unable to manually reauthenticate", call. = FALSE)
+    }
+  }
+  
   endpoint <- oauth_endpoints("google")
   
   key    <- getOption("googleAuthR.client_id", "")
@@ -152,7 +160,7 @@ make_new_token <- function(){
     stop("option('googleAuthR.client_secret') has not been set", call. = FALSE)
   }
   
-  if(scope == ""){
+  if(all(scope == "")){
     stop("option('googleAuthR.scopes.selected') has not been set", call. = FALSE)
   }
   
@@ -188,33 +196,36 @@ make_new_token <- function(){
 gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", default = 3)){
   token  <- Authentication$public_fields$token
   method <- Authentication$public_fields$method
-  
+ 
   if(is.null(token)){
-    myMessage("No token found", level = 3)
+    message("No token found")
     return(NULL)
   }
   if(detail_level >= 3){
-    myMessage("Token cache file: ", token$cache_path, level = 3)
+    message("Token cache file: ", token$cache_path)
 
     ## service
     if(!is.null(token$secrets)){
-      myMessage("Type: ", token$secrets$type, level = 3)
-      myMessage("ProjectID: ", token$secrets$project_id, level = 3)
-      myMessage("Client email: ", token$secrets$client_email, level = 3)
-      myMessage("ClientID: ", token$secrets$client_id, level = 3)
+      message("Type: ", token$secrets$type)
+      message("ProjectID: ", token$secrets$project_id)
+      message("Client email: ", token$secrets$client_email)
+      message("ClientID: ", token$secrets$client_id)
     }
     
-  } else if(detail_level == 2){
-    myMessage("Hash: ", token$hash(), level = 2)
-    myMessage("Scopes: ", paste(token$params$scope, collapse = " "), level = 2)
+  }
+  
+  if(detail_level <= 2){
+    message("Scopes: ", paste(token$params$scope, collapse = " "))
     if(!is.null(token$app$key)){
-      myMessage("App key: ", token$app$key, level = 2)
+      message("App key: ", token$app$key)
     }
     
-    myMessage("Method: ", method, level = 2)
+    message("Method: ", method)
     
-  } else if(detail_level == 1){
-    NULL
+  }
+  
+  if(detail_level == 1){
+    message("Hash: ", token$hash())
   }
 
 
