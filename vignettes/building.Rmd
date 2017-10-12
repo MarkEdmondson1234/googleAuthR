@@ -188,18 +188,45 @@ gcs_get_object <- function(bucket,
 
 If you are doing many API calls, you can speed this up a lot by using the batch option.
 This takes the API functions you have created and wraps them in the `gar_batch` function to request them all in one POST call.  You then recieve the responses in a list.
+
 Note that this does not count as one call for API limits purposes, it just speeds up the processing.
 The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.
 
+### Setting batch endpoint
+
+From version `googleAuthR 0.6.0` you also need to set an option of the batch endpoint.  This is due to multi-batch endpoints being deprecated by Google.  You are also no longer able to send batches for multiple APIs in one call.
+
+The batch endpoint is usually of the form:
+
+`www.googleapis.com/batch/api-name/api-version`
+
+e.g. For BigQuery, the option is:
+
 ```r
-## from search console API
-list_websites <- function() {
+options(googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/bigquery/v2")
+```
+
+### Example batching
+
+```r
+## usually set on package load
+options(googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/urlshortener/v1")
+
+## from goo.gl API
+shorten_url <- function(url){
+
+  body = list(
+    longUrl = url
+  )
   
-  l <- gar_api_generator("https://www.googleapis.com/webmasters/v3/sites",
-                                      "GET",
-                                      data_parse_function = function(x) x$siteEntry)
-  l()
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x$id)
+  
+  f(the_body = body)
+  
 }
+
 ## from goo.gl API
 user_history <- function(){
   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
@@ -208,56 +235,45 @@ user_history <- function(){
   
   f()
 }
-googleAuthR::gar_auth(new_user=T)
-ggg <- gar_batch(list(list_websites(), user_history()))
+library(googleAuthR)
+
+gar_auth()
+
+ggg <- gar_batch(list(shorten_url("http://markedmondson.me"), user_history()))
+
 ```
 
 #### Walking through batch requests
 
 A common batch task is to walk through the same API call, modifying only one parameter.  An example includes walking through Google Analytics API calls by date to avoid sampling.
+
 A function to enable this is implemented at `gar_batch_walk`, with an example below:
+
 ```r
+library(googleAuthR)
+
 walkData <- function(ga, ga_pars, start, end){
+
+  ## creates dates to walk through
   dates <- as.character(
-    seq(as.Date(start, format="%Y-%m-%d"),
-        as.Date(end, format="%Y-%m-%d"),
-        by=1))
-  ga_pars$samplingLevel <- "HIGHER_PRECISION"
-  anyBatchSampled <- FALSE
-  samplePercent   <- 0
+    seq(as.Date(start),as.Date(end),by=1))
   
-  
-  ## this is applied to each batch to keep tally of meta data
-  bf <- function(batch_data){
-    lapply(batch_data, function(the_data) {
-      if(attr(the_data, 'containsSampledData')) anyBatchSampled <<- TRUE
-      samplePercent <<- samplePercent + attr(the_data, "samplePercent")
-    })
-    batch_data
-  }
   ## the walk through batch function. 
   ## In this case both start-date and end-date are set to the date iteration
   ## if the output is parsed as a dataframe, it also includes a rbind function
   ## otherwise, it will return a list of lists
-  walked_data <- googleAuthR::gar_batch_walk(ga,
-                                             dates,
-                                             gar_pars = ga_pars,
-                                             pars_walk = c("start-date", "end-date"),
-                                             batch_function = bf,
-                                             data_frame_output = TRUE)
-  message("Walked through all dates. Total Results: [", NROW(walked_data), "]")
-  attr(walked_data, "dateRange") <- list(startDate = start, endDate = end)
-  attr(walked_data, "totalResults") <- NROW(walked_data)
-  attr(walked_data, "samplingLevel") <- "HIGHER_PRECISION, WALKED"
-  attr(walked_data, "containsSampledData") <- anyBatchSampled
-  attr(walked_data, "samplePercent") <- samplePercent / length(dates)
-  walked_data
+  gar_batch_walk(ga,
+                 dates,
+                 gar_pars = ga_pars,
+                 pars_walk = c("start-date", "end-date"),
+                 data_frame_output = TRUE)
+                 
 }
 ```
 
 ## Auto-build libraries
 
-New in `0.4` is helper functions that use Google's [API Discovery service](https://developers.google.com/discovery/).
+From `0.4` is helper functions that use Google's [API Discovery service](https://developers.google.com/discovery/).
 
 This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs.  At the time of writing this is 152 libraries.
 
@@ -305,48 +321,108 @@ check_results <- lapply(api_json_list,
 
 ```
 
-## Testing your library with mock API calls
-
-From version `>0.5.1` you can create caches of API calls that can be used within unit tests.
-
-Set `option(googleAuthR.mock_tests = TRUE)` in your testing suite.  Now API calls will be compared with a cache located within `tests/mock/` and if they have a cached call with the same arguments no API call will actually be made.  This allows you to perform tests when offline and without needing to deal with authentication issues when publishing online such as Travis. 
-
-If a cache is not available whilst the `option(googleAuthR.mock_tests = TRUE)` is on, then a cache will be created.  You can see which functions are cached using `gar_mock_list()` and delete the cache with `gar_mock_delete()`
-
-You also need to specify which package you are testing with `options(googleAuthR.mock_package = "mypackage")` or using `gar_setup_mock()`
-
-Within testing suites, put the flag at the start of the script:
-
-```r
-library(testthat)
-options(googleAuthR.mock_test = TRUE)
-options(googleAuthR.cache_package = "mypackage")
-...etc..
-
-test_that("I can call this API", {
-
-  call_api()
-
-})
-```
-
-Run this once through with your own local authentication, then once all the caches are built you can upload to GitHub.  Be sure you only upload caches you don't mind being public.
-
-The cache is made at the point of when the API call is made, so any changes you make to parsing etc. will affect the results.
-
 ## Caching API calls
 
-You can also set up local caching of API calls.  Activate by using the `gar_cache_set_loc()`  function with either `memory` to store in RAM or the name of a folder to store `.rds` files, and specifying which function to cache calls from via `gar_setup_cache("name_of_package")`. 
+You can also set up local caching of API calls.  This uses the [`memoise`](https://github.com/r-lib/memoise) package to let you write API responses to memory or disk and to call them from there instead of the API, if its using the same parameters.
 
-Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call.  If it does not it will make the API call, and save the response to where you have specified in  `gar_cache_set_loc()`
+A demonstration is shown below:
 
-List the caches active using `gar_cache_list()` and remove them by either deleting the files in the cache directory or running `gar_cache_delete()`
+```r
+#' Shortens a url using goo.gl
+#'
+#' @param url URl to shorten with goo.gl
+#' 
+#' @return a string of the short URL
+shorten_url <- function(url){
+  
+  body = list(
+    longUrl = url
+  )
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x$id)
+  
+  f(the_body = body)
+  
+}
 
-This can be local for large requests that may timeout or 500 error sometimes.  Re-running the API call will read from cache for the progress you have made so far, so much speeding up reruns. 
+gar_auth()
 
-Obviously be careful to only use this where you know the API request won't change - if you wnat to refresh the cache you will need to set the caching off or delete the individual cache file in the directory - the hash name of the cache should be consistent. 
+## normal API fetch
+shorten_url("http://markedmondson.me")
 
-## Example with goo.gl
+## By default this will save the API response to RAM
+gar_cache_setup()
+
+## first time no cache
+shorten_url("http://markedmondson.me")
+
+## second time cached - much quicker
+shorten_url("http://markedmondson.me")
+```
+
+
+Caching is activated by using the `gar_cache_setup()`  function.
+
+The default uses `memoise::cache_memory()` which will cache the response to RAM, but you can change this to any of the `memoise` cache functions such as `cache_s3()` or `cache_filesytem()`
+
+`cache_filesystem()` will write to a local folder, meaning you can save API responses between R sessions.
+
+### Other cache functions
+
+You can see the current cache location function via `gar_cache_get_loc` and stop caching via `gar_cache_empty`
+
+### Invalidating cache
+
+> There are two hard things in Computer Science: cache invalidation and naming things.
+
+In some cases, you may only want to cache the API responses under certain conditions.  A common use case is if an API call is checking if a job is running or finished.  You would only want to cache the finished state, otherwise the function will run indefinitely. 
+
+For those circumstances, you can supply a function that takes the API response as its only input, and outputs `TRUE` or `FALSE` whether to do the caching.  This allows you to introduce a check e.g. for finished jobs.
+
+The default will only cache for when a successful request `200` is found:
+
+```r
+function(req){req$status_code == 200}
+```
+
+For more advanced use cases, examine the response of failed and successful API calls, and create the appropriate function. Pass that function when creating the cache:
+
+```r
+f <- function(req){
+
+  ## if the API response if of type "job"
+  ## check if its done, or return FALSE (no cache) if it is not
+  if(req$kind == "job"){
+    return(req$status == "Done")
+  }
+  
+  ## all other requests just check for 200 status codes
+  req$status_code == 200
+  
+}
+
+gar_cache_setup(invalid_func = f)  
+```
+
+Another example, if you also want to save the response to a file:
+
+```r
+gar_cache_setup(mcache = memoise::cache_filesystem("my_folder"),
+                invalid_func = f)  
+```
+
+
+### Using caching
+
+Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call.  If it does not it will make the API call, and save the response to where you have specified.
+
+Applications include saving large responses to RAM during paging calls, so that if the response fails retries are quickly moved to where the API left off, or to write API responses to disk for multi-session caching. You could also use this for unit testing, although its recommend to use [`httptest`](https://github.com/nealrichardson/httptest) library for that as it has wider support for authentication obscuration etc. 
+
+Be careful to only use caching where you know the API request won't change - if you want to refresh the cache you will need to set the caching off or delete the individual cache file in the directory.
+
+## Creating an API library from scratch - Example with goo.gl
 
 Below is an example building a link shortner R package using `googleAuthR`.
 It was done referring to the [documentation for Google URL shortener](https://developers.google.com/url-shortener/v1/getting_started).
@@ -445,4 +521,50 @@ s
 expand_url(s)
 analytics_url(s, timespan = "month")
 user_history()
+```
+
+## Creating a Google Calendar list
+
+Another example is shown below to fetch your Google calendar entries.  The below uses the [API skeletons functions](https://github.com/MarkEdmondson1234/autoGoogleAPI/blob/master/googlecalendarv3.auto/R/calendar_functions.R#L962) that are auto generated via the `gar_discovery_api` functions.
+
+Make sure the calendar API is activated for your Google Project at below URL:
+`https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview`
+
+```r
+#' Gets a list of events for calendarId
+#' 
+#' @param calendarId The calendar to get.  Default is primary for authenticated user
+#' @return a big list of JSON
+events.list <- function(calendarId = "primary") {
+  url <- sprintf("https://www.googleapis.com/calendar/v3/calendars/%s/events", 
+                 calendarId)
+
+  f <- googleAuthR::gar_api_generator(url, "GET", 
+                                      data_parse_function = function(x) x)
+  f()
+  
+}
+```
+
+To use your function:
+
+```r
+library(googleAuthR)
+## set scopes for calendar
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/calendar.readonly",
+        googleAuthR.client_id = "XXXX",  ## add your Google project client Id
+        googleAuthR.client_secret = "XXXX")  ## add your Google project client secret
+        
+## authenticate with email that has access to the calendar
+gar_auth()
+
+## should kick you out to Google OAuth2 flow.  Come back here when done....
+
+## get default (primary) calendar list
+events <- events.list()
+
+## events is raw JSON response, 
+## parse down to items by modifying the data_parse_function in events.list()
+## or operating afterwards in code like below
+events$items$summary
 ```

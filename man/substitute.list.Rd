@@ -17,16 +17,4 @@ The template with the values substituted.
 \description{
 Substitute in a (nested) list
 }
-\keyword{If}
-\keyword{has}
-\keyword{in}
 \keyword{internal}
-\keyword{list}
-\keyword{names}
-\keyword{not}
-\keyword{replace_me}
-\keyword{same.}
-\keyword{stays}
-\keyword{template,}
-\keyword{the}
-\keyword{value}

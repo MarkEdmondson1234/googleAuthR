@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-06-09" />
+<meta name="date" content="2017-10-12" />
 
 <title>Building your own Google R library</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Building your own Google R library</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-06-09</em></h4>
+<h4 class="date"><em>2017-10-12</em></h4>
 
 
 
@@ -223,15 +223,36 @@ $body_json
 </div>
 <div id="batching-api-requests" class="section level2">
 <h2>Batching API requests</h2>
-<p>If you are doing many API calls, you can speed this up a lot by using the batch option. This takes the API functions you have created and wraps them in the <code>gar_batch</code> function to request them all in one POST call. You then recieve the responses in a list. Note that this does not count as one call for API limits purposes, it just speeds up the processing. The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## from search console API
-list_websites &lt;-<span class="st"> </span>function() {
+<p>If you are doing many API calls, you can speed this up a lot by using the batch option. This takes the API functions you have created and wraps them in the <code>gar_batch</code> function to request them all in one POST call. You then recieve the responses in a list.</p>
+<p>Note that this does not count as one call for API limits purposes, it just speeds up the processing. The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.</p>
+<div id="setting-batch-endpoint" class="section level3">
+<h3>Setting batch endpoint</h3>
+<p>From version <code>googleAuthR 0.6.0</code> you also need to set an option of the batch endpoint. This is due to multi-batch endpoints being deprecated by Google. You are also no longer able to send batches for multiple APIs in one call.</p>
+<p>The batch endpoint is usually of the form:</p>
+<p><code>www.googleapis.com/batch/api-name/api-version</code></p>
+<p>e.g. For BigQuery, the option is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">&quot;https://www.googleapis.com/batch/bigquery/v2&quot;</span>)</code></pre></div>
+</div>
+<div id="example-batching" class="section level3">
+<h3>Example batching</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## usually set on package load
+<span class="kw">options</span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">&quot;https://www.googleapis.com/batch/urlshortener/v1&quot;</span>)
+
+## from goo.gl API
+shorten_url &lt;-<span class="st"> </span>function(url){
+
+  body =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">longUrl =</span> url
+  )
   
-  l &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/webmasters/v3/sites&quot;</span>,
-                                      <span class="st">&quot;GET&quot;</span>,
-                                      <span class="dt">data_parse_function =</span> function(x) x$siteEntry)
-  <span class="kw">l</span>()
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;POST&quot;</span>,
+                         <span class="dt">data_parse_function =</span> function(x) x$id)
+  
+  <span class="kw">f</span>(<span class="dt">the_body =</span> body)
+  
 }
+
 ## from goo.gl API
 user_history &lt;-<span class="st"> </span>function(){
   f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url/history&quot;</span>,
@@ -240,52 +261,40 @@ user_history &lt;-<span class="st"> </span>function(){
   
   <span class="kw">f</span>()
 }
-googleAuthR::<span class="kw">gar_auth</span>(<span class="dt">new_user=</span>T)
-ggg &lt;-<span class="st"> </span><span class="kw">gar_batch</span>(<span class="kw">list</span>(<span class="kw">list_websites</span>(), <span class="kw">user_history</span>()))</code></pre></div>
+<span class="kw">library</span>(googleAuthR)
+
+<span class="kw">gar_auth</span>()
+
+ggg &lt;-<span class="st"> </span><span class="kw">gar_batch</span>(<span class="kw">list</span>(<span class="kw">shorten_url</span>(<span class="st">&quot;http://markedmondson.me&quot;</span>), <span class="kw">user_history</span>()))</code></pre></div>
 <div id="walking-through-batch-requests" class="section level4">
 <h4>Walking through batch requests</h4>
-<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling. A function to enable this is implemented at <code>gar_batch_walk</code>, with an example below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">walkData &lt;-<span class="st"> </span>function(ga, ga_pars, start, end){
+<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling.</p>
+<p>A function to enable this is implemented at <code>gar_batch_walk</code>, with an example below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+
+walkData &lt;-<span class="st"> </span>function(ga, ga_pars, start, end){
+
+  ## creates dates to walk through
   dates &lt;-<span class="st"> </span><span class="kw">as.character</span>(
-    <span class="kw">seq</span>(<span class="kw">as.Date</span>(start, <span class="dt">format=</span><span class="st">&quot;%Y-%m-%d&quot;</span>),
-        <span class="kw">as.Date</span>(end, <span class="dt">format=</span><span class="st">&quot;%Y-%m-%d&quot;</span>),
-        <span class="dt">by=</span><span class="dv">1</span>))
-  ga_pars$samplingLevel &lt;-<span class="st"> &quot;HIGHER_PRECISION&quot;</span>
-  anyBatchSampled &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-  samplePercent   &lt;-<span class="st"> </span><span class="dv">0</span>
+    <span class="kw">seq</span>(<span class="kw">as.Date</span>(start),<span class="kw">as.Date</span>(end),<span class="dt">by=</span><span class="dv">1</span>))
   
-  
-  ## this is applied to each batch to keep tally of meta data
-  bf &lt;-<span class="st"> </span>function(batch_data){
-    <span class="kw">lapply</span>(batch_data, function(the_data) {
-      if(<span class="kw">attr</span>(the_data, <span class="st">'containsSampledData'</span>)) anyBatchSampled &lt;&lt;-<span class="st"> </span><span class="ot">TRUE</span>
-      samplePercent &lt;&lt;-<span class="st"> </span>samplePercent +<span class="st"> </span><span class="kw">attr</span>(the_data, <span class="st">&quot;samplePercent&quot;</span>)
-    })
-    batch_data
-  }
   ## the walk through batch function. 
   ## In this case both start-date and end-date are set to the date iteration
   ## if the output is parsed as a dataframe, it also includes a rbind function
   ## otherwise, it will return a list of lists
-  walked_data &lt;-<span class="st"> </span>googleAuthR::<span class="kw">gar_batch_walk</span>(ga,
-                                             dates,
-                                             <span class="dt">gar_pars =</span> ga_pars,
-                                             <span class="dt">pars_walk =</span> <span class="kw">c</span>(<span class="st">&quot;start-date&quot;</span>, <span class="st">&quot;end-date&quot;</span>),
-                                             <span class="dt">batch_function =</span> bf,
-                                             <span class="dt">data_frame_output =</span> <span class="ot">TRUE</span>)
-  <span class="kw">message</span>(<span class="st">&quot;Walked through all dates. Total Results: [&quot;</span>, <span class="kw">NROW</span>(walked_data), <span class="st">&quot;]&quot;</span>)
-  <span class="kw">attr</span>(walked_data, <span class="st">&quot;dateRange&quot;</span>) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">startDate =</span> start, <span class="dt">endDate =</span> end)
-  <span class="kw">attr</span>(walked_data, <span class="st">&quot;totalResults&quot;</span>) &lt;-<span class="st"> </span><span class="kw">NROW</span>(walked_data)
-  <span class="kw">attr</span>(walked_data, <span class="st">&quot;samplingLevel&quot;</span>) &lt;-<span class="st"> &quot;HIGHER_PRECISION, WALKED&quot;</span>
-  <span class="kw">attr</span>(walked_data, <span class="st">&quot;containsSampledData&quot;</span>) &lt;-<span class="st"> </span>anyBatchSampled
-  <span class="kw">attr</span>(walked_data, <span class="st">&quot;samplePercent&quot;</span>) &lt;-<span class="st"> </span>samplePercent /<span class="st"> </span><span class="kw">length</span>(dates)
-  walked_data
+  <span class="kw">gar_batch_walk</span>(ga,
+                 dates,
+                 <span class="dt">gar_pars =</span> ga_pars,
+                 <span class="dt">pars_walk =</span> <span class="kw">c</span>(<span class="st">&quot;start-date&quot;</span>, <span class="st">&quot;end-date&quot;</span>),
+                 <span class="dt">data_frame_output =</span> <span class="ot">TRUE</span>)
+                 
 }</code></pre></div>
+</div>
 </div>
 </div>
 <div id="auto-build-libraries" class="section level2">
 <h2>Auto-build libraries</h2>
-<p>New in <code>0.4</code> is helper functions that use Google’s <a href="https://developers.google.com/discovery/">API Discovery service</a>.</p>
+<p>From <code>0.4</code> is helper functions that use Google’s <a href="https://developers.google.com/discovery/">API Discovery service</a>.</p>
 <p>This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs. At the time of writing this is 152 libraries.</p>
 <p>These libraries aren’t intended to be submitted to CRAN or used straight away, but should take away a lot of documentation and function building work so you can concentrate on tests, examples and helper functions for your users.</p>
 <p>Get a list of the current APIs via <code>gar_discovery_apis_list()</code></p>
@@ -314,36 +323,86 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
                         <span class="dt">github =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
 </div>
-<div id="testing-your-library-with-mock-api-calls" class="section level2">
-<h2>Testing your library with mock API calls</h2>
-<p>From version <code>&gt;0.5.1</code> you can create caches of API calls that can be used within unit tests.</p>
-<p>Set <code>option(googleAuthR.mock_tests = TRUE)</code> in your testing suite. Now API calls will be compared with a cache located within <code>tests/mock/</code> and if they have a cached call with the same arguments no API call will actually be made. This allows you to perform tests when offline and without needing to deal with authentication issues when publishing online such as Travis.</p>
-<p>If a cache is not available whilst the <code>option(googleAuthR.mock_tests = TRUE)</code> is on, then a cache will be created. You can see which functions are cached using <code>gar_mock_list()</code> and delete the cache with <code>gar_mock_delete()</code></p>
-<p>You also need to specify which package you are testing with <code>options(googleAuthR.mock_package = &quot;mypackage&quot;)</code> or using <code>gar_setup_mock()</code></p>
-<p>Within testing suites, put the flag at the start of the script:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
-<span class="kw">options</span>(<span class="dt">googleAuthR.mock_test =</span> <span class="ot">TRUE</span>)
-<span class="kw">options</span>(<span class="dt">googleAuthR.cache_package =</span> <span class="st">&quot;mypackage&quot;</span>)
-...etc..
-
-<span class="kw">test_that</span>(<span class="st">&quot;I can call this API&quot;</span>, {
-
-  <span class="kw">call_api</span>()
-
-})</code></pre></div>
-<p>Run this once through with your own local authentication, then once all the caches are built you can upload to GitHub. Be sure you only upload caches you don’t mind being public.</p>
-<p>The cache is made at the point of when the API call is made, so any changes you make to parsing etc. will affect the results.</p>
-</div>
 <div id="caching-api-calls" class="section level2">
 <h2>Caching API calls</h2>
-<p>You can also set up local caching of API calls. Activate by using the <code>gar_cache_set_loc()</code> function with either <code>memory</code> to store in RAM or the name of a folder to store <code>.rds</code> files, and specifying which function to cache calls from via <code>gar_setup_cache(&quot;name_of_package&quot;)</code>.</p>
-<p>Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call. If it does not it will make the API call, and save the response to where you have specified in <code>gar_cache_set_loc()</code></p>
-<p>List the caches active using <code>gar_cache_list()</code> and remove them by either deleting the files in the cache directory or running <code>gar_cache_delete()</code></p>
-<p>This can be local for large requests that may timeout or 500 error sometimes. Re-running the API call will read from cache for the progress you have made so far, so much speeding up reruns.</p>
-<p>Obviously be careful to only use this where you know the API request won’t change - if you wnat to refresh the cache you will need to set the caching off or delete the individual cache file in the directory - the hash name of the cache should be consistent.</p>
+<p>You can also set up local caching of API calls. This uses the <a href="https://github.com/r-lib/memoise"><code>memoise</code></a> package to let you write API responses to memory or disk and to call them from there instead of the API, if its using the same parameters.</p>
+<p>A demonstration is shown below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' Shortens a url using goo.gl</span>
+<span class="co">#'</span>
+<span class="co">#' @param url URl to shorten with goo.gl</span>
+<span class="co">#' </span>
+<span class="co">#' @return a string of the short URL</span>
+shorten_url &lt;-<span class="st"> </span>function(url){
+  
+  body =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">longUrl =</span> url
+  )
+  
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;POST&quot;</span>,
+                         <span class="dt">data_parse_function =</span> function(x) x$id)
+  
+  <span class="kw">f</span>(<span class="dt">the_body =</span> body)
+  
+}
+
+<span class="kw">gar_auth</span>()
+
+## normal API fetch
+<span class="kw">shorten_url</span>(<span class="st">&quot;http://markedmondson.me&quot;</span>)
+
+## By default this will save the API response to RAM
+<span class="kw">gar_cache_setup</span>()
+
+## first time no cache
+<span class="kw">shorten_url</span>(<span class="st">&quot;http://markedmondson.me&quot;</span>)
+
+## second time cached - much quicker
+<span class="kw">shorten_url</span>(<span class="st">&quot;http://markedmondson.me&quot;</span>)</code></pre></div>
+<p>Caching is activated by using the <code>gar_cache_setup()</code> function.</p>
+<p>The default uses <code>memoise::cache_memory()</code> which will cache the response to RAM, but you can change this to any of the <code>memoise</code> cache functions such as <code>cache_s3()</code> or <code>cache_filesytem()</code></p>
+<p><code>cache_filesystem()</code> will write to a local folder, meaning you can save API responses between R sessions.</p>
+<div id="other-cache-functions" class="section level3">
+<h3>Other cache functions</h3>
+<p>You can see the current cache location function via <code>gar_cache_get_loc</code> and stop caching via <code>gar_cache_empty</code></p>
 </div>
-<div id="example-with-goo.gl" class="section level2">
-<h2>Example with goo.gl</h2>
+<div id="invalidating-cache" class="section level3">
+<h3>Invalidating cache</h3>
+<blockquote>
+<p>There are two hard things in Computer Science: cache invalidation and naming things.</p>
+</blockquote>
+<p>In some cases, you may only want to cache the API responses under certain conditions. A common use case is if an API call is checking if a job is running or finished. You would only want to cache the finished state, otherwise the function will run indefinitely.</p>
+<p>For those circumstances, you can supply a function that takes the API response as its only input, and outputs <code>TRUE</code> or <code>FALSE</code> whether to do the caching. This allows you to introduce a check e.g. for finished jobs.</p>
+<p>The default will only cache for when a successful request <code>200</code> is found:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function(req){req$status_code ==<span class="st"> </span><span class="dv">200</span>}</code></pre></div>
+<p>For more advanced use cases, examine the response of failed and successful API calls, and create the appropriate function. Pass that function when creating the cache:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(req){
+
+  ## if the API response if of type &quot;job&quot;
+  ## check if its done, or return FALSE (no cache) if it is not
+  if(req$kind ==<span class="st"> &quot;job&quot;</span>){
+    <span class="kw">return</span>(req$status ==<span class="st"> &quot;Done&quot;</span>)
+  }
+  
+  ## all other requests just check for 200 status codes
+  req$status_code ==<span class="st"> </span><span class="dv">200</span>
+  
+}
+
+<span class="kw">gar_cache_setup</span>(<span class="dt">invalid_func =</span> f)  </code></pre></div>
+<p>Another example, if you also want to save the response to a file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gar_cache_setup</span>(<span class="dt">mcache =</span> memoise::<span class="kw">cache_filesystem</span>(<span class="st">&quot;my_folder&quot;</span>),
+                <span class="dt">invalid_func =</span> f)  </code></pre></div>
+</div>
+<div id="using-caching" class="section level3">
+<h3>Using caching</h3>
+<p>Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call. If it does not it will make the API call, and save the response to where you have specified.</p>
+<p>Applications include saving large responses to RAM during paging calls, so that if the response fails retries are quickly moved to where the API left off, or to write API responses to disk for multi-session caching. You could also use this for unit testing, although its recommend to use <a href="https://github.com/nealrichardson/httptest"><code>httptest</code></a> library for that as it has wider support for authentication obscuration etc.</p>
+<p>Be careful to only use caching where you know the API request won’t change - if you want to refresh the cache you will need to set the caching off or delete the individual cache file in the directory.</p>
+</div>
+</div>
+<div id="creating-an-api-library-from-scratch---example-with-goo.gl" class="section level2">
+<h2>Creating an API library from scratch - Example with goo.gl</h2>
 <p>Below is an example building a link shortner R package using <code>googleAuthR</code>. It was done referring to the <a href="https://developers.google.com/url-shortener/v1/getting_started">documentation for Google URL shortener</a>. Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.</p>
 <ol style="list-style-type: decimal">
 <li>Creating a project</li>
@@ -435,6 +494,43 @@ s
 <span class="kw">analytics_url</span>(s, <span class="dt">timespan =</span> <span class="st">&quot;month&quot;</span>)
 <span class="kw">user_history</span>()</code></pre></div>
 </div>
+</div>
+<div id="creating-a-google-calendar-list" class="section level2">
+<h2>Creating a Google Calendar list</h2>
+<p>Another example is shown below to fetch your Google calendar entries. The below uses the <a href="https://github.com/MarkEdmondson1234/autoGoogleAPI/blob/master/googlecalendarv3.auto/R/calendar_functions.R#L962">API skeletons functions</a> that are auto generated via the <code>gar_discovery_api</code> functions.</p>
+<p>Make sure the calendar API is activated for your Google Project at below URL: <code>https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' Gets a list of events for calendarId</span>
+<span class="co">#' </span>
+<span class="co">#' @param calendarId The calendar to get.  Default is primary for authenticated user</span>
+<span class="co">#' @return a big list of JSON</span>
+events.list &lt;-<span class="st"> </span>function(<span class="dt">calendarId =</span> <span class="st">&quot;primary&quot;</span>) {
+  url &lt;-<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">&quot;https://www.googleapis.com/calendar/v3/calendars/%s/events&quot;</span>, 
+                 calendarId)
+
+  f &lt;-<span class="st"> </span>googleAuthR::<span class="kw">gar_api_generator</span>(url, <span class="st">&quot;GET&quot;</span>, 
+                                      <span class="dt">data_parse_function =</span> function(x) x)
+  <span class="kw">f</span>()
+  
+}</code></pre></div>
+<p>To use your function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+## set scopes for calendar
+<span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">&quot;https://www.googleapis.com/auth/calendar.readonly&quot;</span>,
+        <span class="dt">googleAuthR.client_id =</span> <span class="st">&quot;XXXX&quot;</span>,  ## add your Google project client Id
+        <span class="dt">googleAuthR.client_secret =</span> <span class="st">&quot;XXXX&quot;</span>)  ## add your Google project client secret
+        
+## authenticate with email that has access to the calendar
+<span class="kw">gar_auth</span>()
+
+## should kick you out to Google OAuth2 flow.  Come back here when done....
+
+## get default (primary) calendar list
+events &lt;-<span class="st"> </span><span class="kw">events.list</span>()
+
+## events is raw JSON response, 
+## parse down to items by modifying the data_parse_function in events.list()
+## or operating afterwards in code like below
+events$items$summary</code></pre></div>
 </div>
 </div>
 

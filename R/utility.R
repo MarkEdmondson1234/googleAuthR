@@ -15,6 +15,7 @@ check_package_loaded <- function(package_name){
 #' 
 #' @details 0 = everything, 1 = debug, 2=normal, 3=important
 #' @keywords internal
+#' @noRd
 myMessage <- function(..., level = 2){
   
   compare_level <- getOption("googleAuthR.verbose")
@@ -34,6 +35,7 @@ myMessage <- function(..., level = 2){
 #' 
 #' @return a list of vectors split not including split point
 #' @keywords internal
+#' @noRd
 split_vector <- function(vector, index, remove_splits=TRUE){
   
   l <- list()
@@ -67,11 +69,13 @@ split_vector <- function(vector, index, remove_splits=TRUE){
 #' a list of NULLs
 #'
 #' @keywords internal
+#' @noRd
 is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
 
 #' Recursively step down into list, removing all such objects
 #'
 #' @keywords internal
+#' @noRd
 rmNullObs <- function(x) {
   x <- Filter(Negate(is.NullOb), x)
   lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)
@@ -85,6 +89,7 @@ rmNullObs <- function(x) {
 #' 
 #' @return The template with the values substituted.
 #' @keywords internal
+#' @noRd
 #' If replace_me has list names not in template, the value stays the same.
 substitute.list <- function(template, replace_me){
   
@@ -105,6 +110,7 @@ substitute.list <- function(template, replace_me){
 #' @param func Function to apply if not a list
 #' @keywords internal 
 #' @return the function acting on x or an inner element of x
+#' @noRd
 postwalk <- function(x,func){
   if(is.list(x)){
     func(lapply(x,postwalk,func))
@@ -119,6 +125,7 @@ postwalk <- function(x,func){
 #' @param replace a subset of template with same names but replacement values
 #' @keywords internal
 #' @return a list like template but with values replace from replace
+#' @noRd
 replace.kv <- function(template,replace) {
   if(!is.list(template)) return(template)
   
@@ -140,6 +147,7 @@ replace.kv <- function(template,replace) {
 #' @return Boolean
 #' 
 #' @keywords internal
+#' @noRd
 is_shiny <- function(shiny_session){
   inherits(shiny_session, "ShinySession")
 }
@@ -153,6 +161,7 @@ is_shiny <- function(shiny_session){
 #' @return Boolean
 #' 
 #' @keywords internal
+#' @noRd
 is.error <- function(test_me){
   inherits(test_me, "try-error")
 }
@@ -164,6 +173,7 @@ is.error <- function(test_me){
 #' @return The error message
 #'
 #' @keywords internal
+#' @noRd
 error.message <- function(test_me){
   if(is.error(test_me)) attr(test_me, "condition")$message
 }
@@ -178,6 +188,7 @@ error.message <- function(test_me){
 #' @return Modified url if successful, raises an error if not.
 #' 
 #' @keywords internal
+#' @noRd
 check.Url <- function(url, checkProtocol=TRUE){
   
   if(!is.null(url)){
@@ -198,6 +209,7 @@ check.Url <- function(url, checkProtocol=TRUE){
 #' Converts RFC3339 to as.Date
 #' 
 #' @keywords internal
+#' @noRd
 RFC_convert <- function(RFC, drop_time=FALSE){
   
   if(drop_time){

@@ -4,14 +4,20 @@
 \alias{gar_cache_setup}
 \title{Setup where to put cache}
 \usage{
-gar_cache_setup(mcache = memoise::cache_memory())
+gar_cache_setup(mcache = memoise::cache_memory(),
+  invalid_func = function(req) {     req$status_code == 200 })
 }
 \arguments{
 \item{mcache}{A cache method from \link[memoise]{memoise}. If \code{NULL} will do no caching.}
+
+\item{invalid_func}{A function that takes API response, and returns \code{TRUE} or \code{FALSE} whether caching takes place. Default cache everything.}
 }
 \description{
 To cache to a file system use \code{memoise::cache_filesystem("cache_folder")}, 
   suitable for unit testing and works between R sessions. 
 
 The cached API calls do not need authentication to be active, but need this function to set caching first.
+}
+\seealso{
+Other cache functions: \code{\link{gar_cache_get_loc}}
 }

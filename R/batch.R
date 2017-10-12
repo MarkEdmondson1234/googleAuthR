@@ -258,14 +258,12 @@ parseBatchResponse <- function(batch_response){
 #' @importFrom digest digest
 makeBatchRequest <- function(f){
 
-  
   boundary <- "--gar_batch"
   url_stem <- gsub("https://www.googleapis.com","",f$req_url)
 
   myMessage("Constructing batch request URL for: ", url_stem, level = 2)  
   
   ## construct batch POST request
-  
   req <- paste0("\r\n",
                 f$http_header," ", 
                 url_stem)
@@ -314,8 +312,13 @@ makeBatchRequest <- function(f){
 #' @importFrom httr add_headers user_agent 
 doBatchRequest <- function(batched){
   
-  batch_endpoint <- getOption(googleAuthR.batch_endpoint, 
+  batch_endpoint <- getOption("googleAuthR.batch_endpoint", 
                               default = "https://www.googleapis.com/batch")
+  
+  if(batch_endpoint == "https://www.googleapis.com/batch"){
+    warning("Deprecated batch endpoint being used.  Use option('googleAuthR.batch_endpoint') 
+            to select specific endpoint for this API.")  
+  }
   
   arg_list <- list(url = batch_endpoint, 
                    config = get_google_token(batched$shiny_access_token), 

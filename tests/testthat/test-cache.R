@@ -2,8 +2,7 @@ library(googleAuthR)
 ## change the native googleAuthR scopes to the one needed.
 options(googleAuthR.client_id = "201908948134-rm1ij8ursrfcbkv9koc0aqver84b04r7.apps.googleusercontent.com",
         googleAuthR.client_secret = "nksRJZ5K3nm9FUWsAtBoBArz",
-        googleAuthR.scopes.selected = "https://www.googleapis.com/auth/urlshortener",
-        googleAuthR.cache_function = function(req) if(req$status_code != 200) FALSE else TRUE)
+        googleAuthR.scopes.selected = "https://www.googleapis.com/auth/urlshortener")
 #' Shortens a url using goo.gl
 #'
 #' @param url URl to shorten with goo.gl

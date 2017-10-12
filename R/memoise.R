@@ -1,22 +1,27 @@
 # cache global
 .gar_cache <- new.env(parent = emptyenv())
 .gar_cache$cache <- NULL  # what type of caching
+.gar_cache$invalid <- function() {TRUE} # whether to invalidate when passed req
 
-#' Set cache location
-#' 
-#' These functions let you set the cache behaviour for your API calls
-#' 
-#' @param cache The directory to save cache to, or \code{"memory"} to save to RAM
-#' 
-#' 
-#' @export
-gar_cache_set_loc <- function(cache){
+
+
+# These functions let you set the cache behaviour for your API calls
+# 
+# @param cache The directory to save cache to, or \code{"memory"} to save to RAM
+# @param invalid_func A function that takes API response, and returns \code{TRUE} or \code{FALSE} whether caching takes place. Default cache everything. 
+# 
+#@noRd
+#@keywords internal
+gar_cache_set_loc <- function(cache, invalid_func){
   myMessage("Set API cache", level = 3)
   .gar_cache$cache <- cache
+  .gar_cache$invalid <- invalid_func
+  cache
 }
 
 #' @rdname gar_cache_set_loc
 #' @export
+#' @family cache functions
 gar_cache_get_loc <- function(){
   cache <- .gar_cache$cache
 
@@ -25,6 +30,7 @@ gar_cache_get_loc <- function(){
 
 #' @rdname gar_cache_set_loc
 #' @export
+#' @family cache functions
 gar_cache_empty <- function(){
   myMessage("Deleting API cache", level = 3)
   .gar_cache$cache <- NULL
@@ -35,6 +41,7 @@ gar_cache_empty <- function(){
 #' 
 #' 
 #' @param mcache A cache method from \link[memoise]{memoise}. If \code{NULL} will do no caching.
+#' @param invalid_func A function that takes API response, and returns \code{TRUE} or \code{FALSE} whether caching takes place. Default cache everything. 
 #' 
 #' @description 
 #' 
@@ -44,18 +51,21 @@ gar_cache_empty <- function(){
 #' The cached API calls do not need authentication to be active, but need this function to set caching first. 
 #' 
 #' @export
-gar_cache_setup <- function(mcache=memoise::cache_memory()){
+#' @family cache functions
+gar_cache_setup <- function(mcache=memoise::cache_memory(),
+                            invalid_func = function(req){req$status_code == 200}){
   
   if(is.null(mcache)){
     return(gar_cache_empty())
   }
   
-  gar_cache_set_loc(mcache)
-  
+  gar_cache_set_loc(mcache, invalid_func = invalid_func)
   
 }
 
 #' @import memoise
+#' @family cache functions
+#' @noRd
 memDoHttrRequest <- function(req_url,
                              shiny_access_token,
                              request_type,
@@ -88,7 +98,7 @@ memDoHttrRequest <- function(req_url,
                            simplifyVector=simplifyVector)
   
   ## check request against cache_function to see whether to cache result is TRUE
-  cache_function <- getOption("googleAuthR.cache_function", default = function() TRUE)
+  cache_function <- .gar_cache$invalid
   
   if(!cache_function(req)){
     myMessage("Forgetting cache", level = 3)
@@ -103,6 +113,7 @@ memDoHttrRequest <- function(req_url,
 
 #' @noRd
 #' @import memoise
+#' @family cache functions
 memDoBatchRequest <- function(l){
   
   cachedBatchedRequest <- memoise(doBatchRequest, cache = gar_cache_get_loc())
@@ -118,7 +129,7 @@ memDoBatchRequest <- function(l){
   req <- cachedBatchedRequest(l)
   
   ## check request against cache_function to see whether to cache result is TRUE
-  cache_function <- getOption("googleAuthR.cache_function", default = function() TRUE)
+  cache_function <- .gar_cache$invalid
   
   if(!cache_function(req)){
     myMessage("Forgetting cache", level = 3)
