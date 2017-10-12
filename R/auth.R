@@ -100,6 +100,8 @@ gar_auth <- function(token = NULL,
     }
     
     Authentication$set("public", "method", "passed_token", overwrite=TRUE)
+    ## set the global session token
+    Authentication$set("public", "token", token, overwrite=TRUE)
     
     ## just return it back
     google_token <- token
@@ -112,11 +114,12 @@ gar_auth <- function(token = NULL,
     stop("Unrecognised token object - class ", class(token), call. = FALSE)
   }
   
-  ## set the global session token
-  Authentication$set("public", "token", google_token, overwrite=TRUE)
-  
   ## output info on token saved
   gar_token_info()
+  
+  if(!gar_check_existing_token()){
+    warning("Token has different options() than currently set.", call. = FALSE)
+  }
   
   ## return google_token above
   return(invisible(google_token)) 
@@ -266,6 +269,8 @@ read_cache_token <- function(token_path){
   options("googleAuthR.httr_oauth_cache" = token_path)
   google_token$cache_path <- token_path
   Authentication$set("public", "method", "filepath", overwrite=TRUE)
+  ## set the global session token
+  Authentication$set("public", "token", google_token, overwrite=TRUE)
   
   google_token
 }

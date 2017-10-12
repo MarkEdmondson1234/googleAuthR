@@ -18,7 +18,7 @@ gar_check_existing_token <- function(token = Authentication$public_fields$token)
   cache_path <- scopes <- client_id <- client_secret <- FALSE
   
   if(is.null(token)){
-    myMessage("No local token found in session")
+    myMessage("No local token found in session", level = 2)
     return(FALSE)
   }
   
@@ -31,7 +31,7 @@ gar_check_existing_token <- function(token = Authentication$public_fields$token)
     client_secret <- is.different(token$app$secret, "googleAuthR.client_secret")
     
   } else {
-    message("No client_id in token, authentication from JSON key file")
+    myMessage("No client_id in token, authentication from JSON key file", level = 2)
   }
   
   ## FALSE if any are different, TRUE if they are not
@@ -40,50 +40,17 @@ gar_check_existing_token <- function(token = Authentication$public_fields$token)
 
 is.different <- function(token_element, option_name){
   if(!any(token_element %in% getOption(option_name))){
-    message(sprintf("Token %s != getOption('%s') \n#>Token: %s \n#>Option: %s\n", 
+    warning(sprintf("Token %s != getOption('%s') \n#>Token: %s \n#>Option: %s\n", 
                     deparse(substitute(token_element)), 
                     option_name, 
                     paste(token_element, collapse = " "), 
                     paste(getOption(option_name), collapse = " ")
-                    )
+                    ), call. = FALSE
             )
     
     return(TRUE)
   }
   FALSE
-}
-
-#' Check token scopes
-## check if scopes are set correctly
-check_cached_scopes <- function(){
-  
-  httr_cache <- getOption("googleAuthR.httr_oauth_cache")
-  if(!file.exists(httr_cache)){
-    myMessage("No cache file found to check scopes", level = 2)
-    return(NULL)
-  }
-  google_token <- tryCatch({
-    readRDS(httr_cache)
-  }, error = function(ex){
-    stop("Problem reading cached token from ", normalizePath(httr_cache))
-  })
-  
-  current_scopes <- google_token$params$scope
-  option_scopes  <- getOption("googleAuthR.scopes.selected")
-  
-  if(!all(current_scopes %in% option_scopes)){
-    warning(paste0("option(googleAuthR.scopes.selected) not same scopes as current cached token ", 
-                   httr_cache, ", may cause issues with authentication.  
-                     \nCurrent Token scopes: ", 
-                   paste(google_token$params$scope, collapse = " "),
-                   "\ngetOption(googleAuthR.scopes.selected): ",
-                   paste(getOption("googleAuthR.scopes.selected"), collapse = " "),
-                   collapse = " "), call. = FALSE)
-    return(FALSE)
-  }
-  
-  TRUE
-  
 }
 
 #' Check that token appears to be legitimate
@@ -121,9 +88,6 @@ is_legit_token <- function(x) {
     myMessage("Authorization error. No access token obtained.", level=3)
     return(FALSE)
   }
-  
-  ## check if current cached token has same scopes as those set in options
-  check_cached_scopes()
   
   TRUE
 }

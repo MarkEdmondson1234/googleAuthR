@@ -55,7 +55,7 @@ gar_auto_auth <- function(required_scopes,
          paste(required_scopes, collapse = " or "))
   }
   
-  if(no_auto){
+  if(any(no_auto, new_user)){
     return(invisible(gar_auth(new_user = new_user)))
   }
   
