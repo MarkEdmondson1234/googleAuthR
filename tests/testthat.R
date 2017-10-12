@@ -1,3 +1,3 @@
 library(testthat)
 
-# test_check("googleAuthR")
+test_check("googleAuthR")

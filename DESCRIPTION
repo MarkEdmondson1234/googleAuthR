@@ -30,7 +30,8 @@ Suggests:
     miniUI (>= 0.1.1),
     rmarkdown,
     roxygen2 (>= 5.0.0),
-    shiny (>= 0.13.2)
+    shiny (>= 0.13.2),
+    testthat
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
