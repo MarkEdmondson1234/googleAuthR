@@ -13,18 +13,25 @@ options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/webmast
 ## this is a local httr file generated for local tests only and ignored in .gitignore
 local_httr_file <- "googleAuthR_tests.httr-oauth"
 
-local_auth <- Sys.getenv("GAR_AUTH") != ""
+local_auth <- Sys.getenv("GAR_AUTH_FILE") != ""
 if(!local_auth){
   cat("\nNo authentication file detected - skipping integration tests\n")
 } else {
   cat("\nPerforming API calls for integration tests\n")
 }
 
-on_travis <- Sys.getenv("CI") == "true"
-if(on_travis){
-  cat("\n#testing on CI - working dir: ", path.expand(getwd()), "\n")
-} else {
-  cat("\n#testing not on CI\n")
+shorten_url <- function(url){
+  
+  body = list(
+    longUrl = url
+  )
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x$id)
+  
+  f(the_body = body)
+  
 }
 
 ### --  the tests
@@ -71,9 +78,20 @@ test_that("Can authenticate .httr passing a token", {
   skip_on_cran()
   skip_if_not(local_auth)
   
-  tt <- gar_auth()
+  tt <- gar_auth(local_httr_file)
   
   expect_s3_class(gar_auth(tt), "Token2.0")
+  
+})
+
+test_that("Right message when wrong token file location given", {
+  skip_on_cran()
+  skip_if_not(local_auth)
+  skip_if_not(!interactive())
+  
+  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
+  
+  expect_warning(expect_error(gar_auth()))
   
 })
 
@@ -101,6 +119,17 @@ test_that("Can authenticate default auto settings", {
                          environment_var = "GAR_AUTH_FILE")
   
   expect_s3_class(token, "Token2.0")
+  
+})
+
+
+context("API generator")
+
+test_that("A generated API function works", {
+  skip_on_cran()
+  gar_auth("googleAuthR_tests.httr-oauth")
+  lw <- shorten_url("http://code.markedmondson.me")
+  expect_type(lw, "character")
   
 })
 

@@ -127,6 +127,15 @@ gar_auth <- function(token = NULL,
 }
 
 #' @noRd
+rm_empty_token <- function(token_path = getOption("googleAuthR.httr_oauth_cache")){
+  ## delete token if 0B
+  iz_0B <- file.info(token_path)$size == 0
+  if(iz_0B){
+    unlink(token_path)
+  }
+}
+
+#' @noRd
 rm_old_user_cache <- function(httr_file){
   Authentication$set("public", "token", NULL, overwrite=TRUE)
   if(file.exists(httr_file)){
@@ -141,7 +150,7 @@ make_new_token <- function(){
 
   check_existing <- gar_check_existing_token()
   if(!check_existing){
-    myMessage("Can't refresh token due to differing options, manual re-authentication required", level = 3)
+    myMessage("No auto-refresh of token due to differing options, manual re-authentication required", level = 3)
     if(!interactive()){
       stop("Authentication options didn't match existing session token and not interactive session
            so unable to manually reauthenticate", call. = FALSE)
@@ -185,7 +194,7 @@ make_new_token <- function(){
   ## set globals
   Authentication$set("public", "token", google_token, overwrite=TRUE)
   Authentication$set("public", "method", "new_token", overwrite=TRUE)
-  
+
   google_token
 }
 
