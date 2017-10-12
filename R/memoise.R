@@ -50,7 +50,39 @@ gar_cache_empty <- function(){
 #' 
 #' The cached API calls do not need authentication to be active, but need this function to set caching first. 
 #' 
-#' @return \code{TRUE} is successful.
+#' @return \code{TRUE} if successful.
+#' 
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#' # demo function to cache within
+#' shorten_url_cache <- function(url){
+#'   body = list(longUrl = url)
+#'   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#'                       "POST",
+#'                       data_parse_function = function(x) x)
+#'  f(the_body = body)
+#'  
+#'  }
+#'  
+#'  ## only cache if this URL
+#'  gar_cache_setup(invalid_func = function(req){
+#'       req$content$longUrl == "http://code.markedmondson.me/"
+#'  })
+#'  
+#'  # authentication
+#'  gar_auth()
+#'  ## caches
+#'  shorten_url_cache("http://code.markedmondson.me")
+#'  
+#'  ## read cache
+#'  shorten_url("http://code.markedmondson.me")
+#'  
+#'  ## ..but dont cache me
+#'  shorten_url_cache("http://blahblah.com")
+#' 
+#' }
 #' 
 #' @export
 #' @family cache functions
@@ -101,7 +133,7 @@ memDoHttrRequest <- function(req_url,
   
   ## check request against cache_function to see whether to cache result is TRUE
   cache_function <- .gar_cache$invalid
-  
+
   if(!cache_function(req)){
     myMessage("Forgetting cache", level = 3)
     forget(cachedHttrRequest)

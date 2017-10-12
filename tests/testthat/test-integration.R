@@ -34,6 +34,8 @@ shorten_url <- function(url){
   
 }
 
+
+
 ### --  the tests
 
 context("Scopes")
@@ -127,9 +129,100 @@ context("API generator")
 
 test_that("A generated API function works", {
   skip_on_cran()
+  skip_if_not(local_auth)
+  
   gar_auth("googleAuthR_tests.httr-oauth")
   lw <- shorten_url("http://code.markedmondson.me")
   expect_type(lw, "character")
   
 })
 
+context("Discovery API")
+
+test_that("Can get discovery API list", {
+  skip_on_cran()
+  
+  da <- gar_discovery_apis_list()
+
+  expect_equal(da$kind[[1]], "discovery#directoryItem")
+
+})
+
+test_that("Can get discovery API schema", {
+  skip_on_cran()
+  da1 <- gar_discovery_api("acceleratedmobilepageurl","v1")
+
+  expect_equal(da1$id, "acceleratedmobilepageurl:v1")
+
+})
+
+context("Caching")
+
+test_that("Can do an in memory cache", {
+  skip_on_cran()
+  skip_if_not(local_auth)
+  
+  gar_cache_setup()
+  gar_auth("googleAuthR_tests.httr-oauth")
+  one <- shorten_url("http://markedmondson.me")
+  two <- shorten_url("http://markedmondson.me")
+  
+  expect_message(shorten_url("http://markedmondson.me"), "Reading cache")
+  expect_equal(one, two)
+  
+})
+
+test_that("Can do disk memory cache", {
+  skip_on_cran()
+  skip_if_not(local_auth)
+  
+  gar_cache_empty()
+  file_cache <- "mock"
+  gar_cache_setup(mcache = memoise::cache_filesystem(file_cache))
+  
+  gar_auth("googleAuthR_tests.httr-oauth")
+  one <- shorten_url("http://code.markedmondson.me")
+  two <- shorten_url("http://code.markedmondson.me")
+  expect_message(shorten_url("http://code.markedmondson.me"), "Reading cache")
+  expect_equal(one, two)
+  expect_true(length(list.files(file_cache)) > 0)
+  
+})
+
+shorten_url_cache <- function(url){
+  
+  body = list(
+    longUrl = url
+  )
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x)
+  
+  f(the_body = body)
+  
+}
+
+test_that("Can do cache and use invalidate function", {
+  skip_on_cran()
+  skip_if_not(local_auth)
+  
+  gar_cache_empty()
+  file_cache <- "mock"
+  
+  ## only cache if this URL
+  gar_cache_setup(invalid_func = function(req){
+    req$content$longUrl == "http://code.markedmondson.me/"
+  })
+  
+  gar_auth("googleAuthR_tests.httr-oauth")
+  shorten_url_cache("http://code.markedmondson.me")
+  
+  ## read cache
+  expect_message(shorten_url("http://code.markedmondson.me"), "Reading cache")
+  
+  ## dont cache me
+  expect_message(shorten_url_cache("http://blahblah.com"), "Forgetting cache")
+  
+  
+})

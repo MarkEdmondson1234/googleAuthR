@@ -19,11 +19,44 @@ gar_cache_setup(mcache = memoise::cache_memory(),
 \item{invalid_func}{A function that takes API response, and returns \code{TRUE} or \code{FALSE} whether caching takes place. Default cache everything.}
 }
 \value{
-\code{TRUE} is successful.
+\code{TRUE} if successful.
 }
 \description{
 To cache to a file system use \code{memoise::cache_filesystem("cache_folder")}, 
   suitable for unit testing and works between R sessions. 
 
 The cached API calls do not need authentication to be active, but need this function to set caching first.
+}
+\examples{
+
+\dontrun{
+
+# demo function to cache within
+shorten_url_cache <- function(url){
+  body = list(longUrl = url)
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                      "POST",
+                      data_parse_function = function(x) x)
+ f(the_body = body)
+ 
+ }
+ 
+ ## only cache if this URL
+ gar_cache_setup(invalid_func = function(req){
+      req$content$longUrl == "http://code.markedmondson.me/"
+ })
+ 
+ # authentication
+ gar_auth()
+ ## caches
+ shorten_url_cache("http://code.markedmondson.me")
+ 
+ ## read cache
+ shorten_url("http://code.markedmondson.me")
+ 
+ ## ..but dont cache me
+ shorten_url_cache("http://blahblah.com")
+
+}
+
 }

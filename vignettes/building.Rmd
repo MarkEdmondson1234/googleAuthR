@@ -390,28 +390,39 @@ function(req){req$status_code == 200}
 For more advanced use cases, examine the response of failed and successful API calls, and create the appropriate function. Pass that function when creating the cache:
 
 ```r
-f <- function(req){
-
-  ## if the API response if of type "job"
-  ## check if its done, or return FALSE (no cache) if it is not
-  if(req$kind == "job"){
-    return(req$status == "Done")
-  }
+# demo function to cache within
+shorten_url_cache <- function(url){
   
-  ## all other requests just check for 200 status codes
-  req$status_code == 200
+  body = list(
+    longUrl = url
+  )
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x)
+  
+  f(the_body = body)
   
 }
 
-gar_cache_setup(invalid_func = f)  
+## only cache if this URL
+gar_cache_setup(invalid_func = function(req){
+    req$content$longUrl == "http://code.markedmondson.me/"
+    })
+
+# authentication
+gar_auth()
+
+## caches
+shorten_url_cache("http://code.markedmondson.me")
+  
+## read cache
+shorten_url("http://code.markedmondson.me")
+  
+## ..but dont cache me
+shorten_url_cache("http://blahblah.com")
 ```
 
-Another example, if you also want to save the response to a file:
-
-```r
-gar_cache_setup(mcache = memoise::cache_filesystem("my_folder"),
-                invalid_func = f)  
-```
 
 
 ### Using caching

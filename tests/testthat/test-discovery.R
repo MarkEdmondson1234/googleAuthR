@@ -1,25 +1,4 @@
-# library(testthat)
-# library(googleAuthR)
-# 
-# 
-# context("Discovery API")
-# 
-# test_that("Can get discovery API list", {
-#   skip_on_cran()
-#   da <- gar_discovery_apis_list()
-#   
-#   expect_equal(da$kind[[1]], "discovery#directoryItem")
-#   
-# })
-# 
-# test_that("Can get discovery API schema", {
-#   skip_on_cran()
-#   da1 <- gar_discovery_api("acceleratedmobilepageurl","v1")
-#   
-#   expect_equal(da1$id, "acceleratedmobilepageurl:v1")
-#   
-# })
-# 
+
 # test_that("Can create auto package", {
 #   skip_on_cran()
 #   tmp <- tempdir()
