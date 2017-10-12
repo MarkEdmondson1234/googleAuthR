@@ -5,42 +5,42 @@
 
 
 
-# These functions let you set the cache behaviour for your API calls
-# 
-# @param cache The directory to save cache to, or \code{"memory"} to save to RAM
-# @param invalid_func A function that takes API response, and returns \code{TRUE} or \code{FALSE} whether caching takes place. Default cache everything. 
-# 
-#@noRd
-#@keywords internal
+#' These functions let you set the cache behaviour for your API calls
+#' 
+#' @param cache The directory to save cache to, or \code{"memory"} to save to RAM
+#' @param invalid_func A function that takes API response, and returns \code{TRUE} or \code{FALSE} whether caching takes place. Default cache everything. 
+#' 
+#' @noRd
 gar_cache_set_loc <- function(cache, invalid_func){
   myMessage("Set API cache", level = 3)
+  
   .gar_cache$cache <- cache
   .gar_cache$invalid <- invalid_func
-  cache
+  
+  TRUE
 }
 
-#' @rdname gar_cache_set_loc
+#' @rdname gar_cache_setup
 #' @export
 #' @family cache functions
 gar_cache_get_loc <- function(){
-  cache <- .gar_cache$cache
-
-  cache
+  .gar_cache$cache
 }
 
-#' @rdname gar_cache_set_loc
+#' @rdname gar_cache_setup
 #' @export
 #' @family cache functions
 gar_cache_empty <- function(){
   myMessage("Deleting API cache", level = 3)
   .gar_cache$cache <- NULL
+  TRUE
 }
 
 
 #' Setup where to put cache
 #' 
 #' 
-#' @param mcache A cache method from \link[memoise]{memoise}. If \code{NULL} will do no caching.
+#' @param mcache A cache method from \link[memoise]{memoise}. 
 #' @param invalid_func A function that takes API response, and returns \code{TRUE} or \code{FALSE} whether caching takes place. Default cache everything. 
 #' 
 #' @description 
@@ -49,6 +49,8 @@ gar_cache_empty <- function(){
 #'   suitable for unit testing and works between R sessions. 
 #' 
 #' The cached API calls do not need authentication to be active, but need this function to set caching first. 
+#' 
+#' @return \code{TRUE} is successful.
 #' 
 #' @export
 #' @family cache functions

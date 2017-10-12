@@ -23,7 +23,7 @@ gar_gadget <- function(){
       if(is.null(returning())){
         googleAuthUI("gadget")
       } else {
-        helpText("Your R session is now authenticated, and you can close this window.")
+        shiny::helpText("Your R session is now authenticated, and you can close this window.")
       }
 
     })
@@ -39,7 +39,7 @@ gar_gadget <- function(){
                              multiple = TRUE,
                              width = "100%"),
           shiny::selectInput("add_scopes",label = "Add new scopes", width = "100%", choices = NULL, multiple = TRUE),
-          shiny::actionButton("do_add_scopes","Add scopes", icon = icon("plus")),
+          shiny::actionButton("do_add_scopes","Add scopes", icon = shiny::icon("plus")),
           shiny::helpText("Google API scopes are listed ", 
                           a(href="https://developers.google.com/identity/protocols/googlescopes", 
                                    "here", 
