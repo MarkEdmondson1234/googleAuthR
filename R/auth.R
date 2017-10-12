@@ -2,6 +2,7 @@
 #' 
 #' Used to keep persistent state.
 #' @export
+#' @noRd
 Authentication <- R6::R6Class(
   "Authentication",
   public = list(

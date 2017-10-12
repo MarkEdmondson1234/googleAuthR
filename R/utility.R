@@ -84,13 +84,14 @@ rmNullObs <- function(x) {
 
 #' Substitute in a (nested) list
 #' 
+#' If replace_me has list names not in template, the value stays the same.
+#' 
 #' @param template A template named list
 #' @param replace_me A similar named list with different values to substitute
 #' 
 #' @return The template with the values substituted.
 #' @keywords internal
 #' @noRd
-#' If replace_me has list names not in template, the value stays the same.
 substitute.list <- function(template, replace_me){
   
   ## remove possible NULL entries
