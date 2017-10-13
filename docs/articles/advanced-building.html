@@ -121,7 +121,7 @@
   <span class="kw">options</span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">TRUE</span>)
   
   ## do the request
-  ob &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_api_generator">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
+  ob &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
                                        <span class="dt">path_args =</span> <span class="kw">list</span>(<span class="dt">b =</span> bucket,
                                                         <span class="dt">o =</span> object_name),
                                        <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">alt =</span> <span class="st">"media"</span>))
@@ -308,6 +308,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <a href="#tests" class="anchor"></a>Tests</h2>
 <p>All packages should ideally have tests to ensure that any changes do not break functionality.</p>
 <p>If new to testing, first read this guide on using the <code>tidyverse</code>’s <a href="http://testthat.r-lib.org/">testthat</a>, then read this for a <a href="https://juliasilge.com/blog/beginners-guide-to-travis/">beginner’s guide to travis-CI for R</a>, which is a continuous integration system that will run and test your code everytime it is committed to GitHub.</p>
+<p>This is this package’s current Travis badge: <a href="https://travis-ci.org/MarkEdmondson1234/googleAuthR"><img src="https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master" alt="Travis-CI Build Status"></a></p>
 <p>However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response.</p>
 <p>One option is to encrypt and upload your token, for which you can read a <a href="https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html">guide by Jenny Bryan here</a>.</p>
 <div id="mocking-tests-with-httptest" class="section level3">
@@ -382,6 +383,20 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
   <span class="co"># ... any other tests you have captured requests from</span>
   
 })</code></pre></div>
+</div>
+</div>
+<div id="codecov" class="section level3">
+<h3 class="hasAnchor">
+<a href="#codecov" class="anchor"></a>Codecov</h3>
+<p>One of the nicest features of continuous integration / Travis is it can be used for code coverage. This uses your tests to find out how many lines of code are triggered within them. This lets you see how thorough yours tests are. Developers covert the 100% coverage badge as it shows all of your code is checked every time you push to GitHub and helps mitigate bugs.</p>
+<p>This is this package’s current Codecov status: <a href="https://codecov.io/gh/MarkEdmondson1234/googleAuthR"><img src="https://codecov.io/gh/MarkEdmondson1234/googleAuthR/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p>Using code coverage is a case of adding another metafile and a command to your travis file. <a href="https://walczak.org/2017/06/how-to-add-code-coverage-codecov-to-your-r-package/">This post by Eryk has some details</a></p>
+<div id="offline-code-coverage" class="section level4">
+<h4 class="hasAnchor">
+<a href="#offline-code-coverage" class="anchor"></a>Offline code coverage</h4>
+<p>As mentioned above, some tests you may not be able to run online due to authentication issues. If you want, you can run these tests offline locally - go to your repositories settings on Codecov, select settings and get your <code>Repository Upload Token</code>. Place this in an environment var like this:</p>
+<p><code>CODECOV_TOKEN=XXXXXX</code></p>
+<p>…then run <code><a href="http://www.rdocumentation.org/packages/covr/topics/codecov">covr::codecov()</a></code> in the package home directory. It will run your tests, and upload them to Codecov.</p>
 </div>
 </div>
 </div>

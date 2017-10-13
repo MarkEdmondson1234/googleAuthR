@@ -385,7 +385,7 @@ events.list &lt;-<span class="st"> </span><span class="cf">function</span>(<span
   url &lt;-<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">"https://www.googleapis.com/calendar/v3/calendars/%s/events"</span>, 
                  calendarId)
 
-  f &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_api_generator">gar_api_generator</a></span>(url, <span class="st">"GET"</span>, 
+  f &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(url, <span class="st">"GET"</span>, 
                                       <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
   <span class="kw">f</span>()
   

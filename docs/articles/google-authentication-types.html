@@ -109,9 +109,9 @@
 <h1 class="hasAnchor">
 <a href="#basic" class="anchor"></a>Basic</h1>
 <p>Once setup, then you should go through the Google login flow in your browser when you run this command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_auth">gar_auth</a></span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>()</code></pre></div>
 <p>If you ever need to authenticate with a new user, use:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_auth">gar_auth</a></span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
 <p>Authentication token is cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
 </div>
 <div id="authentication-with-no-browser" class="section level1">
@@ -293,7 +293,7 @@ renderUI({
 <p>An example from <code>googleCloudStorageR</code> is shown below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">.onAttach &lt;-<span class="st"> </span><span class="cf">function</span>(libname, pkgname){
 
-  googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_attach_auto_auth">gar_attach_auto_auth</a></span>(<span class="st">"https://www.googleapis.com/auth/devstorage.full_control"</span>,
+  googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_attach_auto_auth.html">gar_attach_auto_auth</a></span>(<span class="st">"https://www.googleapis.com/auth/devstorage.full_control"</span>,
                                     <span class="dt">environment_var =</span> <span class="st">"GCS_AUTH_FILE"</span>)
 }</code></pre></div>
 <p>..which calls an environment variable set in <code>~/.Renvion</code>:</p>
