@@ -137,7 +137,7 @@ memDoHttrRequest <- function(req_url,
   cache_result <- tryCatch({
     cache_function(req)
   }, error = function(ex){
-    warning("Error in cache function")
+    warning("Error in cache function", call. = FALSE)
     FALSE
   })
   
@@ -175,7 +175,7 @@ memDoBatchRequest <- function(l){
   cache_result <- tryCatch({
     cache_function(req)
   }, error = function(ex){
-    warning("Error in cache function")
+    warning("Error in cache function", call. = FALSE)
     FALSE
   })
   
