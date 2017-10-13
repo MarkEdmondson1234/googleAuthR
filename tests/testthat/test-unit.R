@@ -37,7 +37,7 @@ test_that("Record requests if online and authenticated", {
   
   capture_requests(
     {
-      shorten_url("http://code.markedmondson.me")
+      shorten_url("http://markedmondson.me") # make sure not a cached argument!
       gar_discovery_apis_list()
       gar_discovery_api("acceleratedmobilepageurl","v1")
     })
@@ -50,7 +50,7 @@ with_mock_API({
   test_that("A generated API function works", {
     skip_on_cran()
 
-    lw <- shorten_url("http://code.markedmondson.me")
+    lw <- shorten_url("http://markedmondson.me")
     expect_type(lw, "character")
     
   })
