@@ -49,8 +49,7 @@ with_mock_API({
   
   test_that("A generated API function works", {
     skip_on_cran()
-    
-    gar_auth("googleAuthR_tests.httr-oauth")
+
     lw <- shorten_url("http://code.markedmondson.me")
     expect_type(lw, "character")
     
