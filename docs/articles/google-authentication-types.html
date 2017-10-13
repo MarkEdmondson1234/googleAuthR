@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Google authentication types for R • googleAuthR</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -33,6 +33,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -65,7 +68,7 @@
       <h1>Google authentication types for R</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-06-04</h4>
+            <h4 class="date">2017-10-13</h4>
           </div>
 
     
@@ -75,9 +78,9 @@
 <h1 class="hasAnchor">
 <a href="#basic" class="anchor"></a>Basic</h1>
 <p>Once setup, then you should go through the Google login flow in your browser when you run this command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR::<span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_auth">gar_auth</a></span>()</code></pre></div>
 <p>If you ever need to authenticate with a new user, use:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR::<span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_auth">gar_auth</a></span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
 <p>Authentication token is cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
 </div>
 <div id="authentication-with-no-browser" class="section level1">
@@ -109,7 +112,7 @@
 <span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">"https://www.googleapis.com/auth/urlshortener"</span>)
 <span class="kw">options</span>(<span class="dt">googleAuthR.webapp.client_id =</span> <span class="st">"YOUR_PROJECT_KEY"</span>)
 <span class="kw">options</span>(<span class="dt">googleAuthR.webapp.client_secret =</span> <span class="st">"YOUR_CLIENT_SECRET"</span>)
-shorten_url &lt;-<span class="st"> </span>function(url){
+shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){
   
   body =<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">longUrl =</span> url
@@ -117,40 +120,40 @@ shorten_url &lt;-<span class="st"> </span>function(url){
   
   f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
-                         <span class="dt">data_parse_function =</span> function(x) x$id)
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)
   
   <span class="kw">f</span>(<span class="dt">the_body =</span> body)
   
 }
 ## server.R
 <span class="kw">source</span>(<span class="st">"global.R"</span>)
-server &lt;-<span class="st"> </span>function(input, output, session){
+server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session){
   
   ## Create access token and render login button
-  access_token &lt;-<span class="st"> </span><span class="kw">callModule</span>(googleAuth, <span class="st">"loginButton"</span>)
+  access_token &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/callModule">callModule</a></span>(googleAuth, <span class="st">"loginButton"</span>)
   
-  short_url_output &lt;-<span class="st"> </span><span class="kw">eventReactive</span>(input$submit, {
+  short_url_output &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/observeEvent">eventReactive</a></span>(input<span class="op">$</span>submit, {
     ## wrap existing function with_shiny
     ## pass the reactive token in shiny_access_token
     ## pass other named arguments
     <span class="kw"><a href="../reference/with_shiny.html">with_shiny</a></span>(<span class="dt">f =</span> shorten_url, 
                <span class="dt">shiny_access_token =</span> <span class="kw">access_token</span>(),
-               <span class="dt">url=</span>input$url)
+               <span class="dt">url=</span>input<span class="op">$</span>url)
     
   })
   
-  output$short_url &lt;-<span class="st"> </span><span class="kw">renderText</span>({
+  output<span class="op">$</span>short_url &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/renderText">renderText</a></span>({
     
     <span class="kw">short_url_output</span>()
     
   })
 }
 ## ui.R
-ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
+ui &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/fluidPage">fluidPage</a></span>(
   <span class="kw"><a href="../reference/googleAuthUI.html">googleAuthUI</a></span>(<span class="st">"loginButton"</span>),
-  <span class="kw">textInput</span>(<span class="st">"url"</span>, <span class="st">"Enter URL"</span>),
-  <span class="kw">actionButton</span>(<span class="st">"submit"</span>, <span class="st">"Shorten URL"</span>),
-  <span class="kw">textOutput</span>(<span class="st">"short_url"</span>)
+  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/textInput">textInput</a></span>(<span class="st">"url"</span>, <span class="st">"Enter URL"</span>),
+  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/actionButton">actionButton</a></span>(<span class="st">"submit"</span>, <span class="st">"Shorten URL"</span>),
+  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/textOutput">textOutput</a></span>(<span class="st">"short_url"</span>)
 )
 ### If the above global.R, server.R and ui.R files are in folder "test" like so:
 ## /home
@@ -162,7 +165,7 @@ ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
 ## Port 1221 has been set in your Google Project options as the port to listen to
 ## as explained in authentication setup section
 ## run below in /home directory
-shiny::<span class="kw">runApp</span>(<span class="st">"./test/"</span>, <span class="dt">launch.browser=</span>T, <span class="dt">port=</span><span class="dv">1221</span>)</code></pre></div>
+shiny<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="st">"./test/"</span>, <span class="dt">launch.browser=</span>T, <span class="dt">port=</span><span class="dv">1221</span>)</code></pre></div>
 </div>
 </div>
 <div id="authentication-with-a-json-file-via-service-accounts" class="section level1">
@@ -175,7 +178,7 @@ shiny::<span class="kw">runApp</span>(<span class="st">"./test/"</span>, <span c
 <p>An example using a service account JSON file for authentication is shown below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
 service_token &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_auth_service.html">gar_auth_service</a></span>(<span class="dt">json_file=</span><span class="st">"~/location/of/the/json/secret.json"</span>)
-analytics_url &lt;-<span class="st"> </span>function(shortUrl, 
+analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(shortUrl, 
                           <span class="dt">timespan =</span> <span class="kw">c</span>(<span class="st">"allTime"</span>, <span class="st">"month"</span>, <span class="st">"week"</span>,<span class="st">"day"</span>,<span class="st">"twoHours"</span>)){
   
   timespan &lt;-<span class="st"> </span><span class="kw">match.arg</span>(timespan)
@@ -184,8 +187,8 @@ analytics_url &lt;-<span class="st"> </span>function(shortUrl,
                          <span class="st">"GET"</span>,
                          <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">"shortUrl"</span>,
                                           <span class="dt">projection =</span> <span class="st">"FULL"</span>),
-                         <span class="dt">data_parse_function =</span> function(x) { 
-                           a &lt;-<span class="st"> </span>x$analytics 
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) { 
+                           a &lt;-<span class="st"> </span>x<span class="op">$</span>analytics 
                            <span class="kw">return</span>(a[timespan][[<span class="dv">1</span>]])
                          })
   
@@ -212,10 +215,10 @@ analytics_url &lt;-<span class="st"> </span>function(shortUrl,
 runtime: shiny</code></pre>
 <p>Locally, you have to run the RMarkdown document on the specified port configured in Google console (<code>1221</code> for the default shared project of <code>googleAuthR</code>), configured via <code>options(shiny.port = 1221)</code></p>
 <p>This means you shouldn’t launch the RMarkdown via the Run button in RStudio as that starts a new R session without your set options.</p>
-<p>Instead set the options and run via <code>rmarkdown::run("myfile.Rmd")</code></p>
+<p>Instead set the options and run via <code><a href="http://www.rdocumentation.org/packages/rmarkdown/topics/run">rmarkdown::run("myfile.Rmd")</a></code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">shiny.port =</span> <span class="dv">1221</span>)
 <span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">"https://www.googleapis.com/auth/plus.me"</span>)
-rmarkdown::<span class="kw">run</span>(<span class="st">"googleAuthRMarkdown.Rmd"</span>)</code></pre></div>
+rmarkdown<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rmarkdown/topics/run">run</a></span>(<span class="st">"googleAuthRMarkdown.Rmd"</span>)</code></pre></div>
 <p>When publishing, you also need to add the domain to the Javascript origins in the Google API console. Use <code>127.0.0.1:XXX</code> where XXX is your chosen Shiny port for local testing.</p>
 </div>
 <div id="example-of-rmarkdown-authentication" class="section level2">
@@ -240,14 +243,14 @@ user_info &lt;- reactive({
   
 })</code></pre>
 <p>You can now output the user data taken from the G+ API:</p>
-<pre><code>## creates an output
+<pre><code><a href="http://www.rdocumentation.org/packages/shiny/topics/renderUI">## creates an output
 renderUI({
   
   req(user_info())
   
   h1("Hello ", user_info()$displayName)
   
-})</code></pre>
+})</a></code></pre>
 </div>
 </div>
 <div id="auto-authentication" class="section level1">
@@ -257,9 +260,9 @@ renderUI({
 <p>This requires the setup of environment variables either in your <code>.Renviron</code> file or via <code>Sys.setenv()</code> to point to a previously created authentication file. This file can be either a <code>.httr-oauth</code> file created via <code><a href="../reference/gar_auth.html">gar_auth()</a></code> or a Google service account JSON downloaded from the Google API console.</p>
 <p>This file will then be used for authentication via <code>gar_auth_auto</code>. You can call this function yourself in scripts or R sessions, but its main intention is to be called in the <code>.onAttach</code> function via <code>gar_attach_auth_auto</code>, so that you will authenticate right after you load the library via <code>library(yourlibrary)</code></p>
 <p>An example from <code>googleCloudStorageR</code> is shown below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">.onAttach &lt;-<span class="st"> </span>function(libname, pkgname){
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">.onAttach &lt;-<span class="st"> </span><span class="cf">function</span>(libname, pkgname){
 
-  googleAuthR::<span class="kw"><a href="../reference/gar_attach_auto_auth.html">gar_attach_auto_auth</a></span>(<span class="st">"https://www.googleapis.com/auth/devstorage.full_control"</span>,
+  googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_attach_auto_auth">gar_attach_auto_auth</a></span>(<span class="st">"https://www.googleapis.com/auth/devstorage.full_control"</span>,
                                     <span class="dt">environment_var =</span> <span class="st">"GCS_AUTH_FILE"</span>)
 }</code></pre></div>
 <p>..which calls an environment variable set in <code>~/.Renvion</code>:</p>
@@ -277,7 +280,8 @@ renderUI({
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#basic">Basic</a></li>
       <li><a href="#authentication-with-no-browser">Authentication with no browser</a></li>

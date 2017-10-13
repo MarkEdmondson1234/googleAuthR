@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,6 +56,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -149,7 +153,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Call via <code>shiny::callModule(googleAuth, "your_ui_name", login_text = "Login")</code></p>
+    <p>Call via <code><a href='http://www.rdocumentation.org/packages/shiny/topics/callModule'>shiny::callModule(googleAuth, "your_ui_name", login_text = "Login")</a></code></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -158,58 +162,59 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>not_run</span>({
-  <span class='fu'>options</span>(<span class='st'>"googleAuthR.scopes.selected"</span> <span class='kw'>=</span>
-    <span class='fu'>c</span>(<span class='st'>"https://www.googleapis.com/auth/urlshortener"</span>))
+</div><span class='co'># NOT RUN {</span>
+<span class='fu'>options</span>(<span class='st'>"googleAuthR.scopes.selected"</span> <span class='kw'>=</span>
+  <span class='fu'>c</span>(<span class='st'>"https://www.googleapis.com/auth/urlshortener"</span>))
 
-  <span class='no'>shorten_url</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>url</span>){
-    <span class='no'>body</span> <span class='kw'>=</span> <span class='fu'>list</span>(
-      <span class='kw'>longUrl</span> <span class='kw'>=</span> <span class='no'>url</span>
-   )
+<span class='no'>shorten_url</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>url</span>){
+  <span class='no'>body</span> <span class='kw'>=</span> <span class='fu'>list</span>(
+    <span class='kw'>longUrl</span> <span class='kw'>=</span> <span class='no'>url</span>
+ )
 
-   <span class='no'>f</span> <span class='kw'>&lt;-</span>
-     <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
-                       <span class='st'>"POST"</span>,
-                       <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>$<span class='no'>id</span>)
+ <span class='no'>f</span> <span class='kw'>&lt;-</span>
+   <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
+                     <span class='st'>"POST"</span>,
+                     <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>$<span class='no'>id</span>)
 
-   <span class='fu'>f</span>(<span class='kw'>the_body</span> <span class='kw'>=</span> <span class='no'>body</span>)
+ <span class='fu'>f</span>(<span class='kw'>the_body</span> <span class='kw'>=</span> <span class='no'>body</span>)
 
-   }
+ }
 
-  <span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>){
+<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>){
 
-    <span class='co'>## Create access token and render login button</span>
-    <span class='no'>access_token</span> <span class='kw'>&lt;-</span> <span class='fu'>callModule</span>(<span class='no'>googleAuth</span>,
-                               <span class='st'>"loginButton"</span>,
-                               <span class='kw'>login_text</span> <span class='kw'>=</span> <span class='st'>"Login1"</span>)
+  <span class='co'>## Create access token and render login button</span>
+  <span class='no'>access_token</span> <span class='kw'>&lt;-</span> <span class='fu'>callModule</span>(<span class='no'>googleAuth</span>,
+                             <span class='st'>"loginButton"</span>,
+                             <span class='kw'>login_text</span> <span class='kw'>=</span> <span class='st'>"Login1"</span>)
 
-    <span class='no'>short_url_output</span> <span class='kw'>&lt;-</span> <span class='fu'>eventReactive</span>(<span class='no'>input</span>$<span class='no'>submit</span>, {
-      <span class='co'>## wrap existing function with_shiny</span>
-      <span class='co'>## pass the reactive token in shiny_access_token</span>
-      <span class='co'>## pass other named arguments</span>
-      <span class='fu'><a href='with_shiny.html'>with_shiny</a></span>(<span class='kw'>f</span> <span class='kw'>=</span> <span class='no'>shorten_url</span>,
-                 <span class='kw'>shiny_access_token</span> <span class='kw'>=</span> <span class='fu'>access_token</span>(),
-                 <span class='kw'>url</span><span class='kw'>=</span><span class='no'>input</span>$<span class='no'>url</span>)
-    })
+  <span class='no'>short_url_output</span> <span class='kw'>&lt;-</span> <span class='fu'>eventReactive</span>(<span class='no'>input</span>$<span class='no'>submit</span>, {
+    <span class='co'>## wrap existing function with_shiny</span>
+    <span class='co'>## pass the reactive token in shiny_access_token</span>
+    <span class='co'>## pass other named arguments</span>
+    <span class='fu'><a href='with_shiny.html'>with_shiny</a></span>(<span class='kw'>f</span> <span class='kw'>=</span> <span class='no'>shorten_url</span>,
+               <span class='kw'>shiny_access_token</span> <span class='kw'>=</span> <span class='fu'>access_token</span>(),
+               <span class='kw'>url</span><span class='kw'>=</span><span class='no'>input</span>$<span class='no'>url</span>)
+  })
 
-    <span class='no'>output</span>$<span class='no'>short_url</span> <span class='kw'>&lt;-</span> <span class='fu'>renderText</span>({
+  <span class='no'>output</span>$<span class='no'>short_url</span> <span class='kw'>&lt;-</span> <span class='fu'>renderText</span>({
 
-      <span class='fu'>short_url_output</span>()
+    <span class='fu'>short_url_output</span>()
 
-    })
+  })
 
-  }
+}
 
-  <span class='co'>## ui</span>
-  <span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'>fluidPage</span>(
-    <span class='fu'><a href='googleAuthUI.html'>googleAuthUI</a></span>(<span class='st'>"loginButton"</span>),
-    <span class='fu'>textInput</span>(<span class='st'>"url"</span>, <span class='st'>"Enter URL"</span>),
-    <span class='fu'>actionButton</span>(<span class='st'>"submit"</span>, <span class='st'>"Shorten URL"</span>),
-    <span class='fu'>textOutput</span>(<span class='st'>"short_url"</span>)
-  )
+<span class='co'>## ui</span>
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'>fluidPage</span>(
+  <span class='fu'><a href='googleAuthUI.html'>googleAuthUI</a></span>(<span class='st'>"loginButton"</span>),
+  <span class='fu'>textInput</span>(<span class='st'>"url"</span>, <span class='st'>"Enter URL"</span>),
+  <span class='fu'>actionButton</span>(<span class='st'>"submit"</span>, <span class='st'>"Shorten URL"</span>),
+  <span class='fu'>textOutput</span>(<span class='st'>"short_url"</span>)
+)
 
-  <span class='fu'>shinyApp</span>(<span class='kw'>ui</span> <span class='kw'>=</span> <span class='no'>ui</span>, <span class='kw'>server</span> <span class='kw'>=</span> <span class='no'>server</span>)
-})</div></pre>
+<span class='fu'>shinyApp</span>(<span class='kw'>ui</span> <span class='kw'>=</span> <span class='no'>ui</span>, <span class='kw'>server</span> <span class='kw'>=</span> <span class='no'>server</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

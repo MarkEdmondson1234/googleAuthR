@@ -22,11 +22,10 @@ gar_check_existing_token <- function(token = Authentication$public_fields$token)
   }
   
   cache_path <- is.different(token$cache_path, "googleAuthR.httr_oauth_cache")
-
-  scopes <- is.different(token$params$scope, "googleAuthR.scopes.selected")
+  scopes     <- is.different(token$params$scope, "googleAuthR.scopes.selected")
 
   if(!is.null(token$app)){
-    client_id <- is.different(token$app$key, "googleAuthR.client_id")
+    client_id     <- is.different(token$app$key, "googleAuthR.client_id")
     client_secret <- is.different(token$app$secret, "googleAuthR.client_secret")
     
   } else {
@@ -54,12 +53,13 @@ is.different <- function(token_element, option_name){
 
 #' Check that token appears to be legitimate
 #'
-#' This unexported function exists to catch tokens that are technically valid,
+#' Catch tokens that are technically valid,
 #' i.e. `inherits(token, "Token2.0")` is TRUE, but that have dysfunctional
 #' credentials.
 #'
 #' @keywords internal
 #' @family authentication functions
+#' @noRd
 is_legit_token <- function(x) {
   
   if(!inherits(x, "Token2.0")) {
@@ -76,7 +76,7 @@ is_legit_token <- function(x) {
   if("invalid_client" %in% unlist(x$credentials)) {
     # check for validity so error is found before making requests
     # shouldn't happen if id and secret don't change
-    myMessage("Authorization error. Please check client_id and client_secret.", level=3)
+    myMessage("Invalid client authorization error. Check client_id and client_secret.", level=3)
     
     return(FALSE)
   }
@@ -84,7 +84,7 @@ is_legit_token <- function(x) {
   if("invalid_request" %in% unlist(x$credentials)) {
     # known example: if user clicks "Cancel" instead of "Accept" when OAuth2
     # flow kicks to browser
-    myMessage("Authorization error. No access token obtained.", level=3)
+    myMessage("Invalid request authorization error. Check request format.", level=3)
     return(FALSE)
   }
   

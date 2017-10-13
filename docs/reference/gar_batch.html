@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,6 +56,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -115,16 +119,16 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function will turn all the individual Google API functions
-  into one POST request to /batch.
-    If you need to pass multiple data parse function arguments its probably best 
+  into one POST request to /batch.</p>  
+<p>If you need to pass multiple data parse function arguments its probably best 
   to do it in seperate batches to avoid confusion.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>https://developers.google.com/webmaster-tools/v3/how-tos/batch</p>
 <p>Documentation on doing batch requests for the search console API.  
-  Other Google APIs are similar.
-    Walk through API calls changing parameters using <code><a href='gar_batch_walk.html'>gar_batch_walk</a></code></p>
+  Other Google APIs are similar.</p>  
+<p>Walk through API calls changing parameters using <code><a href='gar_batch_walk.html'>gar_batch_walk</a></code></p>
 <p>Other batch functions: <code><a href='applyDataParseFunction.html'>applyDataParseFunction</a></code>,
   <code><a href='doBatchRequest.html'>doBatchRequest</a></code>,
   <code><a href='gar_batch_walk.html'>gar_batch_walk</a></code>,

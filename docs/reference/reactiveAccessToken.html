@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,6 +56,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -122,74 +126,72 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>not_run({
-  ## in global.R
+    <pre class="examples"># NOT RUN {
+## in global.R
+
+## create the API call function, example with goo.gl URL shortner
+library(googleAuthR)
+options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
+
+shorten_url <- function(url){
+
+  body = list(
+    longUrl = url
+ )
+ 
+ f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                        "POST",
+                        data_parse_function = function(x) x$id)
+                        
+ f(the_body = body)
+ 
+ }
+
+
+## in server.R
+library(shiny)
+library(googleAuthR)
+source('global.R')
+
+shinyServer(function(input, output, session)){
   
-  ## create the API call function, example with goo.gl URL shortner
-  library(googleAuthR)
-  options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/urlshortener"))
-  
-  shorten_url <- function(url){
-  
-    body = list(
-      longUrl = url
-   )
+  ## Get auth code from return URL
+  access_token  <- reactiveAccessToken(session)
+
+  ## Make a loginButton to display using loginOutput
+  output$loginButton <- renderLogin(session, access_token())
+
+  short_url_output <- eventReactive(input$submit, {
+  ## wrap existing function with_shiny
+  ## pass the reactive token in shiny_access_token
+  ## pass other named arguments
+    short_url <- with_shiny(f = shorten_url, 
+                           shiny_access_token = access_token(),
+                           url=input$url)
+                           
+   })
    
-   f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                          "POST",
-                          data_parse_function = function(x) x$id)
-                          
-   f(the_body = body)
+   output$short_url <- renderText({
    
-   }
-  
-  
-  ## in server.R
-  library(shiny)
-  library(googleAuthR)
-  source('global.R')
-  
-  shinyServer(function(input, output, session)){
-    
-    ## Get auth code from return URL
-    access_token  <- reactiveAccessToken(session)
-  
-    ## Make a loginButton to display using loginOutput
-    output$loginButton <- renderLogin(session, access_token())
-  
-    short_url_output <- eventReactive(input$submit, {
-    ## wrap existing function with_shiny
-    ## pass the reactive token in shiny_access_token
-    ## pass other named arguments
-      short_url <- with_shiny(f = shorten_url, 
-                             shiny_access_token = access_token(),
-                             url=input$url)
-                             
-     })
+     short_url_output()
      
-     output$short_url <- renderText({
-     
-       short_url_output()
-       
-     })
-   }
-  
-  ## in ui.R
-  library(shiny)
-  library(googleAuthR)
-  
-  shinyUI(
-    fluidPage(
-      loginOutput("loginButton"),
-      textInput("url", "Enter URL"),
-      actionButton("submit", "Shorten URL"),
-      textOutput("short_url")
-      ))
-})
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:28:47: unexpected ')'</span>
-#&gt; <span class='error'>27:   </span>
-#&gt; <span class='error'>28:   shinyServer(function(input, output, session))</span>
-#&gt; <span class='error'>                                                  ^</span></div></pre>
+   })
+ }
+
+## in ui.R
+library(shiny)
+library(googleAuthR)
+
+shinyUI(
+  fluidPage(
+    loginOutput("loginButton"),
+    textInput("url", "Enter URL"),
+    actionButton("submit", "Shorten URL"),
+    textOutput("short_url")
+    ))
+# }
+<div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

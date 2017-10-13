@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,6 +56,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -96,7 +100,8 @@
     <pre class="usage"><span class='fu'>gar_api_generator</span>(<span class='no'>baseURI</span>, <span class='kw'>http_header</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"GET"</span>, <span class='st'>"POST"</span>, <span class='st'>"PUT"</span>, <span class='st'>"DELETE"</span>,
   <span class='st'>"PATCH"</span>), <span class='kw'>path_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pars_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>customConfig</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>simplifyVector</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"googleAuthR.jsonlite.simplifyVector"</span>))</pre>
+  <span class='kw'>simplifyVector</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"googleAuthR.jsonlite.simplifyVector"</span>),
+  <span class='kw'>checkTrailingSlash</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -123,12 +128,16 @@
     </tr>
     <tr>
       <th>customConfig</th>
-      <td><p>list of httr options such as <code>httr::use_proxy</code>
-or <code>httr::add_headers</code> that will be added to the request.</p></td>
+      <td><p>list of httr options such as <a href='http://www.rdocumentation.org/packages/httr/topics/use_proxy'>use_proxy</a>
+or <a href='http://www.rdocumentation.org/packages/httr/topics/add_headers'>add_headers</a> that will be added to the request.</p></td>
     </tr>
     <tr>
       <th>simplifyVector</th>
-      <td><p>Passed to jsonlite::fromJSON for response parsing</p></td>
+      <td><p>Passed to <a href='http://www.rdocumentation.org/packages/jsonlite/topics/fromJSON'>fromJSON</a> for response parsing</p></td>
+    </tr>
+    <tr>
+      <th>checkTrailingSlash</th>
+      <td><p>Default TRUE will append a trailing slash to baseURI if missing</p></td>
     </tr>
     </table>
     
@@ -147,38 +156,35 @@ or <code>httr::add_headers</code> that will be added to the request.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>not_run({
-  library(googleAuthR)
-  ## change the native googleAuthR scopes to the one needed.
-  options("googleAuthR.scopes.selected" =
-    c("https://www.googleapis.com/auth/urlshortener"))
-  
-  shorten_url <- function(url){
-  
-    body = list(
-      longUrl = url
-      )
-  
-    f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                        "POST",
-                        data_parse_function = function(x) x$id)
-  
-     f(the_body = body)
-   }
-  
-  To use the above functions:
-  library(googleAuthR)
-  # go through authentication flow
-  gar_auth()
-  s <- shorten_url("http://markedmondson.me")
-  s
-})
+    <pre class="examples"># NOT RUN {
+library(googleAuthR)
+## change the native googleAuthR scopes to the one needed.
+options("googleAuthR.scopes.selected" =
+  c("https://www.googleapis.com/auth/urlshortener"))
 
+shorten_url <- function(url){
 
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:20:6: unexpected symbol</span>
-#&gt; <span class='error'>19:   </span>
-#&gt; <span class='error'>20:   To use</span>
-#&gt; <span class='error'>         ^</span></div></pre>
+  body = list(
+    longUrl = url
+    )
+
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                      "POST",
+                      data_parse_function = function(x) x$id)
+
+   f(the_body = body)
+ }
+
+To use the above functions:
+library(googleAuthR)
+# go through authentication flow
+gar_auth()
+s <- shorten_url("http://markedmondson.me")
+s
+# }
+<div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Building your own Google R library • googleAuthR</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -33,6 +33,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -65,7 +68,7 @@
       <h1>Building your own Google R library</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-06-04</h4>
+            <h4 class="date">2017-10-13</h4>
           </div>
 
     
@@ -94,7 +97,7 @@
 <p>Example below for generating a function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
-                         <span class="dt">data_parse_function =</span> function(x) x$id)</code></pre></div>
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)</code></pre></div>
 </div>
 <div id="using-your-generated-function" class="section level2">
 <h2 class="hasAnchor">
@@ -106,7 +109,7 @@
   f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/example"</span>,
                          <span class="st">"POST"</span>,
                          <span class="dt">path_args =</span> <span class="kw">list</span>(<span class="dt">accounts =</span> <span class="st">"defaultAccountId"</span>)
-                         <span class="dt">data_parse_function =</span> function(x) x$id)
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)
                              
 ## When using f(), pass the path_arguments function to it 
 ## with the same name to modify "defaultAccountId":
@@ -115,7 +118,7 @@
 <h3 class="hasAnchor">
 <a href="#body-data" class="anchor"></a>Body data</h3>
 <p>A lot of Google APIs look for you to send data in the Body of the request. This is done after you construct the function. <code>googleAuthR</code> uses <code>httr</code>’s JSON parsing via <code>jsonlite</code> to construct JSON from R lists.</p>
-<p>Construct your list, then use <code>jsonlite::toJSON</code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
+<p>Construct your list, then use <code><a href="http://www.rdocumentation.org/packages/jsonlite/topics/fromJSON">jsonlite::toJSON</a></code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
 <p>To aid debugging use the <code>option(googleAuthR.verbose = 0)</code> to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called <code>request_debug.rds</code> in the working directory.</p>
 <p>Example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
@@ -123,50 +126,50 @@
 <span class="kw">options</span>(<span class="dt">googleAuthR.verbose =</span> <span class="dv">0</span>)
 
 <span class="kw">ga_auth</span>()
-blah &lt;-<span class="st"> </span><span class="kw">google_analytics_4</span>(<span class="dv">1212121</span>, <span class="dt">date_range =</span> <span class="kw">c</span>(<span class="kw">Sys.Date</span>() -<span class="st"> </span><span class="dv">7</span>, <span class="kw">Sys.Date</span>()), <span class="dt">metrics =</span> <span class="st">"sessions"</span>)
+blah &lt;-<span class="st"> </span><span class="kw">google_analytics_4</span>(<span class="dv">1212121</span>, <span class="dt">date_range =</span> <span class="kw">c</span>(<span class="kw">Sys.Date</span>() <span class="op">-</span><span class="st"> </span><span class="dv">7</span>, <span class="kw">Sys.Date</span>()), <span class="dt">metrics =</span> <span class="st">"sessions"</span>)
 Calling APIv4....
 Single v4 batch
 Token exists.
 Valid local token
-Request:<span class="st"> </span>https:<span class="er">//</span>analyticsreporting.googleapis.com/v4/reports:batchGet/
-Body JSON parsed to:<span class="st"> </span>{<span class="st">"reportRequests"</span>:[{<span class="st">"viewId"</span>:<span class="st">"ga:121211"</span>,<span class="st">"dateRanges"</span>:[{<span class="st">"startDate"</span>:<span class="st">"2017-01-06"</span>,<span class="st">"endDate"</span>:<span class="st">"2017-01-13"</span>}],<span class="st">"samplingLevel"</span>:<span class="st">"DEFAULT"</span>,<span class="st">"metrics"</span>:[{<span class="st">"expression"</span>:<span class="st">"ga:sessions"</span>,<span class="st">"alias"</span>:<span class="st">"sessions"</span>,<span class="st">"formattingType"</span>:<span class="st">"METRIC_TYPE_UNSPECIFIED"</span>}],<span class="st">"pageToken"</span>:<span class="st">"0"</span>,<span class="st">"pageSize"</span>:<span class="dv">1000</span>,<span class="st">"includeEmptyRows"</span>:true}]}
--&gt;<span class="st"> </span>POST /v4/reports:batchGet/<span class="st"> </span>HTTP/<span class="fl">1.1</span>
--&gt;<span class="st"> </span>Host:<span class="st"> </span>analyticsreporting.googleapis.com
--&gt;<span class="st"> </span>User-Agent:<span class="st"> </span>googleAuthR/<span class="fl">0.4.0.9000</span> (gzip)
--&gt;<span class="st"> </span>Accept:<span class="st"> </span>application/json, text/xml, application/xml, *<span class="er">/*</span>
--&gt;<span class="st"> </span>Content-Type:<span class="st"> </span>application/json
--&gt;<span class="st"> </span>Accept-Encoding:<span class="st"> </span>gzip
--&gt;<span class="st"> </span>Authorization:<span class="st"> </span>Bearer ya29XXXXX_EhpEot1ZPNP28MUmSz5EyQ7lY3kgNCFEefYv-Zof3a1RSwezgMJ5llCO44TA9iHi51c
--&gt;<span class="st"> </span>Content-Length:<span class="st"> </span><span class="dv">295</span>
+Request<span class="op">:</span><span class="st"> </span>https<span class="op">:</span><span class="er">//</span>analyticsreporting.googleapis.com<span class="op">/</span>v4<span class="op">/</span>reports<span class="op">:</span>batchGet<span class="op">/</span>
+Body JSON parsed to<span class="op">:</span><span class="st"> </span>{<span class="st">"reportRequests"</span><span class="op">:</span>[{<span class="st">"viewId"</span><span class="op">:</span><span class="st">"ga:121211"</span>,<span class="st">"dateRanges"</span><span class="op">:</span>[{<span class="st">"startDate"</span><span class="op">:</span><span class="st">"2017-01-06"</span>,<span class="st">"endDate"</span><span class="op">:</span><span class="st">"2017-01-13"</span>}],<span class="st">"samplingLevel"</span><span class="op">:</span><span class="st">"DEFAULT"</span>,<span class="st">"metrics"</span><span class="op">:</span>[{<span class="st">"expression"</span><span class="op">:</span><span class="st">"ga:sessions"</span>,<span class="st">"alias"</span><span class="op">:</span><span class="st">"sessions"</span>,<span class="st">"formattingType"</span><span class="op">:</span><span class="st">"METRIC_TYPE_UNSPECIFIED"</span>}],<span class="st">"pageToken"</span><span class="op">:</span><span class="st">"0"</span>,<span class="st">"pageSize"</span><span class="op">:</span><span class="dv">1000</span>,<span class="st">"includeEmptyRows"</span><span class="op">:</span>true}]}
+-&gt;<span class="st"> </span>POST <span class="op">/</span>v4<span class="op">/</span>reports<span class="op">:</span>batchGet<span class="op">/</span><span class="st"> </span>HTTP<span class="op">/</span><span class="fl">1.1</span>
+-&gt;<span class="st"> </span>Host<span class="op">:</span><span class="st"> </span>analyticsreporting.googleapis.com
+-&gt;<span class="st"> </span>User<span class="op">-</span>Agent<span class="op">:</span><span class="st"> </span>googleAuthR<span class="op">/</span><span class="fl">0.4</span>.<span class="fl">0.9000</span> (gzip)
+-&gt;<span class="st"> </span>Accept<span class="op">:</span><span class="st"> </span>application<span class="op">/</span>json, text<span class="op">/</span>xml, application<span class="op">/</span>xml, <span class="op">*</span><span class="er">/*</span>
+-&gt;<span class="st"> </span>Content<span class="op">-</span>Type<span class="op">:</span><span class="st"> </span>application<span class="op">/</span>json
+-&gt;<span class="st"> </span>Accept<span class="op">-</span>Encoding<span class="op">:</span><span class="st"> </span>gzip
+-&gt;<span class="st"> </span>Authorization<span class="op">:</span><span class="st"> </span>Bearer ya29XXXXX_EhpEot1ZPNP28MUmSz5EyQ7lY3kgNCFEefYv<span class="op">-</span>Zof3a1RSwezgMJ5llCO44TA9iHi51c
+-&gt;<span class="st"> </span>Content<span class="op">-</span>Length<span class="op">:</span><span class="st"> </span><span class="dv">295</span>
 -&gt;<span class="st"> </span>
-<span class="er">&gt;&gt;</span><span class="st"> </span>{<span class="st">"reportRequests"</span>:[{<span class="st">"viewId"</span>:<span class="st">"ga:1212121"</span>,<span class="st">"dateRanges"</span>:[{<span class="st">"startDate"</span>:<span class="st">"2017-01-06"</span>,<span class="st">"endDate"</span>:<span class="st">"2017-01-13"</span>}],<span class="st">"samplingLevel"</span>:<span class="st">"DEFAULT"</span>,<span class="st">"metrics"</span>:[{<span class="st">"expression"</span>:<span class="st">"ga:sessions"</span>,<span class="st">"alias"</span>:<span class="st">"sessions"</span>,<span class="st">"formattingType"</span>:<span class="st">"METRIC_TYPE_UNSPECIFIED"</span>}],<span class="st">"pageToken"</span>:<span class="st">"0"</span>,<span class="st">"pageSize"</span>:<span class="dv">1000</span>,<span class="st">"includeEmptyRows"</span>:true}]}
+<span class="er">&gt;&gt;</span><span class="st"> </span>{<span class="st">"reportRequests"</span><span class="op">:</span>[{<span class="st">"viewId"</span><span class="op">:</span><span class="st">"ga:1212121"</span>,<span class="st">"dateRanges"</span><span class="op">:</span>[{<span class="st">"startDate"</span><span class="op">:</span><span class="st">"2017-01-06"</span>,<span class="st">"endDate"</span><span class="op">:</span><span class="st">"2017-01-13"</span>}],<span class="st">"samplingLevel"</span><span class="op">:</span><span class="st">"DEFAULT"</span>,<span class="st">"metrics"</span><span class="op">:</span>[{<span class="st">"expression"</span><span class="op">:</span><span class="st">"ga:sessions"</span>,<span class="st">"alias"</span><span class="op">:</span><span class="st">"sessions"</span>,<span class="st">"formattingType"</span><span class="op">:</span><span class="st">"METRIC_TYPE_UNSPECIFIED"</span>}],<span class="st">"pageToken"</span><span class="op">:</span><span class="st">"0"</span>,<span class="st">"pageSize"</span><span class="op">:</span><span class="dv">1000</span>,<span class="st">"includeEmptyRows"</span><span class="op">:</span>true}]}
 
-&lt;-<span class="st"> </span>HTTP/<span class="fl">1.1</span> <span class="dv">200</span> OK
-&lt;-<span class="st"> </span>Content-Type:<span class="st"> </span>application/json; charset=UTF<span class="dv">-8</span>
-&lt;-<span class="st"> </span>Vary:<span class="st"> </span>Origin
-&lt;-<span class="st"> </span>Vary:<span class="st"> </span>X-Origin
-&lt;-<span class="st"> </span>Vary:<span class="st"> </span>Referer
-&lt;-<span class="st"> </span>Content-Encoding:<span class="st"> </span>gzip
-&lt;-<span class="st"> </span>Date:<span class="st"> </span>Fri, <span class="dv">13</span> Jan <span class="dv">2017</span> <span class="dv">10</span>:<span class="dv">45</span>:<span class="dv">38</span> GMT
-&lt;-<span class="st"> </span>Server:<span class="st"> </span>ESF
-&lt;-<span class="st"> </span>Cache-Control:<span class="st"> </span>private
-&lt;-<span class="st"> </span>X-XSS-Protection:<span class="st"> </span><span class="dv">1</span>; mode=block
-&lt;-<span class="st"> </span>X-Frame-Options:<span class="st"> </span>SAMEORIGIN
-&lt;-<span class="st"> </span>X-Content-Type-Options:<span class="st"> </span>nosniff
-&lt;-<span class="st"> </span>Alt-Svc:<span class="st"> </span>quic=<span class="st">":443"</span>; ma=<span class="dv">2592000</span>; v=<span class="st">"35,34"</span>
-&lt;-<span class="st"> </span>Transfer-Encoding:<span class="st"> </span>chunked
+&lt;-<span class="st"> </span>HTTP<span class="op">/</span><span class="fl">1.1</span> <span class="dv">200</span> OK
+&lt;-<span class="st"> </span>Content<span class="op">-</span>Type<span class="op">:</span><span class="st"> </span>application<span class="op">/</span>json; charset=UTF<span class="op">-</span><span class="dv">8</span>
+&lt;-<span class="st"> </span>Vary<span class="op">:</span><span class="st"> </span>Origin
+&lt;-<span class="st"> </span>Vary<span class="op">:</span><span class="st"> </span>X<span class="op">-</span>Origin
+&lt;-<span class="st"> </span>Vary<span class="op">:</span><span class="st"> </span>Referer
+&lt;-<span class="st"> </span>Content<span class="op">-</span>Encoding<span class="op">:</span><span class="st"> </span>gzip
+&lt;-<span class="st"> </span>Date<span class="op">:</span><span class="st"> </span>Fri, <span class="dv">13</span> Jan <span class="dv">2017</span> <span class="dv">10</span><span class="op">:</span><span class="dv">45</span><span class="op">:</span><span class="dv">38</span> GMT
+&lt;-<span class="st"> </span>Server<span class="op">:</span><span class="st"> </span>ESF
+&lt;-<span class="st"> </span>Cache<span class="op">-</span>Control<span class="op">:</span><span class="st"> </span>private
+&lt;-<span class="st"> </span>X<span class="op">-</span>XSS<span class="op">-</span>Protection<span class="op">:</span><span class="st"> </span><span class="dv">1</span>; mode=block
+&lt;-<span class="st"> </span>X<span class="op">-</span>Frame<span class="op">-</span>Options<span class="op">:</span><span class="st"> </span>SAMEORIGIN
+&lt;-<span class="st"> </span>X<span class="op">-</span>Content<span class="op">-</span>Type<span class="op">-</span>Options<span class="op">:</span><span class="st"> </span>nosniff
+&lt;-<span class="st"> </span>Alt<span class="op">-</span>Svc<span class="op">:</span><span class="st"> </span>quic=<span class="st">":443"</span>; ma=<span class="dv">2592000</span>; v=<span class="st">"35,34"</span>
+&lt;-<span class="st"> </span>Transfer<span class="op">-</span>Encoding<span class="op">:</span><span class="st"> </span>chunked
 &lt;-<span class="st"> </span>
 Downloaded [<span class="dv">1</span>] rows from a total of [<span class="dv">1</span>].
 
-&gt;<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">"request_debug.rds"</span>)
-$url
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">readRDS</span>(<span class="st">"request_debug.rds"</span>)
+<span class="op">$</span>url
 [<span class="dv">1</span>] <span class="st">"https://analyticsreporting.googleapis.com/v4/reports:batchGet/"</span>
 
-$request_type
+<span class="op">$</span>request_type
 [<span class="dv">1</span>] <span class="st">"POST"</span>
 
-$body_json
-{<span class="st">"reportRequests"</span>:[{<span class="st">"viewId"</span>:<span class="st">"ga:1212121"</span>,<span class="st">"dateRanges"</span>:[{<span class="st">"startDate"</span>:<span class="st">"2017-01-06"</span>,<span class="st">"endDate"</span>:<span class="st">"2017-01-13"</span>}],<span class="st">"samplingLevel"</span>:<span class="st">"DEFAULT"</span>,<span class="st">"metrics"</span>:[{<span class="st">"expression"</span>:<span class="st">"ga:sessions"</span>,<span class="st">"alias"</span>:<span class="st">"sessions"</span>,<span class="st">"formattingType"</span>:<span class="st">"METRIC_TYPE_UNSPECIFIED"</span>}],<span class="st">"pageToken"</span>:<span class="st">"0"</span>,<span class="st">"pageSize"</span>:<span class="dv">1000</span>,<span class="st">"includeEmptyRows"</span>:true}]}</code></pre></div>
+<span class="op">$</span>body_json
+{<span class="st">"reportRequests"</span><span class="op">:</span>[{<span class="st">"viewId"</span><span class="op">:</span><span class="st">"ga:1212121"</span>,<span class="st">"dateRanges"</span><span class="op">:</span>[{<span class="st">"startDate"</span><span class="op">:</span><span class="st">"2017-01-06"</span>,<span class="st">"endDate"</span><span class="op">:</span><span class="st">"2017-01-13"</span>}],<span class="st">"samplingLevel"</span><span class="op">:</span><span class="st">"DEFAULT"</span>,<span class="st">"metrics"</span><span class="op">:</span>[{<span class="st">"expression"</span><span class="op">:</span><span class="st">"ga:sessions"</span>,<span class="st">"alias"</span><span class="op">:</span><span class="st">"sessions"</span>,<span class="st">"formattingType"</span><span class="op">:</span><span class="st">"METRIC_TYPE_UNSPECIFIED"</span>}],<span class="st">"pageToken"</span><span class="op">:</span><span class="st">"0"</span>,<span class="st">"pageSize"</span><span class="op">:</span><span class="dv">1000</span>,<span class="st">"includeEmptyRows"</span><span class="op">:</span>true}]}</code></pre></div>
 </div>
 <div id="parsing-data" class="section level3">
 <h3 class="hasAnchor">
@@ -189,114 +192,29 @@ $body_json
   ## parsed data, only taking request$content$id
   f2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                           <span class="st">"POST"</span>,
-                          <span class="dt">data_parse_function =</span> function(x) x$id)
+                          <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)
   
   parsed &lt;-<span class="st"> </span><span class="kw">f2</span>(<span class="dt">the_body =</span> body)
   
   ## str(no_parse) has full details of API response.
   ## just looking at no_parse$content as this is what API returns
-  &gt;<span class="st"> </span><span class="kw">str</span>(no_parse$content)
+  <span class="op">&gt;</span><span class="st"> </span><span class="kw">str</span>(no_parse<span class="op">$</span>content)
   List of <span class="dv">3</span>
-   $<span class="st"> </span>kind   :<span class="st"> </span>chr <span class="st">"urlshortener#url"</span>
-   $<span class="st"> </span>id     :<span class="st"> </span>chr <span class="st">"http://goo.gl/ZwT9pG"</span>
-   $<span class="st"> </span>longUrl:<span class="st"> </span>chr <span class="st">"http://www.google.com/"</span>
+   <span class="op">$</span><span class="st"> </span>kind   <span class="op">:</span><span class="st"> </span>chr <span class="st">"urlshortener#url"</span>
+   <span class="op">$</span><span class="st"> </span>id     <span class="op">:</span><span class="st"> </span>chr <span class="st">"http://goo.gl/ZwT9pG"</span>
+   <span class="op">$</span><span class="st"> </span>longUrl<span class="op">:</span><span class="st"> </span>chr <span class="st">"http://www.google.com/"</span>
  
   ## compare to the above - equivalent to no_parse$content$id 
-  &gt;<span class="st"> </span><span class="kw">str</span>(parsed)
+  <span class="op">&gt;</span><span class="st"> </span><span class="kw">str</span>(parsed)
    chr <span class="st">"http://goo.gl/mCYw2i"</span>
                              </code></pre></div>
-<p>The response is turned from JSON to a dataframe if possible, via <code>jsonlite::fromJSON</code></p>
-</div>
-<div id="skip-parsing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#skip-parsing" class="anchor"></a>Skip parsing</h3>
-<p>In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason. For these cases, you can use the option <code>option("googleAuthR.rawResponse" = TRUE)</code> to skip all tests and return the raw response. Here is an example of this from the googleCloudStorageR library:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gcs_get_object &lt;-<span class="st"> </span>function(bucket, 
-                           object_name){
-  ## skip JSON parsing on output as we epxect a CSV
-  <span class="kw">options</span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">TRUE</span>)
-  
-  ## do the request
-  ob &lt;-<span class="st"> </span>googleAuthR::<span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
-                                       <span class="dt">path_args =</span> <span class="kw">list</span>(<span class="dt">b =</span> bucket,
-                                                        <span class="dt">o =</span> object_name),
-                                       <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">alt =</span> <span class="st">"media"</span>))
-  req &lt;-<span class="st"> </span><span class="kw">ob</span>()
-  
-  ## set it back to FALSE for other API calls.
-  <span class="kw">options</span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">FALSE</span>)
-  req
-}</code></pre></div>
-</div>
-</div>
-<div id="batching-api-requests" class="section level2">
-<h2 class="hasAnchor">
-<a href="#batching-api-requests" class="anchor"></a>Batching API requests</h2>
-<p>If you are doing many API calls, you can speed this up a lot by using the batch option. This takes the API functions you have created and wraps them in the <code>gar_batch</code> function to request them all in one POST call. You then recieve the responses in a list. Note that this does not count as one call for API limits purposes, it just speeds up the processing. The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## from search console API
-list_websites &lt;-<span class="st"> </span>function() {
-  
-  l &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/webmasters/v3/sites"</span>,
-                                      <span class="st">"GET"</span>,
-                                      <span class="dt">data_parse_function =</span> function(x) x$siteEntry)
-  <span class="kw">l</span>()
-}
-## from goo.gl API
-user_history &lt;-<span class="st"> </span>function(){
-  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
-                         <span class="st">"GET"</span>,
-                         <span class="dt">data_parse_function =</span> function(x) x$items)
-  
-  <span class="kw">f</span>()
-}
-googleAuthR::<span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="dt">new_user=</span>T)
-ggg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_batch.html">gar_batch</a></span>(<span class="kw">list</span>(<span class="kw">list_websites</span>(), <span class="kw">user_history</span>()))</code></pre></div>
-<div id="walking-through-batch-requests" class="section level4">
-<h4 class="hasAnchor">
-<a href="#walking-through-batch-requests" class="anchor"></a>Walking through batch requests</h4>
-<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling. A function to enable this is implemented at <code>gar_batch_walk</code>, with an example below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">walkData &lt;-<span class="st"> </span>function(ga, ga_pars, start, end){
-  dates &lt;-<span class="st"> </span><span class="kw">as.character</span>(
-    <span class="kw">seq</span>(<span class="kw">as.Date</span>(start, <span class="dt">format=</span><span class="st">"%Y-%m-%d"</span>),
-        <span class="kw">as.Date</span>(end, <span class="dt">format=</span><span class="st">"%Y-%m-%d"</span>),
-        <span class="dt">by=</span><span class="dv">1</span>))
-  ga_pars$samplingLevel &lt;-<span class="st"> "HIGHER_PRECISION"</span>
-  anyBatchSampled &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-  samplePercent   &lt;-<span class="st"> </span><span class="dv">0</span>
-  
-  
-  ## this is applied to each batch to keep tally of meta data
-  bf &lt;-<span class="st"> </span>function(batch_data){
-    <span class="kw">lapply</span>(batch_data, function(the_data) {
-      if(<span class="kw">attr</span>(the_data, <span class="st">'containsSampledData'</span>)) anyBatchSampled &lt;&lt;-<span class="st"> </span><span class="ot">TRUE</span>
-      samplePercent &lt;&lt;-<span class="st"> </span>samplePercent +<span class="st"> </span><span class="kw">attr</span>(the_data, <span class="st">"samplePercent"</span>)
-    })
-    batch_data
-  }
-  ## the walk through batch function. 
-  ## In this case both start-date and end-date are set to the date iteration
-  ## if the output is parsed as a dataframe, it also includes a rbind function
-  ## otherwise, it will return a list of lists
-  walked_data &lt;-<span class="st"> </span>googleAuthR::<span class="kw"><a href="../reference/gar_batch_walk.html">gar_batch_walk</a></span>(ga,
-                                             dates,
-                                             <span class="dt">gar_pars =</span> ga_pars,
-                                             <span class="dt">pars_walk =</span> <span class="kw">c</span>(<span class="st">"start-date"</span>, <span class="st">"end-date"</span>),
-                                             <span class="dt">batch_function =</span> bf,
-                                             <span class="dt">data_frame_output =</span> <span class="ot">TRUE</span>)
-  <span class="kw">message</span>(<span class="st">"Walked through all dates. Total Results: ["</span>, <span class="kw">NROW</span>(walked_data), <span class="st">"]"</span>)
-  <span class="kw">attr</span>(walked_data, <span class="st">"dateRange"</span>) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">startDate =</span> start, <span class="dt">endDate =</span> end)
-  <span class="kw">attr</span>(walked_data, <span class="st">"totalResults"</span>) &lt;-<span class="st"> </span><span class="kw">NROW</span>(walked_data)
-  <span class="kw">attr</span>(walked_data, <span class="st">"samplingLevel"</span>) &lt;-<span class="st"> "HIGHER_PRECISION, WALKED"</span>
-  <span class="kw">attr</span>(walked_data, <span class="st">"containsSampledData"</span>) &lt;-<span class="st"> </span>anyBatchSampled
-  <span class="kw">attr</span>(walked_data, <span class="st">"samplePercent"</span>) &lt;-<span class="st"> </span>samplePercent /<span class="st"> </span><span class="kw">length</span>(dates)
-  walked_data
-}</code></pre></div>
+<p>The response is turned from JSON to a dataframe if possible, via <code><a href="http://www.rdocumentation.org/packages/jsonlite/topics/fromJSON">jsonlite::fromJSON</a></code></p>
 </div>
 </div>
 <div id="auto-build-libraries" class="section level2">
 <h2 class="hasAnchor">
 <a href="#auto-build-libraries" class="anchor"></a>Auto-build libraries</h2>
-<p>New in <code>0.4</code> is helper functions that use Google’s <a href="https://developers.google.com/discovery/">API Discovery service</a>.</p>
+<p>From <code>0.4</code> is helper functions that use Google’s <a href="https://developers.google.com/discovery/">API Discovery service</a>.</p>
 <p>This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs. At the time of writing this is 152 libraries.</p>
 <p>These libraries aren’t intended to be submitted to CRAN or used straight away, but should take away a lot of documentation and function building work so you can concentrate on tests, examples and helper functions for your users.</p>
 <p>Get a list of the current APIs via <code><a href="../reference/gar_discovery_apis_list.html">gar_discovery_apis_list()</a></code></p>
@@ -317,37 +235,18 @@ ggg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_bat
 
 api_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_discovery_apis_list.html">gar_discovery_apis_list</a></span>()
 
-api_json_list &lt;-<span class="st"> </span><span class="kw">mapply</span>(gar_discovery_api, api_df$name, api_df$version)
+api_json_list &lt;-<span class="st"> </span><span class="kw">mapply</span>(gar_discovery_api, api_df<span class="op">$</span>name, api_df<span class="op">$</span>version)
 
-## WARNING: this takes a couple of hours
+## <span class="al">WARNING</span>: this takes a couple of hours
 check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_json_list, 
                         gar_create_package, 
                         <span class="dt">directory =</span> <span class="st">"/Users/mark/dev/R/autoGoogleAPI"</span>,
                         <span class="dt">github =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
 </div>
-<div id="testing-your-library-with-mock-api-calls" class="section level2">
+<div id="creating-an-api-library-from-scratch---example-with-goo-gl" class="section level2">
 <h2 class="hasAnchor">
-<a href="#testing-your-library-with-mock-api-calls" class="anchor"></a>Testing your library with mock API calls</h2>
-<p>From version <code>&gt;0.5.1</code> you can create caches of API calls that can be used within unit tests.</p>
-<p>Set <code>option(googleAuthR.mock_tests = TRUE)</code> in your testing suite. Now API calls will be compared with a cache located within <code>tests/mock/</code> and if they have a cached call with the same arguments no API call will actually be made. This allows you to perform tests when offline and without needing to deal with authentication issues when publishing online such as Travis.</p>
-<p>If a cache is not available whilst the <code>option(googleAuthR.mock_tests = TRUE)</code> is on, then a cache will be created. You can see which functions are cached using <code><a href="../reference/gar_mock_list.html">gar_mock_list()</a></code> and delete the cache with <code><a href="../reference/gar_mock_delete.html">gar_mock_delete()</a></code></p>
-<p>Within testing suites, put the flag at the start of the script:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(testthat)
-<span class="kw">options</span>(<span class="dt">googleAuthR.mock_test =</span> <span class="ot">TRUE</span>)
-...etc..
-
-<span class="kw">test_that</span>(<span class="st">"I can call this API"</span>, {
-
-  <span class="kw">call_api</span>()
-
-})</code></pre></div>
-<p>Run this once through with your own local authentication, then once all the caches are built you can upload to GitHub. Be sure you only upload caches you don’t mind being public.</p>
-<p>The cache is made at the point of when the API call is made, so any changes you make to parsing etc. will affect the results.</p>
-</div>
-<div id="example-with-goo-gl" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-with-goo-gl" class="anchor"></a>Example with goo.gl</h2>
+<a href="#creating-an-api-library-from-scratch---example-with-goo-gl" class="anchor"></a>Creating an API library from scratch - Example with goo.gl</h2>
 <p>Below is an example building a link shortner R package using <code>googleAuthR</code>. It was done referring to the <a href="https://developers.google.com/url-shortener/v1/getting_started">documentation for Google URL shortener</a>. Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.</p>
 <ol style="list-style-type: decimal">
 <li>Creating a project</li>
@@ -371,7 +270,7 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
 <span class="co">#' @param url URl to shorten with goo.gl</span>
 <span class="co">#' </span>
 <span class="co">#' @return a string of the short URL</span>
-shorten_url &lt;-<span class="st"> </span>function(url){
+shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){
   
   body =<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">longUrl =</span> url
@@ -379,7 +278,7 @@ shorten_url &lt;-<span class="st"> </span>function(url){
   
   f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
-                         <span class="dt">data_parse_function =</span> function(x) x$id)
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)
   
   <span class="kw">f</span>(<span class="dt">the_body =</span> body)
   
@@ -389,12 +288,12 @@ shorten_url &lt;-<span class="st"> </span>function(url){
 <span class="co">#' @param shortUrl Url that was shortened with goo.gl</span>
 <span class="co">#' </span>
 <span class="co">#' @return a string of the expanded URL</span>
-expand_url &lt;-<span class="st"> </span>function(shortUrl){
+expand_url &lt;-<span class="st"> </span><span class="cf">function</span>(shortUrl){
   
   f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"GET"</span>,
                          <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">"shortUrl"</span>),
-                         <span class="dt">data_parse_function =</span> function(x) x)
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
                          
   <span class="kw">f</span>(<span class="dt">pars_arguments =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> shortUrl))
   
@@ -405,7 +304,7 @@ expand_url &lt;-<span class="st"> </span>function(shortUrl){
 <span class="co">#' @param timespan The time period for the analytics data</span>
 <span class="co">#' </span>
 <span class="co">#' @return a dataframe of the goo.gl Url analytics</span>
-analytics_url &lt;-<span class="st"> </span>function(shortUrl, 
+analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(shortUrl, 
                           <span class="dt">timespan =</span> <span class="kw">c</span>(<span class="st">"allTime"</span>, <span class="st">"month"</span>, <span class="st">"week"</span>,<span class="st">"day"</span>,<span class="st">"twoHours"</span>)){
   
   timespan &lt;-<span class="st"> </span><span class="kw">match.arg</span>(timespan)
@@ -414,8 +313,8 @@ analytics_url &lt;-<span class="st"> </span>function(shortUrl,
                          <span class="st">"GET"</span>,
                          <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">"shortUrl"</span>,
                                           <span class="dt">projection =</span> <span class="st">"FULL"</span>),
-                         <span class="dt">data_parse_function =</span> function(x) { 
-                                    a &lt;-<span class="st"> </span>x$analytics 
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) { 
+                                    a &lt;-<span class="st"> </span>x<span class="op">$</span>analytics 
                                     <span class="kw">return</span>(a[timespan][[<span class="dv">1</span>]])
                                     })
   
@@ -424,10 +323,10 @@ analytics_url &lt;-<span class="st"> </span>function(shortUrl,
 <span class="co">#' Get the history of the authenticated user</span>
 <span class="co">#' </span>
 <span class="co">#' @return a dataframe of the goo.gl user's history</span>
-user_history &lt;-<span class="st"> </span>function(){
+user_history &lt;-<span class="st"> </span><span class="cf">function</span>(){
   f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
                          <span class="st">"GET"</span>,
-                         <span class="dt">data_parse_function =</span> function(x) x$items)
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>items)
   
   <span class="kw">f</span>()
 }</code></pre></div>
@@ -442,22 +341,60 @@ s
 <span class="kw">user_history</span>()</code></pre></div>
 </div>
 </div>
+<div id="creating-a-google-calendar-list" class="section level2">
+<h2 class="hasAnchor">
+<a href="#creating-a-google-calendar-list" class="anchor"></a>Creating a Google Calendar list</h2>
+<p>Another example is shown below to fetch your Google calendar entries. The below uses the <a href="https://github.com/MarkEdmondson1234/autoGoogleAPI/blob/master/googlecalendarv3.auto/R/calendar_functions.R#L962">API skeletons functions</a> that are auto generated via the <code>gar_discovery_api</code> functions.</p>
+<p>Make sure the calendar API is activated for your Google Project at below URL: <code>https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' Gets a list of events for calendarId</span>
+<span class="co">#' </span>
+<span class="co">#' @param calendarId The calendar to get.  Default is primary for authenticated user</span>
+<span class="co">#' @return a big list of JSON</span>
+events.list &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">calendarId =</span> <span class="st">"primary"</span>) {
+  url &lt;-<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">"https://www.googleapis.com/calendar/v3/calendars/%s/events"</span>, 
+                 calendarId)
+
+  f &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/googleAuthR/topics/gar_api_generator">gar_api_generator</a></span>(url, <span class="st">"GET"</span>, 
+                                      <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
+  <span class="kw">f</span>()
+  
+}</code></pre></div>
+<p>To use your function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+## set scopes for calendar
+<span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">"https://www.googleapis.com/auth/calendar.readonly"</span>,
+        <span class="dt">googleAuthR.client_id =</span> <span class="st">"XXXX"</span>,  ## add your Google project client Id
+        <span class="dt">googleAuthR.client_secret =</span> <span class="st">"XXXX"</span>)  ## add your Google project client secret
+        
+## authenticate with email that has access to the calendar
+<span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>()
+
+## should kick you out to Google OAuth2 flow.  Come back here when done....
+
+## get default (primary) calendar list
+events &lt;-<span class="st"> </span><span class="kw">events.list</span>()
+
+## events is raw JSON response, 
+## parse down to items by modifying the data_parse_function in events.list()
+## or operating afterwards in code like below
+events<span class="op">$</span>items<span class="op">$</span>summary</code></pre></div>
+</div>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#build-a-google-api-library-for-r">Build a Google API library for R</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#generating-your-function">Generating your function</a></li>
       <li><a href="#using-your-generated-function">Using your generated function</a></li>
-      <li><a href="#batching-api-requests">Batching API requests</a></li>
       <li><a href="#auto-build-libraries">Auto-build libraries</a></li>
-      <li><a href="#testing-your-library-with-mock-api-calls">Testing your library with mock API calls</a></li>
-      <li><a href="#example-with-goo.gl">Example with goo.gl</a></li>
+      <li><a href="#creating-an-api-library-from-scratch---example-with-goo-gl">Creating an API library from scratch - Example with goo.gl</a></li>
+      <li><a href="#creating-a-google-calendar-list">Creating a Google Calendar list</a></li>
       </ul>
 </li>
       </ul>

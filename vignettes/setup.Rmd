@@ -9,19 +9,21 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-`googleAuthR` has a default project setup with APIs activated for several APIs, but it is recommended you use your own Client IDs as the login screen will be big and scary for users with so many APIs to approve.  
-It is preferred to configure your functions to only use the scopes they need.  Scopes you need will be specified in the Google API documentation. 
-Set scopes via the option `googleAuthR.scopes.selected`.
+## Install
 
-The below example sets scopes for Search Console, Google Analytics and Tag Manager:
+googleAuthR is available on CRAN
 
 ```r
-options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/webmasters",
-                                          "https://www.googleapis.com/auth/analytics",
-                                          "https://www.googleapis.com/auth/tagmanager.readonly"))
+install.packages("googleAuthR")
 ```
 
-# Set up steps
+If you want to use the development version on Github, install via:
+
+```r
+devtools::install_github("MarkEdmondson1234/googleAuthR")
+```
+
+## Set up steps
 
 1. Set up your project in the Google API Console to use the Google API you want.
 

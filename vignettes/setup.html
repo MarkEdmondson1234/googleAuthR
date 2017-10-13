@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2016-11-25" />
+<meta name="date" content="2017-10-13" />
 
 <title>Google API Setup</title>
 
@@ -70,21 +70,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Google API Setup</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2016-11-25</em></h4>
+<h4 class="date"><em>2017-10-13</em></h4>
 
 
 
-<p><code>googleAuthR</code> has a default project setup with APIs activated for several APIs, but it is recommended you use your own Client IDs as the login screen will be big and scary for users with so many APIs to approve.<br />
-It is preferred to configure your functions to only use the scopes they need. Scopes you need will be specified in the Google API documentation. Set scopes via the option <code>googleAuthR.scopes.selected</code>.</p>
-<p>The below example sets scopes for Search Console, Google Analytics and Tag Manager:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="st">&quot;googleAuthR.scopes.selected&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/webmasters&quot;</span>,
-                                          <span class="st">&quot;https://www.googleapis.com/auth/analytics&quot;</span>,
-                                          <span class="st">&quot;https://www.googleapis.com/auth/tagmanager.readonly&quot;</span>))</code></pre></div>
-<div id="set-up-steps" class="section level1">
-<h1>Set up steps</h1>
+<div id="install" class="section level2">
+<h2>Install</h2>
+<p>googleAuthR is available on CRAN</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;googleAuthR&quot;</span>)</code></pre></div>
+<p>If you want to use the development version on Github, install via:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;MarkEdmondson1234/googleAuthR&quot;</span>)</code></pre></div>
+</div>
+<div id="set-up-steps" class="section level2">
+<h2>Set up steps</h2>
 <ol style="list-style-type: decimal">
 <li>Set up your project in the Google API Console to use the Google API you want.</li>
 </ol>
+</div>
 <div id="for-local-use" class="section level2">
 <h2>For local use</h2>
 <ol start="2" style="list-style-type: decimal">
@@ -115,7 +117,6 @@ It is preferred to configure your functions to only use the scopes they need. Sc
 <li>Or deploy to your Shiny Server that deploys to web port (80 or 443).</li>
 </ol>
 </div>
-</div>
 <div id="activate-api" class="section level1">
 <h1>Activate API</h1>
 <ol style="list-style-type: decimal">
@@ -135,7 +136,7 @@ It is preferred to configure your functions to only use the scopes they need. Sc
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

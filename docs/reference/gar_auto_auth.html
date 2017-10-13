@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,6 +56,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,8 +98,7 @@
     
 
     <pre class="usage"><span class='fu'>gar_auto_auth</span>(<span class='no'>required_scopes</span>, <span class='kw'>new_user</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>no_auto</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>,
-  <span class='kw'>travis_environment_var</span> <span class='kw'>=</span> <span class='st'>"TRAVIS_GAR_AUTH_FILE"</span>)</pre>
+  <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>, <span class='kw'>travis_environment_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -118,14 +121,13 @@
     </tr>
     <tr>
       <th>travis_environment_var</th>
-      <td><p>Name of Travis environment var that contains auth file path</p>
-<p>The authentication file can be a <code>.httr-oauth</code> file created via <a href='gar_auth.html'>gar_auth</a> or a Google service JSON file downloaded from the Google API crudential console, with file extension <code>.json</code>.</p>
-<p>You can use this in your code to authenticate from a filelocation specified in in file, but it is mainly intended to be called on package load via <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a>.</p>
-<p><code>environment_var</code> This is the name that will be called via Sys.getenv on library load.  The environment variable will contain an absolute file path to the location of an authentication file.
-
-<code>travis_environment_var</code> Name that will be called via Sys.getenv in Travis tests.  
-  As the working directory is different on travis, 
-  this environment variable should contain a relative path to your Github repository home folder.</p></td>
+      <td><p>No longer supported</p>
+<p>The authentication file can be a <code>.httr-oauth</code> file created via <a href='gar_auth.html'>gar_auth</a> 
+  or a Google service JSON file downloaded from the Google API crudential console, 
+  with file extension <code>.json</code>.</p>
+<p>You can use this in your code to authenticate from a filelocation specified in file, 
+  but it is mainly intended to be called on package load via <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a>.</p>
+<p><code>environment_var</code> This is the name that will be called via Sys.getenv on library load.  The environment variable will contain an absolute file path to the location of an authentication file.</p></td>
     </tr>
     </table>
     
@@ -141,7 +143,7 @@
   <code><a href='gar_auth_service.html'>gar_auth_service</a></code>, <code><a href='gar_auth.html'>gar_auth</a></code>,
   <code><a href='gar_gce_auth.html'>gar_gce_auth</a></code>,
   <code><a href='get_google_token.html'>get_google_token</a></code>,
-  <code><a href='is_legit_token.html'>is_legit_token</a></code>, <code><a href='token_exists.html'>token_exists</a></code></p>
+  <code><a href='token_exists.html'>token_exists</a></code></p>
     
 
   </div>

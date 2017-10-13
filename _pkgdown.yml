@@ -1,7 +1,6 @@
 title: googleAuthR
 template:
-  params:
-    bootswatch: cerulean
+  bootswatch: "united"
 navbar:
   title: "googleAuthR"
   type: inverse
@@ -10,6 +9,8 @@ navbar:
       href: "articles/google-authentication-types.html"
     - text: "Building Google APIs for R"
       href: articles/building.html
+    - text: "Advanced Google API techniques"
+      href: articles/advanced-building.html
     - text: "Help"
       menu:
       - text: "Reference"
@@ -23,24 +24,35 @@ reference:
       - gar_auth_service
       - gar_attach_auto_auth
       - gar_auto_auth
-      - matches("auth")
+      - gar_gce_auth
+      - gar_gce_auth_email
+      - gar_check_existing_token
+      - gar_token_info
   - title: "Shiny authentication helpers"
     contents:
+      - with_shiny
       - googleAuth
       - googleAuthUI
       - gar_auth_js
       - gar_auth_jsUI
+      - loginOutput
+      - reactiveAccessToken
+      - renderLogin
+      - revokeEventObserver
   - title: "Building packages"
     contents:
       - gar_api_generator
+      - skip_if_no_env_auth
       - matches("batch")
-  - title: "Testing with Mock API"
+  - title: "Caching"
     contents:
-      - matches("mock")
-  - title: "Discovery API"
+      - matches("gar_cache")
+  - title: "Discovery API / Auto-package creation"
     contents:
-      - gar_create_package
       - gar_discovery_api
       - gar_discovery_apis_list
+      - gar_create_package
+      - gar_create_api_objects
+      - gar_create_api_skeleton
 
       

@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,6 +56,9 @@
 </li>
 <li>
   <a href="../articles/building.html">Building Google APIs for R</a>
+</li>
+<li>
+  <a href="../articles/advanced-building.html">Advanced Google API techniques</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,7 +98,7 @@
     
 
     <pre class="usage"><span class='fu'>gar_attach_auto_auth</span>(<span class='no'>required_scopes</span>, <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>,
-  <span class='kw'>travis_environment_var</span> <span class='kw'>=</span> <span class='st'>"TRAVIS_GAR_AUTH_FILE"</span>)</pre>
+  <span class='kw'>travis_environment_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -109,7 +113,7 @@
     </tr>
     <tr>
       <th>travis_environment_var</th>
-      <td><p>Name of Travis environment var that contains auth file path</p>
+      <td><p>Defunct; now does nothing</p>
 <p>This function works with <a href='gar_auto_auth.html'>gar_auto_auth</a>.  It is intended to be placed within the .onAttach hook so that it loads when you load your library.</p>
 <p>For auto-authentication to work, the environment variable needs to hold a file path to an existing auth file such as created via <a href='gar_auth.html'>gar_auth</a> or a JSON file file download from the Google API console.</p></td>
     </tr>
@@ -119,39 +123,30 @@
 
     <p>Invisible, used for its side effects of calling auto-authentication.</p>
     
-    <h2 class="hasAnchor" id="travis"><a class="anchor" href="#travis"></a>Travis</h2>
-
-    
-    <p>If you are using Travis to make tests, then a specific environment name for a Travis auth file is also needed, that should be relative to the home directory of your Github repository.</p>
-<p>You should then also encrypt the auth file and include the encrypted file in your Github repository.  See <a href = 'https://CRAN.R-project.org/package=googlesheets/vignettes/managing-auth-tokens.html#tokens-for-testing'>googlesheets vignette on managing auth tokens</a> and <a href = 'https://docs.travis-ci.com/user/encrypting-files/'>Travis encrypting files how-to</a> for background.</p>
-<p>To work on travis, you will need one auth token for the library load in the home folder, and another in the <code>testthat</code> folder.  You can achieve this by using the same encrypted file command twice within your <code>.travis.yml</code> configuration, writing out to the two different folders:
-    <code>openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out auth.json -d</code>
-<code>openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_key -in auth.json.enc -out tests/testthat/auth.json -d</code></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p>Other authentication functions: <code><a href='gar_auth_service.html'>gar_auth_service</a></code>,
   <code><a href='gar_auth.html'>gar_auth</a></code>, <code><a href='gar_auto_auth.html'>gar_auto_auth</a></code>,
   <code><a href='gar_gce_auth.html'>gar_gce_auth</a></code>,
   <code><a href='get_google_token.html'>get_google_token</a></code>,
-  <code><a href='is_legit_token.html'>is_legit_token</a></code>, <code><a href='token_exists.html'>token_exists</a></code></p>
+  <code><a href='token_exists.html'>token_exists</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>not_run</span>({
+</div><span class='co'># NOT RUN {</span>
+<span class='no'>.onAttach</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>libname</span>, <span class='no'>pkgname</span>){
 
-  <span class='no'>.onAttach</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>libname</span>, <span class='no'>pkgname</span>){
+  <span class='kw pkg'>googleAuthR</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/googleAuthR/topics/gar_attach_auto_auth'>gar_attach_auto_auth</a></span>(<span class='st'>"https://www.googleapis.com/auth/urlshortener"</span>, <span class='st'>"US_AUTH_FILE"</span>)
 
-    <span class='kw'>googleAuthR</span><span class='kw'>::</span><span class='fu'>gar_attach_auto_auth</span>(<span class='st'>"https://www.googleapis.com/auth/urlshortener"</span>, <span class='st'>"US_AUTH_FILE"</span>)
+}
 
-  }
+<span class='co'>## will only work if you have US_AUTH_FILE environment variable pointing to an auth file location</span>
+<span class='co'>## .Renviron example</span>
+<span class='no'>US_AUTH_FILE</span><span class='kw'>=</span><span class='st'>"/home/mark/auth/urlshortnerauth.json"</span>
 
-  <span class='co'>## will only work if you have US_AUTH_FILE environment variable pointing to an auth file location</span>
-  <span class='co'>## .Renviron example</span>
-  <span class='no'>US_AUTH_FILE</span><span class='kw'>=</span><span class='st'>"/home/mark/auth/urlshortnerauth.json"</span>
-
-})</div></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -159,8 +154,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#travis">Travis</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

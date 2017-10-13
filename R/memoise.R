@@ -1,7 +1,7 @@
 # cache global
 .gar_cache <- new.env(parent = emptyenv())
 .gar_cache$cache <- NULL  # what type of caching
-.gar_cache$invalid <- function() {TRUE} # whether to invalidate when passed req
+.gar_cache$invalid <- function(req){req$status_code == 200} # whether to invalidate when passed req
 
 
 
