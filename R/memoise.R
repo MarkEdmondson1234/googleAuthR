@@ -134,7 +134,14 @@ memDoHttrRequest <- function(req_url,
   ## check request against cache_function to see whether to cache result is TRUE
   cache_function <- .gar_cache$invalid
 
-  if(!cache_function(req)){
+  cache_result <- tryCatch({
+    cache_function(req)
+  }, error = function(ex){
+    warning("Error in cache function")
+    FALSE
+  })
+  
+  if(cache_result){
     myMessage("Forgetting cache", level = 2)
     forget(cachedHttrRequest)
   } else {
@@ -165,7 +172,14 @@ memDoBatchRequest <- function(l){
   ## check request against cache_function to see whether to cache result is TRUE
   cache_function <- .gar_cache$invalid
   
-  if(!cache_function(req)){
+  cache_result <- tryCatch({
+    cache_function(req)
+  }, error = function(ex){
+    warning("Error in cache function")
+    FALSE
+  })
+  
+  if(cache_result){
     myMessage("Forgetting cache", level = 2)
     forget(cachedBatchedRequest)
   } else {
