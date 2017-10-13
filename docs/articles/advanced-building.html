@@ -259,7 +259,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <span class="kw">shorten_url_cache</span>(<span class="st">"http://code.markedmondson.me"</span>)
   
 ## read cache
-<span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
+<span class="kw">shorten_url_cache</span>(<span class="st">"http://code.markedmondson.me"</span>)
   
 ## ..but dont cache me
 <span class="kw">shorten_url_cache</span>(<span class="st">"http://blahblah.com"</span>)</code></pre></div>
@@ -277,13 +277,14 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <a href="#tests" class="anchor"></a>Tests</h2>
 <p>All packages should ideally have tests to ensure that any changes do not break functionality.</p>
 <p>If new to testing, first read this guide on using the <code>tidyverse</code>’s <a href="http://testthat.r-lib.org/">testthat</a>, then read this for a <a href="https://juliasilge.com/blog/beginners-guide-to-travis/">beginner’s guide to travis-CI for R</a>, which is a continuous integration system that will run and test your code everytime it is committed to GitHub.</p>
-<p>However, testing APIs that need authentication is more complicated, due to authentication for the API needed to run the tests.</p>
+<p>However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response.</p>
 <p>One option is to encrypt and upload your token, for which you can read a <a href="https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html">guide by Jenny Bryan here</a>.</p>
 <div id="mocking-tests-with-httptest" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mocking-tests-with-httptest" class="anchor"></a>Mocking tests with httptest</h3>
-<p>However, I now prefer using mocking to run tests online.</p>
-<p>Mocking means you do not have to upload your authentication token, instead you run your tests locally with your lcoal token and the responses are then saved to disk. The tests then run against those saved to disk API responses rather than calling them online. This has the added advatage of being much quicker.</p>
+<p>However, I recommend using mocking to run tests online.</p>
+<p>Mocking means you do not have to upload your authentication token - instead you first run your tests locally with your normal authentication token and the responses are saved to disk. When those tests are then run online, instead of calling the API the saved responses on disk are used to test the function.</p>
+<p>In truth, you are most interested in if your functions call the API correctly, rather than if the API is working (the API provider has their own tests for that), so you don’t lose coverage testing against a mock file, and this has the added advantage of being much quicker so you can run tests more often.</p>
 <p>When creating your tests, I suggest two types: unit tests that will run against your mocks; and integration tests that will run against the API but only when used locally.</p>
 <p>To help with mocking, Neal Richardson has created a package called <a href="https://github.com/nealrichardson/httptest">httptest</a> which we use in the examples below:</p>
 <div id="integration-tests" class="section level4">

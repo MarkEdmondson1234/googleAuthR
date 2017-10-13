@@ -223,7 +223,7 @@ gar_auth()
 shorten_url_cache("http://code.markedmondson.me")
   
 ## read cache
-shorten_url("http://code.markedmondson.me")
+shorten_url_cache("http://code.markedmondson.me")
   
 ## ..but dont cache me
 shorten_url_cache("http://blahblah.com")
@@ -243,20 +243,21 @@ All packages should ideally have tests to ensure that any changes do not break f
 
 If new to testing, first read this guide on using the `tidyverse`'s [testthat](http://testthat.r-lib.org/), then read this for a [beginner's guide to travis-CI for R](https://juliasilge.com/blog/beginners-guide-to-travis/), which is a continuous integration system that will run and test your code everytime it is committed to GitHub.
 
-However, testing APIs that need authentication is more complicated, due to authentication for the API needed to run the tests.  
+However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response. 
 
 One option is to encrypt and upload your token, for which you can read a [guide by Jenny Bryan here](https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html).
 
 ### Mocking tests with httptest
 
-However, I now prefer using mocking to run tests online.  
+However, I recommend using mocking to run tests online.  
 
-Mocking means you do not have to upload your authentication token, instead you run your tests locally with your lcoal token and the responses are then saved to disk.  The tests then run against those saved to disk API responses rather than calling them online.  This has the added advatage of being much quicker.
+Mocking means you do not have to upload your authentication token - instead you first run your tests locally with your normal authentication token and the responses are saved to disk. When those tests are then run online, instead of calling the API the saved responses on disk are used to test the function.
+
+In truth, you are most interested in if your functions call the API correctly, rather than if the API is working (the API provider has their own tests for that), so you don't lose coverage testing against a mock file, and this has the added advantage of being much quicker so you can run tests more often. 
 
 When creating your tests, I suggest two types: unit tests that will run against your mocks; and integration tests that will run against the API but only when used locally. 
 
 To help with mocking, Neal Richardson has created a package called [httptest](https://github.com/nealrichardson/httptest) which we use in the examples below:
-
 
 #### Integration tests
 
