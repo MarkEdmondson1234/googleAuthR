@@ -1,0 +1,9 @@
+urls:
+  reference: https://code.markedmondson.me/googleAuthR//reference
+  article: https://code.markedmondson.me/googleAuthR//articles
+articles:
+  advanced-building: advanced-building.html
+  building: building.html
+  google-authentication-types: google-authentication-types.html
+  setup: setup.html
+

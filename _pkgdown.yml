@@ -1,15 +1,25 @@
 title: googleAuthR
+url: https://code.markedmondson.me/googleAuthR/
+home:
+  strip_header: true
+authors:
+  Mark Edmondson:
+    href: http://code.markedmondson.me
 template:
-  bootswatch: "united"
+  params:
+    bootswatch: cosmo
 navbar:
-  title: "googleAuthR"
+  title: googleAuthR
   type: inverse
   left:
-    - text: "Authentication with Google"
+    - text: "Authentication"
+      icon: fa-sign-in fa-lg
       href: "articles/google-authentication-types.html"
-    - text: "Building Google APIs for R"
+    - text: "Building Google APIs"
+      icon: fa-wrench fa-lg
       href: articles/building.html
-    - text: "Advanced Google API techniques"
+    - text: "Advanced APIs"
+      icon: fa-space-shuttle fa-lg
       href: articles/advanced-building.html
     - text: "Help"
       menu:
@@ -17,6 +27,13 @@ navbar:
         href: reference/index.html
       - text: "News"
         href: news/index.html
+  right:
+    - icon: fa-google fa-lg
+      href: https://developers.google.com/apis-explorer/
+    - icon: fa-github fa-lg
+      href: https://github.com/ropensci/googleAuthR/
+    - icon: fa-slack fa-lg
+      href: https://docs.google.com/forms/d/e/1FAIpQLSerjirmMpB3b7LmBs_Vx_XPIE9IrhpCpPg1jUcpfBcivA3uBw/viewform
 reference:
   - title: "Authentication"
     contents:
