@@ -121,7 +121,7 @@ memDoHttrRequest <- function(req_url,
   if(existing_cache){
     myMessage("Reading cache", level = 3)
   } else {
-    myMessage("Making new cache", level = 3)
+    myMessage("Making new cache", level = 2)
   }
   
   req <- cachedHttrRequest(req_url,
@@ -135,7 +135,7 @@ memDoHttrRequest <- function(req_url,
   cache_function <- .gar_cache$invalid
 
   if(!cache_function(req)){
-    myMessage("Forgetting cache", level = 3)
+    myMessage("Forgetting cache", level = 2)
     forget(cachedHttrRequest)
   } else {
     myMessage("Passed cache_function", level = 1)
@@ -157,7 +157,7 @@ memDoBatchRequest <- function(l){
   if(existing_cache){
     myMessage("Reading batched cache", level = 3)
   } else {
-    myMessage("Making new batched cache", level = 3)
+    myMessage("Making new batched cache", level = 2)
   }
   
   req <- cachedBatchedRequest(l)
@@ -166,7 +166,7 @@ memDoBatchRequest <- function(l){
   cache_function <- .gar_cache$invalid
   
   if(!cache_function(req)){
-    myMessage("Forgetting cache", level = 3)
+    myMessage("Forgetting cache", level = 2)
     forget(cachedBatchedRequest)
   } else {
     myMessage("Passed cache_function", level = 1)
