@@ -32,7 +32,7 @@ navbar:
     - icon: fa-google fa-lg
       href: https://developers.google.com/apis-explorer/
     - icon: fa-github fa-lg
-      href: https://github.com/ropensci/googleAuthR/
+      href: https://github.com/MarkEdmondson1234/googleAuthR/
     - icon: fa-slack fa-lg
       href: https://docs.google.com/forms/d/e/1FAIpQLSerjirmMpB3b7LmBs_Vx_XPIE9IrhpCpPg1jUcpfBcivA3uBw/viewform
 reference:
