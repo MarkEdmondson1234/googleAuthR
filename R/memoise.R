@@ -140,8 +140,8 @@ memDoHttrRequest <- function(req_url,
     warning("Error in cache function", call. = FALSE)
     FALSE
   })
-  
-  if(cache_result){
+
+  if(!cache_result){
     myMessage("Forgetting cache", level = 2)
     forget(cachedHttrRequest)
   } else {
