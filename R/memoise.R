@@ -176,7 +176,7 @@ memDoBatchRequest <- function(l,
   parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content, ...)
   ## check request against cache_function to see whether to cache result is TRUE
   cache_function <- .gar_cache$invalid
-  browser()
+
   cache_result <- tryCatch({
     cache_function(parsed_batch_content)
   }, error = function(ex){
