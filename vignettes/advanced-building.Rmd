@@ -229,6 +229,12 @@ shorten_url_cache("http://code.markedmondson.me")
 shorten_url_cache("http://blahblah.com")
 ```
 
+#### Batching and caching
+
+If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a list of responses, each parsed with their respective parsing function, that was passed via the `data_parse_function` argument.  
+
+This differs from the normal caching which deals with the raw response, but batch responses are raw bytes so its been judged easier to deal with.  
+
 ### Using caching
 
 Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call.  If it does not it will make the API call, and save the response to where you have specified.

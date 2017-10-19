@@ -37,16 +37,23 @@ gar_batch <- function(call_list, ...){
   ## call doHttrRequest with batched together functions
   cached_call <- !is.null(gar_cache_get_loc())
   if(cached_call){
-    req <- memDoBatchRequest(l)
+    req <- memDoBatchRequest(l, 
+                             function_list = function_list, 
+                             applyDataParseFunction = applyDataParseFunction, 
+                             ...)
   } else {
     req <- doBatchRequest(l)
   }
   
   if(grepl("404 Not Found", content(req,as="text", encoding = "UTF-8"))){
-    stop("Batch Request: 404 Not Found")
+    stop("Batch Request: 404 Not Found", call. = FALSE)
   }
   
   batch_content <-  parseBatchResponse(req)
+  
+  if(!is.null(batch_content[[1]]$content[[1]]$error$message)){
+    stop(batch_content[[1]]$content[[1]]$error$message, call. = FALSE) 
+  }
   
   parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content, ...)
   myMessage("Batched API request successful", level=2)

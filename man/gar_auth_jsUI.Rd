@@ -6,7 +6,8 @@
 \usage{
 gar_auth_jsUI(id, login_class = "btn btn-primary",
   logout_class = "btn btn-danger", login_text = "Log In",
-  logout_text = "Log Out")
+  logout_text = "Log Out", approval_prompt = c("force", "online",
+  "offline"))
 }
 \arguments{
 \item{id}{Shiny id}
@@ -18,6 +19,8 @@ gar_auth_jsUI(id, login_class = "btn btn-primary",
 \item{login_text}{Text to show on login button}
 
 \item{logout_text}{Text to show on logout button}
+
+\item{approval_prompt}{The type of authentication}
 }
 \value{
 Shiny UI
