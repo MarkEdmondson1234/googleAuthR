@@ -108,7 +108,7 @@
       <h1>Google authentication types for R</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-10-15</h4>
+            <h4 class="date">2017-10-19</h4>
           </div>
 
     
@@ -206,6 +206,14 @@ ui &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumenta
 ## as explained in authentication setup section
 ## run below in /home directory
 shiny<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="st">"./test/"</span>, <span class="dt">launch.browser=</span>T, <span class="dt">port=</span><span class="dv">1221</span>)</code></pre></div>
+<p>By default the logout button causes a disconnect form the server, but you can use <code>shinyjs</code> to improve the user experience via this bit of code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/observe">observe</a></span>({
+    <span class="cf">if</span> (rv<span class="op">$</span>login) {
+        shinyjs<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/shinyjs/topics/onevent">onclick</a></span>(<span class="st">"gauth_login-googleAuthUi"</span>,
+            shinyjs<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/shinyjs/topics/runjs">runjs</a></span>(<span class="st">"window.location.href = 'https://yourdomain.shinyapps.io/appName';"</span>))
+    }
+})</code></pre></div>
+<p>See this post on <a href="https://lesliemyint.wordpress.com/2017/01/01/creating-a-shiny-app-with-google-login/">creating a Shiny App with a Google login</a> for details.</p>
 </div>
 </div>
 <div id="authentication-with-a-json-file-via-service-accounts" class="section level1">

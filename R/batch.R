@@ -132,7 +132,6 @@ gar_batch_walk <- function(f,
     names(fl) <- as.character(y)
     
     ## do the API call in batches
-    # batch_data <- httr::with_verbose(googleAuthR::gar_batch(fl, ...))
     batch_data <- gar_batch(fl, ...)
     
     if(!is.null(batch_function)) {
@@ -176,7 +175,7 @@ applyDataParseFunction <- function(function_entry, batch_content, ...){
   x <- batch_content[paste0("response",function_entry$name)][[1]]
   
   id      <- x$meta[[1]][2]
-  status  <- x$header[[1]][1]
+  #status  <- x$header[[1]][1]
   content <- x$content[[1]]
  
   ## apply data parse function from function_list$data_parse_function    

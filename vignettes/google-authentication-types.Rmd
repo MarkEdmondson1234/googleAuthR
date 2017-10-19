@@ -106,7 +106,20 @@ ui <- fluidPage(
 ## run below in /home directory
 shiny::runApp("./test/", launch.browser=T, port=1221)
 ```
+
+By default the logout button causes a disconnect form the server, but you can use `shinyjs` to improve the user experience via this bit of code:
+
+```r
+observe({
+    if (rv$login) {
+        shinyjs::onclick("gauth_login-googleAuthUi",
+            shinyjs::runjs("window.location.href = 'https://yourdomain.shinyapps.io/appName';"))
+    }
+})
+```
  
+See this post on [creating a Shiny App with a Google login](https://lesliemyint.wordpress.com/2017/01/01/creating-a-shiny-app-with-google-login/) for details.
+
 # Authentication with a JSON file via Service Accounts
 
 You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow.  The end user could supply this JSON file, or you can upload your own JSON file to your applications. 

@@ -108,7 +108,7 @@
       <h1>Advanced Google API building techniques</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-10-15</h4>
+            <h4 class="date">2017-10-19</h4>
           </div>
 
     
@@ -303,6 +303,12 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
   
 ## ..but dont cache me
 <span class="kw">shorten_url_cache</span>(<span class="st">"http://blahblah.com"</span>)</code></pre></div>
+<div id="batching-and-caching" class="section level4">
+<h4 class="hasAnchor">
+<a href="#batching-and-caching" class="anchor"></a>Batching and caching</h4>
+<p>If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a list of responses, each parsed with their respective parsing function, that was passed via the <code>data_parse_function</code> argument.</p>
+<p>This differs from the normal caching which deals with the raw response, but batch responses are raw bytes so its been judged easier to deal with.</p>
+</div>
 </div>
 <div id="using-caching" class="section level3">
 <h3 class="hasAnchor">
