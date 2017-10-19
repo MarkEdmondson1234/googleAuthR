@@ -9,15 +9,27 @@
 #' @param logout_class CSS class ofr logout button
 #' @param login_text Text to show on login button
 #' @param logout_text Text to show on logout button
+#' @param approval_prompt The type of authentication
 #'
 #' @return Shiny UI
+#' @import assertthat
 #' @export
 gar_auth_jsUI <- function(id, 
                           login_class = "btn btn-primary",
                           logout_class = "btn btn-danger",
                           login_text = "Log In",
-                          logout_text = "Log Out"){
+                          logout_text = "Log Out",
+                          approval_prompt = c("force","online","offline")){
+                            
+  approval_prompt <- match.arg(approval_prompt)                          
 
+  assert_that(
+    is.string(login_class),
+    is.string(logout_class),
+    is.string(login_text),
+    is.string(logout_text)
+  )
+  
   ## No @import to avoid making shiny and miniUI an import
   check_package_loaded("shiny")
   ns <- shiny::NS(id)
@@ -35,7 +47,7 @@ gar_auth_jsUI <- function(id,
         var config = {
           'client_id': '",getOption("googleAuthR.webapp.client_id"),"',
           'scope': '", paste(getOption("googleAuthR.scopes.selected"), collapse = " "),"',
-          'approval_prompt':'force'
+          'approval_prompt':'",approval_prompt,"'
         };
         gapi.auth.authorize(config, function() {
           token = gapi.auth.getToken();

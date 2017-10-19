@@ -207,7 +207,7 @@ parseBatchResponse <- function(batch_response){
     empty_status_code <- grepl("HTTP/1.1 204 No Content", x)
     if(any(empty_status_code)) return(NULL)
     
-    index <- which(grepl("Content-Length:", x))
+    index <- which(grepl("Content-Length:", x, ignore.case = TRUE))
     index <- c(index+1, length(x))
     if(any(is.na(index))){
       warning("Index has an NA. Not splitting JSON")
@@ -222,7 +222,7 @@ parseBatchResponse <- function(batch_response){
   })
   
   responses_header <- lapply(responses, function(x){
-    index <- which(grepl("HTTP|Content-Length", x))
+    index <- which(grepl("HTTP|Content-Length", x, ignore.case = TRUE))
     rh <- unlist(split_vector(x, index, remove_splits = FALSE))
     if(grepl("40", rh[2])){
       myMessage("400 type error in response", level=2)
