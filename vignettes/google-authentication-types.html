@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-01-13" />
+<meta name="date" content="2017-10-19" />
 
 <title>Google authentication types for R</title>
 
@@ -70,16 +70,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Google authentication types for R</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-01-13</em></h4>
+<h4 class="date"><em>2017-10-19</em></h4>
 
 
 
 <div id="basic" class="section level1">
 <h1>Basic</h1>
 <p>Once setup, then you should go through the Google login flow in your browser when you run this command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR::<span class="kw">gar_auth</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw">gar_auth</span>()</code></pre></div>
 <p>If you ever need to authenticate with a new user, use:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR::<span class="kw">gar_auth</span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw">gar_auth</span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
 <p>Authentication token is cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
 </div>
 <div id="authentication-with-no-browser" class="section level1">
@@ -105,7 +105,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">&quot;https://www.googleapis.com/auth/urlshortener&quot;</span>)
 <span class="kw">options</span>(<span class="dt">googleAuthR.webapp.client_id =</span> <span class="st">&quot;YOUR_PROJECT_KEY&quot;</span>)
 <span class="kw">options</span>(<span class="dt">googleAuthR.webapp.client_secret =</span> <span class="st">&quot;YOUR_CLIENT_SECRET&quot;</span>)
-shorten_url &lt;-<span class="st"> </span>function(url){
+shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){
   
   body =<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">longUrl =</span> url
@@ -113,29 +113,29 @@ shorten_url &lt;-<span class="st"> </span>function(url){
   
   f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
                          <span class="st">&quot;POST&quot;</span>,
-                         <span class="dt">data_parse_function =</span> function(x) x$id)
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)
   
   <span class="kw">f</span>(<span class="dt">the_body =</span> body)
   
 }
 ## server.R
 <span class="kw">source</span>(<span class="st">&quot;global.R&quot;</span>)
-server &lt;-<span class="st"> </span>function(input, output, session){
+server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session){
   
   ## Create access token and render login button
   access_token &lt;-<span class="st"> </span><span class="kw">callModule</span>(googleAuth, <span class="st">&quot;loginButton&quot;</span>)
   
-  short_url_output &lt;-<span class="st"> </span><span class="kw">eventReactive</span>(input$submit, {
+  short_url_output &lt;-<span class="st"> </span><span class="kw">eventReactive</span>(input<span class="op">$</span>submit, {
     ## wrap existing function with_shiny
     ## pass the reactive token in shiny_access_token
     ## pass other named arguments
     <span class="kw">with_shiny</span>(<span class="dt">f =</span> shorten_url, 
                <span class="dt">shiny_access_token =</span> <span class="kw">access_token</span>(),
-               <span class="dt">url=</span>input$url)
+               <span class="dt">url=</span>input<span class="op">$</span>url)
     
   })
   
-  output$short_url &lt;-<span class="st"> </span><span class="kw">renderText</span>({
+  output<span class="op">$</span>short_url &lt;-<span class="st"> </span><span class="kw">renderText</span>({
     
     <span class="kw">short_url_output</span>()
     
@@ -158,7 +158,15 @@ ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
 ## Port 1221 has been set in your Google Project options as the port to listen to
 ## as explained in authentication setup section
 ## run below in /home directory
-shiny::<span class="kw">runApp</span>(<span class="st">&quot;./test/&quot;</span>, <span class="dt">launch.browser=</span>T, <span class="dt">port=</span><span class="dv">1221</span>)</code></pre></div>
+shiny<span class="op">::</span><span class="kw">runApp</span>(<span class="st">&quot;./test/&quot;</span>, <span class="dt">launch.browser=</span>T, <span class="dt">port=</span><span class="dv">1221</span>)</code></pre></div>
+<p>By default the logout button causes a disconnect form the server, but you can use <code>shinyjs</code> to improve the user experience via this bit of code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">observe</span>({
+    <span class="cf">if</span> (rv<span class="op">$</span>login) {
+        shinyjs<span class="op">::</span><span class="kw">onclick</span>(<span class="st">&quot;gauth_login-googleAuthUi&quot;</span>,
+            shinyjs<span class="op">::</span><span class="kw">runjs</span>(<span class="st">&quot;window.location.href = 'https://yourdomain.shinyapps.io/appName';&quot;</span>))
+    }
+})</code></pre></div>
+<p>See this post on <a href="https://lesliemyint.wordpress.com/2017/01/01/creating-a-shiny-app-with-google-login/">creating a Shiny App with a Google login</a> for details.</p>
 </div>
 </div>
 <div id="authentication-with-a-json-file-via-service-accounts" class="section level1">
@@ -170,7 +178,7 @@ shiny::<span class="kw">runApp</span>(<span class="st">&quot;./test/&quot;</span
 <p>An example using a service account JSON file for authentication is shown below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
 service_token &lt;-<span class="st"> </span><span class="kw">gar_auth_service</span>(<span class="dt">json_file=</span><span class="st">&quot;~/location/of/the/json/secret.json&quot;</span>)
-analytics_url &lt;-<span class="st"> </span>function(shortUrl, 
+analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(shortUrl, 
                           <span class="dt">timespan =</span> <span class="kw">c</span>(<span class="st">&quot;allTime&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;week&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;twoHours&quot;</span>)){
   
   timespan &lt;-<span class="st"> </span><span class="kw">match.arg</span>(timespan)
@@ -179,8 +187,8 @@ analytics_url &lt;-<span class="st"> </span>function(shortUrl,
                          <span class="st">&quot;GET&quot;</span>,
                          <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;shortUrl&quot;</span>,
                                           <span class="dt">projection =</span> <span class="st">&quot;FULL&quot;</span>),
-                         <span class="dt">data_parse_function =</span> function(x) { 
-                           a &lt;-<span class="st"> </span>x$analytics 
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) { 
+                           a &lt;-<span class="st"> </span>x<span class="op">$</span>analytics 
                            <span class="kw">return</span>(a[timespan][[<span class="dv">1</span>]])
                          })
   
@@ -207,7 +215,7 @@ runtime: shiny</code></pre>
 <p>Instead set the options and run via <code>rmarkdown::run(&quot;myfile.Rmd&quot;)</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">shiny.port =</span> <span class="dv">1221</span>)
 <span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">&quot;https://www.googleapis.com/auth/plus.me&quot;</span>)
-rmarkdown::<span class="kw">run</span>(<span class="st">&quot;googleAuthRMarkdown.Rmd&quot;</span>)</code></pre></div>
+rmarkdown<span class="op">::</span><span class="kw">run</span>(<span class="st">&quot;googleAuthRMarkdown.Rmd&quot;</span>)</code></pre></div>
 <p>When publishing, you also need to add the domain to the Javascript origins in the Google API console. Use <code>127.0.0.1:XXX</code> where XXX is your chosen Shiny port for local testing.</p>
 </div>
 <div id="example-of-rmarkdown-authentication" class="section level2">
@@ -247,9 +255,9 @@ renderUI({
 <p>This requires the setup of environment variables either in your <code>.Renviron</code> file or via <code>Sys.setenv()</code> to point to a previously created authentication file. This file can be either a <code>.httr-oauth</code> file created via <code>gar_auth()</code> or a Google service account JSON downloaded from the Google API console.</p>
 <p>This file will then be used for authentication via <code>gar_auth_auto</code>. You can call this function yourself in scripts or R sessions, but its main intention is to be called in the <code>.onAttach</code> function via <code>gar_attach_auth_auto</code>, so that you will authenticate right after you load the library via <code>library(yourlibrary)</code></p>
 <p>An example from <code>googleCloudStorageR</code> is shown below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">.onAttach &lt;-<span class="st"> </span>function(libname, pkgname){
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">.onAttach &lt;-<span class="st"> </span><span class="cf">function</span>(libname, pkgname){
 
-  googleAuthR::<span class="kw">gar_attach_auto_auth</span>(<span class="st">&quot;https://www.googleapis.com/auth/devstorage.full_control&quot;</span>,
+  googleAuthR<span class="op">::</span><span class="kw">gar_attach_auto_auth</span>(<span class="st">&quot;https://www.googleapis.com/auth/devstorage.full_control&quot;</span>,
                                     <span class="dt">environment_var =</span> <span class="st">&quot;GCS_AUTH_FILE&quot;</span>)
 }</code></pre></div>
 <p>..which calls an environment variable set in <code>~/.Renvion</code>:</p>
@@ -269,7 +277,7 @@ renderUI({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
