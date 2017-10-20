@@ -23,6 +23,7 @@ I have also run R CMD check on downstream dependencies of googleAuthR
 * searchConsoleR
 * googleCloudStorageR
 * googleComputeEngineR
+* googleLanguageR
 
 All packages passed.
   
