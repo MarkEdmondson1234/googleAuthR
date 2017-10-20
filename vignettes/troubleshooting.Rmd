@@ -1,0 +1,76 @@
+---
+title: "Troubleshooting Authentication"
+author: "Mark Edmondson"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Troubleshooting authentication}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This document hopefully helps troubleshoot authentication troubles.  If anything is not covered, please raise an issue on GitHub.
+
+## Helpful Resources
+
+### Setting your own client ID
+
+[Donal Phipps](http://donalphipps.co.uk/) has a helpful video on how to set up your own Google Project client ID and secret via [this link](https://www.youtube.com/watch?v=4B88dRbwNfc) - its for `googleAnalyticsR` but applies for all `googleAuthR` packages. 
+
+<iframe width="560" height="315" src="http://www.youtube.com/embed/4B88dRbwNfc?rel=0" frameborder="0" allowfullscreen></iframe>
+
+## Understanding authentication
+
+Generally, successful authentication needs the following in place:
+
+* A client ID and secret
+* API scopes
+* Permission from a user
+
+A lot of the time the first two are set by the package and the end user does not need to worry about them.  They are set via these options:
+
+* A client ID and secret - `option("googleAuthR.client_id")` and `option("googleAuthR.client_secret")`
+* API scopes - `option("googleAuthR.scopes.selected")`
+* Permission from a user - Done via the OAuth2 login screen on call to `googleAuthR::gar_auth()`
+
+Once authentication has been done, then the authentication details are kept in a *cache file*, which by default is called `.httr-oauth` and appears in your working directory. 
+
+This file location is set via `option("googleAuthR.httr_oauth_cache")`
+
+At the same time a token is written to the R session into a global object, for use in the functions. On any restart of the R session, or if the token expires (default 60 mins) the cache file  is looked for to reload it into the R session.
+
+### gar_auth() options
+
+Several libraries wrap `googleAuthR::gar_auth()` with presets, so you don't call them directly e.g. `ga_auth()` in `googleAnalyticsR`. Use `googleAuthR::gar_auth()` instead of native authentication function if you want more control. 
+
+If you call `googleAuthR::gar_auth()` then it will look for a cache token given by `option("googleAuthR.httr_oauth_cache")`- if not present it will trigger the OAuth2 flow.
+
+If you call `googleAuthR::gar_auth("token_name")` then it will look for a cache token given by `"token_name"` and *set the `option("googleAuthR.httr_oauth_cache")` to `"token_name"`*. This means refreshes etc. will be to that token cache file. 
+
+### Common errors
+
+If for any reason any of the above change inbetween you authenticating and calling the API, then you may get an error or need to reauthenticate.
+
+* The `option("googleAuthR.client_id")` or `option("googleAuthR.client_secret")` are changed by loading another library or setting them in a script, and then a cache file is used with different options set.   
+* The cache file is not where you expect it to be, or is deleted.  The script will typically look in its working directory, which for say scheduled scripts may be different than the one you made the token within. 
+* If the cache file doesn't match the credentials the script needs, it will attempt to manually reauthenticate.  If in a scheduled script, as this needs manual intervention, this will result in an error.
+
+### Tips and tricks
+
+* Use `googleAuthR::gar_token_info(2)` to check your current token, and validate it with  `googleAuthR::gar_check_existing_token()` which should return `TRUE`.  Make sure it matches your expectations.
+* If in doubt, delete the cache file, restart your R session and reauthenticate. 
+* Set your options within the script before you authenticate,  but after you load the library to ensure they are what you think they are:
+
+```r
+library(googleAnalyticsR)
+
+options(googleAuthR.client_id = "XXXX", googleAuthR.client_secret = "XXXX")
+
+## wraps `googleAuthR::gar_auth()`
+ga_auth()
+```
+
+* If you are always going to use the same credentials, make use of the auto authentication options by creating a cache token, moving it to a dedicated auth folder and using environment variables `GAR_AUTH` or package supported ones.
+* If you are using auto-authentication, make sure this doesn't clash with manual authentication.  Comment out the environment variable if needed as this will prevent it operating on package load.
+
+

@@ -71,6 +71,9 @@
     <li>
       <a href="../news/index.html">News</a>
     </li>
+    <li>
+      <a href="../articles/troubleshooting.html">Troubleshooting</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -108,7 +111,7 @@
       <h1>Advanced Google API building techniques</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-10-19</h4>
+            <h4 class="date">2017-10-20</h4>
           </div>
 
     
@@ -365,16 +368,16 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
 <div id="unit-tests" class="section level4">
 <h4 class="hasAnchor">
 <a href="#unit-tests" class="anchor"></a>Unit tests</h4>
-<p>Running unit tests is similar, but you also need to record the API response first locally using <code>httptest</code>’s <code><a href="http://www.rdocumentation.org/packages/httptest/topics/capture_requests">capture_requests()</a></code>. I put this in a test block to check it worked ok.</p>
+<p>Running unit tests is similar, but you also need to record the API response first locally using <code>httptest</code>’s <code><a href="http://enpiar.com/r/httptest/reference/capture_requests.html">capture_requests()</a></code>. I put this in a test block to check it worked ok.</p>
 <p>These will save to files within your test folder, with the similar name to the API.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(httptest)
 <span class="kw">context</span>(<span class="st">"API Mocking"</span>)
 
 <span class="kw">test_that</span>(<span class="st">"Record requests if online and authenticated"</span>, {
-  <span class="kw"><a href="http://www.rdocumentation.org/packages/httptest/topics/skip_if_disconnected">skip_if_disconnected</a></span>()
+  <span class="kw"><a href="http://enpiar.com/r/httptest/reference/skip_if_disconnected.html">skip_if_disconnected</a></span>()
   <span class="kw"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(auth_env)
   
-  <span class="kw"><a href="http://www.rdocumentation.org/packages/httptest/topics/capture_requests">capture_requests</a></span>(
+  <span class="kw"><a href="http://enpiar.com/r/httptest/reference/capture_requests.html">capture_requests</a></span>(
     {
       <span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
       <span class="co"># ...</span>
@@ -383,7 +386,7 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
   
 })</code></pre></div>
 <p>You can then use <code>httptest</code>s <code>withMockAPI()</code> function to wrap your tests:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/httptest/topics/with_mock_API">with_mock_API</a></span>({
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://enpiar.com/r/httptest/reference/with_mock_API.html">with_mock_API</a></span>({
   <span class="kw">context</span>(<span class="st">"API generator - unit"</span>)
   
   <span class="kw">test_that</span>(<span class="st">"A generated API function works"</span>, {

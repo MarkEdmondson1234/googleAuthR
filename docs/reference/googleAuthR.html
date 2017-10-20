@@ -97,6 +97,9 @@
     <li>
       <a href="../news/index.html">News</a>
     </li>
+    <li>
+      <a href="../articles/troubleshooting.html">Troubleshooting</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -135,55 +138,25 @@
     </div>
 
     
-    <p>Get a startup guide by viewing the vignette: <code>vignette("googleAuthR")</code></p>
+    <p>Get more details on the <a href='http://code.markedmondson.me/googleAuthR/'>googleAuthR website</a>.</p>
     
 
         
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>There are two main functions in the googleAuthR package:</p><ul>
-<li><p><code><a href='gar_auth.html'>gar_auth</a></code> provides local authentication token.</p></li>
-<li><p><code><a href='gar_api_generator.html'>gar_api_generator</a></code> A function factory for easy enabling of Google API functions.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="batching"><a class="anchor" href="#batching"></a>Batching</h2>
-
-    
-    <p>If you have many API calls, you can save a lot of time by using batching.  
-  This takes your many calls and sends them in one POST request to <code>www.googleapis.com/batch</code>, 
-  returning a list of any responses.  See <code><a href='gar_batch.html'>gar_batch</a></code> for details.</p>  
-<p>Another common batch task is to call the same function with one parameter changing each call.  
- This is supported using the <code><a href='gar_batch_walk.html'>gar_batch_walk</a></code> function.</p>
-    
-    <h2 class="hasAnchor" id="shiny-functions"><a class="anchor" href="#shiny-functions"></a>Shiny functions</h2>
-
-    
-    <p>If you need Shiny authentication, then these functions work together to give a smooth authentication flow.</p><ul>
-<li><p><code><a href='googleAuthUI.html'>googleAuthUI</a></code> provides the Shiny UI via Shiny modules</p></li>
-<li><p><code><a href='googleAuth.html'>googleAuth</a></code> provides the Shiny server via Shiny modules</p></li>
-<li><p><code><a href='with_shiny.html'>with_shiny</a></code> Wrap the functions you created with <a href='gar_api_generator.html'>gar_api_generator</a> 
-      with this so you can pass the <code><a href='reactiveAccessToken.html'>reactiveAccessToken</a></code></p></li>
-</ul>
-    
     <h2 class="hasAnchor" id="default-options"><a class="anchor" href="#default-options"></a>Default options</h2>
 
     
     <p>These are the default options that you can override via <code>options()</code></p><ul>
+<li><p><code>googleAuthR.batch_endpoint = "https://www.googleapis.com/batch"</code></p></li>
 <li><p><code>googleAuthR.rawResponse = FALSE</code></p></li>
-<li><p><code>googleAuthR.httr_oauth_cache = TRUE</code></p></li>
+<li><p><code>googleAuthR.httr_oauth_cache = ".httr-oauth"</code></p></li>
 <li><p><code>googleAuthR.verbose = 3</code></p></li>
-<li><p><code>googleAuthR.client_id = "201908948134-rm1ij8ursrfcbkv9koc0aqver84b04r7.apps.googleusercontent.com"</code></p></li>
-<li><p><code>googleAuthR.client_secret = "nksRJZ5K3nm9FUWsAtBoBArz"</code></p></li>
-<li><p><code>googleAuthR.webapp.client_id = "201908948134-cjjs89cffh3k429vi7943ftpk3jg36ed.apps.googleusercontent.com"</code></p></li>
-<li><p><code>googleAuthR.webapp.client_secret = "mE7rHl0-iNtzyI1MQia-mg1o"</code></p></li>
+<li><p><code>googleAuthR.client_id = NULL</code></p></li>
+<li><p><code>googleAuthR.client_secret = NULL</code></p></li>
+<li><p><code>googleAuthR.webapp.client_id = NULL</code></p></li>
+<li><p><code>googleAuthR.webapp.client_secret = NULL</code></p></li>
 <li><p><code>googleAuthR.webapp.port = 1221</code></p></li>
 <li><p><code>googleAuthR.jsonlite.simplifyVector = TRUE</code></p></li>
-<li><p><code>googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/webmasters",
-                                      "https://www.googleapis.com/auth/analytics",
-                                      "https://www.googleapis.com/auth/analytics.readonly",
-                                      "https://www.googleapis.com/auth/analytics.manage.users.readonly",
-                                      "https://www.googleapis.com/auth/tagmanager.readonly",
-                                      "https://www.googleapis.com/auth/urlshortener")</code></p></li>
+<li><p><code>googleAuthR.scopes.selected = NULL</code></p></li>
 <li><p><code>googleAuthR.ok_content_types=c("application/json; charset=UTF-8", ("text/html; charset=UTF-8"))</code></p></li>
 <li><p><code>googleAuthR.securitycode = paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse='')</code></p></li>
 <li><p><code>googleAuthR.tryAttempts = 5</code></p></li>
@@ -195,12 +168,6 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#batching">Batching</a></li>
-
-      <li><a href="#shiny-functions">Shiny functions</a></li>
-
       <li><a href="#default-options">Default options</a></li>
           </ul>
 

@@ -28,6 +28,8 @@ navbar:
         href: reference/index.html
       - text: "News"
         href: news/index.html
+      - text: "Troubleshooting"
+        href: articles/troubleshooting.html
   right:
     - icon: fa-google fa-lg
       href: https://developers.google.com/apis-explorer/
