@@ -5,7 +5,15 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+There were no ERRORs or WARNINGs.
+
+There was 1 NOTE:
+
+* Namespaces in Imports field not imported from:
+     'R6'
+     All declared Imports should be used.
+     
+R6 is a runtime dependency
   
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of googleAuthR 
