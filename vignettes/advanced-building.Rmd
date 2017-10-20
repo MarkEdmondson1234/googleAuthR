@@ -254,7 +254,7 @@ This is this package's current Travis badge:
 
 However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response. 
 
-One option is to encrypt and upload your token, for which you can read a [guide by Jenny Bryan here](https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html).
+One option is to encrypt and upload your token, for which you can read a guide by Jenny Bryan here - `https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html`.
 
 ### Mocking tests with httptest
 
