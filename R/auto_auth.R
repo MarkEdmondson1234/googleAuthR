@@ -9,10 +9,10 @@
 #' @param travis_environment_var No longer supported
 #' 
 #' The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
-#'   or a Google service JSON file downloaded from the Google API crudential console, 
+#'   or a Google service JSON file downloaded from the Google API credential console, 
 #'   with file extension \code{.json}.
 #' 
-#' You can use this in your code to authenticate from a filelocation specified in file, 
+#' You can use this in your code to authenticate from a file location specified in file, 
 #'   but it is mainly intended to be called on package load via \link{gar_attach_auto_auth}.
 #' 
 #' 
@@ -95,7 +95,7 @@ gar_auto_auth <- function(required_scopes,
 #' To be placed within \link{.onAttach} to auto load an authentication file from an environment variable.
 #' 
 #' @param required_scopes A character vector of minimum required scopes for this API library
-#' @param environment_var The name of the environment variable where the filepath to the authentication file is kept
+#' @param environment_var The name of the environment variable where the file path to the authentication file is kept
 #' @param travis_environment_var Defunct; now does nothing
 #' 
 #' This function works with \link{gar_auto_auth}.  It is intended to be placed within the \link{.onAttach} hook so that it loads when you load your library.

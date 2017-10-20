@@ -22,7 +22,7 @@ This function will turn all the individual Google API functions
   into one POST request to /batch. 
   
 If you need to pass multiple data parse function arguments its probably best 
-  to do it in seperate batches to avoid confusion.
+  to do it in separate batches to avoid confusion.
 }
 \seealso{
 https://developers.google.com/webmaster-tools/v3/how-tos/batch

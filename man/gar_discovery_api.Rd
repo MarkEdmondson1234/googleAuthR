@@ -15,7 +15,7 @@ gar_discovery_api(api, version)
 Details of the API
 }
 \description{
-Doesn't require authentication
+Does not require authentication
 }
 \seealso{
 \url{https://developers.google.com/discovery/v1/reference/apis/getRest}

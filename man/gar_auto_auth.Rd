@@ -19,10 +19,10 @@ gar_auto_auth(required_scopes, new_user = FALSE, no_auto = FALSE,
 \item{travis_environment_var}{No longer supported
 
 The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
-  or a Google service JSON file downloaded from the Google API crudential console, 
+  or a Google service JSON file downloaded from the Google API credential console, 
   with file extension \code{.json}.
 
-You can use this in your code to authenticate from a filelocation specified in file, 
+You can use this in your code to authenticate from a file location specified in file, 
   but it is mainly intended to be called on package load via \link{gar_attach_auto_auth}.
 
 

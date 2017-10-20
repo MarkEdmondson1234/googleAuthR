@@ -17,7 +17,7 @@
 #'   into one POST request to /batch. 
 #'   
 #' If you need to pass multiple data parse function arguments its probably best 
-#'   to do it in seperate batches to avoid confusion. 
+#'   to do it in separate batches to avoid confusion. 
 #'  
 #' @export
 #' @family batch functions
@@ -65,7 +65,7 @@ gar_batch <- function(call_list, ...){
 
 #' Walk data through batches
 #' 
-#' Convienience function for walking through data in batches
+#' Convenience function for walking through data in batches
 #' @param f a function from \code{\link{gar_api_generator}}
 #' @param walk_vector a vector of the parameter or path to change
 #' @param gar_pars a list of parameter arguments for f

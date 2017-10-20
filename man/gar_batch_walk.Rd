@@ -40,7 +40,7 @@ gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
   \strong{if data_frame_output is TRUE}: The list of lists will attempt to rbind all the results
 }
 \description{
-Convienience function for walking through data in batches
+Convenience function for walking through data in batches
 }
 \details{
 You can modify more than one parameter or path arg, 

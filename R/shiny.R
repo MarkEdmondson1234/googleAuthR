@@ -6,7 +6,7 @@
 #' 
 #' @param id Shiny id
 #' @param login_class CSS class of login button
-#' @param logout_class CSS class ofr logout button
+#' @param logout_class CSS class of logout button
 #' @param login_text Text to show on login button
 #' @param logout_text Text to show on logout button
 #' @param approval_prompt The type of authentication

@@ -86,7 +86,7 @@ gar_create_package <- function(api_json,
 
 #' Get a list of Google API libraries
 #' 
-#' Doesn't require authentication
+#' Does not require authentication
 #' 
 #' @seealso \url{https://developers.google.com/discovery/v1/reference/apis/list}
 #' 
@@ -115,7 +115,7 @@ gar_discovery_apis_list <- function(){
 
 #' Get meta data details for specified Google API
 #' 
-#' Doesn't require authentication
+#' Does not require authentication
 #' 
 #' @param api The API to fetch
 #' @param version The API version to fetch

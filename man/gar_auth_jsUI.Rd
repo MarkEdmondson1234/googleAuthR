@@ -14,7 +14,7 @@ gar_auth_jsUI(id, login_class = "btn btn-primary",
 
 \item{login_class}{CSS class of login button}
 
-\item{logout_class}{CSS class ofr logout button}
+\item{logout_class}{CSS class of logout button}
 
 \item{login_text}{Text to show on login button}
 

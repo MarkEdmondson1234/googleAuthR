@@ -10,7 +10,7 @@ gar_attach_auto_auth(required_scopes, environment_var = "GAR_AUTH_FILE",
 \arguments{
 \item{required_scopes}{A character vector of minimum required scopes for this API library}
 
-\item{environment_var}{The name of the environment variable where the filepath to the authentication file is kept}
+\item{environment_var}{The name of the environment variable where the file path to the authentication file is kept}
 
 \item{travis_environment_var}{Defunct; now does nothing
 

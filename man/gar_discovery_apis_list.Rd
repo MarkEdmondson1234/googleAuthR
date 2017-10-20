@@ -10,7 +10,7 @@ gar_discovery_apis_list()
 List of Google APIs and their resources
 }
 \description{
-Doesn't require authentication
+Does not require authentication
 }
 \seealso{
 \url{https://developers.google.com/discovery/v1/reference/apis/list}
