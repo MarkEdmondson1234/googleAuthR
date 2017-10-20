@@ -1,4 +1,4 @@
-# 0.5.1.9000
+# googleAuthR v0.6.0
 
 ## Major changes
 
@@ -24,13 +24,13 @@
 * Fix `http2 framing layer error` that sometimes happens in misconfigured http2 servers (#87)
 * Update minimum dependency to R `3.3.0` to support Shiny function bugs. 
  
-# v0.5.1
+# googleAuthR v0.5.1
 
 ## Major changes
 
 * Fix bug in `gar_auto_auth` where it expects a file.path not a token object
 
-# v0.5.0
+# googleAuthR v0.5.0
 
 ## Major changes
 
@@ -44,7 +44,7 @@
 * Passing in a file location token to `gar_auth("file-location.rds")` will only load the first element `[[1]]` if that token is a list of `Token2.0` class objects
 * Add debug tool `gar_token_info()` which will report on current authentication. Available at `options(googleAuthR.verbose = 2)`
 
-# v0.4.0
+# googleAuthR v0.4.0
 
 ## Major changes
 
@@ -64,7 +64,7 @@
 * `gar_auth` respects renamed `.httr-oauth` tokens now via `getOption("googleAuthR.httr_oauth_cache")`
 * Add link to Github repo with auto-generated packages: `https://github.com/MarkEdmondson1234/autoGoogleAPI`
 
-# v0.3.1
+# googleAuthR v0.3.1
 
 ## Major changes
 
@@ -72,7 +72,7 @@
 * Add `option(googleAuthR.rawResponse)` - skip API checks on response - should now work
 * A successfull request is now classed as all response codes matching ^20 e.g. 201, 204 etc.
 
-# v0.3.0 
+# googleAuthR v0.3.0 
 
 ## Major changes
 
@@ -89,7 +89,7 @@
 * Move specification of scope for `gar_auth_service` to param for more flexibility
 * Migrated shiny functions to Shiny Modules (#27)
 
-# v0.2 
+# googleAuthR v0.2 
 
 ## Major changes
 
@@ -109,7 +109,7 @@
 * moved `with_shiny` environment lookup to within generated function
 * added gzip to headers
 
-# v0.1 - CRAN
+# googleAuthR v0.1
 
 ## Major changes
 

@@ -180,6 +180,7 @@ test_that("Can do cache and use invalidate function", {
   ## read cache
   expect_message(shorten_url("http://code.markedmondson.me"), "Reading cache")
   
+  options(googleAuthR.verbose = 2)
   ## dont cache me
   expect_message(shorten_url_cache("http://blahblah.com"), "Forgetting cache")
   
