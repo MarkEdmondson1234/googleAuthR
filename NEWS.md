@@ -1,3 +1,7 @@
+# googleAuthR v0.6.0.9000
+
+* ...
+
 # googleAuthR v0.6.0
 
 ## Major changes
