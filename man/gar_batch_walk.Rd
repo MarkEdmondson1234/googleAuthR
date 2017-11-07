@@ -49,8 +49,5 @@ You can modify more than one parameter or path arg,
 Many Google APIs have \code{batch_size} limits greater than 10, 1000 is common.
 }
 \seealso{
-Other batch functions: \code{\link{applyDataParseFunction}},
-  \code{\link{doBatchRequest}}, \code{\link{gar_batch}},
-  \code{\link{makeBatchRequest}},
-  \code{\link{parseBatchResponse}}
+Other batch functions: \code{\link{gar_batch}}
 }

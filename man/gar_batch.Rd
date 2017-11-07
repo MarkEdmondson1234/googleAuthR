@@ -32,9 +32,5 @@ https://developers.google.com/webmaster-tools/v3/how-tos/batch
   
   Walk through API calls changing parameters using \code{\link{gar_batch_walk}}
 
-Other batch functions: \code{\link{applyDataParseFunction}},
-  \code{\link{doBatchRequest}},
-  \code{\link{gar_batch_walk}},
-  \code{\link{makeBatchRequest}},
-  \code{\link{parseBatchResponse}}
+Other batch functions: \code{\link{gar_batch_walk}}
 }

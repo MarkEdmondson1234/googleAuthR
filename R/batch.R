@@ -45,7 +45,7 @@ gar_batch <- function(call_list, ...){
     req <- doBatchRequest(l)
   }
   
-  if(grepl("404 Not Found", content(req,as="text", encoding = "UTF-8"))){
+  if(req$status_code == 404){
     stop("Batch Request: 404 Not Found", call. = FALSE)
   }
   
@@ -55,10 +55,9 @@ gar_batch <- function(call_list, ...){
     stop(batch_content[[1]]$content[[1]]$error$message, call. = FALSE) 
   }
   
-  parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content, ...)
-  myMessage("Batched API request successful", level=2)
-  
-  parsed_batch_content
+  ## now only one function allowed, this is shortcut to use only first function's data_parse
+  applyDataParseFunction(function_list, batch_content, ...)
+
   
 }
 
@@ -170,25 +169,19 @@ gar_batch_walk <- function(f,
 #' 
 #' @keywords internal
 #' @family batch functions
-applyDataParseFunction <- function(function_entry, batch_content, ...){
+#' @noRd
+applyDataParseFunction <- function(function_list, batch_content, ...){
+
+  ## we only need first data_parse_function as all the same
+  f <- function_list[[1]]$data_parse_function
   
-  x <- batch_content[paste0("response",function_entry$name)][[1]]
+  batch_content_content <- lapply(batch_content, function(x) x$content[[1]])
   
-  id      <- x$meta[[1]][2]
-  #status  <- x$header[[1]][1]
-  content <- x$content[[1]]
- 
-  ## apply data parse function from function_list$data_parse_function    
-  f <- function_entry$data_parse_function
-  contentp <- f(content, ...)
-  if(is.null(contentp)){
-    warning("Error1: parsing data for:", id, " Returning unparsed content.")
-    contentp <- content
-  }
-  
-  contentp
+  ## apply data parse function from function_list$data_parse_function
+  lapply(batch_content_content, f, ... = ...)
   
 }
+
 
 #' Parse batch request
 #' 
@@ -196,6 +189,7 @@ applyDataParseFunction <- function(function_entry, batch_content, ...){
 #' 
 #' @keywords internal
 #' @family batch functions
+#' @noRd
 parseBatchResponse <- function(batch_response){
 
   
@@ -262,6 +256,7 @@ parseBatchResponse <- function(batch_response){
 #' @keywords internal
 #' @family batch functions
 #' @importFrom digest digest
+#' @noRd
 makeBatchRequest <- function(f){
 
   boundary <- "--gar_batch"
@@ -316,6 +311,7 @@ makeBatchRequest <- function(f){
 #' @keywords internal
 #' @family batch functions
 #' @importFrom httr add_headers user_agent 
+#' @noRd
 doBatchRequest <- function(batched){
   
   batch_endpoint <- getOption("googleAuthR.batch_endpoint", 
