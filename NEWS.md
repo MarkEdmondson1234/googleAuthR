@@ -1,6 +1,6 @@
 # googleAuthR v0.6.0.9000
 
-* ...
+* Fix bug with batching that didn't parse data (#103)
 
 # googleAuthR v0.6.0
 
