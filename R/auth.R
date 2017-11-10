@@ -108,7 +108,15 @@ gar_auth <- function(token = NULL,
 
   } else if(is.string(token)){ ## a filepath
     
-    google_token <- read_cache_token(token_path = token)
+    if(file.exists(token)){
+      google_token <- read_cache_token(token_path = token)
+    } else {
+      myMessage("No httr_oauth_cache file found at ", token, " - creating new file.", level = 3)
+      options("googleAuthR.httr_oauth_cache" = token)
+      Authentication$set("public", "token", NULL, overwrite=TRUE)
+      return(gar_auth(token = NULL))
+    }
+
 
   } else {
     stop("Unrecognised token object - class ", class(token), call. = FALSE)
@@ -150,7 +158,7 @@ make_new_token <- function(){
 
   check_existing <- gar_check_existing_token()
   if(!check_existing){
-    myMessage("No auto-refresh of token due to differing options, manual re-authentication required", level = 3)
+    myMessage("Auto-refresh of token not possible, manual re-authentication required", level = 2)
     if(!interactive()){
       stop("Authentication options didn't match existing session token and not interactive session
            so unable to manually reauthenticate", call. = FALSE)
@@ -259,11 +267,12 @@ read_cache_token <- function(token_path){
   
   myMessage("Reading token from file path", level = 2)
   
-  google_token <- tryCatch({suppressWarnings(readRDS(token_path))},
+  google_token <- tryCatch({readRDS(token_path)},
                            error = function(ex){
-                             warning(sprintf("Cannot read token from alleged .rds file:\n%s",
-                                             token_path))
-                             stop(ex)
+                             stop(sprintf("Cannot read token from alleged .rds file:\n%s",
+                                             token_path), 
+                                  ex, 
+                                  call. = FALSE)
                            })
   
   if(is.list(google_token)){
