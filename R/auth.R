@@ -284,13 +284,42 @@ read_cache_token <- function(token_path){
     stop("Unknown object read from ", token_path, " of class ", class(google_token))
   }
   
-  options("googleAuthR.httr_oauth_cache" = token_path)
-  google_token$cache_path <- token_path
+  ## for existing tokens, set the options to what is in the token
+  google_token <- overwrite_options(google_token, token_path = token_path)
+  
   Authentication$set("public", "method", "filepath", overwrite=TRUE)
   ## set the global session token
   Authentication$set("public", "token", google_token, overwrite=TRUE)
   
   google_token
+}
+
+overwrite_options <- function(google_token, token_path){
+  options("googleAuthR.httr_oauth_cache" = token_path)
+  google_token$cache_path <- token_path
+  
+  if(is.different(google_token$params$scope, "googleAuthR.scopes.selected")){
+    myMessage("Setting googleAuthR.scopes.selected to ", paste(google_token$params$scope, collapse = " "), level = 3)
+    options("googleAuthR.scopes.selected" = google_token$params$scope)
+  }
+  
+  if(is.null(google_token$app)){
+    myMessage("No client_id in token, authentication from JSON key file", level = 3)
+    return(google_token)
+  }
+  
+  if(is.different(google_token$app$key, "googleAuthR.client_id")){
+    myMessage("Setting googleAuthR.client_id to ", google_token$app$key, level = 3)
+    options("googleAuthR.client_id" = google_token$app$key)
+  }
+  
+  if(is.different(google_token$app$secret, "googleAuthR.client_secret")){
+    myMessage("Setting googleAuthR.client_secret to ", google_token$app$secret, level = 3)
+    options("googleAuthR.client_secret" = google_token$app$secret)
+  }
+
+  google_token
+ 
 }
 
 is.token2.0 <- function(x){

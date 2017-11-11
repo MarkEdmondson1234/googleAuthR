@@ -25,6 +25,10 @@ googleAuthR::gar_auth(new_user=TRUE)
 
 Authentication token is cached in a hidden file called `.httr-oauth` in the working directory.
 
+## Multiple authentication tokens
+
+If you supply a filename to `googleAuthR::gar_auth(token = "filename")` then it will save the token there.  If it doesn't exisit, it will make a new one, if it does exist it will attempt to read the token from that file.  
+
 # Authentication with no browser
 
 If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the `.httr-oauth` file to the folder of your script.

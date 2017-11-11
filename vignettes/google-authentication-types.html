@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-10-19" />
+<meta name="date" content="2017-11-11" />
 
 <title>Google authentication types for R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Google authentication types for R</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-10-19</em></h4>
+<h4 class="date"><em>2017-11-11</em></h4>
 
 
 
@@ -81,6 +81,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>If you ever need to authenticate with a new user, use:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw">gar_auth</span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
 <p>Authentication token is cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
+<div id="multiple-authentication-tokens" class="section level2">
+<h2>Multiple authentication tokens</h2>
+<p>If you supply a filename to <code>googleAuthR::gar_auth(token = &quot;filename&quot;)</code> then it will save the token there. If it doesn’t exisit, it will make a new one, if it does exist it will attempt to read the token from that file.</p>
+</div>
 </div>
 <div id="authentication-with-no-browser" class="section level1">
 <h1>Authentication with no browser</h1>

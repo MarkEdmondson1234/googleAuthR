@@ -38,12 +38,12 @@ gar_check_existing_token <- function(token = Authentication$public_fields$token)
 
 is.different <- function(token_element, option_name){
   if(!any(token_element %in% getOption(option_name))){
-    warning(sprintf("Token %s != getOption('%s') \n#>Token: %s \n#>Option: %s\n", 
+    myMessage(sprintf("Token %s != getOption('%s') \n#>Token: %s \n#>Option: %s\n", 
                     deparse(substitute(token_element)), 
                     option_name, 
                     paste(token_element, collapse = " "), 
                     paste(getOption(option_name), collapse = " ")
-                    ), call. = FALSE
+                    ), level = 2
             )
     
     return(TRUE)
