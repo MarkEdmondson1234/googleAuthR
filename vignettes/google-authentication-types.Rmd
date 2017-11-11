@@ -27,7 +27,56 @@ Authentication token is cached in a hidden file called `.httr-oauth` in the work
 
 ## Multiple authentication tokens
 
-If you supply a filename to `googleAuthR::gar_auth(token = "filename")` then it will save the token there.  If it doesn't exisit, it will make a new one, if it does exist it will attempt to read the token from that file.  
+If you supply a filename to `googleAuthR::gar_auth(token = "filename")` then it will save the token there.  If it doesn't exist, it will make a new one, if it does exist it will attempt to read the token from that file.  
+
+You can use different token names to save different authentication settings such as with different scopes and client Ids.
+
+An example switching between `googleAnalyticsR` and `searchConsoleR` authentication, assuming you have previously authenticated with two tokens, one name `ga.httr-oauth` and one named `sc.httr-oauth`
+
+```r
+library(googleAuthR)
+library(googleAnalyticsR)
+library(searchConsoleR)
+
+# start with google analytics auth
+gar_auth("ga.httr-oauth")
+
+# can run Google Analytics API calls:
+ga_account_list()
+
+# switch to Seach Console auth
+gar_auth("sc.httr-oauth")
+
+# can now run Search Console API calls:
+list_websites()
+```
+
+Alternatively, you can authenticate with both API services in the same token by specifying the scopes for the request - this determines what permission screen you get the first time you go through the OAuth2 flow.
+
+You can access the scopes you required via the `googleAuthR` RStudio plugin.
+
+```r
+library(googleAuthR)
+library(googleAnalyticsR)
+library(searchConsoleR)
+
+# set the scopes required
+options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/analytics", 
+                                        "https://www.googleapis.com/auth/webmasters"))
+                                        
+# you may also set the client id and secret here as well
+options(googleAuthR.client_id = "XXXXXXX",
+        googleAuthR.client_secret = "XXXXXX")
+
+# authenticate and go through the OAuth2 flow first time - specify a filename to save to by passing it in
+gar_auth(token = "sc_ga.httr-oauth")
+                                        
+# can run Google Analytics API calls:
+ga_account_list()
+
+# and run Search Console API calls:
+list_websites()
+```
 
 # Authentication with no browser
 

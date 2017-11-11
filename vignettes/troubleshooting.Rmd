@@ -35,17 +35,17 @@ A lot of the time the first two are set by the package and the end user does not
 
 Once authentication has been done, then the authentication details are kept in a *cache file*, which by default is called `.httr-oauth` and appears in your working directory. 
 
-This file location is set via `option("googleAuthR.httr_oauth_cache")`
+This file location is set via `option("googleAuthR.httr_oauth_cache")`, or when you pass a filename to `gar_auth(token = "filename")` it will set it to the `filename` you pass in.
 
-At the same time a token is written to the R session into a global object, for use in the functions. On any restart of the R session, or if the token expires (default 60 mins) the cache file  is looked for to reload it into the R session.
+At the same time a token is written to the R session into a global object, for use in the functions. On any restart of the R session, or if the token expires (default 60 mins) the cache file is looked for to reload it into the R session.
 
 ### gar_auth() options
 
 Several libraries wrap `googleAuthR::gar_auth()` with presets, so you don't call them directly e.g. `ga_auth()` in `googleAnalyticsR`. Use `googleAuthR::gar_auth()` instead of native authentication function if you want more control. 
 
-If you call `googleAuthR::gar_auth()` then it will look for a cache token given by `option("googleAuthR.httr_oauth_cache")`- if not present it will trigger the OAuth2 flow.
+If you call `googleAuthR::gar_auth()` then it will look for a cache token given by `option("googleAuthR.httr_oauth_cache")` or the filename you pass in - if not present it will trigger the OAuth2 flow.
 
-If you call `googleAuthR::gar_auth("token_name")` then it will look for a cache token given by `"token_name"` and *set the `option("googleAuthR.httr_oauth_cache")` to `"token_name"`*. This means refreshes etc. will be to that token cache file. 
+If you call `googleAuthR::gar_auth("token_name")` then it will look for a cache token given by `"token_name"` and *set the `option("googleAuthR.httr_oauth_cache")` to `"token_name"`*. This means refreshes etc. will be to that token cache file.  It will also set the client ID, client secret and scopes to that specified in the file. 
 
 ### Common errors
 
@@ -54,6 +54,7 @@ If for any reason any of the above change inbetween you authenticating and calli
 * The `option("googleAuthR.client_id")` or `option("googleAuthR.client_secret")` are changed by loading another library or setting them in a script, and then a cache file is used with different options set.   
 * The cache file is not where you expect it to be, or is deleted.  The script will typically look in its working directory, which for say scheduled scripts may be different than the one you made the token within. 
 * If the cache file doesn't match the credentials the script needs, it will attempt to manually reauthenticate.  If in a scheduled script, as this needs manual intervention, this will result in an error.
+* If using JSON service authentication via `gar_auth_service()` make sure the service email is an authenticated user with the service you are trying to access, and your Google Project has the right API turned on.
 
 ### Tips and tricks
 
@@ -72,5 +73,8 @@ ga_auth()
 
 * If you are always going to use the same credentials, make use of the auto authentication options by creating a cache token, moving it to a dedicated auth folder and using environment variables `GAR_AUTH` or package supported ones.
 * If you are using auto-authentication, make sure this doesn't clash with manual authentication.  Comment out the environment variable if needed as this will prevent it operating on package load.
+* The safest way is to specify the filename of the token you are authenticating from:
+
+`gar_auth("my_token.httr-oauth")`
 
 

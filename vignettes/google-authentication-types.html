@@ -83,7 +83,46 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Authentication token is cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
 <div id="multiple-authentication-tokens" class="section level2">
 <h2>Multiple authentication tokens</h2>
-<p>If you supply a filename to <code>googleAuthR::gar_auth(token = &quot;filename&quot;)</code> then it will save the token there. If it doesn’t exisit, it will make a new one, if it does exist it will attempt to read the token from that file.</p>
+<p>If you supply a filename to <code>googleAuthR::gar_auth(token = &quot;filename&quot;)</code> then it will save the token there. If it doesn’t exist, it will make a new one, if it does exist it will attempt to read the token from that file.</p>
+<p>You can use different token names to save different authentication settings such as with different scopes and client Ids.</p>
+<p>An example switching between <code>googleAnalyticsR</code> and <code>searchConsoleR</code> authentication, assuming you have previously authenticated with two tokens, one name <code>ga.httr-oauth</code> and one named <code>sc.httr-oauth</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<span class="kw">library</span>(googleAnalyticsR)
+<span class="kw">library</span>(searchConsoleR)
+
+<span class="co"># start with google analytics auth</span>
+<span class="kw">gar_auth</span>(<span class="st">&quot;ga.httr-oauth&quot;</span>)
+
+<span class="co"># can run Google Analytics API calls:</span>
+<span class="kw">ga_account_list</span>()
+
+<span class="co"># switch to Seach Console auth</span>
+<span class="kw">gar_auth</span>(<span class="st">&quot;sc.httr-oauth&quot;</span>)
+
+<span class="co"># can now run Search Console API calls:</span>
+<span class="kw">list_websites</span>()</code></pre></div>
+<p>Alternatively, you can authenticate with both API services in the same token by specifying the scopes for the request - this determines what permission screen you get the first time you go through the OAuth2 flow.</p>
+<p>You can access the scopes you required via the <code>googleAuthR</code> RStudio plugin.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<span class="kw">library</span>(googleAnalyticsR)
+<span class="kw">library</span>(searchConsoleR)
+
+<span class="co"># set the scopes required</span>
+<span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/analytics&quot;</span>, 
+                                        <span class="st">&quot;https://www.googleapis.com/auth/webmasters&quot;</span>))
+                                        
+<span class="co"># you may also set the client id and secret here as well</span>
+<span class="kw">options</span>(<span class="dt">googleAuthR.client_id =</span> <span class="st">&quot;XXXXXXX&quot;</span>,
+        <span class="dt">googleAuthR.client_secret =</span> <span class="st">&quot;XXXXXX&quot;</span>)
+
+<span class="co"># authenticate and go through the OAuth2 flow first time - specify a filename to save to by passing it in</span>
+<span class="kw">gar_auth</span>(<span class="dt">token =</span> <span class="st">&quot;sc_ga.httr-oauth&quot;</span>)
+                                        
+<span class="co"># can run Google Analytics API calls:</span>
+<span class="kw">ga_account_list</span>()
+
+<span class="co"># and run Search Console API calls:</span>
+<span class="kw">list_websites</span>()</code></pre></div>
 </div>
 </div>
 <div id="authentication-with-no-browser" class="section level1">

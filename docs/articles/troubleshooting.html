@@ -111,7 +111,7 @@
       <h1>Troubleshooting Authentication</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-10-20</h4>
+            <h4 class="date">2017-11-11</h4>
           </div>
 
     
@@ -148,14 +148,14 @@
 </li>
 </ul>
 <p>Once authentication has been done, then the authentication details are kept in a <em>cache file</em>, which by default is called <code>.httr-oauth</code> and appears in your working directory.</p>
-<p>This file location is set via <code>option("googleAuthR.httr_oauth_cache")</code></p>
+<p>This file location is set via <code>option("googleAuthR.httr_oauth_cache")</code>, or when you pass a filename to <code><a href="../reference/gar_auth.html">gar_auth(token = "filename")</a></code> it will set it to the <code>filename</code> you pass in.</p>
 <p>At the same time a token is written to the R session into a global object, for use in the functions. On any restart of the R session, or if the token expires (default 60 mins) the cache file is looked for to reload it into the R session.</p>
 <div id="gar_auth-options" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gar_auth-options" class="anchor"></a>gar_auth() options</h3>
 <p>Several libraries wrap <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">googleAuthR::gar_auth()</a></code> with presets, so you don’t call them directly e.g. <code><a href="http://www.rdocumentation.org/packages/googleAnalyticsR/topics/ga_auth">ga_auth()</a></code> in <code>googleAnalyticsR</code>. Use <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">googleAuthR::gar_auth()</a></code> instead of native authentication function if you want more control.</p>
-<p>If you call <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">googleAuthR::gar_auth()</a></code> then it will look for a cache token given by <code>option("googleAuthR.httr_oauth_cache")</code>- if not present it will trigger the OAuth2 flow.</p>
-<p>If you call <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">googleAuthR::gar_auth("token_name")</a></code> then it will look for a cache token given by <code>"token_name"</code> and <em>set the <code>option("googleAuthR.httr_oauth_cache")</code> to <code>"token_name"</code></em>. This means refreshes etc. will be to that token cache file.</p>
+<p>If you call <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">googleAuthR::gar_auth()</a></code> then it will look for a cache token given by <code>option("googleAuthR.httr_oauth_cache")</code> or the filename you pass in - if not present it will trigger the OAuth2 flow.</p>
+<p>If you call <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">googleAuthR::gar_auth("token_name")</a></code> then it will look for a cache token given by <code>"token_name"</code> and <em>set the <code>option("googleAuthR.httr_oauth_cache")</code> to <code>"token_name"</code></em>. This means refreshes etc. will be to that token cache file. It will also set the client ID, client secret and scopes to that specified in the file.</p>
 </div>
 <div id="common-errors" class="section level3">
 <h3 class="hasAnchor">
@@ -166,6 +166,7 @@
 </li>
 <li>The cache file is not where you expect it to be, or is deleted. The script will typically look in its working directory, which for say scheduled scripts may be different than the one you made the token within.</li>
 <li>If the cache file doesn’t match the credentials the script needs, it will attempt to manually reauthenticate. If in a scheduled script, as this needs manual intervention, this will result in an error.</li>
+<li>If using JSON service authentication via <code><a href="../reference/gar_auth_service.html">gar_auth_service()</a></code> make sure the service email is an authenticated user with the service you are trying to access, and your Google Project has the right API turned on.</li>
 </ul>
 </div>
 <div id="tips-and-tricks" class="section level3">
@@ -185,7 +186,9 @@
 <ul>
 <li>If you are always going to use the same credentials, make use of the auto authentication options by creating a cache token, moving it to a dedicated auth folder and using environment variables <code>GAR_AUTH</code> or package supported ones.</li>
 <li>If you are using auto-authentication, make sure this doesn’t clash with manual authentication. Comment out the environment variable if needed as this will prevent it operating on package load.</li>
+<li>The safest way is to specify the filename of the token you are authenticating from:</li>
 </ul>
+<p><code><a href="../reference/gar_auth.html">gar_auth("my_token.httr-oauth")</a></code></p>
 </div>
 </div>
 </div>
