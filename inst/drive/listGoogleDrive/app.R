@@ -10,7 +10,7 @@ options(googleAuthR.client_id=Sys.getenv("GA_CLIENT_ID"),
 fileSearch <- function(query) {
   googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
                                  "GET",
-                                 pars_args=list(q=URLencode(query)),
+                                 pars_args=list(q=query),
                                  data_parse_function = function(x) x$files)()
 }
 

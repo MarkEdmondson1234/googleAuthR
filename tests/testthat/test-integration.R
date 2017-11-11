@@ -39,7 +39,7 @@ shorten_url_cache <- function(url){
 }
 
 
-### --  the tests
+### -----  the tests
 
 context("Scopes")
 

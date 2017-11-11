@@ -125,7 +125,7 @@ analytics_url <- function(shortUrl,
 analytics_url("https://goo.gl/2FcFVQbk")
 ```
 
-Another example is from the `searchConsoleR` library - in this case we avoid using `scr_auth()` to authenticate via the JSON, which has had its email added to the Search Console as a user.
+Another example is from the `searchConsoleR` library - in this case we avoid using `scr_auth()` to authenticate via the JSON, which has had the service email added to the Search Console web property as a user.
 
 ```r
 library(googleAuthR)

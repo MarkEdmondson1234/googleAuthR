@@ -129,6 +129,48 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Authentication with no browser</h1>
 <p>If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the <code>.httr-oauth</code> file to the folder of your script.</p>
 </div>
+<div id="authentication-with-a-json-file-via-service-accounts" class="section level1">
+<h1>Authentication with a JSON file via Service Accounts</h1>
+<p>You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow. The end user could supply this JSON file, or you can upload your own JSON file to your applications. This is generally more secure if you know its only one user on the service, such as for Cloud services.</p>
+<p>This involves downloading a secret JSON key with the authentication details. More details are available from Google here: Using OAuth2.0 for Server to Server Applications[<a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount" class="uri">https://developers.google.com/identity/protocols/OAuth2ServiceAccount</a>]</p>
+<p>To use, go to your Project in the Google Developement Console and select JSON Key type. Save the JSON file to your computer and supply the file location to the function <code>gar_auth_service()</code></p>
+<p>Navigate to the JSON file from the Google Developer Console via: <code>Credentials &gt; New credentials &gt; Service account Key &gt; Select service account &gt; Key type = JSON</code></p>
+<p>If you are using the JSON file, you must ensure:</p>
+<ul>
+<li>The service email has access to the resource you are trying to fetch (for example a Google Analytics View)</li>
+<li>You have set the scopes to the correct API</li>
+<li>The Google Project has the API turned on</li>
+</ul>
+<p>An example using a service account JSON file for authentication is shown below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">&quot;https://www.googleapis.com/auth/urlshortner&quot;</span>)
+service_token &lt;-<span class="st"> </span><span class="kw">gar_auth_service</span>(<span class="dt">json_file=</span><span class="st">&quot;~/location/of/the/json/secret.json&quot;</span>)
+analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(shortUrl, 
+                          <span class="dt">timespan =</span> <span class="kw">c</span>(<span class="st">&quot;allTime&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;week&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;twoHours&quot;</span>)){
+  
+  timespan &lt;-<span class="st"> </span><span class="kw">match.arg</span>(timespan)
+  
+  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
+                         <span class="st">&quot;GET&quot;</span>,
+                         <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;shortUrl&quot;</span>,
+                                          <span class="dt">projection =</span> <span class="st">&quot;FULL&quot;</span>),
+                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) { 
+                           a &lt;-<span class="st"> </span>x<span class="op">$</span>analytics 
+                           <span class="kw">return</span>(a[timespan][[<span class="dv">1</span>]])
+                         })
+  
+  <span class="kw">f</span>(<span class="dt">pars_arguments =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> shortUrl))
+}
+<span class="kw">analytics_url</span>(<span class="st">&quot;https://goo.gl/2FcFVQbk&quot;</span>)</code></pre></div>
+<p>Another example is from the <code>searchConsoleR</code> library - in this case we avoid using <code>scr_auth()</code> to authenticate via the JSON, which has had the service email added to the Search Console web property as a user.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<span class="kw">library</span>(searchConsoleR)
+<span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">&quot;https://www.googleapis.com/auth/webmasters&quot;</span>) 
+
+<span class="kw">gar_auth_service</span>(<span class="st">&quot;auth.json&quot;</span>)
+
+<span class="kw">list_websites</span>()</code></pre></div>
+</div>
 <div id="authentication-within-shiny" class="section level1">
 <h1>Authentication within Shiny</h1>
 <p>If you want to create a Shiny app just using your data, upload the app with your own <code>.httr-oauth</code>.</p>
@@ -211,33 +253,6 @@ shiny<span class="op">::</span><span class="kw">runApp</span>(<span class="st">&
 })</code></pre></div>
 <p>See this post on <a href="https://lesliemyint.wordpress.com/2017/01/01/creating-a-shiny-app-with-google-login/">creating a Shiny App with a Google login</a> for details.</p>
 </div>
-</div>
-<div id="authentication-with-a-json-file-via-service-accounts" class="section level1">
-<h1>Authentication with a JSON file via Service Accounts</h1>
-<p>You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow. The end user could supply this JSON file, or you can upload your own JSON file to your applications.</p>
-<p>This involves downloading a secret JSON key with the authentication details. More details are available from Google here: Using OAuth2.0 for Server to Server Applications[<a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount" class="uri">https://developers.google.com/identity/protocols/OAuth2ServiceAccount</a>]</p>
-<p>To use, go to your Project in the Google Developement Console and select JSON Key type. Save the JSON file to your computer and supply the file location to the function <code>gar_auth_service()</code></p>
-<p>Navigate to the JSON file from the Google Developer Console via: <code>Credentials &gt; New credentials &gt; Service account Key &gt; Select service account &gt; Key type = JSON</code></p>
-<p>An example using a service account JSON file for authentication is shown below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
-service_token &lt;-<span class="st"> </span><span class="kw">gar_auth_service</span>(<span class="dt">json_file=</span><span class="st">&quot;~/location/of/the/json/secret.json&quot;</span>)
-analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(shortUrl, 
-                          <span class="dt">timespan =</span> <span class="kw">c</span>(<span class="st">&quot;allTime&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;week&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;twoHours&quot;</span>)){
-  
-  timespan &lt;-<span class="st"> </span><span class="kw">match.arg</span>(timespan)
-  
-  f &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/urlshortener/v1/url&quot;</span>,
-                         <span class="st">&quot;GET&quot;</span>,
-                         <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;shortUrl&quot;</span>,
-                                          <span class="dt">projection =</span> <span class="st">&quot;FULL&quot;</span>),
-                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) { 
-                           a &lt;-<span class="st"> </span>x<span class="op">$</span>analytics 
-                           <span class="kw">return</span>(a[timespan][[<span class="dv">1</span>]])
-                         })
-  
-  <span class="kw">f</span>(<span class="dt">pars_arguments =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> shortUrl))
-}
-<span class="kw">analytics_url</span>(<span class="st">&quot;https://goo.gl/2FcFVQbk&quot;</span>)</code></pre></div>
 </div>
 <div id="authentication-via-rstudio-addin" class="section level1">
 <h1>Authentication via RStudio Addin</h1>
