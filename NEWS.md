@@ -2,7 +2,7 @@
 
 * Fix bug with batching that didn't parse data (#103)
 * If you specify a filename in `gar_auth(token = "blah")` that doesn't exist, will create new token there instead of an error
-* If you specify a valid auth token filename, the options will update to the settings within it
+* If you specify a valid auth token filename, the scopes and client Id/secret options will now update to the settings within it
 * Add encoding to URL parameters you pass in (#101)
 
 # googleAuthR v0.6.0
