@@ -1,4 +1,4 @@
-# googleAuthR v0.6.0.9000
+# googleAuthR v0.6.1
 
 * Fix bug with batching that didn't parse data (#103)
 * If you specify a filename in `gar_auth(token = "blah")` that doesn't exist, will create new token there instead of an error
