@@ -96,7 +96,7 @@ test_that("Right message when wrong token file location given", {
   
   options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
   
-  expect_warning(expect_error(gar_auth()))
+  expect_error(gar_auth())
   
 })
 
@@ -184,7 +184,7 @@ test_that("Can do cache and use invalidate function", {
   ## dont cache me
   expect_message(shorten_url_cache("http://blahblah.com"), "Forgetting cache")
   
-  
+  gar_cache_empty()
 })
 
 context("Previous bugs to solve")
@@ -204,12 +204,16 @@ test_that("Encoding parameters works (#100 & #101)", {
   
   expect_equal(searchResponse$status_code, 200)
   
-  bigQueryR::bqr_auth()
+  op <- options()
+  options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/bigquery")
+  googleAuthR::gar_auth_service(Sys.getenv("BQ_AUTH_FILE"))
   
   tables <- bigQueryR::bqr_list_tables(projectId = Sys.getenv("BQ_DEFAULT_PROJECT_ID"),
-                                       datasetId = Sys.getenv("BQ_DEFAULT_DATASET"), maxResults = 10)
+                                       datasetId = Sys.getenv("BQ_DEFAULT_DATASET"), 
+                                       maxResults = 10)
   
   expect_s3_class(tables, "data.frame")
+  options(op)
   
 })
 
