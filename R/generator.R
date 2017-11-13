@@ -95,8 +95,9 @@ gar_api_generator <- function(baseURI,
 
   if(!is.null(pars_args)){
     pars <-
-      paste(names(pars_args), pars_args, sep='=', collapse='&')
-    
+      paste(names(pars_args), 
+            vapply(pars_args, URLencode, reserved = TRUE, character(1)), 
+            sep='=', collapse='&')    
 
   }
 
