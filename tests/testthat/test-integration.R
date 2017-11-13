@@ -187,6 +187,32 @@ test_that("Can do cache and use invalidate function", {
   
 })
 
+context("Previous bugs to solve")
+
+test_that("Encoding parameters works (#100 & #101)", {
+  skip_on_cran()
+  skip_if_no_env_auth(auth_env)
+  
+  fileSearch <- function(query) {
+    googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
+                                   "GET",pars_args=list(q=query))()
+  }
+  
+  googleAuthR::gar_auth("gdrive.oauth")
+  
+  searchResponse <- fileSearch("mimeType != 'application/vnd.google-apps.folder'")
+  
+  expect_equal(searchResponse$status_code, 200)
+  
+  bigQueryR::bqr_auth()
+  
+  tables <- bigQueryR::bqr_list_tables(projectId = Sys.getenv("BQ_DEFAULT_PROJECT_ID"),
+                                       datasetId = Sys.getenv("BQ_DEFAULT_DATASET"), maxResults = 10)
+  
+  expect_s3_class(tables, "data.frame")
+  
+})
+
 
 #### -- these tests are in the unit tests online
 

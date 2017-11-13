@@ -94,6 +94,8 @@ gar_api_generator <- function(baseURI,
   }
 
   if(!is.null(pars_args)){
+    ## it has to be a character for pars
+    pars_args <- vapply(pars_args, as.character, character(1))
     pars <-
       paste(names(pars_args), 
             vapply(pars_args, URLencode, reserved = TRUE, character(1)), 

@@ -8,13 +8,10 @@ inst/flexdashbord/rsconnect/documents/authDemo.Rmd/shinyapps.io/mark/authDemoFle
 auth.json
 *.httr-oauth
 secrets.tar
-
 tests/testthat/httr-oauth.rds
 httr-oauth.rds
-
 inst/shiny/rsconnect/shinyapps.io/mark/googleAuthRtestv4.dcf
-
 request_debug.rds
-
 revdep/checks.rds
 .Rprofile
+gdrive.oauth
