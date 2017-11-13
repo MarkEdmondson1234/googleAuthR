@@ -2,8 +2,9 @@ Package: googleAuthR
 Type: Package
 Version: 0.6.2
 Title: Authenticate and Create Google APIs
-Description: Create R functions that interact with OAuth2 Google APIs easily,
-    with auto-refresh and Shiny compatibility. <https://developers.google.com/apis-explorer/>
+Description: Create R functions that interact with OAuth2 Google APIs 
+    <https://developers.google.com/apis-explorer/> easily,
+    with auto-refresh and Shiny compatibility.
 Authors@R: c(person("Mark", "Edmondson",email = "m@sunholo.com",
                   role = c("aut", "cre"),
                   comment = c(ORCID = "0000-0002-8434-3881")),
