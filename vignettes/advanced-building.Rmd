@@ -231,9 +231,27 @@ shorten_url_cache("http://blahblah.com")
 
 #### Batching and caching
 
-If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a list of responses, each parsed with their respective parsing function, that was passed via the `data_parse_function` argument.  
+If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a response which is a `multipart/mixed; boundary=batch_{random_string}` as its content-type header.  This response will need to be parsed into JSON first, before applying your data parsing functions and/or deciding to cache.  To get you started here is a cache function:
 
-This differs from the normal caching which deals with the raw response, but batch responses are raw bytes so its been judged easier to deal with.  
+
+```r
+batched_caching <- function(req){
+
+  ## if a batched response
+  if(grepl(""multipart/mixed; boundary=batch",req$headers)){
+
+    ## find content that indicates a successful request ('kind:analytics#gaData')
+    is_ga <- grepl('"kind":"analytics#gaData', (httr::content(req, as = "text", encoding = "UTF-8")))
+    if(is_ga){
+      ## is a response you want, cache me
+      return(TRUE)
+    }
+  }
+  
+  FALSE
+}
+
+```
 
 ### Using caching
 

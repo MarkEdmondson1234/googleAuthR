@@ -111,7 +111,7 @@
       <h1>Google authentication types for R</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-11-11</h4>
+            <h4 class="date">2017-11-13</h4>
           </div>
 
     
@@ -209,7 +209,7 @@ analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(sho
   <span class="kw">f</span>(<span class="dt">pars_arguments =</span> <span class="kw">list</span>(<span class="dt">shortUrl =</span> shortUrl))
 }
 <span class="kw">analytics_url</span>(<span class="st">"https://goo.gl/2FcFVQbk"</span>)</code></pre></div>
-<p>Another example is from the <code>searchConsoleR</code> library - in this case we avoid using <code><a href="http://www.rdocumentation.org/packages/searchConsoleR/topics/scr_auth">scr_auth()</a></code> to authenticate via the JSON, which has had its email added to the Search Console as a user.</p>
+<p>Another example is from the <code>searchConsoleR</code> library - in this case we avoid using <code><a href="http://www.rdocumentation.org/packages/searchConsoleR/topics/scr_auth">scr_auth()</a></code> to authenticate via the JSON, which has had the service email added to the Search Console web property as a user.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
 <span class="kw">library</span>(searchConsoleR)
 <span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="st">"https://www.googleapis.com/auth/webmasters"</span>) 

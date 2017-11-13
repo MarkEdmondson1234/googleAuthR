@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-10-20" />
+<meta name="date" content="2017-11-13" />
 
 <title>Advanced Google API building techniques</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Advanced Google API building techniques</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-10-20</em></h4>
+<h4 class="date"><em>2017-11-13</em></h4>
 
 
 
@@ -256,8 +256,22 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <span class="kw">shorten_url_cache</span>(<span class="st">&quot;http://blahblah.com&quot;</span>)</code></pre></div>
 <div id="batching-and-caching" class="section level4">
 <h4>Batching and caching</h4>
-<p>If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a list of responses, each parsed with their respective parsing function, that was passed via the <code>data_parse_function</code> argument.</p>
-<p>This differs from the normal caching which deals with the raw response, but batch responses are raw bytes so its been judged easier to deal with.</p>
+<p>If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a response which is a <code>multipart/mixed; boundary=batch_{random_string}</code> as its content-type header. This response will need to be parsed into JSON first, before applying your data parsing functions and/or deciding to cache. To get you started here is a cache function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">batched_caching &lt;-<span class="st"> </span><span class="cf">function</span>(req){
+
+  ## if a batched response
+  <span class="cf">if</span>(<span class="kw">grepl</span>(<span class="st">&quot;&quot;</span>multipart<span class="op">/</span>mixed; <span class="dt">boundary=</span>batch<span class="st">&quot;,req$headers)){</span>
+
+<span class="st">    ## find content that indicates a successful request ('kind:analytics#gaData')</span>
+<span class="st">    is_ga &lt;- grepl('&quot;</span>kind<span class="st">&quot;:&quot;</span>analytics<span class="co">#gaData', (httr::content(req, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)))</span>
+    <span class="cf">if</span>(is_ga){
+      ## is a response you want, cache me
+      <span class="kw">return</span>(<span class="ot">TRUE</span>)
+    }
+  <span class="er">}</span>
+  
+  <span class="ot">FALSE</span>
+<span class="er">}</span></code></pre></div>
 </div>
 </div>
 <div id="using-caching" class="section level3">

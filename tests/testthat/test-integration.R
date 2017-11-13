@@ -217,6 +217,36 @@ test_that("Encoding parameters works (#100 & #101)", {
   
 })
 
+test_that("Can do batching with caching (#106)", {
+  skip_on_cran()
+  skip_if_no_env_auth(auth_env)
+  
+  googleAuthR::gar_auth(Sys.getenv("GA_AUTH_FILE"))
+  
+  f <- function(req){
+    if(!is.null(req$content$reports)){
+      return(TRUE)
+    } else {
+      return(FALSE)
+    }}
+  
+  googleAuthR::gar_cache_setup(invalid_func = f)
+  
+  ## get rid of a silly warning
+  expect_false(suppressWarnings(googleAnalyticsR:::is.error("g")))
+  
+  batched_call <- googleAnalyticsR::google_analytics(
+    id = c(115751114, 123875646),
+    start = "2017-01-01", end = "2017-08-01",
+    metrics = "sessions",
+    dimensions = c("date","deviceCategory","medium"),
+    max_results = 10, multi_account_batching = TRUE
+  )
+  
+  expect_equal(class(batched_call), "list")
+  
+})
+
 
 #### -- these tests are in the unit tests online
 

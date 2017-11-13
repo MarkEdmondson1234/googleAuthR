@@ -1,7 +1,9 @@
 # cache global
 .gar_cache <- new.env(parent = emptyenv())
 .gar_cache$cache <- NULL  # what type of caching
-.gar_cache$invalid <- function(req){req$status_code == 200} # whether to invalidate when passed req
+
+# whether to invalidate when passed req
+.gar_cache$invalid <- function(req){tryCatch(req$status_code == 200, error = function(x) FALSE)} 
 
 
 
@@ -87,7 +89,7 @@ gar_cache_empty <- function(){
 #' @export
 #' @family cache functions
 gar_cache_setup <- function(mcache=memoise::cache_memory(),
-                            invalid_func = function(req){req$status_code == 200}){
+                            invalid_func = function(req){tryCatch(req$status_code == 200, error = function(x) FALSE)}){
   
   if(is.null(mcache)){
     return(gar_cache_empty())
@@ -155,10 +157,7 @@ memDoHttrRequest <- function(req_url,
 #' @noRd
 #' @import memoise
 #' @family cache functions
-memDoBatchRequest <- function(l,
-                              function_list, 
-                              applyDataParseFunction,
-                              ...){
+memDoBatchRequest <- function(l){
   
   cachedBatchedRequest <- memoise(doBatchRequest, cache = gar_cache_get_loc())
   
@@ -172,13 +171,11 @@ memDoBatchRequest <- function(l,
   
   req <- cachedBatchedRequest(l)
   
-  batch_content <-  parseBatchResponse(req)
-  parsed_batch_content <- lapply(function_list, applyDataParseFunction, batch_content, ...)
   ## check request against cache_function to see whether to cache result is TRUE
   cache_function <- .gar_cache$invalid
 
   cache_result <- tryCatch({
-    cache_function(parsed_batch_content)
+    cache_function(req)
   }, error = function(ex){
     warning("Error in batch cache function", call. = FALSE)
     FALSE

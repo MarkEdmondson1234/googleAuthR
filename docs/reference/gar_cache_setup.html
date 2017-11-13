@@ -148,7 +148,8 @@
 <span class='fu'>gar_cache_empty</span>()
 
 <span class='fu'>gar_cache_setup</span>(<span class='kw'>mcache</span> <span class='kw'>=</span> <span class='kw pkg'>memoise</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/memoise/topics/cache_memory'>cache_memory</a></span>(),
-  <span class='kw'>invalid_func</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>req</span>) {     <span class='no'>req</span>$<span class='no'>status_code</span> <span class='kw'>==</span> <span class='fl'>200</span> })</pre>
+  <span class='kw'>invalid_func</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>req</span>) {     <span class='fu'>tryCatch</span>(<span class='no'>req</span>$<span class='no'>status_code</span> <span class='kw'>==</span> <span class='fl'>200</span>, <span class='kw'>error</span> <span class='kw'>=</span>
+  <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>FALSE</span>) })</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
