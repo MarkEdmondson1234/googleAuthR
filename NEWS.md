@@ -1,3 +1,7 @@
+# googleAuthR v0.6.2
+
+* Revert encoding fix as it broke some functions downstream (#101)
+
 # googleAuthR v0.6.1
 
 * Fix bug with batching that didn't parse data (#103)

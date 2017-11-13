@@ -3,6 +3,11 @@
 * ubuntu 12.04 (on travis-ci), R 3.4.2
 * Windows Server 2008 R2 SP1, R-release, 32/64 bit (on r-hub), R 3.4.2
 
+## Only one day since last submission
+
+A bug was introduced that broke some downstream libraries that didn't come up
+  in the tests. Sorry about that!
+  
 ## R CMD check results
 
 There were no ERRORs or WARNINGs.
