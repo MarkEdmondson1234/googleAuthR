@@ -1,0 +1,61 @@
+#' Setup the clientId, clientSecret and scopes
+#' 
+#' Help setup the client ID and secret with the OAuth 2.0 clientID.  
+#'   Do not confuse with Service account keys.
+#' 
+#' @param json The file location of an OAuth 2.0 client ID json file
+#' @param scopes A character vector of scopes to set
+#' 
+#' @details 
+#' 
+#' This function helps set the \code{options(googleAuthR.client_id)}, 
+#'   \code{options(googleAuthR.client_secret)} and 
+#'   \code{options(googleAuthR.scopes.selected)} for you.  
+#'   Note that if you authenticate with a cache token with different values it 
+#'   will overwrite them.
+#' 
+#' For successful authentication, the API scopes can be browsed via the 
+#'   googleAuthR RStudio addin or the Google API documentation.
+#' 
+#' Do not confuse this JSON file with the service account keys, that are
+#'   used to authenticate a service email.  This JSON only sets up which
+#'   app you are going to authenticate with - use \link{gar_auth_service} with
+#'   the Service account keys JSON to perform the actual authentication. 
+#' 
+#' @author Idea via @jennybc and @jimhester from \code{gargle and gmailr} libraries.
+#' 
+#' @return The \code{project-id} the app has been set for
+#' 
+#' @seealso \url{https://console.cloud.google.com/apis/credentials}
+#' 
+#' @export
+#' @importFrom jsonlite fromJSON
+#' @import assertthat
+gar_set_client <- function(json, scopes = NULL){
+  
+  assert_that(is.readable(json))
+  
+  the_json <- fromJSON(json)
+  
+  if(is.null(the_json$installed)){
+    stop("$installed not found in JSON - have you downloaded the correct JSON file? 
+         (Service account client, not Service Account Keys)")
+  }
+  
+  if(!is.null(scopes)){
+    assert_that(is.character(scopes))
+    options(googleAuthR.scopes.selected = scopes)
+  }
+  
+  options(googleAuthR.client_id = the_json$installed$client_id,
+          googleAuthR.client_secret = the_json$installed$client_secret)
+  
+  myMessage("\noptions(googleAuthR.scopes.selected=c('",
+            paste(getOption("googleAuthR.scopes.selected"), collapse = "','"),"'))",
+            "\noptions(googleAuthR.client_id='", getOption("googleAuthR.client_id"),"')",
+            "\noptions(googleAuthR.client_secret=' ", getOption("googleAuthR.client_secret"),"')", 
+            level = 3)
+  
+  the_json$installed$project_id
+  
+}
