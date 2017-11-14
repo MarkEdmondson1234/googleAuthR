@@ -203,7 +203,7 @@ test_that("Encoding parameters works (#100 & #101)", {
                                    "GET",pars_args=list(q=query))()
   }
   
-  googleAuthR::gar_auth("gdrive.oauth")
+  googleAuthR::gar_auth(Sys.getenv("GAR_TEST_DRIVE_FILE"))
   
   searchResponse <- fileSearch("mimeType != 'application/vnd.google-apps.folder'")
   
@@ -226,7 +226,7 @@ test_that("Can do batching with caching (#106)", {
   skip_on_cran()
   skip_if_no_env_auth(auth_env)
   
-  googleAuthR::gar_auth("googleAuthR_tests.httr-oauth")
+  googleAuthR::gar_auth(Sys.getenv("GAR_TEST_GA_FILE"))
   
   f <- function(req){
     if(!is.null(req$content$reports)){
