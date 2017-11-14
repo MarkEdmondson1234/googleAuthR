@@ -92,7 +92,7 @@ list_websites()
 
 # Setting the client via Google Cloud client JSON
 
-To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - `https://console.cloud.google.com/apis/credentials`.  
+To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - `https://console.cloud.google.com/apis/credentials`.  Make sure the client ID type is `Other`.
 
 You can use this to set the client details before your first authentication.  The above example would then be:
 

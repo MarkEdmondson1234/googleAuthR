@@ -80,10 +80,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw">gar_auth</span>()</code></pre></div>
 <p>If you ever need to authenticate with a new user, use:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">googleAuthR<span class="op">::</span><span class="kw">gar_auth</span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</code></pre></div>
-<p>Authentication token is cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
+<p>Authentication token is by default cached in a hidden file called <code>.httr-oauth</code> in the working directory.</p>
+<div id="client-options" class="section level2">
+<h2>Client options</h2>
+<p>Most libraries will set the appropriate options for you, otherwise you will need to supply them from the Google Cloud console, in its <code>APIs &amp; services &gt; Credentials</code> section ( <code>https://console.cloud.google.com/apis/credentials</code> ).</p>
+<p>You will need as a minimum:</p>
+<ul>
+<li>A client Id and secret generated via <code>Create Credentials &gt; OAuth client ID &gt; Other</code> - these are set in <code>options(googleAuthR.client_id)</code> and <code>options(googleAuthR.client_secret)</code>, or if you download the client ID JSON using <code>gar_set_client()</code></li>
+<li>An API scope for the API you want to authenticate with, found in the APIs documentation or via the <code>googleAuthR</code> RStudio addin.</li>
+<li>A user authentication file, either generated interactivily via <code>gar_auth()</code> or via a service account file JSON file, created via <code>Create credentials &gt; Service account key</code>.</li>
+</ul>
+<p>If creating your own library you can choose to supply some or all of the above to the end-user, as an end-user you may need to set some of the above (most usually your own user authentication).</p>
+</div>
 <div id="multiple-authentication-tokens" class="section level2">
 <h2>Multiple authentication tokens</h2>
-<p>If you supply a filename to <code>googleAuthR::gar_auth(token = &quot;filename&quot;)</code> then it will save the token there. If it doesn’t exist, it will make a new one, if it does exist it will attempt to read the token from that file.</p>
+<p>If you supply a filename to <code>googleAuthR::gar_auth(token = &quot;filename&quot;)</code> then it will save the token there. If it doesn’t exist, it will make a new one, if it does exist it will attempt to read the token from that file. Relative and absolute filenames work.</p>
 <p>You can use different token names to save different authentication settings such as with different scopes and client Ids.</p>
 <p>An example switching between <code>googleAnalyticsR</code> and <code>searchConsoleR</code> authentication, assuming you have previously authenticated with two tokens, one name <code>ga.httr-oauth</code> and one named <code>sc.httr-oauth</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
@@ -127,7 +138,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="setting-the-client-via-google-cloud-client-json" class="section level1">
 <h1>Setting the client via Google Cloud client JSON</h1>
-<p>To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console. You can use this to set the client details before your first authentication. The above example would then be:</p>
+<p>To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - <code>https://console.cloud.google.com/apis/credentials</code>. Make sure the client ID type is <code>Other</code>.</p>
+<p>You can use this to set the client details before your first authentication. The above example would then be:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
 <span class="kw">library</span>(googleAnalyticsR)
 <span class="kw">library</span>(searchConsoleR)
@@ -149,7 +161,7 @@ scopes =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quo
 <span class="kw">list_websites</span>()</code></pre></div>
 <p>You can also place the file location of your client ID JSON in the <code>GAR_CLIENT_JSON</code> environment argument, where it will look for it by default:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># .Renviron</span>
-GAR_CLIENT_JSON<span class="op">-</span><span class="er">~/</span>path<span class="op">/</span>to<span class="op">/</span>clientjson.json</code></pre></div>
+GAR_CLIENT_JSON=<span class="st">&quot;~/path/to/clientjson.json&quot;</span></code></pre></div>
 <p>Then you just need to supply the scopes:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gar_set_client</span>(<span class="dt">scopes =</span> <span class="st">&quot;https://www.googleapis.com/auth/webmasters&quot;</span>)</code></pre></div>
 </div>
@@ -337,7 +349,7 @@ renderUI({
 </div>
 <div id="auto-authentication" class="section level1">
 <h1>Auto-authentication</h1>
-<p>From version <code>0.4.0</code> auto-authentication can be performed upon a package load.</p>
+<p>Auto-authentication can be performed upon a package load.</p>
 <p>This requires the setup of environment variables either in your <code>.Renviron</code> file or via <code>Sys.setenv()</code> to point to a previously created authentication file. This file can be either a <code>.httr-oauth</code> file created via <code>gar_auth()</code> or a Google service account JSON downloaded from the Google API console.</p>
 <p>This file will then be used for authentication via <code>gar_auth_auto</code>. You can call this function yourself in scripts or R sessions, but its main intention is to be called in the <code>.onAttach</code> function via <code>gar_attach_auth_auto</code>, so that you will authenticate right after you load the library via <code>library(yourlibrary)</code></p>
 <p>An example from <code>googleCloudStorageR</code> is shown below:</p>

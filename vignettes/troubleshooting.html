@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-11-11" />
+<meta name="date" content="2017-11-14" />
 
 <title>Troubleshooting Authentication</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Troubleshooting Authentication</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-11-11</em></h4>
+<h4 class="date"><em>2017-11-14</em></h4>
 
 
 
@@ -137,6 +137,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>The safest way is to specify the filename of the token you are authenticating from:</li>
 </ul>
 <p><code>gar_auth(&quot;my_token.httr-oauth&quot;)</code></p>
+<ul>
+<li>Safest way to specify your client id and secret is to download the client ID JSON, create a environment variable <code>GAR_CLIENT_JSON</code> and use <code>gar_set_client()</code></li>
+</ul>
 </div>
 </div>
 

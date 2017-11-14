@@ -83,13 +83,6 @@ test_that("Can authenticate .httr passed as a string", {
   expect_s3_class(gar_auth(local_httr_file), "Token2.0")
 })
 
-test_that("Can authenticate .httr looking for existing file", {
-  skip_on_cran()
-  skip_if_no_env_auth(auth_env)
-  
-  options(googleAuthR.httr_oauth_cache = local_httr_file)
-  expect_s3_class(gar_auth(), "Token2.0")
-})
 
 test_that("Can authenticate .httr passing a token", {
   skip_on_cran()
@@ -233,7 +226,7 @@ test_that("Can do batching with caching (#106)", {
   skip_on_cran()
   skip_if_no_env_auth(auth_env)
   
-  googleAuthR::gar_auth(Sys.getenv("GA_AUTH_FILE"))
+  googleAuthR::gar_auth("googleAuthR_tests.httr-oauth")
   
   f <- function(req){
     if(!is.null(req$content$reports)){
