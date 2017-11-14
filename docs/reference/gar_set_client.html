@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Walk data through batches — gar_batch_walk • googleAuthR</title>
+<title>Setup the clientId, clientSecret and scopes — gar_set_client • googleAuthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,60 +119,47 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Walk data through batches</h1>
+    <h1>Setup the clientId, clientSecret and scopes</h1>
     </div>
 
     
-    <p>Convenience function for walking through data in batches</p>
+    <p>Help setup the client ID and secret with the OAuth 2.0 clientID.  
+  Do not confuse with Service account keys.</p>
     
 
-    <pre><span class='fu'>gar_batch_walk</span>(<span class='no'>f</span>, <span class='no'>walk_vector</span>, <span class='kw'>gar_pars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gar_paths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>the_body</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pars_walk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>path_walk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>body_walk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>batch_function</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_frame_output</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre><span class='fu'>gar_set_client</span>(<span class='kw'>json</span> <span class='kw'>=</span> <span class='fu'>Sys.getenv</span>(<span class='st'>"GAR_CLIENT_JSON"</span>), <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
-      <dt>f</dt>
-      <dd>a function from <code><a href='gar_api_generator.html'>gar_api_generator</a></code></dd>
-      <dt>walk_vector</dt>
-      <dd>a vector of the parameter or path to change</dd>
-      <dt>gar_pars</dt>
-      <dd>a list of parameter arguments for f</dd>
-      <dt>gar_paths</dt>
-      <dd>a list of path arguments for f</dd>
-      <dt>the_body</dt>
-      <dd>a list of body arguments for f</dd>
-      <dt>pars_walk</dt>
-      <dd>a character vector of the parameter(s) to modify for each walk of f</dd>
-      <dt>path_walk</dt>
-      <dd>a character vector of the path(s) to modify for each walk of f</dd>
-      <dt>body_walk</dt>
-      <dd>a character vector of the body(s) to modify for each walk of f</dd>
-      <dt>batch_size</dt>
-      <dd>size of each request to Google /batch API</dd>
-      <dt>batch_function</dt>
-      <dd>a function that will act on the result list of each batch API call</dd>
-      <dt>data_frame_output</dt>
-      <dd>if the list of lists are dataframes, you can bind them all by setting to TRUE</dd>
-      <dt>...</dt>
-      <dd>further arguments passed to the data parse function of f</dd>
+      <dt>json</dt>
+      <dd>The file location of an OAuth 2.0 client ID json file</dd>
+      <dt>scopes</dt>
+      <dd>A character vector of scopes to set</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><strong>if data_frame_output is FALSE</strong>: A list of lists.  
-  Outer list the length of number of batches required, inner lists the results from the calls</p>
-    <p><strong>if data_frame_output is TRUE</strong>: The list of lists will attempt to rbind all the results</p>
+    <p>The <code>project-id</code> the app has been set for</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>You can modify more than one parameter or path arg, 
-  but it must be the same walked vector e.g. <code>start = end = x</code></p>
-    <p>Many Google APIs have <code>batch_size</code> limits greater than 10, 1000 is common.</p>
+    <p>This function helps set the <code>options(googleAuthR.client_id)</code>, 
+  <code>options(googleAuthR.client_secret)</code> and 
+  <code>options(googleAuthR.scopes.selected)</code> for you.  
+  Note that if you authenticate with a cache token with different values it 
+  will overwrite them.</p>
+    <p>For successful authentication, the API scopes can be browsed via the 
+  googleAuthR RStudio addin or the Google API documentation.</p>
+    <p>Do not confuse this JSON file with the service account keys, that are
+  used to authenticate a service email.  This JSON only sets up which
+  app you are going to authenticate with - use <a href='gar_auth_service.html'>gar_auth_service</a> with
+  the Service account keys JSON to perform the actual authentication.</p>
+    <p>By default the JSON file will be looked for in the location specified by the
+  <code>&quot;GAR_CLIENT_JSON&quot;</code> environment argument.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other batch functions: <code><a href='gar_batch.html'>gar_batch</a></code></p>
+    <p><a href = 'https://console.cloud.google.com/apis/credentials'>https://console.cloud.google.com/apis/credentials</a></p>
     
 
   </div>
@@ -187,6 +174,10 @@
 
       <li><a href="#see-also">See also</a></li>
           </ul>
+
+    <h2>Author</h2>
+    
+Idea via @jennybc and @jimhester from <code>gargle and gmailr</code> libraries.
 
   </div>
 </div>

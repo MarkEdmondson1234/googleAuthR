@@ -78,6 +78,48 @@ ga_account_list()
 list_websites()
 ```
 
+# Setting the client via Google Cloud client JSON
+
+To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can
+download from the Google Cloud console.  You can use this to set the client details before your
+first authentication.  The above example would then be:
+
+```r
+library(googleAuthR)
+library(googleAnalyticsR)
+library(searchConsoleR)
+
+# set the scopes required
+scopes = c("https://www.googleapis.com/auth/analytics", 
+          "https://www.googleapis.com/auth/webmasters")
+                                        
+# set the client
+gar_set_client("client-id.json", scopes = scopes)
+
+# authenticate and go through the OAuth2 flow first time - specify a filename to save to by passing it in
+gar_auth(token = "sc_ga.httr-oauth")
+                                        
+# can run Google Analytics API calls:
+ga_account_list()
+
+# and run Search Console API calls:
+list_websites()
+```
+
+You can also place the file location of your client ID JSON in the `GAR_CLIENT_JSON` environment argument,
+where it will look for it by default:
+
+```r
+# .Renviron
+GAR_CLIENT_JSON-~/path/to/clientjson.json
+```
+
+Then you just need to supply the scopes:
+
+```r
+gar_set_client(scopes = "https://www.googleapis.com/auth/webmasters")
+```
+
 # Authentication with no browser
 
 If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the `.httr-oauth` file to the folder of your script.

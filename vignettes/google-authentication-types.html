@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-11-11" />
+<meta name="date" content="2017-11-14" />
 
 <title>Google authentication types for R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Google authentication types for R</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-11-11</em></h4>
+<h4 class="date"><em>2017-11-14</em></h4>
 
 
 
@@ -124,6 +124,34 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="co"># and run Search Console API calls:</span>
 <span class="kw">list_websites</span>()</code></pre></div>
 </div>
+</div>
+<div id="setting-the-client-via-google-cloud-client-json" class="section level1">
+<h1>Setting the client via Google Cloud client JSON</h1>
+<p>To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console. You can use this to set the client details before your first authentication. The above example would then be:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<span class="kw">library</span>(googleAnalyticsR)
+<span class="kw">library</span>(searchConsoleR)
+
+<span class="co"># set the scopes required</span>
+scopes =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/analytics&quot;</span>, 
+          <span class="st">&quot;https://www.googleapis.com/auth/webmasters&quot;</span>)
+                                        
+<span class="co"># set the client</span>
+<span class="kw">gar_set_client</span>(<span class="st">&quot;client-id.json&quot;</span>, <span class="dt">scopes =</span> scopes)
+
+<span class="co"># authenticate and go through the OAuth2 flow first time - specify a filename to save to by passing it in</span>
+<span class="kw">gar_auth</span>(<span class="dt">token =</span> <span class="st">&quot;sc_ga.httr-oauth&quot;</span>)
+                                        
+<span class="co"># can run Google Analytics API calls:</span>
+<span class="kw">ga_account_list</span>()
+
+<span class="co"># and run Search Console API calls:</span>
+<span class="kw">list_websites</span>()</code></pre></div>
+<p>You can also place the file location of your client ID JSON in the <code>GAR_CLIENT_JSON</code> environment argument, where it will look for it by default:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># .Renviron</span>
+GAR_CLIENT_JSON<span class="op">-</span><span class="er">~/</span>path<span class="op">/</span>to<span class="op">/</span>clientjson.json</code></pre></div>
+<p>Then you just need to supply the scopes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gar_set_client</span>(<span class="dt">scopes =</span> <span class="st">&quot;https://www.googleapis.com/auth/webmasters&quot;</span>)</code></pre></div>
 </div>
 <div id="authentication-with-no-browser" class="section level1">
 <h1>Authentication with no browser</h1>

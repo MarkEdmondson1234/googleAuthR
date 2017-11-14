@@ -32,6 +32,14 @@
 #' @seealso \url{https://console.cloud.google.com/apis/credentials}
 #' 
 #' @export
+#' 
+#' @examples
+#' \dontrun{
+#' 
+#' gar_set_client("google-client.json", scopes = "http://www.googleapis.com/auth/webmasters")
+#' gar_auth_service("google-service-auth.json")
+#' }
+#' 
 #' @importFrom jsonlite fromJSON
 #' @import assertthat
 gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"), 
