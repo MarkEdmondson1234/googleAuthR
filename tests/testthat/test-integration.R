@@ -39,6 +39,7 @@ context("Scopes")
 
 test_that("Can set scopes and client id/secret from file", {
   skip_on_cran()
+  skip_if_no_env_auth(auth_env)
   
   scopes <- c("https://www.googleapis.com/auth/webmasters",
               "https://www.googleapis.com/auth/urlshortener")
