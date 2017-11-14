@@ -4,7 +4,7 @@
 \alias{gar_set_client}
 \title{Setup the clientId, clientSecret and scopes}
 \usage{
-gar_set_client(json, scopes = NULL)
+gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"), scopes = NULL)
 }
 \arguments{
 \item{json}{The file location of an OAuth 2.0 client ID json file}
@@ -31,7 +31,10 @@ For successful authentication, the API scopes can be browsed via the
 Do not confuse this JSON file with the service account keys, that are
   used to authenticate a service email.  This JSON only sets up which
   app you are going to authenticate with - use \link{gar_auth_service} with
-  the Service account keys JSON to perform the actual authentication.
+  the Service account keys JSON to perform the actual authentication. 
+  
+By default the JSON file will be looked for in the location specified by the
+  \code{"GAR_CLIENT_JSON"} environment argument.
 }
 \seealso{
 \url{https://console.cloud.google.com/apis/credentials}

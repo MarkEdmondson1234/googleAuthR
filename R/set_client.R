@@ -21,6 +21,9 @@
 #'   used to authenticate a service email.  This JSON only sets up which
 #'   app you are going to authenticate with - use \link{gar_auth_service} with
 #'   the Service account keys JSON to perform the actual authentication. 
+#'   
+#' By default the JSON file will be looked for in the location specified by the
+#'   \code{"GAR_CLIENT_JSON"} environment argument. 
 #' 
 #' @author Idea via @jennybc and @jimhester from \code{gargle and gmailr} libraries.
 #' 
@@ -31,7 +34,8 @@
 #' @export
 #' @importFrom jsonlite fromJSON
 #' @import assertthat
-gar_set_client <- function(json, scopes = NULL){
+gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"), 
+                           scopes = NULL){
   
   assert_that(is.readable(json))
   

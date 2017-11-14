@@ -1,11 +1,5 @@
 context("Integration tests setup")
 
-## test google project ID
-options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/webmasters",
-                                        "https://www.googleapis.com/auth/urlshortener"),
-        googleAuthR.client_id = "201908948134-rm1ij8ursrfcbkv9koc0aqver84b04r7.apps.googleusercontent.com",
-        googleAuthR.client_secret = "nksRJZ5K3nm9FUWsAtBoBArz")
-
 ## this is a local httr file generated for local tests only and ignored in .gitignore
 local_httr_file <- "googleAuthR_tests.httr-oauth"
 auth_env <- "GAR_AUTH_FILE"
@@ -43,6 +37,21 @@ shorten_url_cache <- function(url){
 
 context("Scopes")
 
+test_that("Can set scopes and client id/secret from file", {
+  skip_on_cran()
+  
+  scopes <- c("https://www.googleapis.com/auth/webmasters",
+              "https://www.googleapis.com/auth/urlshortener")
+  
+  pid <- gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"),
+                        scopes = scopes)
+  
+  expect_equal(getOption("googleAuthR.scopes.selected"), scopes)
+  expect_true(getOption("googleAuthR.client_id") != "")
+  expect_true(getOption("googleAuthR.client_secret") != "")  
+  
+})
+
 test_that("Test scopes are set", {
   skip_on_cran()
   
@@ -53,6 +62,8 @@ test_that("Test scopes are set", {
   expect_true(all(scopes %in% expected_scopes))
   
 })
+
+
 
 context("Various auth types with .httr-oauth")
 
