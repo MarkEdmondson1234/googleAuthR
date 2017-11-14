@@ -1,6 +1,6 @@
 # googleAuthR v0.6.2
 
-* Revert encoding fix as it broke some functions downstream (#101)
+* Encoding fixed as it broke some functions downstream (#101)
 * Fix batching with caching options (#106)
 * Add `gar_set_client` to load client id/secret from JSON (Idea via @jennybc / @jimhester at `gargle`/`gmailr`)
 
