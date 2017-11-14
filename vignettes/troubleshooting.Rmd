@@ -77,4 +77,5 @@ ga_auth()
 
 `gar_auth("my_token.httr-oauth")`
 
+* Safest way to specify your client id and secret is to download the client ID JSON, create a environment variable `GAR_CLIENT_JSON` and use `gar_set_client()`
 

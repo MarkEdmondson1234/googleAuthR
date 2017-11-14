@@ -23,11 +23,23 @@ If you ever need to authenticate with a new user, use:
 googleAuthR::gar_auth(new_user=TRUE)
 ```
 
-Authentication token is cached in a hidden file called `.httr-oauth` in the working directory.
+Authentication token is by default cached in a hidden file called `.httr-oauth` in the working directory.
+
+## Client options
+
+Most libraries will set the appropriate options for you, otherwise you will need to supply them from the Google Cloud console, in its `APIs & services > Credentials` section ( `https://console.cloud.google.com/apis/credentials` ).
+
+You will need as a minimum:
+
+* A client Id and secret generated via `Create Credentials > OAuth client ID > Other` - these are set in `options(googleAuthR.client_id)` and `options(googleAuthR.client_secret)`, or if you download the client ID JSON using `gar_set_client()`
+* An API scope for the API you want to authenticate with, found in the APIs documentation or via the `googleAuthR` RStudio addin.
+* A user authentication file, either generated interactivily via `gar_auth()` or via a service account file JSON file, created via `Create credentials > Service account key`.  
+
+If creating your own library you can choose to supply some or all of the above to the end-user, as an end-user you may need to set some of the above (most usually your own user authentication).
 
 ## Multiple authentication tokens
 
-If you supply a filename to `googleAuthR::gar_auth(token = "filename")` then it will save the token there.  If it doesn't exist, it will make a new one, if it does exist it will attempt to read the token from that file.  
+If you supply a filename to `googleAuthR::gar_auth(token = "filename")` then it will save the token there.  If it doesn't exist, it will make a new one, if it does exist it will attempt to read the token from that file.  Relative and absolute filenames work.
 
 You can use different token names to save different authentication settings such as with different scopes and client Ids.
 
@@ -80,9 +92,9 @@ list_websites()
 
 # Setting the client via Google Cloud client JSON
 
-To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can
-download from the Google Cloud console.  You can use this to set the client details before your
-first authentication.  The above example would then be:
+To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - `https://console.cloud.google.com/apis/credentials`.  
+
+You can use this to set the client details before your first authentication.  The above example would then be:
 
 ```r
 library(googleAuthR)
@@ -106,12 +118,11 @@ ga_account_list()
 list_websites()
 ```
 
-You can also place the file location of your client ID JSON in the `GAR_CLIENT_JSON` environment argument,
-where it will look for it by default:
+You can also place the file location of your client ID JSON in the `GAR_CLIENT_JSON` environment argument, where it will look for it by default:
 
 ```r
 # .Renviron
-GAR_CLIENT_JSON-~/path/to/clientjson.json
+GAR_CLIENT_JSON="~/path/to/clientjson.json"
 ```
 
 Then you just need to supply the scopes:
@@ -352,7 +363,7 @@ renderUI({
 
 # Auto-authentication
 
-From version `0.4.0` auto-authentication can be performed upon a package load.
+Auto-authentication can be performed upon a package load.
 
 This requires the setup of environment variables either in your `.Renviron` file or via `Sys.setenv()` to point to a previously created authentication file.  This file can be either a `.httr-oauth` file created via `gar_auth()` or a Google service account JSON downloaded from the Google API console.
 

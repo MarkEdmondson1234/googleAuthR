@@ -6,13 +6,22 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Building your own Google R library • googleAuthR</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Google analytics --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-47480439-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </head>
 <body>
     <div class="container template-vignette">
@@ -110,10 +119,10 @@
 <div class="contents">
 <div id="build-a-google-api-library-for-r" class="section level1">
 <h1 class="hasAnchor">
-<html><body><a href="#build-a-google-api-library-for-r" class="anchor"> </a></body></html>Build a Google API library for R</h1>
+<a href="#build-a-google-api-library-for-r" class="anchor"></a>Build a Google API library for R</h1>
 <div id="generating-your-function" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#generating-your-function" class="anchor"> </a></body></html>Generating your function</h2>
+<a href="#generating-your-function" class="anchor"></a>Generating your function</h2>
 <p>Creating your own API should be a matter of consulting the Google API documentation, and filling in the required details.</p>
 <p><code><a href="../reference/gar_api_generator.html">gar_api_generator()</a></code> has these components:</p>
 <ul>
@@ -135,7 +144,7 @@
 </div>
 <div id="using-your-generated-function" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#using-your-generated-function" class="anchor"> </a></body></html>Using your generated function</h2>
+<a href="#using-your-generated-function" class="anchor"></a>Using your generated function</h2>
 <p>The function generated uses <code>path_args</code> and <code>pars_args</code> to create a template, but when the function is called you will want to pass dynamic data to them. This is done via the <code>path_arguments</code> and <code>pars_arguments</code> parameters.</p>
 <p><code>path_args</code> and <code>pars_args</code> and <code>path_arguments</code> and <code>pars_arguments</code> all accept named lists.</p>
 <p>If a name in <code>path_args</code> is present in <code>path_arguments</code>, then it is substituted in. This way you can pass dynamic parameters to the constructed function. Likewise for <code>pars_args</code> and <code>pars_arguments</code>.</p>
@@ -150,9 +159,9 @@
   result &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dt">path_arguments =</span> <span class="kw">list</span>(<span class="dt">accounts =</span> <span class="st">"myAccountId"</span>))</code></pre></div>
 <div id="body-data" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#body-data" class="anchor"> </a></body></html>Body data</h3>
+<a href="#body-data" class="anchor"></a>Body data</h3>
 <p>A lot of Google APIs look for you to send data in the Body of the request. This is done after you construct the function. <code>googleAuthR</code> uses <code>httr</code>’s JSON parsing via <code>jsonlite</code> to construct JSON from R lists.</p>
-<p>Construct your list, then use <code>jsonlite::toJSON</code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
+<p>Construct your list, then use <code><a href="http://www.rdocumentation.org/packages/jsonlite/topics/fromJSON">jsonlite::toJSON</a></code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
 <p>To aid debugging use the <code>option(googleAuthR.verbose = 0)</code> to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called <code>request_debug.rds</code> in the working directory.</p>
 <p>Example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
@@ -207,7 +216,7 @@ Downloaded [<span class="dv">1</span>] rows from a total of [<span class="dv">1<
 </div>
 <div id="parsing-data" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#parsing-data" class="anchor"> </a></body></html>Parsing data</h3>
+<a href="#parsing-data" class="anchor"></a>Parsing data</h3>
 <p>Not all API calls return data, but if they do:</p>
 <p>If you have no <code>data_parse_function</code> then the function returns the whole request object. The content is available in <code>$content</code>. You can then parse this yourself, or pass a function in to do it for you.</p>
 <p>If you parse in a function into <code>data_parse_function</code>, it works on the response’s <code>$content</code>.</p>
@@ -242,12 +251,12 @@ Downloaded [<span class="dv">1</span>] rows from a total of [<span class="dv">1<
   <span class="op">&gt;</span><span class="st"> </span><span class="kw">str</span>(parsed)
    chr <span class="st">"http://goo.gl/mCYw2i"</span>
                              </code></pre></div>
-<p>The response is turned from JSON to a dataframe if possible, via <code>jsonlite::fromJSON</code></p>
+<p>The response is turned from JSON to a dataframe if possible, via <code><a href="http://www.rdocumentation.org/packages/jsonlite/topics/fromJSON">jsonlite::fromJSON</a></code></p>
 </div>
 </div>
 <div id="auto-build-libraries" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#auto-build-libraries" class="anchor"> </a></body></html>Auto-build libraries</h2>
+<a href="#auto-build-libraries" class="anchor"></a>Auto-build libraries</h2>
 <p>From <code>0.4</code> is helper functions that use Google’s <a href="https://developers.google.com/discovery/">API Discovery service</a>.</p>
 <p>This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs. At the time of writing this is 152 libraries.</p>
 <p>These libraries aren’t intended to be submitted to CRAN or used straight away, but should take away a lot of documentation and function building work so you can concentrate on tests, examples and helper functions for your users.</p>
@@ -263,7 +272,7 @@ Downloaded [<span class="dv">1</span>] rows from a total of [<span class="dv">1<
                    <span class="dt">github =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <div id="auto-build-all-libraries" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#auto-build-all-libraries" class="anchor"> </a></body></html>Auto-build all libraries</h3>
+<a href="#auto-build-all-libraries" class="anchor"></a>Auto-build all libraries</h3>
 <p>A loop to build all the Google libraries is shown below, the results of which is available in this <a href="https://github.com/MarkEdmondson1234/autoGoogleAPI">Github repo</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
 
@@ -280,7 +289,7 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
 </div>
 <div id="creating-an-api-library-from-scratch---example-with-goo-gl" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#creating-an-api-library-from-scratch---example-with-goo-gl" class="anchor"> </a></body></html>Creating an API library from scratch - Example with goo.gl</h2>
+<a href="#creating-an-api-library-from-scratch---example-with-goo-gl" class="anchor"></a>Creating an API library from scratch - Example with goo.gl</h2>
 <p>Below is an example building a link shortner R package using <code>googleAuthR</code>. It was done referring to the <a href="https://developers.google.com/url-shortener/v1/getting_started">documentation for Google URL shortener</a>. Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.</p>
 <ol style="list-style-type: decimal">
 <li>Creating a project</li>
@@ -294,7 +303,7 @@ check_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(api_j
 </ol>
 <div id="example-goo-gl-r-library" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#example-goo-gl-r-library" class="anchor"> </a></body></html>Example goo.gl R library</h3>
+<a href="#example-goo-gl-r-library" class="anchor"></a>Example goo.gl R library</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
 ## change the native googleAuthR scopes to the one needed.
 <span class="kw">options</span>(<span class="st">"googleAuthR.scopes.selected"</span> =<span class="st"> </span>
@@ -377,7 +386,7 @@ s
 </div>
 <div id="creating-a-google-calendar-list" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#creating-a-google-calendar-list" class="anchor"> </a></body></html>Creating a Google Calendar list</h2>
+<a href="#creating-a-google-calendar-list" class="anchor"></a>Creating a Google Calendar list</h2>
 <p>Another example is shown below to fetch your Google calendar entries. The below uses the <a href="https://github.com/MarkEdmondson1234/autoGoogleAPI/blob/master/googlecalendarv3.auto/R/calendar_functions.R#L962">API skeletons functions</a> that are auto generated via the <code>gar_discovery_api</code> functions.</p>
 <p>Make sure the calendar API is activated for your Google Project at below URL: <code>https://console.cloud.google.com/apis/api/calendar-json.googleapis.com/overview</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' Gets a list of events for calendarId</span>
@@ -388,7 +397,7 @@ events.list &lt;-<span class="st"> </span><span class="cf">function</span>(<span
   url &lt;-<span class="st"> </span><span class="kw">sprintf</span>(<span class="st">"https://www.googleapis.com/calendar/v3/calendars/%s/events"</span>, 
                  calendarId)
 
-  f &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(url, <span class="st">"GET"</span>, 
+  f &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(url, <span class="st">"GET"</span>, 
                                       <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
   <span class="kw">f</span>()
   
@@ -419,14 +428,15 @@ events<span class="op">$</span>items<span class="op">$</span>summary</code></pre
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#build-a-google-api-library-for-r">Build a Google API library for R</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#generating-your-function">Generating your function</a></li>
       <li><a href="#using-your-generated-function">Using your generated function</a></li>
       <li><a href="#auto-build-libraries">Auto-build libraries</a></li>
-      <li><a href="#creating-an-api-library-from-scratch---example-with-goo.gl">Creating an API library from scratch - Example with goo.gl</a></li>
+      <li><a href="#creating-an-api-library-from-scratch---example-with-goo-gl">Creating an API library from scratch - Example with goo.gl</a></li>
       <li><a href="#creating-a-google-calendar-list">Creating a Google Calendar list</a></li>
       </ul>
 </li>
