@@ -335,6 +335,7 @@ is.token2.0 <- function(x){
 #'
 #' @keywords internal
 #' @family authentication functions
+#' @importFrom httr config
 get_google_token <- function(shiny_return_token=NULL) {
   
   if(any(which(grepl("with_mock_API", as.character(sys.calls()))))){
@@ -356,7 +357,7 @@ get_google_token <- function(shiny_return_token=NULL) {
     
   }
   
-  httr::config(token = token)
+  config(token = token)
   
 }
 
