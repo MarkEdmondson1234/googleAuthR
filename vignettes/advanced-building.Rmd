@@ -238,7 +238,7 @@ If you are caching a batched call, your cache invalidation function will need to
 batched_caching <- function(req){
 
   ## if a batched response
-  if(grepl(""multipart/mixed; boundary=batch",req$headers)){
+  if(grepl(""multipart/mixed; boundary=batch",req$headers$`content-type`)){
 
     ## find content that indicates a successful request ('kind:analytics#gaData')
     is_ga <- grepl('"kind":"analytics#gaData"', (httr::content(req, as = "text", encoding = "UTF-8")))

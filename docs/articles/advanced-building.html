@@ -304,7 +304,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">batched_caching &lt;-<span class="st"> </span><span class="cf">function</span>(req){
 
   ## if a batched response
-  <span class="cf">if</span>(<span class="kw">grepl</span>(<span class="st">""</span>multipart<span class="op">/</span>mixed; <span class="dt">boundary=</span>batch<span class="st">",req$headers)){</span>
+  <span class="cf">if</span>(<span class="kw">grepl</span>(<span class="st">""</span>multipart<span class="op">/</span>mixed; <span class="dt">boundary=</span>batch<span class="st">",req$headers$`content-type`)){</span>
 
 <span class="st">    ## find content that indicates a successful request ('kind:analytics#gaData')</span>
 <span class="st">    is_ga &lt;- grepl('"</span>kind<span class="st">":"</span>analytics<span class="co">#gaData"', (httr::content(req, as = "text", encoding = "UTF-8")))</span>
