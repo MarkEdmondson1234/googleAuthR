@@ -6,22 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Advanced Google API building techniques • googleAuthR</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Google analytics --><script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-47480439-2', 'auto');
-  ga('send', 'pageview');
-
-</script>
+<![endif]-->
 </head>
 <body>
     <div class="container template-vignette">
@@ -111,7 +102,7 @@
       <h1>Advanced Google API building techniques</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2017-11-14</h4>
+            <h4 class="date">2017-11-15</h4>
           </div>
 
     
@@ -119,11 +110,11 @@
 <div class="contents">
 <div id="advanced-api-building-techniques" class="section level1">
 <h1 class="hasAnchor">
-<a href="#advanced-api-building-techniques" class="anchor"></a>Advanced API building techniques</h1>
+<html><body><a href="#advanced-api-building-techniques" class="anchor"> </a></body></html>Advanced API building techniques</h1>
 <p>These go into more edge cases: no parsing content, batching and caching API responses.</p>
 <div id="skip-parsing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#skip-parsing" class="anchor"></a>Skip parsing</h2>
+<html><body><a href="#skip-parsing" class="anchor"> </a></body></html>Skip parsing</h2>
 <p>In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.</p>
 <p>For this, you can use the option <code>option("googleAuthR.rawResponse" = TRUE)</code> to skip all tests and return the raw response.</p>
 <p>Here is an example of this from the googleCloudStorageR library:</p>
@@ -133,7 +124,7 @@
   <span class="kw">options</span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">TRUE</span>)
   
   ## do the request
-  ob &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
+  ob &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
                                        <span class="dt">path_args =</span> <span class="kw">list</span>(<span class="dt">b =</span> bucket,
                                                         <span class="dt">o =</span> object_name),
                                        <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="dt">alt =</span> <span class="st">"media"</span>))
@@ -146,12 +137,12 @@
 </div>
 <div id="batching-api-requests" class="section level2">
 <h2 class="hasAnchor">
-<a href="#batching-api-requests" class="anchor"></a>Batching API requests</h2>
+<html><body><a href="#batching-api-requests" class="anchor"> </a></body></html>Batching API requests</h2>
 <p>If you are doing many API calls, you can speed this up a lot by using the batch option. This takes the API functions you have created and wraps them in the <code>gar_batch</code> function to request them all in one POST call. You then recieve the responses in a list.</p>
 <p>Note that this does not count as one call for API limits purposes, it just speeds up the processing. The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.</p>
 <div id="setting-batch-endpoint" class="section level3">
 <h3 class="hasAnchor">
-<a href="#setting-batch-endpoint" class="anchor"></a>Setting batch endpoint</h3>
+<html><body><a href="#setting-batch-endpoint" class="anchor"> </a></body></html>Setting batch endpoint</h3>
 <p>From version <code>googleAuthR 0.6.0</code> you also need to set an option of the batch endpoint. This is due to multi-batch endpoints being deprecated by Google. You are also no longer able to send batches for multiple APIs in one call.</p>
 <p>The batch endpoint is usually of the form:</p>
 <p><code>www.googleapis.com/batch/api-name/api-version</code></p>
@@ -159,7 +150,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">"https://www.googleapis.com/batch/bigquery/v2"</span>)</code></pre></div>
 <div id="example-batching" class="section level4">
 <h4 class="hasAnchor">
-<a href="#example-batching" class="anchor"></a>Example batching</h4>
+<html><body><a href="#example-batching" class="anchor"> </a></body></html>Example batching</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## usually set on package load
 <span class="kw">options</span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">"https://www.googleapis.com/batch/urlshortener/v1"</span>)
 
@@ -195,7 +186,7 @@ ggg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_bat
 </div>
 <div id="walking-through-batch-requests" class="section level3">
 <h3 class="hasAnchor">
-<a href="#walking-through-batch-requests" class="anchor"></a>Walking through batch requests</h3>
+<html><body><a href="#walking-through-batch-requests" class="anchor"> </a></body></html>Walking through batch requests</h3>
 <p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling.</p>
 <p>A function to enable this is implemented at <code>gar_batch_walk</code>, with an example below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
@@ -221,7 +212,7 @@ walkData &lt;-<span class="st"> </span><span class="cf">function</span>(ga, ga_p
 </div>
 <div id="caching-api-calls" class="section level2">
 <h2 class="hasAnchor">
-<a href="#caching-api-calls" class="anchor"></a>Caching API calls</h2>
+<html><body><a href="#caching-api-calls" class="anchor"> </a></body></html>Caching API calls</h2>
 <p>You can also set up local caching of API calls. This uses the <a href="https://github.com/r-lib/memoise"><code>memoise</code></a> package to let you write API responses to memory or disk and to call them from there instead of the API, if its using the same parameters.</p>
 <p>A demonstration is shown below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' Shortens a url using goo.gl</span>
@@ -249,24 +240,24 @@ shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){
 <span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>)
 
 ## By default this will save the API response to RAM
-<span class="kw"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>()
+<span class="kw"><a href="../reference/gar_cache_get_loc.html">gar_cache_setup</a></span>()
 
 ## first time no cache
 <span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>)
 
 ## second time cached - much quicker
 <span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>)</code></pre></div>
-<p>Caching is activated by using the <code><a href="../reference/gar_cache_setup.html">gar_cache_setup()</a></code> function.</p>
-<p>The default uses <code><a href="http://www.rdocumentation.org/packages/memoise/topics/cache_memory">memoise::cache_memory()</a></code> which will cache the response to RAM, but you can change this to any of the <code>memoise</code> cache functions such as <code>cache_s3()</code> or <code>cache_filesytem()</code></p>
+<p>Caching is activated by using the <code><a href="../reference/gar_cache_get_loc.html">gar_cache_setup()</a></code> function.</p>
+<p>The default uses <code>memoise::cache_memory()</code> which will cache the response to RAM, but you can change this to any of the <code>memoise</code> cache functions such as <code>cache_s3()</code> or <code>cache_filesytem()</code></p>
 <p><code>cache_filesystem()</code> will write to a local folder, meaning you can save API responses between R sessions.</p>
 <div id="other-cache-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#other-cache-functions" class="anchor"></a>Other cache functions</h3>
+<html><body><a href="#other-cache-functions" class="anchor"> </a></body></html>Other cache functions</h3>
 <p>You can see the current cache location function via <code>gar_cache_get_loc</code> and stop caching via <code>gar_cache_empty</code></p>
 </div>
 <div id="invalidating-cache" class="section level3">
 <h3 class="hasAnchor">
-<a href="#invalidating-cache" class="anchor"></a>Invalidating cache</h3>
+<html><body><a href="#invalidating-cache" class="anchor"> </a></body></html>Invalidating cache</h3>
 <blockquote>
 <p>There are two hard things in Computer Science: cache invalidation and naming things.</p>
 </blockquote>
@@ -291,7 +282,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 }
 
 ## only cache if this URL
-<span class="kw"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>(<span class="dt">invalid_func =</span> <span class="cf">function</span>(req){
+<span class="kw"><a href="../reference/gar_cache_get_loc.html">gar_cache_setup</a></span>(<span class="dt">invalid_func =</span> <span class="cf">function</span>(req){
     req<span class="op">$</span>content<span class="op">$</span>longUrl <span class="op">==</span><span class="st"> "http://code.markedmondson.me/"</span>
     })
 
@@ -308,7 +299,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <span class="kw">shorten_url_cache</span>(<span class="st">"http://blahblah.com"</span>)</code></pre></div>
 <div id="batching-and-caching" class="section level4">
 <h4 class="hasAnchor">
-<a href="#batching-and-caching" class="anchor"></a>Batching and caching</h4>
+<html><body><a href="#batching-and-caching" class="anchor"> </a></body></html>Batching and caching</h4>
 <p>If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a response which is a <code>multipart/mixed; boundary=batch_{random_string}</code> as its content-type header. This response will need to be parsed into JSON first, before applying your data parsing functions and/or deciding to cache. To get you started here is a cache function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">batched_caching &lt;-<span class="st"> </span><span class="cf">function</span>(req){
 
@@ -329,7 +320,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 </div>
 <div id="using-caching" class="section level3">
 <h3 class="hasAnchor">
-<a href="#using-caching" class="anchor"></a>Using caching</h3>
+<html><body><a href="#using-caching" class="anchor"> </a></body></html>Using caching</h3>
 <p>Once set, if the function call name, arguments and body are the same, it will attempt to find a cache. If it exists it will read from there rather than making the API call. If it does not it will make the API call, and save the response to where you have specified.</p>
 <p>Applications include saving large responses to RAM during paging calls, so that if the response fails retries are quickly moved to where the API left off, or to write API responses to disk for multi-session caching. You could also use this for unit testing, although its recommend to use <a href="https://github.com/nealrichardson/httptest"><code>httptest</code></a> library for that as it has wider support for authentication obscuration etc.</p>
 <p>Be careful to only use caching where you know the API request won’t change - if you want to reset the cache you can run the <code>gar_cache_setup</code> function again or delete the individual cache file in the directory.</p>
@@ -337,7 +328,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 </div>
 <div id="tests" class="section level2">
 <h2 class="hasAnchor">
-<a href="#tests" class="anchor"></a>Tests</h2>
+<html><body><a href="#tests" class="anchor"> </a></body></html>Tests</h2>
 <p>All packages should ideally have tests to ensure that any changes do not break functionality.</p>
 <p>If new to testing, first read this guide on using the <code>tidyverse</code>’s <a href="http://testthat.r-lib.org/">testthat</a>, then read this for a <a href="https://juliasilge.com/blog/beginners-guide-to-travis/">beginner’s guide to travis-CI for R</a>, which is a continuous integration system that will run and test your code everytime it is committed to GitHub.</p>
 <p>This is this package’s current Travis badge: <a href="https://travis-ci.org/MarkEdmondson1234/googleAuthR"><img src="https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master" alt="Travis-CI Build Status"></a></p>
@@ -345,7 +336,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <p>One option is to encrypt and upload your token, for which you can read a guide by Jenny Bryan here - <code>https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html</code>.</p>
 <div id="mocking-tests-with-httptest" class="section level3">
 <h3 class="hasAnchor">
-<a href="#mocking-tests-with-httptest" class="anchor"></a>Mocking tests with httptest</h3>
+<html><body><a href="#mocking-tests-with-httptest" class="anchor"> </a></body></html>Mocking tests with httptest</h3>
 <p>However, I recommend using mocking to run tests online.</p>
 <p>Mocking means you do not have to upload your authentication token - instead you first run your tests locally with your normal authentication token and the responses are saved to disk. When those tests are then run online, instead of calling the API the saved responses on disk are used to test the function.</p>
 <p>In truth, you are most interested in if your functions call the API correctly, rather than if the API is working (the API provider has their own tests for that), so you don’t lose coverage testing against a mock file, and this has the added advantage of being much quicker so you can run tests more often.</p>
@@ -353,7 +344,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <p>To help with mocking, Neal Richardson has created a package called <a href="https://github.com/nealrichardson/httptest">httptest</a> which we use in the examples below:</p>
 <div id="integration-tests" class="section level4">
 <h4 class="hasAnchor">
-<a href="#integration-tests" class="anchor"></a>Integration tests</h4>
+<html><body><a href="#integration-tests" class="anchor"> </a></body></html>Integration tests</h4>
 <p>The integration tests are against the API. Any authentication tokens should be either referenced via the environment arguments or if local JSON or <code>.httr-oauth</code> files ignored in your <code>.gitignore</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">context</span>(<span class="st">"Integration tests setup"</span>)
 
@@ -381,17 +372,17 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
 </div>
 <div id="unit-tests" class="section level4">
 <h4 class="hasAnchor">
-<a href="#unit-tests" class="anchor"></a>Unit tests</h4>
-<p>Running unit tests is similar, but you also need to record the API response first locally using <code>httptest</code>’s <code><a href="http://enpiar.com/r/httptest/reference/capture_requests.html">capture_requests()</a></code>. I put this in a test block to check it worked ok.</p>
+<html><body><a href="#unit-tests" class="anchor"> </a></body></html>Unit tests</h4>
+<p>Running unit tests is similar, but you also need to record the API response first locally using <code>httptest</code>’s <code>capture_requests()</code>. I put this in a test block to check it worked ok.</p>
 <p>These will save to files within your test folder, with the similar name to the API.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(httptest)
 <span class="kw">context</span>(<span class="st">"API Mocking"</span>)
 
 <span class="kw">test_that</span>(<span class="st">"Record requests if online and authenticated"</span>, {
-  <span class="kw"><a href="http://enpiar.com/r/httptest/reference/skip_if_disconnected.html">skip_if_disconnected</a></span>()
+  <span class="kw">skip_if_disconnected</span>()
   <span class="kw"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(auth_env)
   
-  <span class="kw"><a href="http://enpiar.com/r/httptest/reference/capture_requests.html">capture_requests</a></span>(
+  <span class="kw">capture_requests</span>(
     {
       <span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
       <span class="co"># ...</span>
@@ -400,7 +391,7 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
   
 })</code></pre></div>
 <p>You can then use <code>httptest</code>s <code>withMockAPI()</code> function to wrap your tests:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://enpiar.com/r/httptest/reference/with_mock_API.html">with_mock_API</a></span>({
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with_mock_API</span>({
   <span class="kw">context</span>(<span class="st">"API generator - unit"</span>)
   
   <span class="kw">test_that</span>(<span class="st">"A generated API function works"</span>, {
@@ -419,16 +410,16 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
 </div>
 <div id="codecov" class="section level3">
 <h3 class="hasAnchor">
-<a href="#codecov" class="anchor"></a>Codecov</h3>
+<html><body><a href="#codecov" class="anchor"> </a></body></html>Codecov</h3>
 <p>One of the nicest features of continuous integration / Travis is it can be used for code coverage. This uses your tests to find out how many lines of code are triggered within them. This lets you see how thorough yours tests are. Developers covert the 100% coverage badge as it shows all of your code is checked every time you push to GitHub and helps mitigate bugs.</p>
 <p>This is this package’s current Codecov status: <a href="https://codecov.io/gh/MarkEdmondson1234/googleAuthR"><img src="https://codecov.io/gh/MarkEdmondson1234/googleAuthR/branch/master/graph/badge.svg" alt="codecov"></a></p>
 <p>Using code coverage is a case of adding another metafile and a command to your travis file. <a href="https://walczak.org/2017/06/how-to-add-code-coverage-codecov-to-your-r-package/">This post by Eryk has some details</a></p>
 <div id="offline-code-coverage" class="section level4">
 <h4 class="hasAnchor">
-<a href="#offline-code-coverage" class="anchor"></a>Offline code coverage</h4>
+<html><body><a href="#offline-code-coverage" class="anchor"> </a></body></html>Offline code coverage</h4>
 <p>As mentioned above, some tests you may not be able to run online due to authentication issues. If you want, you can run these tests offline locally - go to your repositories settings on Codecov, select settings and get your <code>Repository Upload Token</code>. Place this in an environment var like this:</p>
 <p><code>CODECOV_TOKEN=XXXXXX</code></p>
-<p>…then run <code><a href="http://www.rdocumentation.org/packages/covr/topics/codecov">covr::codecov()</a></code> in the package home directory. It will run your tests, and upload them to Codecov.</p>
+<p>…then run <code>covr::codecov()</code> in the package home directory. It will run your tests, and upload them to Codecov.</p>
 </div>
 </div>
 </div>
@@ -438,8 +429,7 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#advanced-api-building-techniques">Advanced API building techniques</a><ul class="nav nav-pills nav-stacked">

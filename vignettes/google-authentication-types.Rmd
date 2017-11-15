@@ -133,7 +133,8 @@ gar_set_client(scopes = "https://www.googleapis.com/auth/webmasters")
 
 # Authentication with no browser
 
-If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the `.httr-oauth` file to the folder of your script.
+If for some reason you need authentication without access to a browser (for example when using RStudio Server), then you can authenticate locally and upload the `.httr-oauth` file to the folder of your script.
+Authentication via `gar_auth()` when on a server will default to `oob` style where you will need to copy-paste the token rather than R return the approval token for you (but you will need to allow popups)
 
 # Authentication with a JSON file via Service Accounts
 
@@ -195,9 +196,9 @@ list_websites()
 
 If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.
 
-If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, googleAuthR provides these functions to help make the Google login process as easy as possible.
+If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, `googleAuthR` provides the below functions to help make the Google login process as easy as possible.
 
-As of 0.3.0 googleAuthR uses [Shiny Modules](http://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
+`googleAuthR` uses [Shiny Modules](http://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
 
 * `googleAuth` - creates the authentication token and login button styling
 * `googleAuthUI` - creates the server side login button for users to authenticate with.
@@ -285,14 +286,13 @@ See this post on [creating a Shiny App with a Google login](https://lesliemyint.
 
 # Authentication via RStudio Addin
 
-From version `0.3.0` a RStudio Addin is available via the RStudio Addin menu once you load the package, or via `googleAuthR:::gar_gadget()`
+An RStudio Addin is available via the RStudio Addin menu once you load the package.
 
 It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.
 
-
 # Authentication in RMarkdown via JavaScript
 
-From version `0.4.0` there are two functions that can be called from within RMarkdown for authentication.  They use JavaScript, rather than R/Shiny to authenticate, as an RMarkdown document can not read the URL tokens.
+There are two functions that can be called from within RMarkdown for authentication.  They use JavaScript, rather than R/Shiny to authenticate, as an RMarkdown document can not read the URL tokens.
 
 A demo and example are available here: `https://mark.shinyapps.io/googleAuthRMarkdown/`
 
