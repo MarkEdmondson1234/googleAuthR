@@ -1,3 +1,7 @@
+# googleAuthR v0.6.2.9000
+
+* ...
+
 # googleAuthR v0.6.2
 
 * Encoding fixed as it broke some functions downstream (#101)
