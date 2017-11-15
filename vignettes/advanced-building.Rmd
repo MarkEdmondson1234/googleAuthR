@@ -241,7 +241,7 @@ batched_caching <- function(req){
   if(grepl(""multipart/mixed; boundary=batch",req$headers)){
 
     ## find content that indicates a successful request ('kind:analytics#gaData')
-    is_ga <- grepl('"kind":"analytics#gaData', (httr::content(req, as = "text", encoding = "UTF-8")))
+    is_ga <- grepl('"kind":"analytics#gaData"', (httr::content(req, as = "text", encoding = "UTF-8")))
     if(is_ga){
       ## is a response you want, cache me
       return(TRUE)

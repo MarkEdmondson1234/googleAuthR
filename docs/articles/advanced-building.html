@@ -307,7 +307,7 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
   <span class="cf">if</span>(<span class="kw">grepl</span>(<span class="st">""</span>multipart<span class="op">/</span>mixed; <span class="dt">boundary=</span>batch<span class="st">",req$headers)){</span>
 
 <span class="st">    ## find content that indicates a successful request ('kind:analytics#gaData')</span>
-<span class="st">    is_ga &lt;- grepl('"</span>kind<span class="st">":"</span>analytics<span class="co">#gaData', (httr::content(req, as = "text", encoding = "UTF-8")))</span>
+<span class="st">    is_ga &lt;- grepl('"</span>kind<span class="st">":"</span>analytics<span class="co">#gaData"', (httr::content(req, as = "text", encoding = "UTF-8")))</span>
     <span class="cf">if</span>(is_ga){
       ## is a response you want, cache me
       <span class="kw">return</span>(<span class="ot">TRUE</span>)
