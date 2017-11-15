@@ -71,6 +71,6 @@ Check out [News](NEWS.md) to see the features of the development version.
 If you want to use the development version on Github, install via:
 
 ```r
-devtools::install_github("MarkEdmondson1234/googleAuthR")
+remotes::install_github("MarkEdmondson1234/googleAuthR")
 ```
 
