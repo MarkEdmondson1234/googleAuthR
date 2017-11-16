@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-11-13" />
+<meta name="date" content="2017-11-16" />
 
 <title>Advanced Google API building techniques</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Advanced Google API building techniques</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-11-13</em></h4>
+<h4 class="date"><em>2017-11-16</em></h4>
 
 
 
@@ -260,18 +260,19 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">batched_caching &lt;-<span class="st"> </span><span class="cf">function</span>(req){
 
   ## if a batched response
-  <span class="cf">if</span>(<span class="kw">grepl</span>(<span class="st">&quot;&quot;</span>multipart<span class="op">/</span>mixed; <span class="dt">boundary=</span>batch<span class="st">&quot;,req$headers)){</span>
+  <span class="cf">if</span>(<span class="kw">grepl</span>(<span class="st">&quot;^multipart/mixed; boundary=batch_&quot;</span>,req<span class="op">$</span>headers<span class="op">$</span><span class="st">`</span><span class="dt">content-type</span><span class="st">`</span>)){
 
-<span class="st">    ## find content that indicates a successful request ('kind:analytics#gaData')</span>
-<span class="st">    is_ga &lt;- grepl('&quot;</span>kind<span class="st">&quot;:&quot;</span>analytics<span class="co">#gaData', (httr::content(req, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)))</span>
+    ## find content that indicates a successful request ('kind:analytics#gaData')
+    parsed &lt;-<span class="st"> </span>httr<span class="op">::</span><span class="kw">content</span>(req, <span class="dt">as =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>)
+    is_ga &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">'&quot;kind&quot;:&quot;analytics#gaData&quot;'</span>, parsed)
     <span class="cf">if</span>(is_ga){
       ## is a response you want, cache me
       <span class="kw">return</span>(<span class="ot">TRUE</span>)
     }
-  <span class="er">}</span>
+  }
   
   <span class="ot">FALSE</span>
-<span class="er">}</span></code></pre></div>
+}</code></pre></div>
 </div>
 </div>
 <div id="using-caching" class="section level3">

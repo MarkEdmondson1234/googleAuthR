@@ -30,5 +30,6 @@ I have also run R CMD check on downstream dependencies of googleAuthR
 * googleComputeEngineR
 * googleLanguageR
 
-All packages passed.
+All packages passed.  googleLanguageR has a 503 error appear in its tests, but that is due
+to its test suite which will be updated in its next update.
   

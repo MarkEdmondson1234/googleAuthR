@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-11-14" />
+<meta name="date" content="2017-11-16" />
 
 <title>Google authentication types for R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Google authentication types for R</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-11-14</em></h4>
+<h4 class="date"><em>2017-11-16</em></h4>
 
 
 
@@ -167,7 +167,7 @@ GAR_CLIENT_JSON=<span class="st">&quot;~/path/to/clientjson.json&quot;</span></c
 </div>
 <div id="authentication-with-no-browser" class="section level1">
 <h1>Authentication with no browser</h1>
-<p>If for some reason you need authentication without access to a browser (for example when using Shiny Server), then you can authenticate locally and upload the <code>.httr-oauth</code> file to the folder of your script.</p>
+<p>If for some reason you need authentication without access to a browser (for example when using RStudio Server), then you can authenticate locally and upload the <code>.httr-oauth</code> file to the folder of your script. Authentication via <code>gar_auth()</code> when on a server will default to <code>oob</code> style where you will need to copy-paste the token rather than R return the approval token for you (but you will need to allow popups)</p>
 </div>
 <div id="authentication-with-a-json-file-via-service-accounts" class="section level1">
 <h1>Authentication with a JSON file via Service Accounts</h1>
@@ -214,8 +214,8 @@ analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(sho
 <div id="authentication-within-shiny" class="section level1">
 <h1>Authentication within Shiny</h1>
 <p>If you want to create a Shiny app just using your data, upload the app with your own <code>.httr-oauth</code>.</p>
-<p>If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, googleAuthR provides these functions to help make the Google login process as easy as possible.</p>
-<p>As of 0.3.0 googleAuthR uses <a href="http://shiny.rstudio.com/articles/modules.html">Shiny Modules</a>. This means less code and the ability to have multiple login buttons on the same app.</p>
+<p>If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, <code>googleAuthR</code> provides the below functions to help make the Google login process as easy as possible.</p>
+<p><code>googleAuthR</code> uses <a href="http://shiny.rstudio.com/articles/modules.html">Shiny Modules</a>. This means less code and the ability to have multiple login buttons on the same app.</p>
 <ul>
 <li><code>googleAuth</code> - creates the authentication token and login button styling</li>
 <li><code>googleAuthUI</code> - creates the server side login button for users to authenticate with.</li>
@@ -296,12 +296,12 @@ shiny<span class="op">::</span><span class="kw">runApp</span>(<span class="st">&
 </div>
 <div id="authentication-via-rstudio-addin" class="section level1">
 <h1>Authentication via RStudio Addin</h1>
-<p>From version <code>0.3.0</code> a RStudio Addin is available via the RStudio Addin menu once you load the package, or via <code>googleAuthR:::gar_gadget()</code></p>
+<p>An RStudio Addin is available via the RStudio Addin menu once you load the package.</p>
 <p>It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.</p>
 </div>
 <div id="authentication-in-rmarkdown-via-javascript" class="section level1">
 <h1>Authentication in RMarkdown via JavaScript</h1>
-<p>From version <code>0.4.0</code> there are two functions that can be called from within RMarkdown for authentication. They use JavaScript, rather than R/Shiny to authenticate, as an RMarkdown document can not read the URL tokens.</p>
+<p>There are two functions that can be called from within RMarkdown for authentication. They use JavaScript, rather than R/Shiny to authenticate, as an RMarkdown document can not read the URL tokens.</p>
 <p>A demo and example are available here: <code>https://mark.shinyapps.io/googleAuthRMarkdown/</code></p>
 <div id="rmarkdown-authentication---setup" class="section level2">
 <h2>RMarkdown authentication - Setup</h2>

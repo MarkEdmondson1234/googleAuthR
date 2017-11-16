@@ -1,6 +1,6 @@
 # googleAuthR v0.6.2.9000
 
-* ...
+* Another go at JavaScript approval prompt options
 
 # googleAuthR v0.6.2
 
