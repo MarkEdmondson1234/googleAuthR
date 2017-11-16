@@ -30,7 +30,7 @@ gar_auth_jsUI <- function(id,
   )
   
   if(approval_prompt_force){
-    approval_prompt_line <- ",'approval_prompt':'force'"
+    approval_prompt_line <- ",\n          'approval_prompt':'force'"
   } else {
     approval_prompt_line <-NULL
   }
