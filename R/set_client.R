@@ -4,14 +4,20 @@
 #'   Do not confuse with Service account keys.
 #' 
 #' @param json The file location of an OAuth 2.0 client ID json file
+#' @param web_json The file location of client ID json file for web applications
 #' @param scopes A character vector of scopes to set
 #' 
 #' @details 
 #' 
 #' This function helps set the \code{options(googleAuthR.client_id)}, 
 #'   \code{options(googleAuthR.client_secret)} and 
-#'   \code{options(googleAuthR.scopes.selected)} for you.  
-#'   Note that if you authenticate with a cache token with different values it 
+#'   \code{options(googleAuthR.scopes.selected)} for you.
+#' 
+#' You can also set the web application client IDs that are used in Shiny authentication, 
+#'   that are set via the options \code{options(googleAuthR.webapp.client_id)}, 
+#'   \code{options(googleAuthR.webapp.client_secret)}
+#'   
+#' Note that if you authenticate with a cache token with different values it 
 #'   will overwrite them.
 #' 
 #' For successful authentication, the API scopes can be browsed via the 
@@ -23,7 +29,7 @@
 #'   the Service account keys JSON to perform the actual authentication. 
 #'   
 #' By default the JSON file will be looked for in the location specified by the
-#'   \code{"GAR_CLIENT_JSON"} environment argument. 
+#'   \code{"GAR_CLIENT_JSON"} environment argument, or via \code{"GAR_CLIENT_WEB_JSON"} for webapps.
 #' 
 #' @author Idea via @jennybc and @jimhester from \code{gargle and gmailr} libraries.
 #' 
@@ -43,6 +49,7 @@
 #' @importFrom jsonlite fromJSON
 #' @import assertthat
 gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"), 
+                           web_json = Sys.getenv("GAR_CLIENT_WEB_JSON"),
                            scopes = NULL){
   
   assert_that(is.readable(json))
@@ -51,7 +58,25 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
   
   if(is.null(the_json$installed)){
     stop("$installed not found in JSON - have you downloaded the correct JSON file? 
-         (Service account client, not Service Account Keys)")
+         (Service account client > Other, not Service Account Keys)")
+  }
+  
+  ## web apps
+  if(web_json != ""){
+    assert_that(is.readable(web_json))
+    web_json <- fromJSON(web_json)
+    
+    if(is.null(web_json$web)){
+      stop("$web not found in JSON - have you downloaded the corret JSON file for web apps?
+           (Service account client > Web Application, not Service Account Keys or Other)")
+    }
+    
+    options(googleAuthR.webapp.client_id = web_json$web$client_id,
+            googleAuthR.webapp.client_secret = web_json$web$client_secret)
+    
+    if(web_json$web$project_id != the_json$installed$project_id){
+      warning("Web and offline projects don't match:", web_json$web$project_id, the_json$installed$project_id)
+    }
   }
   
   if(!is.null(scopes)){
@@ -66,7 +91,9 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
             paste(getOption("googleAuthR.scopes.selected"), collapse = "','"),"'))",
             "\noptions(googleAuthR.client_id='", getOption("googleAuthR.client_id"),"')",
             "\noptions(googleAuthR.client_secret=' ", getOption("googleAuthR.client_secret"),"')", 
-            level = 3)
+            "\noptions(googleAuthR.webapp.client_id='", getOption("googleAuthR.webapp.client_id"),"')",
+            "\noptions(googleAuthR.webapp.client_secret=' ", getOption("googleAuthR.webapp.client_secret"),"')", 
+            level = 2)
   
   the_json$installed$project_id
   

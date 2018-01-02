@@ -4,10 +4,13 @@
 \alias{gar_set_client}
 \title{Setup the clientId, clientSecret and scopes}
 \usage{
-gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"), scopes = NULL)
+gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"),
+  web_json = Sys.getenv("GAR_CLIENT_WEB_JSON"), scopes = NULL)
 }
 \arguments{
 \item{json}{The file location of an OAuth 2.0 client ID json file}
+
+\item{web_json}{The file location of client ID json file for web applications}
 
 \item{scopes}{A character vector of scopes to set}
 }
@@ -21,8 +24,13 @@ Help setup the client ID and secret with the OAuth 2.0 clientID.
 \details{
 This function helps set the \code{options(googleAuthR.client_id)}, 
   \code{options(googleAuthR.client_secret)} and 
-  \code{options(googleAuthR.scopes.selected)} for you.  
-  Note that if you authenticate with a cache token with different values it 
+  \code{options(googleAuthR.scopes.selected)} for you.
+
+You can also set the web application client IDs that are used in Shiny authentication, 
+  that are set via the options \code{options(googleAuthR.webapp.client_id)}, 
+  \code{options(googleAuthR.webapp.client_secret)}
+  
+Note that if you authenticate with a cache token with different values it 
   will overwrite them.
 
 For successful authentication, the API scopes can be browsed via the 
@@ -34,7 +42,7 @@ Do not confuse this JSON file with the service account keys, that are
   the Service account keys JSON to perform the actual authentication. 
   
 By default the JSON file will be looked for in the location specified by the
-  \code{"GAR_CLIENT_JSON"} environment argument.
+  \code{"GAR_CLIENT_JSON"} environment argument, or via \code{"GAR_CLIENT_WEB_JSON"} for webapps.
 }
 \examples{
 \dontrun{

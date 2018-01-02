@@ -1,6 +1,7 @@
 # googleAuthR v0.6.2.9000
 
 * Another go at JavaScript approval prompt options
+* Support web apps (Shiny) in `gar_set_client` (#107)
 
 # googleAuthR v0.6.2
 
