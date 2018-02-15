@@ -55,6 +55,7 @@ If for any reason any of the above change inbetween you authenticating and calli
 * The cache file is not where you expect it to be, or is deleted.  The script will typically look in its working directory, which for say scheduled scripts may be different than the one you made the token within. 
 * If the cache file doesn't match the credentials the script needs, it will attempt to manually reauthenticate.  If in a scheduled script, as this needs manual intervention, this will result in an error.
 * If using JSON service authentication via `gar_auth_service()` make sure the service email is an authenticated user with the service you are trying to access, and your Google Project has the right API turned on.
+* If you get an error from the API like `Error in init_oauth_service_account(self$secrets, scope = self$params$scope, : Bad Request (HTTP 400).` then your auth request is probably malformed.  Check you have set the scopes and clientID/secret correctly. 
 
 ### Tips and tricks
 
