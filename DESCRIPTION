@@ -24,9 +24,11 @@ Imports:
     memoise (>= 1.1.0),
     utils
 Suggests:
+    bigQueryR,
     covr,
     devtools (>= 1.12.0),
     formatR (>= 1.4),
+    googleAnalyticsR,
     httptest,
     knitr,
     miniUI (>= 0.1.1),
