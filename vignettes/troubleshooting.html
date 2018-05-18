@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-11-14" />
+<meta name="date" content="2018-05-17" />
 
 <title>Troubleshooting Authentication</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Troubleshooting Authentication</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-11-14</em></h4>
+<h4 class="date"><em>2018-05-17</em></h4>
 
 
 
@@ -116,6 +116,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>The cache file is not where you expect it to be, or is deleted. The script will typically look in its working directory, which for say scheduled scripts may be different than the one you made the token within.</li>
 <li>If the cache file doesn’t match the credentials the script needs, it will attempt to manually reauthenticate. If in a scheduled script, as this needs manual intervention, this will result in an error.</li>
 <li>If using JSON service authentication via <code>gar_auth_service()</code> make sure the service email is an authenticated user with the service you are trying to access, and your Google Project has the right API turned on.</li>
+<li>If you get an error from the API like <code>Error in init_oauth_service_account(self$secrets, scope = self$params$scope, : Bad Request (HTTP 400).</code> then your auth request is probably malformed. Check you have set the scopes and clientID/secret correctly.</li>
 </ul>
 </div>
 <div id="tips-and-tricks" class="section level3">

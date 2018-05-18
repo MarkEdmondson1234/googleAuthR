@@ -52,14 +52,19 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
                            web_json = Sys.getenv("GAR_CLIENT_WEB_JSON"),
                            scopes = NULL){
   
-  assert_that(is.readable(json))
-  
-  the_json <- fromJSON(json)
-  
-  if(is.null(the_json$installed)){
-    stop("$installed not found in JSON - have you downloaded the correct JSON file? 
-         (Service account client > Other, not Service Account Keys)")
+  if(json == "" && web_json == ""){
+    stop("No client JSON files found")
   }
+  
+  if(json != ""){
+    assert_that(is.readable(json))
+    the_json <- fromJSON(json)
+    if(is.null(the_json$installed)){
+      stop("$installed not found in JSON - have you downloaded the correct JSON file? 
+           (Service account client > Other, not Service Account Keys)")
+    }
+  }
+
   
   ## web apps
   if(web_json != ""){
