@@ -63,6 +63,12 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
       stop("$installed not found in JSON - have you downloaded the correct JSON file? 
            (Service account client > Other, not Service Account Keys)")
     }
+    
+    options(googleAuthR.client_id = the_json$installed$client_id,
+            googleAuthR.client_secret = the_json$installed$client_secret)
+    
+    project_id <- the_json$installed$project_id
+    
   }
 
   
@@ -79,6 +85,11 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     options(googleAuthR.webapp.client_id = web_json$web$client_id,
             googleAuthR.webapp.client_secret = web_json$web$client_secret)
     
+    project_id <- web_json$web$project_id
+    
+  }
+  
+  if(web_json != "" && json != ""){
     if(web_json$web$project_id != the_json$installed$project_id){
       warning("Web and offline projects don't match:", web_json$web$project_id, the_json$installed$project_id)
     }
@@ -89,9 +100,6 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     options(googleAuthR.scopes.selected = scopes)
   }
   
-  options(googleAuthR.client_id = the_json$installed$client_id,
-          googleAuthR.client_secret = the_json$installed$client_secret)
-  
   myMessage("\noptions(googleAuthR.scopes.selected=c('",
             paste(getOption("googleAuthR.scopes.selected"), collapse = "','"),"'))",
             "\noptions(googleAuthR.client_id='", getOption("googleAuthR.client_id"),"')",
@@ -100,6 +108,6 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
             "\noptions(googleAuthR.webapp.client_secret=' ", getOption("googleAuthR.webapp.client_secret"),"')", 
             level = 2)
   
-  the_json$installed$project_id
+  project_id
   
 }
