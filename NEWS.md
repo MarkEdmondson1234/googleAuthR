@@ -2,6 +2,7 @@
 
 * Another go at JavaScript approval prompt options
 * Support web apps (Shiny) in `gar_set_client` (#107)
+* Shiny auth will not attempt to create a `.httr-oauth` file (#84)
 
 # googleAuthR v0.6.2
 

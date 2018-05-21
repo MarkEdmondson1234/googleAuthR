@@ -136,7 +136,7 @@ gar_js_getToken <- function(token,
                                     refresh_token = NULL),
                  params = list(scope = scope_list, type = NULL,
                                use_oob = FALSE, as_header = TRUE),
-                 cache_path = getOption("googleAuthR.httr_oauth_cache"))
+                 cache_path = FALSE)
   
   token_formatted
 }
@@ -307,7 +307,7 @@ gar_shiny_getToken <- function(code,
                                   refresh_token = token$refresh_token),
                params = list(scope = scope_list, type = NULL,
                              use_oob = FALSE, as_header = TRUE),
-               cache_path = getOption("googleAuthR.httr_oauth_cache"))
+               cache_path = FALSE)
   
 }
 
