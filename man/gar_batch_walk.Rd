@@ -47,6 +47,55 @@ You can modify more than one parameter or path arg,
   but it must be the same walked vector e.g. \code{start = end = x}
   
 Many Google APIs have \code{batch_size} limits greater than 10, 1000 is common.
+
+The `f` function needs to be a `gar_api_generator()` function that uses one of `path_args`, `pars_args` or `body_args` to construct the URL (rather than say using `sprintf()` to create the API URL). 
+
+You don't need to set the headers in the Google docs for batching API functions - those are done for you.
+
+The argument `walk_vector` needs to be a vector of the values of the arguments to walk over, which you indicate will walk over the pars/path or body arguments on the function via on of the `*_walk` arguments e.g. if walking over id=1, id=2, for a path argument then it would be `path_walk="id"` and `walk_vector=c(1,2,3,4)`
+
+The `gar_*` parameter is required to pass intended for other arguments to the function `f` you may need to pass through.
+
+`gar_batch_walk()` only supports changing one value at a time, for one or multiple arguments (I think only changing the `start-date`, `end-date` example would be the case when you walk through more than one per call)
+
+`batch_size` should be over 1 for batching to be of any benefit at all
+
+The `batch_function` argument gives you a way to operate on the parsed output of each call
+}
+\examples{
+
+\dontrun{
+                               
+
+# get a webproperty per account 
+getAccountInfo <- gar_api_generator(
+  "https://www.googleapis.com/analytics/v3/management/accounts",
+  "GET", data_parse_function = function(x) unique(x$items$id))
+
+getWebpropertyInfo <- gar_api_generator(
+  "https://www.googleapis.com/analytics/v3/management/", # don't use sprintf to construct this
+  "GET",
+  path_args = list(accounts = "default", webproperties = ""),
+  data_parse_function = function(x) x$items)
+
+walkData <- function(){
+
+  # here due to R lazy evaluation  
+  accs <- getAccountInfo()
+  gar_batch_walk(getWebpropertyInfo, 
+                 walk_vector = accs,
+                 gar_paths = list("webproperties" = ""),
+                 path_walk = "accounts",
+                 batch_size = 100, data_frame_output = FALSE)
+                 }
+                 
+# do the walk
+walkData()
+
+}
+
+
+
 }
 \seealso{
 Other batch functions: \code{\link{gar_batch}}

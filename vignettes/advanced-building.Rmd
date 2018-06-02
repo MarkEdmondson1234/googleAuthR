@@ -46,7 +46,6 @@ If you are doing many API calls, you can speed this up a lot by using the batch 
 This takes the API functions you have created and wraps them in the `gar_batch` function to request them all in one POST call.  You then recieve the responses in a list.
 
 Note that this does not count as one call for API limits purposes, it just speeds up the processing.
-The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.
 
 ### Setting batch endpoint
 
@@ -62,7 +61,9 @@ e.g. For BigQuery, the option is:
 options(googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/bigquery/v2")
 ```
 
-#### Example batching
+#### Working with batching
+
+Batching is done via the `gar_batch()` function.  This transforms functions created by `gar_api_generator()` into one `POST` request following the batching syntax given by Google API docs. [Here is an example](https://developers.google.com/analytics/devguides/config/mgmt/v3/batching) for the Google Analytics management API, but its very standard for all the APIs that support batching.  If however it doesn't have a batching section in its docs, it is likely that the API does not support batching. 
 
 ```r
 ## usually set on package load
@@ -101,30 +102,48 @@ ggg <- gar_batch(list(shorten_url("http://markedmondson.me"), user_history()))
 
 ### Walking through batch requests
 
-A common batch task is to walk through the same API call, modifying only one parameter.  An example includes walking through Google Analytics API calls by date to avoid sampling.
+A common batch task is to walk through the same API call, modifying only one parameter.  An example includes walking through Google Analytics API calls by date to avoid sampling. This is implemented at `gar_batch_walk()`
 
-A function to enable this is implemented at `gar_batch_walk`, with an example below:
+This modifies the API function parameters, so you need to supply it which parameters you will (and will not) vary, as well as the values you want to walk through.  Some rules to help you get started are:
+
+* The `f` function needs to be a `gar_api_generator()` function that uses at least one of `path_args`, `pars_args` or `body_args` to construct the URL (rather than say using `sprintf()` to create the API URL)
+* You don't need to set the headers as described in the Google docs for batching API functions - those are done for you.
+* The argument `walk_vector` needs to be a vector of the values of the arguments to walk over, which you indicate will walk over the pars/path or body arguments on the function via on of the `*_walk` arguments e.g. if walking over id=1, id=2, for a path argument then it would be `path_walk="id"` and `walk_vector=c(1,2,3,4)`
+* `gar_batch_walk()` only supports changing one value at a time, for one or multiple arguments (I think only changing the `start-date`, `end-date` example would be the case when you walk through more than one per call)
+* `batch_size` should be over 1 for batching to be of any benefit at all
+* The `batch_function` argument gives you a way to operate on the parsed output of each call, before they are merged.
+
+An example is shown below - this gets a Google Analytics WebProperty object for each Account ID, in batches of 100 per API call:
 
 ```r
-library(googleAuthR)
+# outputs a vector of accountIds
+getAccountInfo <- gar_api_generator(
+  "https://www.googleapis.com/analytics/v3/management/accounts",
+  "GET", data_parse_function = function(x) unique(x$items$id))
 
-walkData <- function(ga, ga_pars, start, end){
+# for each accountId, get a list of web properties
+getWebpropertyInfo <- gar_api_generator(
+  "https://www.googleapis.com/analytics/v3/management/", # don't use sprintf to construct this
+  "GET",
+  path_args = list(accounts = "default", webproperties = ""),
+  data_parse_function = function(x) x$items)
 
-  ## creates dates to walk through
-  dates <- as.character(
-    seq(as.Date(start),as.Date(end),by=1))
+# walks through a list of accountIds
+walkWebpropertyInfo <- function(accs){
   
-  ## the walk through batch function. 
-  ## In this case both start-date and end-date are set to the date iteration
-  ## if the output is parsed as a dataframe, it also includes a rbind function
-  ## otherwise, it will return a list of lists
-  gar_batch_walk(ga,
-                 dates,
-                 gar_pars = ga_pars,
-                 pars_walk = c("start-date", "end-date"),
-                 data_frame_output = TRUE)
-                 
+  gar_batch_walk(getWebpropertyInfo, 
+                 walk_vector = accs,
+                 gar_paths = list("webproperties" = ""),
+                 path_walk = "accounts",
+                 batch_size = 100, data_frame_output = FALSE)
 }
+
+##----- to use:
+
+library(googleAuthR)
+accs <- getAccountInfo()
+walkWebpropertyInfo(accs)
+
 ```
 
 ## Caching API calls

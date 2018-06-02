@@ -24,6 +24,37 @@ This function will turn all the individual Google API functions
 If you need to pass multiple data parse function arguments its probably best 
   to do it in separate batches to avoid confusion.
 }
+\examples{
+
+\dontrun{
+
+## usually set on package load
+options(googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/urlshortener/v1")
+
+## from goo.gl API
+shorten_url <- function(url){
+  body = list(longUrl = url)
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                          data_parse_function = function(x) x$id)
+                        
+  f(the_body = body)
+}
+
+
+## from goo.gl API
+user_history <- function(){
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url/history",
+                      "GET",
+                      data_parse_function = function(x) x$items)
+                      
+  f()
+}
+
+gar_batch(list(shorten_url("http://markedmondson.me"), user_history()))
+
+}
+}
 \seealso{
 https://developers.google.com/webmaster-tools/v3/how-tos/batch
 

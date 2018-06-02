@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2017-11-16" />
+<meta name="date" content="2018-06-02" />
 
 <title>Advanced Google API building techniques</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Advanced Google API building techniques</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2017-11-16</em></h4>
+<h4 class="date"><em>2018-06-02</em></h4>
 
 
 
@@ -102,7 +102,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="batching-api-requests" class="section level2">
 <h2>Batching API requests</h2>
 <p>If you are doing many API calls, you can speed this up a lot by using the batch option. This takes the API functions you have created and wraps them in the <code>gar_batch</code> function to request them all in one POST call. You then recieve the responses in a list.</p>
-<p>Note that this does not count as one call for API limits purposes, it just speeds up the processing. The example below queries from two different APIs and returns them in a list: It lists websites in your Google Search Console, and shows your goo.gl link history.</p>
+<p>Note that this does not count as one call for API limits purposes, it just speeds up the processing.</p>
 <div id="setting-batch-endpoint" class="section level3">
 <h3>Setting batch endpoint</h3>
 <p>From version <code>googleAuthR 0.6.0</code> you also need to set an option of the batch endpoint. This is due to multi-batch endpoints being deprecated by Google. You are also no longer able to send batches for multiple APIs in one call.</p>
@@ -110,8 +110,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><code>www.googleapis.com/batch/api-name/api-version</code></p>
 <p>e.g. For BigQuery, the option is:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">&quot;https://www.googleapis.com/batch/bigquery/v2&quot;</span>)</code></pre></div>
-<div id="example-batching" class="section level4">
-<h4>Example batching</h4>
+<div id="working-with-batching" class="section level4">
+<h4>Working with batching</h4>
+<p>Batching is done via the <code>gar_batch()</code> function. This transforms functions created by <code>gar_api_generator()</code> into one <code>POST</code> request following the batching syntax given by Google API docs. <a href="https://developers.google.com/analytics/devguides/config/mgmt/v3/batching">Here is an example</a> for the Google Analytics management API, but its very standard for all the APIs that support batching. If however it doesn’t have a batching section in its docs, it is likely that the API does not support batching.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## usually set on package load
 <span class="kw">options</span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">&quot;https://www.googleapis.com/batch/urlshortener/v1&quot;</span>)
 
@@ -147,27 +148,44 @@ ggg &lt;-<span class="st"> </span><span class="kw">gar_batch</span>(<span class=
 </div>
 <div id="walking-through-batch-requests" class="section level3">
 <h3>Walking through batch requests</h3>
-<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling.</p>
-<p>A function to enable this is implemented at <code>gar_batch_walk</code>, with an example below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleAuthR)
+<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling. This is implemented at <code>gar_batch_walk()</code></p>
+<p>This modifies the API function parameters, so you need to supply it which parameters you will (and will not) vary, as well as the values you want to walk through. Some rules to help you get started are:</p>
+<ul>
+<li>The <code>f</code> function needs to be a <code>gar_api_generator()</code> function that uses at least one of <code>path_args</code>, <code>pars_args</code> or <code>body_args</code> to construct the URL (rather than say using <code>sprintf()</code> to create the API URL)</li>
+<li>You don’t need to set the headers as described in the Google docs for batching API functions - those are done for you.</li>
+<li>The argument <code>walk_vector</code> needs to be a vector of the values of the arguments to walk over, which you indicate will walk over the pars/path or body arguments on the function via on of the <code>*_walk</code> arguments e.g. if walking over id=1, id=2, for a path argument then it would be <code>path_walk=&quot;id&quot;</code> and <code>walk_vector=c(1,2,3,4)</code></li>
+<li><code>gar_batch_walk()</code> only supports changing one value at a time, for one or multiple arguments (I think only changing the <code>start-date</code>, <code>end-date</code> example would be the case when you walk through more than one per call)</li>
+<li><code>batch_size</code> should be over 1 for batching to be of any benefit at all</li>
+<li>The <code>batch_function</code> argument gives you a way to operate on the parsed output of each call, before they are merged.</li>
+</ul>
+<p>An example is shown below - this gets a Google Analytics WebProperty object for each Account ID, in batches of 100 per API call:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># outputs a vector of accountIds</span>
+getAccountInfo &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(
+  <span class="st">&quot;https://www.googleapis.com/analytics/v3/management/accounts&quot;</span>,
+  <span class="st">&quot;GET&quot;</span>, <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) <span class="kw">unique</span>(x<span class="op">$</span>items<span class="op">$</span>id))
 
-walkData &lt;-<span class="st"> </span><span class="cf">function</span>(ga, ga_pars, start, end){
+<span class="co"># for each accountId, get a list of web properties</span>
+getWebpropertyInfo &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(
+  <span class="st">&quot;https://www.googleapis.com/analytics/v3/management/&quot;</span>, <span class="co"># don't use sprintf to construct this</span>
+  <span class="st">&quot;GET&quot;</span>,
+  <span class="dt">path_args =</span> <span class="kw">list</span>(<span class="dt">accounts =</span> <span class="st">&quot;default&quot;</span>, <span class="dt">webproperties =</span> <span class="st">&quot;&quot;</span>),
+  <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>items)
 
-  ## creates dates to walk through
-  dates &lt;-<span class="st"> </span><span class="kw">as.character</span>(
-    <span class="kw">seq</span>(<span class="kw">as.Date</span>(start),<span class="kw">as.Date</span>(end),<span class="dt">by=</span><span class="dv">1</span>))
+<span class="co"># walks through a list of accountIds</span>
+walkWebpropertyInfo &lt;-<span class="st"> </span><span class="cf">function</span>(accs){
   
-  ## the walk through batch function. 
-  ## In this case both start-date and end-date are set to the date iteration
-  ## if the output is parsed as a dataframe, it also includes a rbind function
-  ## otherwise, it will return a list of lists
-  <span class="kw">gar_batch_walk</span>(ga,
-                 dates,
-                 <span class="dt">gar_pars =</span> ga_pars,
-                 <span class="dt">pars_walk =</span> <span class="kw">c</span>(<span class="st">&quot;start-date&quot;</span>, <span class="st">&quot;end-date&quot;</span>),
-                 <span class="dt">data_frame_output =</span> <span class="ot">TRUE</span>)
-                 
-}</code></pre></div>
+  <span class="kw">gar_batch_walk</span>(getWebpropertyInfo, 
+                 <span class="dt">walk_vector =</span> accs,
+                 <span class="dt">gar_paths =</span> <span class="kw">list</span>(<span class="st">&quot;webproperties&quot;</span> =<span class="st"> &quot;&quot;</span>),
+                 <span class="dt">path_walk =</span> <span class="st">&quot;accounts&quot;</span>,
+                 <span class="dt">batch_size =</span> <span class="dv">100</span>, <span class="dt">data_frame_output =</span> <span class="ot">FALSE</span>)
+}
+
+##----- to use:
+
+<span class="kw">library</span>(googleAuthR)
+accs &lt;-<span class="st"> </span><span class="kw">getAccountInfo</span>()
+<span class="kw">walkWebpropertyInfo</span>(accs)</code></pre></div>
 </div>
 </div>
 <div id="caching-api-calls" class="section level2">
@@ -363,7 +381,7 @@ auth_env &lt;-<span class="st"> &quot;GAR_AUTH_FILE&quot;</span></code></pre></d
 <div id="codecov" class="section level3">
 <h3>Codecov</h3>
 <p>One of the nicest features of continuous integration / Travis is it can be used for code coverage. This uses your tests to find out how many lines of code are triggered within them. This lets you see how thorough yours tests are. Developers covert the 100% coverage badge as it shows all of your code is checked every time you push to GitHub and helps mitigate bugs.</p>
-<p>This is this package’s current Codecov status: <a href="https://codecov.io/gh/MarkEdmondson1234/googleAuthR"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NiIgaGVpZ2h0PSIyMCI+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgyPSIwIiB5Mj0iMTAwJSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIiAvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bWFzayBpZD0iYSI+CiAgICAgICAgPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIgLz4KICAgIDwvbWFzaz4KICAgIDxnIG1hc2s9InVybCgjYSkiPgogICAgICAgIDxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoNjB2MjBIMHoiIC8+CiAgICAgICAgPHBhdGggZmlsbD0iI2UwNWQ0NCIgZD0iTTYwIDBoMzZ2MjBINjB6IiAvPgogICAgICAgIDxwYXRoIGZpbGw9InVybCgjYikiIGQ9Ik0wIDBoOTZ2MjBIMHoiIC8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgICAgPHRleHQgeD0iMzAiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5jb2RlY292PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjMwIiB5PSIxNCI+Y29kZWNvdjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI3NyIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPjEwJTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI3NyIgeT0iMTQiPjEwJTwvdGV4dD4KICAgIDwvZz4KPC9zdmc+" alt="codecov" /></a></p>
+<p>This is this package’s current Codecov status: <a href="https://codecov.io/gh/MarkEdmondson1234/googleAuthR"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NiIgaGVpZ2h0PSIyMCI+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgyPSIwIiB5Mj0iMTAwJSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIiAvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bWFzayBpZD0iYSI+CiAgICAgICAgPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIgLz4KICAgIDwvbWFzaz4KICAgIDxnIG1hc2s9InVybCgjYSkiPgogICAgICAgIDxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoNjB2MjBIMHoiIC8+CiAgICAgICAgPHBhdGggZmlsbD0iI2UwNWQ0NCIgZD0iTTYwIDBoMzZ2MjBINjB6IiAvPgogICAgICAgIDxwYXRoIGZpbGw9InVybCgjYikiIGQ9Ik0wIDBoOTZ2MjBIMHoiIC8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgICAgPHRleHQgeD0iMzAiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5jb2RlY292PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjMwIiB5PSIxNCI+Y29kZWNvdjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI3NyIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPjklPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9Ijc3IiB5PSIxNCI+OSU8L3RleHQ+CiAgICA8L2c+Cjwvc3ZnPg==" alt="codecov" /></a></p>
 <p>Using code coverage is a case of adding another metafile and a command to your travis file. <a href="https://walczak.org/2017/06/how-to-add-code-coverage-codecov-to-your-r-package/">This post by Eryk has some details</a></p>
 <div id="offline-code-coverage" class="section level4">
 <h4>Offline code coverage</h4>
