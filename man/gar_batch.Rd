@@ -4,12 +4,16 @@
 \alias{gar_batch}
 \title{Turn a list of gar_fetch_functions into batch functions}
 \usage{
-gar_batch(call_list, ...)
+gar_batch(call_list, ...,
+  batch_endpoint = getOption("googleAuthR.batch_endpoint", default =
+  "https://www.googleapis.com/batch"))
 }
 \arguments{
 \item{call_list}{a list of functions from \code{\link{gar_api_generator}}}
 
 \item{...}{further arguments passed to the data parse function of f}
+
+\item{batch_endpoint}{the batch API endpoint to send to}
 }
 \value{
 A list of the Google API responses

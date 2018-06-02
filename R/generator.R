@@ -206,10 +206,14 @@ gar_api_generator <- function(baseURI,
 
   }
   ##returns a function that can call the API
-  func
+  
+  structure(func, class = c("gar_function","function"))
 
 }
 
+is.gar_function <- function(x){
+  inherits(x, "gar_function")
+}
 
 
 

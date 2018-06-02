@@ -157,11 +157,11 @@ memDoHttrRequest <- function(req_url,
 #' @noRd
 #' @import memoise
 #' @family cache functions
-memDoBatchRequest <- function(l){
+memDoBatchRequest <- function(l, batch_endpoint){
   
   cachedBatchedRequest <- memoise(doBatchRequest, cache = gar_cache_get_loc())
   
-  existing_cache <- has_cache(cachedBatchedRequest)(l)
+  existing_cache <- has_cache(cachedBatchedRequest)(l, batch_endpoint)
   
   if(existing_cache){
     myMessage("Reading batched cache", level = 3)
@@ -169,7 +169,7 @@ memDoBatchRequest <- function(l){
     myMessage("Making new batched cache", level = 2)
   }
   
-  req <- cachedBatchedRequest(l)
+  req <- cachedBatchedRequest(l, batch_endpoint)
   
   ## check request against cache_function to see whether to cache result is TRUE
   cache_function <- .gar_cache$invalid

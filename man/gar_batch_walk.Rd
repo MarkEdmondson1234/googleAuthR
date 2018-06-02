@@ -6,7 +6,9 @@
 \usage{
 gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
   the_body = NULL, pars_walk = NULL, path_walk = NULL, body_walk = NULL,
-  batch_size = 10, batch_function = NULL, data_frame_output = TRUE, ...)
+  batch_size = 10, batch_function = NULL, data_frame_output = TRUE, ...,
+  batch_endpoint = getOption("googleAuthR.batch_endpoint", default =
+  "https://www.googleapis.com/batch"))
 }
 \arguments{
 \item{f}{a function from \code{\link{gar_api_generator}}}
@@ -32,6 +34,8 @@ gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
 \item{data_frame_output}{if the list of lists are dataframes, you can bind them all by setting to TRUE}
 
 \item{...}{further arguments passed to the data parse function of f}
+
+\item{batch_endpoint}{the batch API endpoint to send}
 }
 \value{
 \strong{if data_frame_output is FALSE}: A list of lists.  
