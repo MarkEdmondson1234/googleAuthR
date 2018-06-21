@@ -1,9 +1,10 @@
-# googleAuthR v0.6.2.9000
+# googleAuthR v0.6.3
 
 * Another go at JavaScript approval prompt options
 * Support web apps (Shiny) in `gar_set_client` (#107)
 * Shiny auth will not attempt to create a `.httr-oauth` file (#84)
 * Update docs for `gar_batch_walk()` with some examples (#175)
+* Add bigQueryR and googleAnalyticsR to suggests for CRAN test checks. 
 
 # googleAuthR v0.6.2
 
