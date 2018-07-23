@@ -311,16 +311,20 @@ doHttrRequest <- function(url,
                           customConfig=NULL,
                           simplifyVector=getOption("googleAuthR.jsonlite.simplifyVector")){
 
-  arg_list <- list(verb = request_type,
-                   url = url,
-                   config = get_google_token(shiny_access_token),
-                   body = the_body,
-                   encode = if(!is.null(customConfig$encode)) customConfig$encode else "json",
-                   add_headers("Accept-Encoding" = "gzip"),
-                   user_agent(paste0("googleAuthR/",
-                                     packageVersion("googleAuthR"),
-                                     " (gzip)"))
-                   )
+  
+  arg_list <- list(
+    verb = request_type,
+    url = url,
+    config = get_google_token(shiny_access_token),
+    body = the_body,
+    encode = if (!is.null(customConfig$encode)) customConfig$encode else "json",
+    add_headers("Accept-Encoding" = "gzip"),
+    user_agent(paste0("googleAuthR/",
+                     packageVersion("googleAuthR"),
+                     " (gzip)")),
+    times = getOption("googleAuthR.tryAttemptsHttr"),
+    terminate_on = getOption("googleAuthR.TerminateOnHttr")
+  )
 
   arg_list <- modify_custom_config(arg_list, customConfig = customConfig)
 
