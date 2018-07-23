@@ -322,8 +322,8 @@ doHttrRequest <- function(url,
     user_agent(paste0("googleAuthR/",
                      packageVersion("googleAuthR"),
                      " (gzip)")),
-    times = getOption("googleAuthR.tryAttemptsHttr"),
-    terminate_on = getOption("googleAuthR.TerminateOnHttr")
+    times = getOption("googleAuthR.HttrRetryTimes"),
+    terminate_on = getOption("googleAuthR.HttrRetryTerminateOn")
   )
 
   arg_list <- modify_custom_config(arg_list, customConfig = customConfig)

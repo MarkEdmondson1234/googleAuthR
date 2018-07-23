@@ -29,8 +29,8 @@
     googleAuthR.securitycode = 
       paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse = ''),
     googleAuthR.tryAttempts = 5,
-    googleAuthR.tryAttemptsHttr = 3,
-    googleAuthR.TerminateOnHttr = NULL
+    googleAuthR.HttrRetryTimes = 3,
+    googleAuthR.HttrRetryTerminateOn = NULL
   )
   toset <- !(names(op.googleAuthR) %in% names(op))
   if (any(toset)) options(op.googleAuthR[toset])
