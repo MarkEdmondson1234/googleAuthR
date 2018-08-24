@@ -120,7 +120,7 @@ gar_api_generator <- function(baseURI,
     if(any(with_shiny_env)){
       call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
                                       call = sys.call(with_shiny_env),
-                                      expand.dots = F)[-1])
+                                      expand.dots = FALSE)[-1])
       ## gets the calling function of with_shiny to evaluate the reactive token in
       f <- do.call("parent.frame", args = list(), envir = sys.frame(with_shiny_env))
       ## evaluates the shiny_access_token in the correct environment
@@ -249,7 +249,20 @@ retryRequest <- function(f){
     if(is.error(content)){
 
       warning("No JSON content found in request", call. = FALSE)
-      error <- "Could not fetch response"
+      
+      # perhaps it is not JSON and a webpage with error instead
+      if(grepl("invalid char in json text",error.message())){
+
+        utils::browseURL(httr::content(the_request,
+                                       as = "text",
+                                       type = "text/html",
+                                       encoding = "UTF-8"))
+        
+        error <- "API error: returned web page that has been opened in your default browser if possible."
+      } else {
+        error <- "Could not fetch response"
+      }
+
 
     } else if(exists("error", where=content)) {
 
