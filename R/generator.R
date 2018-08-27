@@ -251,7 +251,7 @@ retryRequest <- function(f){
       warning("No JSON content found in request", call. = FALSE)
       
       # perhaps it is not JSON and a webpage with error instead
-      if(grepl("invalid char in json text",error.message())){
+      if(grepl("invalid char in json text",error.message(content))){
 
         utils::browseURL(httr::content(the_request,
                                        as = "text",
