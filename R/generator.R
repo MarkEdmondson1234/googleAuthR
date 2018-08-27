@@ -253,12 +253,14 @@ retryRequest <- function(f){
       # perhaps it is not JSON and a webpage with error instead
       if(grepl("invalid char in json text",error.message(content))){
 
-        utils::browseURL(httr::content(the_request,
-                                       as = "text",
-                                       type = "text/html",
-                                       encoding = "UTF-8"))
+        error_html <- httr::content(the_request,
+                                    as = "text",
+                                    type = "text/html",
+                                    encoding = "UTF-8")
+        utils::browseURL(error_html)
         
-        error <- "API error: returned web page that has been opened in your default browser if possible."
+        error <- "API error: returned web page that has been opened in your default browser if possible"
+        cat(error_html)
       } else {
         error <- "Could not fetch response"
       }
