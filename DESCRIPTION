@@ -1,6 +1,6 @@
 Package: googleAuthR
 Type: Package
-Version: 0.6.3.9000
+Version: 0.6.3.9001
 Title: Authenticate and Create Google APIs
 Description: Create R functions that interact with OAuth2 Google APIs 
     <https://developers.google.com/apis-explorer/> easily,
