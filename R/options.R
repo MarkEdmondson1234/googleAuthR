@@ -2,15 +2,15 @@
   
   sys_or_null <- function(x){
     sys <- Sys.getenv(x)
-    if(sys == "") return(NULL)
+    if (sys == "") return(NULL)
     sys
   }
   
   scopes_split <- function(x){
     sys <- sys_or_null("GAR_SCOPES")
-    if(is.null(sys)) return(NULL)
+    if (is.null(sys)) return(NULL)
     strsplit(sys, 
-             split = ",", fixed=TRUE)[[1]]
+             split = ",", fixed = TRUE)[[1]]
   }
   op <- options()
   op.googleAuthR <- list(
@@ -25,13 +25,15 @@
     googleAuthR.scopes.selected = scopes_split("GAR_SCOPES"),
     googleAuthR.webapp.port = 1221,
     googleAuthR.jsonlite.simplifyVector = TRUE,
-    googleAuthR.ok_content_types=c("application/json; charset=UTF-8", "text/html; charset=UTF-8"),
+    googleAuthR.ok_content_types = c("application/json; charset=UTF-8", "text/html; charset=UTF-8"),
     googleAuthR.securitycode = 
-      paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse=''),
-    googleAuthR.tryAttempts = 5
+      paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse = ''),
+    googleAuthR.tryAttempts = 5,
+    googleAuthR.HttrRetryTimes = 3,
+    googleAuthR.HttrRetryTerminateOn = NULL
   )
   toset <- !(names(op.googleAuthR) %in% names(op))
-  if(any(toset)) options(op.googleAuthR[toset])
+  if (any(toset)) options(op.googleAuthR[toset])
   
   invisible()
   
