@@ -41,8 +41,7 @@ split_vector <- function(vector, index, remove_splits=TRUE){
   l <- list()
   for(i in 2:length(index)){
     if(is.na(index[i])){
-      warning("No index found")
-      return(c("{", '"error":"no index"', "}"))
+     stop("No index found: i-", i, "for vector-", vector[[1]])
     }
     s <- vector[index[i-1]:index[i]] 
     
@@ -53,7 +52,7 @@ split_vector <- function(vector, index, remove_splits=TRUE){
     
     # remove leading or trailing empty strings
     if(s[1] == "") s <- s[-1]
-    if(s[length(s)] == "") s <- s[-length(s)]
+    if(s[length(s)] == "") s <- s[-length(s)] # bug in searchConsoleR #43
     
     if(exists("l")){
       l <- c(l, list(s))
