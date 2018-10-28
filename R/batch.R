@@ -80,7 +80,7 @@ gar_batch <- function(call_list,
   if(req$status_code == 404){
     stop("Batch Request: 404 Not Found", call. = FALSE)
   }
-  
+
   batch_content <-  tryCatch(parseBatchResponse(req),
                              error = function(ee){
                                if(getOption("googleAuthR.verbose") < 3){
@@ -393,8 +393,10 @@ doBatchRequest <- function(batched,
                            batch_endpoint){
   
   if(batch_endpoint == "https://www.googleapis.com/batch"){
-    warning("Deprecated batch endpoint being used.  Use option('googleAuthR.batch_endpoint') 
-            to select specific endpoint for this API.")  
+    stop("Deprecated batch endpoint being used.  Use options('googleAuthR.batch_endpoint') to select 
+          specific endpoint for this API. See 
+         http://code.markedmondson.me/googleAuthR/articles/advanced-building.html#batching-api-requests", 
+         call. = FALSE)  
   }
   
   arg_list <- list(url = batch_endpoint, 
