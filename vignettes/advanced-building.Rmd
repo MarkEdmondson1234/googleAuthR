@@ -17,14 +17,14 @@ These go into more edge cases: no parsing content, batching and caching API resp
 
 In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.
 
-For this, you can use the option `option("googleAuthR.rawResponse" = TRUE)` to skip all tests and return the raw response.
+For this, you can use the option `options("googleAuthR.rawResponse" = TRUE)` to skip all tests and return the raw response.
 
 Here is an example of this from the googleCloudStorageR library:
 
 ```r
 gcs_get_object <- function(bucket, 
                            object_name){
-  ## skip JSON parsing on output as we epxect a CSV
+  ## skip JSON parsing on output as we expect a CSV
   options(googleAuthR.rawResponse = TRUE)
   
   ## do the request

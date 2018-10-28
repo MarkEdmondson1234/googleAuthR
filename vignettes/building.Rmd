@@ -58,7 +58,7 @@ A lot of Google APIs look for you to send data in the Body of the request.  This
  
  Construct your list, then use `jsonlite::toJSON` to check if its in the correct format as specified by the Google documentation.  This is often the hardest part using the API.
  
-To aid debugging use the `option(googleAuthR.verbose = 0)` to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called `request_debug.rds` in the working directory.
+To aid debugging use the `options(googleAuthR.verbose = 0)` to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called `request_debug.rds` in the working directory.
 
 Example:
 
