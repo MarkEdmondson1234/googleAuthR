@@ -25,8 +25,8 @@ test_that("Paging via parameters", {
                               data_parse_function = function(x) x)
     
     pages <- gar_api_page(segs, 
+                          page_f = paging_function,
                           page_method = "param",
-                          next_f = paging_function,
                           page_arg = "start-index")
     
     pages
@@ -41,11 +41,6 @@ test_that("Paging via parameters", {
 
 test_that("Paging via nextLink", {
   
-  paging_function2 <- function(x){
-    x$nextLink
-  }
-  
-  
   ga_segment_list <- function(){
     
     url <- "https://www.googleapis.com/analytics/v3/management/segments"
@@ -54,11 +49,8 @@ test_that("Paging via nextLink", {
                               pars_args = list("max-results"=10),
                               data_parse_function = function(x) x)
     
-    pages <- gar_api_page(segs, 
-                          page_method = "url",
-                          next_f = paging_function2)
+    gar_api_page(segs)
     
-    pages
     
   }
   
