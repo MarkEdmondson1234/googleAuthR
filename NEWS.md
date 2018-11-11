@@ -1,6 +1,8 @@
 # googleAuthR v0.6.3.9000
 
 * Deprecate `https://www.googleapis.com/batch` batch endpoint fully as per https://developers.googleblog.com/2018/03/discontinuing-support-for-json-rpc-and.html
+* Add `gar_api_page()` to help page through APIs (#121)
+* Add a `url_override` argument to generated Google API functions to help with (#121)
 
 # googleAuthR v0.6.3
 
