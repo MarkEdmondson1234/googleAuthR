@@ -13,7 +13,6 @@ ui <- fluidPage(
       ),
       
       mainPanel(
-        textOutput("all"),
         with(tags, dl(dt("Name"), dd(textOutput("g_name")),
                       dt("Email"), dd(textOutput("g_email")),
                       dt("Image"), dd(uiOutput("g_image")) ))
