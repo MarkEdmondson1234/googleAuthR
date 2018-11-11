@@ -109,6 +109,7 @@ gar_api_generator <- function(baseURI,
                    pars_arguments=NULL,
                    the_body=NULL,
                    batch=FALSE,
+                   url_override=NULL,
                    ...){
 
     # extract the shiny token from the right environments
@@ -150,8 +151,13 @@ gar_api_generator <- function(baseURI,
     if(!is.null(pars_args)){
       pars <- paste0("?", pars)
     }
-
-    req_url <- paste0(baseURI, path, pars)
+    
+    # change the URL for the API request
+    if(!is.null(url_override)){
+      req_url <- url_override
+    } else {
+      req_url <- paste0(baseURI, path, pars)
+    }
 
     ## if called with gar_batch wrapper set batch to TRUE
     with_gar_batch <- which(grepl("gar_batch", all_envs))
@@ -223,18 +229,22 @@ is.gar_function <- function(x){
 #' @param f A function of a http request
 #'
 #' @keywords internal
+#' @importFrom httr with_verbose content
+#' @importFrom jsonlite fromJSON
+#' @importFrom utils browseURL
 retryRequest <- function(f){
 
   verbose <- getOption("googleAuthR.verbose")
 
   if(verbose <= 1){
-    the_request <- try(httr::with_verbose(f))
+    the_request <- try(with_verbose(f))
   } else {
     the_request <- try(f)
   }
 
   if(is.error(the_request)){
-    stop("Request failed before finding status code: ", error.message(the_request), call. = FALSE)
+    stop("Request failed before finding status code: ", 
+         error.message(the_request), call. = FALSE)
   } else {
     status_code <- as.character(the_request$status_code)
   }
@@ -242,10 +252,10 @@ retryRequest <- function(f){
   if(!(grepl("^20",status_code))){
     myMessage("Request Status Code: ", status_code, level = 3)
 
-    content <- try(jsonlite::fromJSON(httr::content(the_request,
-                                              as = "text",
-                                              type = "application/json",
-                                              encoding = "UTF-8")))
+    content <- try(fromJSON(content(the_request,
+                                    as = "text",
+                                    type = "application/json",
+                                    encoding = "UTF-8")))
     if(is.error(content)){
 
       warning("No JSON content found in request", call. = FALSE)
@@ -253,11 +263,11 @@ retryRequest <- function(f){
       # perhaps it is not JSON and a webpage with error instead
       if(grepl("invalid char in json text",error.message(content))){
 
-        error_html <- httr::content(the_request,
-                                    as = "text",
-                                    type = "text/html",
-                                    encoding = "UTF-8")
-        utils::browseURL(error_html)
+        error_html <- content(the_request,
+                              as = "text",
+                              type = "text/html",
+                              encoding = "UTF-8")
+        browseURL(error_html)
         
         error <- "API error: returned web page that has been opened in your default browser if possible"
         cat(error_html)
