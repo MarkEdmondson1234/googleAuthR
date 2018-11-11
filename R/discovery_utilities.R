@@ -106,20 +106,19 @@ get_json_methods <- function(api_json_resources){
   out
 }
 
-
-
 recursive_key_finder <- function(the_list, key = "methods"){
-  
+
   if(key %in% names(the_list)){
     ## success - add to global
     set_global(c(get_global(), the_list[[key]]))
     ## but there could also be some within
-  } else {
-    ## recursive
-    lapply(the_list, recursive_key_finder, key = key)
   }
+  new_list <- the_list
+  new_list[[key]] <- NULL
+  ## recursive
+  lapply(new_list, recursive_key_finder, key = key)
   
-  get_global()
+  invisible(NULL)
 }
 
 ## environment hoops for globals
@@ -161,20 +160,6 @@ extract_attribute <- function(y,
          }, 
          type_out)
 }
-
-
-recursive_key_finder <- function(the_list, key = "methods"){
-  
-  if(key %in% names(the_list)){
-    ## success - add to global
-    set_global(c(get_global(), the_list[[key]]))
-  } else {
-    ## recursive
-    lapply(the_list, recursive_key_finder, key = key)
-  }
-  
-}
-
 
 # recursive property objects
 get_json_properties <- function(api_json_schema, id=NULL){

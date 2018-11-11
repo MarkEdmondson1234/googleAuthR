@@ -150,7 +150,7 @@ function_params <- function(api_json_resource_method, api_json){
                                    ordered_method_parameters)
   }
   
-  f_name <- gsub(paste0(api_json$name,"."), "", api_json_resource_method$id)
+  f_name <- gsub(paste0("^", api_json$name,"."), "", api_json_resource_method$id)
   make_f_arguments(f_name, ordered_method_parameters)
   
   
