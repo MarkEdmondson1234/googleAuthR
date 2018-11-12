@@ -10,6 +10,7 @@
 #' @param login_text Text to show on login button
 #' @param logout_text Text to show on logout button
 #' @param approval_prompt_force Whether to force a login each time
+#' @param scopes Set the scopes, minimum needs is "email"
 #'
 #' @return Shiny UI
 #' @import assertthat
@@ -19,14 +20,16 @@ gar_auth_jsUI <- function(id,
                           logout_class = "btn btn-danger",
                           login_text = "Log In",
                           logout_text = "Log Out",
-                          approval_prompt_force = TRUE){
+                          approval_prompt_force = TRUE,
+                          scopes = getOption("googleAuthR.scopes.selected", "email")){
   
   assert_that(
     is.string(login_class),
     is.string(logout_class),
     is.string(login_text),
     is.string(logout_text),
-    is.flag(approval_prompt_force)
+    is.flag(approval_prompt_force),
+    !is.null(scopes)
   )
   
   if(approval_prompt_force){
@@ -38,40 +41,21 @@ gar_auth_jsUI <- function(id,
   ## No @import to avoid making shiny and miniUI an import
   check_package_loaded("shiny")
   ns <- shiny::NS(id)
-  
   shiny::tagList(
     
     shiny::tags$script(src='https://apis.google.com/js/auth.js'),
     shiny::tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
     shiny::tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class),
-    shiny::tags$script(type="text/javascript", shiny::HTML(paste0("
-                                                                  var authorizeButton = document.getElementById('",ns("login"),"');
-                                                                  var signoutButton = document.getElementById('",ns("logout"),"');
-                                                                  signoutButton.style.display = 'none';
-                                                                  function auth() {
-                                                                  var config = {
-                                                                  'client_id': '",getOption("googleAuthR.webapp.client_id"),"',
-                                                                  'scope': '", paste(getOption("googleAuthR.scopes.selected"), collapse = " "),"'",
-                                                                  approval_prompt_line,"
-                                                                  };
-                                                                  gapi.auth.authorize(config, function() {
-                                                                  token = gapi.auth.getToken();
-                                                                  console.log('login complete');
-                                                                  Shiny.onInputChange('",ns("js_auth_access_token"),"', token.access_token);
-                                                                  Shiny.onInputChange('",ns("js_auth_token_type"),"', token.token_type);
-                                                                  Shiny.onInputChange('",ns("js_auth_expires_in"),"', token.expires_in);
-                                                                  authorizeButton.style.display = 'none';
-                                                                  signoutButton.style.display = 'block';
-                                                                  });
-                                                                  }
-                                                                  function out(){
-                                                                  gapi.auth.signOut();
-                                                                  location.reload()
-                                                                  }
-                                                                  "
-    ) )
-    )
-    )
+    load_js_template(system.file("js/js-auth.js", package = "googleAuthR"),        
+                     ns("login"), 
+                     ns("logout"),
+                     getOption("googleAuthR.webapp.client_id"),
+                     paste(scopes, collapse = " "),
+                     approval_prompt_line,
+                     ns("js_auth_access_token"),
+                     ns("js_auth_token_type"),
+                     ns("js_auth_expires_in"))
+  )
   
 }
 
@@ -124,7 +108,7 @@ gar_js_getToken <- function(token,
   check_package_loaded("shiny")
   gar_app <- oauth_app("google", key = client.id, secret = client.secret)
   
-  scope_list <- getOption("googleAuthR.scope")
+  scope_list <- getOption("googleAuthR.scopes.selected")
   
   # Create a Token2.0 object consistent with the token obtained from gar_auth()
   token_formatted <-

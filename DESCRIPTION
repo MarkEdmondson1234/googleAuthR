@@ -10,7 +10,8 @@ Authors@R: c(person("Mark", "Edmondson",email = "m@sunholo.com",
                   comment = c(ORCID = "0000-0002-8434-3881")),
            person("Jennifer", "Bryan",email="jenny@stat.ubc.ca", role = "ctb"),
            person("Johann", "deBoer", email="johanndeboer@gmail.com", role = "ctb"),
-           person("Neal", "Richardson", email="neal.p.richardson@gmail.com", role = "ctb"))
+           person("Neal", "Richardson", email="neal.p.richardson@gmail.com", role = "ctb"),
+           person("David","Kulp", email="dkulp@cs.umass.edu", role = "ctb"))
 URL: http://code.markedmondson.me/googleAuthR/
 BugReports: https://github.com/MarkEdmondson1234/googleAuthR/issues
 Depends:

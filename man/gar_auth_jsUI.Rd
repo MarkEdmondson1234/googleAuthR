@@ -6,7 +6,8 @@
 \usage{
 gar_auth_jsUI(id, login_class = "btn btn-primary",
   logout_class = "btn btn-danger", login_text = "Log In",
-  logout_text = "Log Out", approval_prompt_force = TRUE)
+  logout_text = "Log Out", approval_prompt_force = TRUE,
+  scopes = getOption("googleAuthR.scopes.selected", "email"))
 }
 \arguments{
 \item{id}{Shiny id}
@@ -20,6 +21,8 @@ gar_auth_jsUI(id, login_class = "btn btn-primary",
 \item{logout_text}{Text to show on logout button}
 
 \item{approval_prompt_force}{Whether to force a login each time}
+
+\item{scopes}{Set the scopes, minimum needs is "email"}
 }
 \value{
 Shiny UI

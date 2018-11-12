@@ -19,5 +19,5 @@ Shiny Module for use with \link{googleSignIn}. If you just want a login to a Shi
 \url{https://github.com/dkulp2/Google-Sign-In}
 }
 \author{
-On GitHub: @dkulp2
+Based on original code by David Kulp
 }

@@ -4,7 +4,7 @@
 #' 
 #' @param id Shiny id
 #' 
-#' @author On GitHub: @dkulp2
+#' @author Based on original code by David Kulp
 #' 
 #' @seealso \url{https://github.com/dkulp2/Google-Sign-In}
 #'
@@ -22,39 +22,10 @@ googleSignInUI <- function(id){
     ),
     shiny::div(id=ns("signin"), class="g-signin2", "data-onsuccess"="onSignIn"),
     shiny::tags$button(id = ns("signout"), "Sign Out", onclick="signOut();", class="btn-danger"),
-    shiny::tags$script(type="text/javascript", shiny::HTML(sprintf("
-     var authorizeButton = document.getElementById('%s');
-     var signoutButton = document.getElementById('%s');
-     signoutButton.style.display = 'none';
-    function signOut() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function () {
-        console.log('User signed out.');
-        authorizeButton.style.display = 'block';
-        signoutButton.style.display = 'none';
-      });
-    Shiny.onInputChange('%s', null);
-    Shiny.onInputChange('%s', null);
-    Shiny.onInputChange('%s', null);
-    Shiny.onInputChange('%s', null);
-    }", ns("signin"), ns("signout") ,ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email")))),
-    shiny::tags$script(type="text/javascript", shiny::HTML(sprintf("
-      function onSignIn(googleUser) {
-      var profile = googleUser.getBasicProfile();
-                  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-                  console.log('Name: ' + profile.getName());
-                  console.log('Image URL: ' + profile.getImageUrl());
-                  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-                  Shiny.onInputChange('%s', profile.getId());
-                  Shiny.onInputChange('%s', profile.getName());
-                  Shiny.onInputChange('%s', profile.getImageUrl());
-                  Shiny.onInputChange('%s', profile.getEmail());
-                  authorizeButton.style.display = 'none';
-                  signoutButton.style.display = 'block';
-}
-if (typeof gapi == 'undefined') {
-alert('Failed to load Google API. Check your ad blocker. You will not be able to authenticate.');
-}", ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email"))))
+    load_js_template(system.file("js/signin-top.js", package = "googleAuthR"),
+                     ns("signin"), ns("signout") ,ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email")),
+    load_js_template(system.file("js/signin-bottom.js", package = "googleAuthR"),
+                     ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email"))
   )
 }
 

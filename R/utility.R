@@ -1,3 +1,14 @@
+#' @noRd
+#' @param filename location of JavaScript file with %s template locations in this package's inst folder
+#' @param ... The correct number of strings to be replaced into %s's locations of filename
+#' @return JavaScript script tag
+load_js_template <- function(f, ...){
+  assertthat::assert_that(assertthat::is.readable(f))
+  o <- readChar(f, file.info(f)$size)
+  shiny::tags$script(type="text/javascript", shiny::HTML(gsub("\n|  ","",sprintf(o, ...))))
+}
+
+
 # check loaded package
 check_package_loaded <- function(package_name){
   if (!requireNamespace(package_name, quietly = TRUE)) {
