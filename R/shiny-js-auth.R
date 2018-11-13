@@ -1,3 +1,14 @@
+
+
+#' @rdname googleAuth_jsUI
+#' @param ... Arguments passed to \link{googleAuth_jsUI}
+#' @export
+gar_auth_jsUI <- function(...){
+  .Deprecated("googleAuth_jsUI", package = "googleAuthR")
+  googleAuth_jsUI(...)
+}
+
+
 #' Shiny JavaScript Google Authorisation [UI Module]
 #' 
 #' A Javascript Google authorisation flow for Shiny apps.
@@ -15,7 +26,7 @@
 #' @return Shiny UI
 #' @import assertthat
 #' @export
-gar_auth_jsUI <- function(id, 
+googleAuth_jsUI <- function(id, 
                           login_class = "btn btn-primary",
                           logout_class = "btn btn-danger",
                           login_text = "Log In",
@@ -46,7 +57,7 @@ gar_auth_jsUI <- function(id,
     shiny::tags$script(src='https://apis.google.com/js/auth.js'),
     shiny::tags$button(id = ns("login"), onclick="auth();", login_text, class = login_class),
     shiny::tags$button(id = ns("logout"), onclick="out();", logout_text, class = logout_class),
-    load_js_template(system.file("js/js-auth.js", package = "googleAuthR"),        
+    load_js_template("js/js-auth.js",        
                      ns("login"), 
                      ns("logout"),
                      getOption("googleAuthR.webapp.client_id"),
@@ -57,6 +68,14 @@ gar_auth_jsUI <- function(id,
                      ns("js_auth_expires_in"))
   )
   
+}
+
+#' @rdname googleAuth_js
+#' @param ... Arguments passed to \link{googleAuth_js}
+#' @export
+googleAuth_js <- function(...){
+  .Deprecated(googleAuth_js, package = "googleAuthR")
+  gar_auth_js(...)
 }
 
 #' Shiny JavaScript Google Authorisation [Server Module]
@@ -71,7 +90,7 @@ gar_auth_jsUI <- function(id,
 #'
 #' @return A httr reactive OAuth2.0 token
 #' @export
-gar_auth_js <- function(input, output, session){
+googleAuth_js <- function(input, output, session){
   check_package_loaded("shiny")
   js_token <- shiny::reactive({
     shiny::validate(

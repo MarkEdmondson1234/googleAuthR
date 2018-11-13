@@ -2,14 +2,19 @@
 % Please edit documentation in R/shiny-js-auth.R
 \name{gar_auth_jsUI}
 \alias{gar_auth_jsUI}
+\alias{googleAuth_jsUI}
 \title{Shiny JavaScript Google Authorisation [UI Module]}
 \usage{
-gar_auth_jsUI(id, login_class = "btn btn-primary",
+gar_auth_jsUI(...)
+
+googleAuth_jsUI(id, login_class = "btn btn-primary",
   logout_class = "btn btn-danger", login_text = "Log In",
   logout_text = "Log Out", approval_prompt_force = TRUE,
   scopes = getOption("googleAuthR.scopes.selected", "email"))
 }
 \arguments{
+\item{...}{Arguments passed to \link{googleAuth_jsUI}}
+
 \item{id}{Shiny id}
 
 \item{login_class}{CSS class of login button}

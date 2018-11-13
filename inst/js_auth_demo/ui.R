@@ -1,6 +1,8 @@
 library(shiny)
 library(googleAuthR)
 
+gar_set_client()
+
 ## ui.R
 ui <- fluidPage(
   gar_auth_jsUI("js_token"),

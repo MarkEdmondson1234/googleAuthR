@@ -22,9 +22,9 @@ googleSignInUI <- function(id){
     ),
     shiny::div(id=ns("signin"), class="g-signin2", "data-onsuccess"="onSignIn"),
     shiny::tags$button(id = ns("signout"), "Sign Out", onclick="signOut();", class="btn-danger"),
-    load_js_template(system.file("js/signin-top.js", package = "googleAuthR"),
+    load_js_template("js/signin-top.js",
                      ns("signin"), ns("signout") ,ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email")),
-    load_js_template(system.file("js/signin-bottom.js", package = "googleAuthR"),
+    load_js_template("js/signin-bottom.js",
                      ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email"))
   )
 }
