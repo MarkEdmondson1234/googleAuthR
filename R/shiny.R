@@ -27,21 +27,8 @@ authReturnCode <- function(session,
   check_package_loaded("shiny")
   pars <- shiny::parseQueryString(session$clientData$url_search)
   
-  if(!is.null(pars$state)){
-    if(pars$state != securityCode){
-      warning("securityCode check failed in Authentication! Code:", 
-              pars$state, 
-              " Expected:", 
-              securityCode)
-      return(NULL)
-    } 
-  }
-  
-  if(!is.null(pars$code)){
-    return(pars$code)
-  } else {
-    NULL
-  }
+  # NULL if it isn't there
+  has_auth_code(pars, securityCode = securityCode)
 }
 
 #' Returns the Google authentication URL
@@ -85,7 +72,7 @@ gar_shiny_getAuthUrl <-
                    approval_prompt = approval_prompt))
     myMessage("Auth Token URL: ", url, level=2)
     url
-  }
+}
 
 
 #' Get the Shiny Apps URL.
@@ -134,7 +121,7 @@ gar_shiny_getUrl <- function(session){
 #' @family shiny auth functions
 #' @importFrom httr oauth_app POST headers content Token2.0 oauth_endpoints
 gar_shiny_getToken <- function(code,
-                               redirect.uri,
+                               redirect.uri=NULL,
                                client.id     = getOption("googleAuthR.webapp.client_id"),
                                client.secret = getOption("googleAuthR.webapp.client_secret")){
   
