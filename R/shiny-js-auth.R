@@ -73,9 +73,9 @@ googleAuth_jsUI <- function(id,
 #' @rdname googleAuth_js
 #' @param ... Arguments passed to \link{googleAuth_js}
 #' @export
-googleAuth_js <- function(...){
+gar_auth_js <- function(...){
   .Deprecated(googleAuth_js, package = "googleAuthR")
-  gar_auth_js(...)
+  googleAuth_js(...)
 }
 
 #' Shiny JavaScript Google Authorisation [Server Module]
@@ -87,14 +87,15 @@ googleAuth_js <- function(...){
 #' @param input shiny input
 #' @param output shiny output
 #' @param session shiny session
+#' @param message The message to show when not authenticated
 #'
 #' @return A httr reactive OAuth2.0 token
 #' @export
-googleAuth_js <- function(input, output, session){
+googleAuth_js <- function(input, output, session, message = "Authenticate with your Google account"){
   check_package_loaded("shiny")
   js_token <- shiny::reactive({
     shiny::validate(
-      shiny::need(input$js_auth_access_token, "Authenticate")
+      shiny::need(input$js_auth_access_token, message)
     )
     
     list(access_token = input$js_auth_access_token,
