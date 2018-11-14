@@ -95,28 +95,44 @@ make_googleAuth_ui <- function(req){
     # be a pretty login page with a button-link.
     return(shiny::tags$script(shiny::HTML(sprintf("location.replace(\"%s\");", authorization_url))))
   } else {
-    ui <- Authentication$public_fields$ui
-    ui
+    Authentication$public_fields$ui
   }
 }
 
 
-#' googleAuth_server
+#' gar_auth_server
 #' 
 #' If using googleAuth_ui, put this at the top of your server.R function
 #' 
 #' @param session Shiny session argument
 #' @export
-googleAuth_server_token <- function(session){
+gar_auth_server <- function(session){
   params <- shiny::parseQueryString(shiny::isolate(session$clientData$url_search))
   
   if(is.null(has_auth_code(params))) {
     return()
   }
-  myMessage("Fetching Token", level = 3)
-  token <- gar_shiny_getToken(params$code)
-  # gar_auth(token)
-  token
+  
+  host <- shiny::isolate(session$clientData$url_hostname)
+  
+  if(host == "127.0.0.1"){
+    host <- "localhost"
+  }
+  
+  url_redirect <- paste0(shiny::isolate(session$clientData$url_protocol),
+                         "//",
+                         host,":",
+                         shiny::isolate(session$clientData$url_port))
+  
+  path <- shiny::isolate(session$clientData$url_pathname)
+  
+  if(path != "/"){
+    url_redirect <- paste0(url_redirect, path)
+  }
+  
+  token <- gar_shiny_getToken(params$code, 
+                              redirect.uri = url_redirect)
+  gar_auth(token)
 }
 
 

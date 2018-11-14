@@ -4,7 +4,7 @@
 \alias{gar_shiny_getToken}
 \title{Returns the authentication Token.}
 \usage{
-gar_shiny_getToken(code, redirect.uri = NULL,
+gar_shiny_getToken(code, redirect.uri,
   client.id = getOption("googleAuthR.webapp.client_id"),
   client.secret = getOption("googleAuthR.webapp.client_secret"))
 }

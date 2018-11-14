@@ -23,13 +23,12 @@ ui <- fluidPage(title = "googleAuthR Shiny Demo",
 server <- function(input, output, session){
   
   # create a non-reactive access_token as we should never get past this is not authenticated
-  access_token <- googleAuth_server_token(session)
+  gar_auth_server(session)
   
   output$gdrive <- renderTable({
-    req(token())
     req(input$query)
     
-    with_shiny(fileSearch, shiny_access_token = access_token, query = input$query)
+    fileSearch(input$query)
     
   })
 }

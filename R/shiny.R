@@ -121,13 +121,13 @@ gar_shiny_getUrl <- function(session){
 #' @family shiny auth functions
 #' @importFrom httr oauth_app POST headers content Token2.0 oauth_endpoints
 gar_shiny_getToken <- function(code,
-                               redirect.uri=NULL,
+                               redirect.uri,
                                client.id     = getOption("googleAuthR.webapp.client_id"),
                                client.secret = getOption("googleAuthR.webapp.client_secret")){
   
   gar_app <- oauth_app("google", key = client.id, secret = client.secret)
   
-  scope_list <- getOption("googleAuthR.scope")
+  scope_list <- getOption("googleAuthR.scopes.selected")
   
   req <-
     POST("https://accounts.google.com/o/oauth2/token",
@@ -141,7 +141,9 @@ gar_shiny_getToken <- function(code,
                       "application/json; charset=utf-8"))
   # content of req will contain access_token, token_type, expires_in
   token <- content(req, type = "application/json")
-  
+  if(!is.null(token$error)){
+    stop("Authentication error: ", token$error, token$error_description, call. = FALSE)
+  }
   # Create a Token2.0 object consistent with the token obtained from gar_auth()
   Token2.0$new(app = gar_app,
                endpoint = oauth_endpoints("google"),
