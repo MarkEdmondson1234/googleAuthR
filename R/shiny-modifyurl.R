@@ -47,11 +47,6 @@ make_authorization_url <- function(req,
   
 }
 
-# A little-known feature of Shiny is that the UI can be a function, not just 
-# objects. You can use this to dynamically render the UI based on the request. 
-# We're going to pass this uiFunc, not ui, to shinyApp(). If you're using 
-# ui.R/server.R style files, that's fine too--just make this function the last 
-# expression in your ui.R file.
 
 #' Create a Google login before your Shiny UI launches
 #' 
@@ -65,6 +60,9 @@ make_authorization_url <- function(req,
 #' Put this at the bottom of your ui.R or pass into \link[shiny]{shinyApp} wrapping your created ui.
 #' 
 #' @export
+#' 
+#' @author Based on a gist by Joe Cheng, RStudio
+#' 
 #' @examples 
 #' 
 #' \dontrun{
@@ -140,6 +138,9 @@ make_googleAuth_ui <- function(req){
 #'   \link{gar_shiny_ui} to create a login page for your ui function.
 #' 
 #' @export
+#' 
+#' @author Based on a gist by Joe Cheng, RStudio
+#' 
 #' @examples 
 #' 
 #' \dontrun{

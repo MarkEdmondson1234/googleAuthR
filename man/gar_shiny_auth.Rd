@@ -60,3 +60,6 @@ shinyApp(gar_shiny_ui(ui), server)
 \seealso{
 Other pre-load shiny authentication: \code{\link{gar_shiny_ui}}
 }
+\author{
+Based on a gist by Joe Cheng, RStudio
+}
