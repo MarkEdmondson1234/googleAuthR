@@ -4,12 +4,12 @@
 \alias{googleAuth_ui}
 \title{googleAuth_ui}
 \usage{
-googleAuth_ui(req)
+googleAuth_ui(ui)
 }
 \arguments{
-\item{req}{A Rook request}
-
 \item{ui}{A Shiny ui object}
+
+\item{req}{A Rook request}
 }
 \description{
 A function that will turn your ui object into one that will look for authentication

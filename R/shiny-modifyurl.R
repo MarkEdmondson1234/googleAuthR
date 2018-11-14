@@ -79,15 +79,24 @@ make_authorization_url <- function(req,
 #' Put this at the bottom of your ui.R or pass into shinyApp()
 #' 
 #' @export
-googleAuth_ui <- function(req){
+googleAuth_ui <- function(ui){
+  # make the ui available globally
+  assertthat::assert_that(is.list(ui))
+  Authentication$set("public", "ui", ui, overwrite=TRUE)
+  # output the function
+  make_googleAuth_ui
+}
+
+
+make_googleAuth_ui <- function(req){
   if(is.null(has_auth_code(shiny::parseQueryString(req$QUERY_STRING)))){
     authorization_url <- make_authorization_url(req)
     # This is silently redirecting the user to oauth. If you prefer, this could
     # be a pretty login page with a button-link.
     return(shiny::tags$script(shiny::HTML(sprintf("location.replace(\"%s\");", authorization_url))))
   } else {
-    browser()
-    get("ui", pos = -2)
+    ui <- Authentication$public_fields$ui
+    ui
   }
 }
 
@@ -104,9 +113,10 @@ googleAuth_server_token <- function(session){
   if(is.null(has_auth_code(params))) {
     return()
   }
-
-  gar_shiny_getToken(params$code)
-  
+  myMessage("Fetching Token", level = 3)
+  token <- gar_shiny_getToken(params$code)
+  # gar_auth(token)
+  token
 }
 
 
