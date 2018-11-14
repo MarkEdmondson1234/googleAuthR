@@ -1,6 +1,7 @@
-#' googleSignIn UI
+#' Google SignIn [UI Module]
 #'
-#' Shiny Module for use with \link{googleSignIn}. If you just want a login to a Shiny app, without API tokens.
+#' Shiny Module for use with \link{googleSignIn}. 
+#'   If you just want a login to a Shiny app, without API tokens.
 #' 
 #' @param id Shiny id
 #' 
@@ -31,9 +32,10 @@ googleSignInUI <- function(id){
 
 
 
-#' googleSignIn
+#' Google SignIn [Server Module]
 #'
-#' Shiny Module for use with \link{googleSignInUI}
+#' Shiny Module for use with \link{googleSignInUI}.  
+#'   Use when you don't need to call APIs, but would like a login to Shiny.
 #'
 #' Call via \code{shiny::callModule(googleSignIn, "your_id")}
 #'
@@ -41,15 +43,15 @@ googleSignInUI <- function(id){
 #' @param output shiny output
 #' @param session shiny session
 #'
+#' @author Based on original code by David Kulp
 #' @return A reactive list with values $g_id, $g_name, $g_email and $g_image
 #' @export
 googleSignIn <- function(input, output, session){
   check_package_loaded("shiny")
 
-  ns <- session$ns
+  # ns <- session$ns
 
-  signed_in <- shiny::reactive({
-    
+  shiny::reactive({
     shiny::req(input$g_id)
 
     list(
@@ -60,7 +62,5 @@ googleSignIn <- function(input, output, session){
     )
     
   })
-  
-  return(signed_in)
   
 }

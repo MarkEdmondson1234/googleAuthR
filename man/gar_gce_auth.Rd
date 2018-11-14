@@ -11,9 +11,9 @@ gar_gce_auth(service_account = "default",
 \arguments{
 \item{service_account}{Specify a different service account from the \code{default}}
 
-\item{client.id}{From the Google API console.}
+\item{client.id}{The Google Project API console's client Id}
 
-\item{client.secret}{From the Google API console.}
+\item{client.secret}{The Google Project API console's client secret}
 }
 \value{
 A token

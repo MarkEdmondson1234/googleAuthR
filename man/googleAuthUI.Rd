@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny-auth.R
 \name{googleAuthUI}
 \alias{googleAuthUI}
-\title{A Login button (Shiny Module)}
+\title{Shiny Google Authorisation [UI Module]}
 \usage{
 googleAuthUI(id)
 }

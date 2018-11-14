@@ -1,14 +1,3 @@
-
-
-#' @rdname googleAuth_jsUI
-#' @param ... Arguments passed to \link{googleAuth_jsUI}
-#' @export
-gar_auth_jsUI <- function(...){
-  .Deprecated("googleAuth_jsUI", package = "googleAuthR")
-  googleAuth_jsUI(...)
-}
-
-
 #' Shiny JavaScript Google Authorisation [UI Module]
 #' 
 #' A Javascript Google authorisation flow for Shiny apps.
@@ -33,6 +22,7 @@ googleAuth_jsUI <- function(id,
                           logout_text = "Log Out",
                           approval_prompt_force = TRUE,
                           scopes = getOption("googleAuthR.scopes.selected", "email")){
+  check_package_loaded("shiny")
   
   assert_that(
     is.string(login_class),
@@ -70,13 +60,6 @@ googleAuth_jsUI <- function(id,
   
 }
 
-#' @rdname googleAuth_js
-#' @param ... Arguments passed to \link{googleAuth_js}
-#' @export
-gar_auth_js <- function(...){
-  .Deprecated(googleAuth_js, package = "googleAuthR")
-  googleAuth_js(...)
-}
 
 #' Shiny JavaScript Google Authorisation [Server Module]
 #'

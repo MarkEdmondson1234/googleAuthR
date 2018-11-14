@@ -6,7 +6,8 @@ Authentication <- R6::R6Class(
   "Authentication",
   public = list(
     token = NULL,
-    method = NULL
+    method = NULL,
+    ui = NULL
   ),
   lock_objects = F,
   parent_env = emptyenv()
