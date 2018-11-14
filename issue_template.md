@@ -2,6 +2,7 @@
 
 
 ## Steps to reproduce the problem
+Please note that if a reproduceable example that I can run is not available, then the likelihood of getting any bug fixed is low. 
 
 
 
