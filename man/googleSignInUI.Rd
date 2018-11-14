@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny-js-signin.R
 \name{googleSignInUI}
 \alias{googleSignInUI}
-\title{googleSignIn UI}
+\title{Google SignIn [UI Module]}
 \usage{
 googleSignInUI(id)
 }
@@ -13,7 +13,8 @@ googleSignInUI(id)
 Shiny UI
 }
 \description{
-Shiny Module for use with \link{googleSignIn}. If you just want a login to a Shiny app, without API tokens.
+Shiny Module for use with \link{googleSignIn}. 
+  If you just want a login to a Shiny app, without API tokens.
 }
 \seealso{
 \url{https://github.com/dkulp2/Google-Sign-In}

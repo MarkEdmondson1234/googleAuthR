@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny-auth.R
 \name{googleAuth}
 \alias{googleAuth}
-\title{Server side google auth (Shiny Module)}
+\title{Shiny Google Authorisation [Server Module]}
 \usage{
 googleAuth(input, output, session, login_text = "Login via Google",
   logout_text = "Logout", login_class = "btn btn-primary",

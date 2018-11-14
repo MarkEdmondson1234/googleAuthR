@@ -1,4 +1,4 @@
-#' A Login button (Shiny Module)
+#' Shiny Google Authorisation [UI Module]
 #' 
 #' UI part of shiny module, use with \link{googleAuth}
 #' 
@@ -16,7 +16,7 @@ googleAuthUI <- function(id){
 }
 
 
-#' Server side google auth (Shiny Module)
+#' Shiny Google Authorisation [Server Module]
 #' 
 #' Server part of shiny module, use with \link{googleAuthUI}
 #' 

@@ -1,11 +1,6 @@
 # from https://gist.github.com/MarkEdmondson1234/5321d4c61168a644505509b24a54e443
 
 has_auth_code <- function(pars, securityCode=getOption("googleAuthR.securitycode")){
-  # params is a list object containing the parsed URL parameters. Return code if
-  # based on these parameters, it looks like auth codes are present that we can
-  # use to get an access token. If not, it means we need to go through the OAuth
-  # flow and returns NULL
-  
   if(!is.null(pars$state)){
     if(pars$state != securityCode){
       warning("securityCode check failed in Authentication! Code:", 
@@ -30,16 +25,7 @@ make_authorization_url <- function(req,
                                    approval_prompt = c("auto","force")) {
   access_type <- match.arg(access_type)
   approval_prompt <- match.arg(approval_prompt)
-  # TODO: Implement for real
-  # 
-  # The req object is a Rook request. This is just an environment object that 
-  # gives you access to the request URL, HTTP headers, etc. The documentation 
-  # for this object is here:
-  # https://github.com/jeffreyhorner/Rook#the-environment
-  #
-  # Implement this function by returning the URL that we should redirect the
-  # user to in order to 
-  
+
   if(req$SERVER_NAME == "127.0.0.1"){
     host <- "localhost"
   } else {
@@ -67,19 +53,61 @@ make_authorization_url <- function(req,
 # ui.R/server.R style files, that's fine too--just make this function the last 
 # expression in your ui.R file.
 
-#' googleAuth_ui
+#' Create a Google login before your Shiny UI launches
 #' 
-#' A function that will turn your ui object into one that will look for authentication
+#' A function that will turn your ui object into one that will look for Google 
+#'   authentication before loading the main app. Use together with \link{gar_shiny_auth}
 #' 
-#' @param req A Rook request
 #' @param ui A Shiny ui object
 #' 
 #' @details 
 #' 
-#' Put this at the bottom of your ui.R or pass into shinyApp()
+#' Put this at the bottom of your ui.R or pass into \link[shiny]{shinyApp} wrapping your created ui.
 #' 
 #' @export
-googleAuth_ui <- function(ui){
+#' @examples 
+#' 
+#' \dontrun{
+#' library(shiny)
+#' library(googleAuthR)
+#' gar_set_client()
+#' 
+#' fileSearch <- function(query) {
+#'   googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
+#'                                 "GET",
+#'                                 pars_args=list(q=query),
+#'                                 data_parse_function = function(x) x$files)()
+#' }
+#' 
+#' ## ui.R
+#' ui <- fluidPage(title = "googleAuthR Shiny Demo",
+#'                 textInput("query", 
+#'                 label = "Google Drive query", 
+#'                 value = "mimeType != 'application/vnd.google-apps.folder'"),
+#'                 tableOutput("gdrive")
+#'                 )
+#'                 
+#' ## server.R
+#' server <- function(input, output, session){
+#' 
+#' # this is not reactive, no need as you only reach here authenticated
+#' gar_shiny_auth(session)
+#' 
+#' output$gdrive <- renderTable({
+#'   req(input$query)
+#'   
+#'   # no need for with_shiny()
+#'   fileSearch(input$query)
+#'   
+#'   })
+#'   }
+#' 
+#' # gar_shiny_ui() needs to wrap the ui you have created above.
+#' shinyApp(gar_shiny_ui(ui), server)
+#' }
+#' @family pre-load shiny authentication
+gar_shiny_ui <- function(ui){
+  check_package_loaded("shiny")
   # make the ui available globally
   assertthat::assert_that(is.list(ui))
   Authentication$set("public", "ui", ui, overwrite=TRUE)
@@ -100,35 +128,68 @@ make_googleAuth_ui <- function(req){
 }
 
 
-#' gar_auth_server
+#' Create Authentication within Shiny's server.R
 #' 
-#' If using googleAuth_ui, put this at the top of your server.R function
+#' If using  \link{gar_shiny_ui}, put this at the top of your server.R function
 #' 
 #' @param session Shiny session argument
+#' 
+#' @description 
+#' 
+#' This can be used at the top of the server function for authentication when you have used
+#'   \link{gar_shiny_ui} to create a login page for your ui function.
+#' 
 #' @export
-gar_auth_server <- function(session){
+#' @examples 
+#' 
+#' \dontrun{
+#' library(shiny)
+#' library(googleAuthR)
+#' gar_set_client()
+#' 
+#' fileSearch <- function(query) {
+#'   googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
+#'                                 "GET",
+#'                                 pars_args=list(q=query),
+#'                                 data_parse_function = function(x) x$files)()
+#' }
+#' 
+#' ## ui.R
+#' ui <- fluidPage(title = "googleAuthR Shiny Demo",
+#'                 textInput("query", 
+#'                 label = "Google Drive query", 
+#'                 value = "mimeType != 'application/vnd.google-apps.folder'"),
+#'                 tableOutput("gdrive")
+#'                 )
+#'                 
+#' ## server.R
+#' server <- function(input, output, session){
+#' 
+#' # this is not reactive, no need as you only reach here authenticated
+#' gar_shiny_auth(session)
+#' 
+#' output$gdrive <- renderTable({
+#'   req(input$query)
+#'   
+#'   # no need for with_shiny()
+#'   fileSearch(input$query)
+#'   
+#'   })
+#'   }
+#' 
+#' # gar_shiny_ui() needs to wrap the ui you have created above.
+#' shinyApp(gar_shiny_ui(ui), server)
+#' }
+#' @family pre-load shiny authentication
+gar_shiny_auth <- function(session){
+  check_package_loaded("shiny")
   params <- shiny::parseQueryString(shiny::isolate(session$clientData$url_search))
   
   if(is.null(has_auth_code(params))) {
     return()
   }
   
-  host <- shiny::isolate(session$clientData$url_hostname)
-  
-  if(host == "127.0.0.1"){
-    host <- "localhost"
-  }
-  
-  url_redirect <- paste0(shiny::isolate(session$clientData$url_protocol),
-                         "//",
-                         host,":",
-                         shiny::isolate(session$clientData$url_port))
-  
-  path <- shiny::isolate(session$clientData$url_pathname)
-  
-  if(path != "/"){
-    url_redirect <- paste0(url_redirect, path)
-  }
+  url_redirect <- gar_shiny_getUrl(session)
   
   token <- gar_shiny_getToken(params$code, 
                               redirect.uri = url_redirect)

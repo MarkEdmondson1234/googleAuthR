@@ -1,8 +1,6 @@
 library(shiny)
 library(googleAuthR)
-options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/drive")
-options(googleAuthR.webapp.client_id = "1080525199262-qecndq7frddi66vr35brgckc1md5rgcl.apps.googleusercontent.com")
-options(googleAuthR.webapp.client_secret = "3nVkQuvrooNO8t2OId4Vtha4")
+gar_set_client()
 
 fileSearch <- function(query) {
   googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
@@ -22,15 +20,16 @@ ui <- fluidPage(title = "googleAuthR Shiny Demo",
 ## server.R
 server <- function(input, output, session){
   
-  # create a non-reactive access_token as we should never get past this is not authenticated
-  gar_auth_server(session)
+  # create a non-reactive access_token as we should never get past this if not authenticated
+  gar_shiny_auth(session)
   
   output$gdrive <- renderTable({
     req(input$query)
     
+    # no need for with_shiny()
     fileSearch(input$query)
     
   })
 }
 
-shinyApp(googleAuth_ui(ui), server)
+shinyApp(gar_shiny_ui(ui), server)
