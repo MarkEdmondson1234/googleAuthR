@@ -1,5 +1,3 @@
-# from https://gist.github.com/MarkEdmondson1234/5321d4c61168a644505509b24a54e443
-
 has_auth_code <- function(pars, securityCode=getOption("googleAuthR.securitycode")){
   if(!is.null(pars$state)){
     if(pars$state != securityCode){
