@@ -90,15 +90,15 @@ gar_shiny_getAuthUrl <-
 gar_shiny_getUrl <- function(session){
   
   if(!is.null(session)){
-    pathname <- session$clientData$url_pathname
-    hostname <- session$clientData$url_hostname
-    port <- session$clientData$url_port
+    pathname <- shiny::isolate(session$clientData$url_pathname)
+    hostname <- shiny::isolate(session$clientData$url_hostname)
+    port <- shiny::isolate(session$clientData$url_port)
     
     if(hostname == "127.0.0.1"){
       hostname <- "localhost"
     }
     
-    url <- paste0(session$clientData$url_protocol,
+    url <- paste0(shiny::isolate(session$clientData$url_protocol),
                   "//",
                   hostname,
                   if(port != "") paste0(":", port),

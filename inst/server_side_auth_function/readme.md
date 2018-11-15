@@ -1,3 +1,3 @@
-This is an example of using googleAuthR multi-user authentication within a Shiny app.
+This is an example of creating a Google login before your main app loads. 
 
-Use the Shiny Module functions `googleAuthUI` and `googleAuth` to make the login flow, and then wrap your created functions made with `gar_api_generator` with `with_shiny` to ensure the authentication token is passed in the correct manner. 
+Wrap the call to your Shiny ui with `gar_shiny_ui(ui)` and then use `gar_shiny_auth(session)` at the top of your server function.  The API calls within Shiny can then be authenticated as you would offline, since each Shiny session will carry the logged in user's credentials before the app loads.

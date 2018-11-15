@@ -7,9 +7,10 @@ Authentication <- R6::R6Class(
   public = list(
     token = NULL,
     method = NULL,
-    ui = NULL
+    ui = NULL,
+    login_ui = NULL
   ),
-  lock_objects = F,
+  lock_objects = FALSE,
   parent_env = emptyenv()
 )
 
@@ -125,10 +126,7 @@ gar_auth <- function(token = NULL,
   
   ## output info on token saved
   gar_token_info()
-  
-  if(!gar_check_existing_token()){
-    warning("Token has different options() than currently set.", call. = FALSE)
-  }
+  gar_check_existing_token()
   
   ## return google_token above
   return(invisible(google_token)) 

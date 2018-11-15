@@ -1,6 +1,6 @@
 library(shiny)
 library(googleAuthR)
-gar_set_client()
+gar_set_client(scopes = "https://www.googleapis.com/auth/drive")
 
 fileSearch <- function(query) {
   googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
@@ -32,4 +32,4 @@ server <- function(input, output, session){
   })
 }
 
-shinyApp(gar_shiny_ui(ui), server)
+shinyApp(gar_shiny_ui(ui, login_ui = gar_shiny_login_ui), server)

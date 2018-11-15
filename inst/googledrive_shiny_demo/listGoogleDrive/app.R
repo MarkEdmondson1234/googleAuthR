@@ -1,11 +1,7 @@
 library(shiny)
 library(googleAuthR)
 
-options(googleAuthR.client_id=Sys.getenv("GA_CLIENT_ID"),
-        googleAuthR.client_secret=Sys.getenv("GA_CLIENT_SECRET"),
-        googleAuthR.webapp.client_id=Sys.getenv("GA_CLIENT_ID"), 
-        googleAuthR.webapp.client_secret = Sys.getenv("GA_CLIENT_SECRET"),
-        googleAuthR.scopes.selected = "https://www.googleapis.com/auth/drive")
+gar_set_client(scopes = "https://www.googleapis.com/auth/drive")
 
 fileSearch <- function(query) {
   googleAuthR::gar_api_generator("https://www.googleapis.com/drive/v3/files/",
