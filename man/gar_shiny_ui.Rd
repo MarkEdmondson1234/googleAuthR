@@ -4,7 +4,7 @@
 \alias{gar_shiny_ui}
 \title{Create a Google login before your Shiny UI launches}
 \usage{
-gar_shiny_ui(ui, login_ui = NULL)
+gar_shiny_ui(ui, login_ui = silent_auth)
 }
 \arguments{
 \item{ui}{A Shiny ui object}

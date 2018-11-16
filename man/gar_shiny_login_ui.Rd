@@ -9,7 +9,7 @@ gar_shiny_login_ui(req, title = "googleAuthR Login Demo")
 \arguments{
 \item{req}{Used by shiny to generate login URL}
 
-\item{title}{The title o}
+\item{title}{The title of the page}
 }
 \description{
 An alternative to the immediate login provided by default by \link{gar_shiny_ui}

@@ -1,34 +1,5 @@
-has_auth_code <- function(pars, securityCode=getOption("googleAuthR.securitycode")){
-  if(!is.null(pars$state)){
-    if(pars$state != securityCode){
-      warning("securityCode check failed in Authentication! Code:", 
-              pars$state, 
-              " Expected:", 
-              securityCode)
-      return(NULL)
-    } 
-  }
-  
-  # NULL if it isn't there
-  pars$code
-  
-}
-
-#' A login page for Shiny
-#' 
-#' An alternative to the immediate login provided by default by \link{gar_shiny_ui}
-#' 
-#' @param req Used by shiny to generate login URL
-#' @param title The title o
-#' 
-#' @export
-gar_shiny_login_ui <- function(title = "googleAuthR Login Demo"){
-  
-  shiny::fluidPage(title = title,
-         shiny::a(href = gar_shiny_auth_url(req), "Login")   
-  )
-  
-}
+# need globals to make ui available to Rook requests on Shiny launch
+.gar_shiny_env <- new.env(parent = emptyenv())
 
 #' Make a Google Authorisation URL for Shiny
 #' 
@@ -133,39 +104,70 @@ gar_shiny_auth_url <- function(req,
 #' shinyApp(gar_shiny_ui(ui), server)
 #' }
 #' @family pre-load shiny authentication
-gar_shiny_ui <- function(ui, login_ui = NULL){
+gar_shiny_ui <- function(ui, login_ui = silent_auth){
   check_package_loaded("shiny")
   # make the ui available globally
-  assertthat::assert_that(is.list(ui))
-  Authentication$set("public", "ui", ui, overwrite=TRUE)
-  
-  if(!is.null(login_ui)){
-    assertthat::assert_that(is.function(login_ui))
-    Authentication$set("public", "login_ui", login_ui, overwrite=TRUE)
-  }
+  assertthat::assert_that(is.list(ui),
+                          is.function(login_ui))
+
+  .gar_shiny_env$ui <- ui
+  .gar_shiny_env$login_ui <- login_ui
   
   # output the function
   make_googleAuth_ui
 }
 
 
+
+#' @noRd
+#' @export
+silent_auth <- function(req){
+  shiny::tags$script(shiny::HTML(
+    sprintf("location.replace(\"%s\");", gar_shiny_auth_url(req)
+            )))
+}
+
+#' A login page for Shiny
+#' 
+#' An alternative to the immediate login provided by default by \link{gar_shiny_ui}
+#' 
+#' @param req Used by shiny to generate login URL
+#' @param title The title of the page
+#' 
+#' @export
+gar_shiny_login_ui <- function(req, title = "googleAuthR Login Demo"){
+  check_package_loaded("shiny")
+  shiny::addResourcePath("img", system.file("img", package = "googleAuthR"))
+  shiny::addResourcePath("css", system.file("css", package = "googleAuthR"))  
+  
+  shiny::fillPage(
+    padding = 50,
+    title = title,
+    shiny::tags$head(
+      shiny::tags$link(rel="stylesheet",
+           href="css/button.css")
+    ),
+    shiny::a(href = gar_shiny_auth_url(req),
+      shiny::tags$button(class = "loginBtn loginBtn--google",
+                        "Login with Google"
+               ) 
+    )
+  )
+  
+}
+
+
+
 make_googleAuth_ui <- function(req){
   if(is.null(has_auth_code(shiny::parseQueryString(req$QUERY_STRING)))){
-
-    login_ui <- Authentication$public_fields$login_ui
     
-    if(!is.null(login_ui)){
-      return(login_ui)
-    } else {
-      # This is silently redirecting the user to oauth.
-      authorization_url <- gar_shiny_auth_url(req)
-      return(shiny::tags$script(shiny::HTML(sprintf("location.replace(\"%s\");", authorization_url))))
-    }
+    return(.gar_shiny_env$login_ui(req))
 
   } else {
-    Authentication$public_fields$ui
+    .gar_shiny_env$ui
   }
 }
+
 
 
 #' Create Authentication within Shiny's server.R
@@ -238,6 +240,23 @@ gar_shiny_auth <- function(session){
                               redirect.uri = url_redirect)
 
   gar_auth(token)
+}
+
+
+has_auth_code <- function(pars, securityCode=getOption("googleAuthR.securitycode")){
+  if(!is.null(pars$state)){
+    if(pars$state != securityCode){
+      warning("securityCode check failed in Authentication! Code:", 
+              pars$state, 
+              " Expected:", 
+              securityCode)
+      return(NULL)
+    } 
+  }
+  
+  # NULL if it isn't there
+  pars$code
+  
 }
 
 
