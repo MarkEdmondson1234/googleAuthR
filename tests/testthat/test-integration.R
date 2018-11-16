@@ -203,7 +203,8 @@ test_that("Encoding parameters works (#100 & #101)", {
                                    "GET",pars_args=list(q=query))()
   }
   
-  gar_auth(Sys.getenv("GAR_TEST_DRIVE_FILE"))
+  gar_set_client(scopes = "https://www.googleapis.com/auth/drive")
+  gar_auth("googledrive.oauth")
   
   searchResponse <- fileSearch("mimeType != 'application/vnd.google-apps.folder'")
   

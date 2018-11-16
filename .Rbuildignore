@@ -18,3 +18,5 @@ cran-comments\.md
 ^docs.*
 ^gdrive\.oauth$
 ^issue_template\.md$
+^bq\.oauth$
+^googleAuthR_tests\.httr-oauth$

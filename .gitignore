@@ -15,3 +15,5 @@ request_debug.rds
 revdep/checks.rds
 .Rprofile
 gdrive.oauth
+bq.oauth
+googleAuthR_tests.httr-oauth
