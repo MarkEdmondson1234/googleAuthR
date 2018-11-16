@@ -17,3 +17,8 @@ An alternative to the immediate login provided by default by \link{gar_shiny_ui}
 \details{
 Use \link{gar_shiny_auth_url} to create the login URL.  You must leave the first argument free as this is used to generate the login, but you can pass other arguments to customise your UI.
 }
+\seealso{
+Other pre-load shiny authentication: \code{\link{gar_shiny_auth_url}},
+  \code{\link{gar_shiny_auth}}, \code{\link{gar_shiny_ui}},
+  \code{\link{silent_auth}}
+}

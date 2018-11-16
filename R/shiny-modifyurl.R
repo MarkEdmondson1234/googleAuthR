@@ -119,8 +119,15 @@ gar_shiny_ui <- function(ui, login_ui = silent_auth){
 
 
 
-#' @noRd
+#' Silent auth
+#' 
+#' The default for logging in via \link{gar_shiny_ui}, this creates no login page and just takes you straight to authentication on Shiny app load. 
+#' 
+#' @param req What Shiny uses to check the URL parameters
+#' 
+#' 
 #' @export
+#' @family pre-load shiny authentication
 silent_auth <- function(req){
   shiny::tags$script(shiny::HTML(
     sprintf("location.replace(\"%s\");", gar_shiny_auth_url(req)
@@ -137,6 +144,7 @@ silent_auth <- function(req){
 #' @details Use \link{gar_shiny_auth_url} to create the login URL.  You must leave the first argument free as this is used to generate the login, but you can pass other arguments to customise your UI.
 #' 
 #' @export
+#' @family pre-load shiny authentication
 gar_shiny_login_ui <- function(req, title = "googleAuthR Login Demo"){
   check_package_loaded("shiny")
   shiny::addResourcePath("img", system.file("img", package = "googleAuthR"))

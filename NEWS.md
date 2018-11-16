@@ -1,9 +1,10 @@
-# googleAuthR v0.6.3.9000
+# googleAuthR v0.7.0
 
 * Deprecate `https://www.googleapis.com/batch` batch endpoint fully as per https://developers.googleblog.com/2018/03/discontinuing-support-for-json-rpc-and.html
 * Add `gar_api_page()` to help page through APIs (#121)
 * Add a `url_override` argument to generated Google API functions to help with (#121)
-* Add support for the Google Sign In JavaScript API via a Shiny module (#119 - thanks @dkulp2)
+* Add support for the Google Sign In JavaScript API via a Shiny module (#119 - thanks @dkulp2) - see `googleSignIn`
+* Add support for new Shiny authentication flow where you load auth before main ui.R - see `gar_shiny_auth()`
 
 # googleAuthR v0.6.3
 

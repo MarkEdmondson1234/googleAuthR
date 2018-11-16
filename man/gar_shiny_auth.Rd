@@ -59,7 +59,8 @@ shinyApp(gar_shiny_ui(ui), server)
 }
 \seealso{
 Other pre-load shiny authentication: \code{\link{gar_shiny_auth_url}},
-  \code{\link{gar_shiny_ui}}
+  \code{\link{gar_shiny_login_ui}},
+  \code{\link{gar_shiny_ui}}, \code{\link{silent_auth}}
 }
 \author{
 Based on a gist by Joe Cheng, RStudio
