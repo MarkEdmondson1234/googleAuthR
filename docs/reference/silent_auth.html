@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NA • googleAuthR</title>
+<title>Silent auth — silent_auth • googleAuthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,12 +25,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="NA" />
+<meta property="og:title" content="Silent auth — silent_auth" />
+
+<meta property="og:description" content="The default for logging in via gar_shiny_ui, this creates no login page and just takes you straight to authentication on Shiny app load." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -56,7 +59,7 @@
   </head>
 
   <body>
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -67,7 +70,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">googleAuthR</a>
+        <a class="navbar-link" href="../index.html">googleAuthR</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.7.0</span>
       </span>
     </div>
@@ -75,21 +78,21 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/google-authentication-types.html">
+  <a href="../articles/google-authentication-types.html">
     <span class="fa fa-sign-in fa-lg"></span>
      
     Authentication
   </a>
 </li>
 <li>
-  <a href="articles/building.html">
+  <a href="../articles/building.html">
     <span class="fa fa-wrench fa-lg"></span>
      
     Building Google APIs
   </a>
 </li>
 <li>
-  <a href="articles/advanced-building.html">
+  <a href="../articles/advanced-building.html">
     <span class="fa fa-space-shuttle fa-lg"></span>
      
     Advanced APIs
@@ -103,13 +106,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="reference/index.html">Reference</a>
+      <a href="../reference/index.html">Reference</a>
     </li>
     <li>
-      <a href="news/index.html">News</a>
+      <a href="../news/index.html">News</a>
     </li>
     <li>
-      <a href="articles/troubleshooting.html">Troubleshooting</a>
+      <a href="../articles/troubleshooting.html">Troubleshooting</a>
     </li>
   </ul>
 </li>
@@ -144,43 +147,49 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>NA</h1>
+    <h1>Silent auth</h1>
+    
+    <div class="hidden name"><code>silent_auth.Rd</code></div>
     </div>
 
+    <div class="ref-description">
+    
+    <p>The default for logging in via <a href='gar_shiny_ui.html'>gar_shiny_ui</a>, this creates no login page and just takes you straight to authentication on Shiny app load.</p>
+    
+    </div>
 
-<div id="what-goes-wrong" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-goes-wrong" class="anchor"></a>What goes wrong</h2>
-</div>
-<div id="steps-to-reproduce-the-problem" class="section level2">
-<h2 class="hasAnchor">
-<a href="#steps-to-reproduce-the-problem" class="anchor"></a>Steps to reproduce the problem</h2>
-<p>Please note that if a reproduceable example that I can run is not available, then the likelihood of getting any bug fixed is low.</p>
-</div>
-<div id="expected-output" class="section level2">
-<h2 class="hasAnchor">
-<a href="#expected-output" class="anchor"></a>Expected output</h2>
-</div>
-<div id="actual-output" class="section level2">
-<h2 class="hasAnchor">
-<a href="#actual-output" class="anchor"></a>Actual output</h2>
-<p>Before you run your code, please run:</p>
-<p><code>options(googleAuthR.verbose=2)</code> and copy-paste the console output here.<br>
-Check it doesn’t include any sensitive info like auth tokens or accountIds - you can usually just edit those out manually and replace with say <code>XXX</code></p>
-</div>
-<div id="session-info" class="section level2">
-<h2 class="hasAnchor">
-<a href="#session-info" class="anchor"></a>Session Info</h2>
-<p>Please run <code>sessionInfo()</code> so we can check what versions of packages you have installed</p>
-</div>
+    <pre class="usage"><span class='fu'>silent_auth</span>(<span class='no'>req</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>req</th>
+      <td><p>What Shiny uses to check the URL parameters</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p>Other pre-load shiny authentication: <code><a href='gar_shiny_auth_url.html'>gar_shiny_auth_url</a></code>,
+  <code><a href='gar_shiny_auth.html'>gar_shiny_auth</a></code>,
+  <code><a href='gar_shiny_login_ui.html'>gar_shiny_login_ui</a></code>,
+  <code><a href='gar_shiny_ui.html'>gar_shiny_ui</a></code></p></div>
+    
 
   </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
+  </div>
 </div>
-
 
       <footer>
       <div class="copyright">
