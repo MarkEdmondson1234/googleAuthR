@@ -198,15 +198,73 @@ If you want to create a Shiny app just using your data, upload the app with your
 
 If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, `googleAuthR` provides the below functions to help make the Google login process as easy as possible.
 
+# Types of Shiny Authentication
+
+There are now these types of logins available, which suit different needs:
+
+* `gar_shiny_*` functions.  These create a login UI before the main Shiny UI loads.  Authentication occurs, and then the main UI loads but with the created unique user's authentication.  You can then use `httr` based Google authentication functions normally as you would offline. 
+* `googleAuth` module - this creates a reactive server side token object for your API calls.  You need to wrap your `googleAuthR` functions with `with_shiny()` to pass the reactive token.
+* `googleAuth_js` module - this creates a client side token object via JavaScript, that you can then pass to your API calls.  You need to wrap your `googleAuthR` functions with `with_shiny()` to pass the reactive token.
+* `googleSignIn` module - this is for when you just want to have a login, but do not need to make API calls.  It is a lightweight JavaScript based sign in solution.
+
+## Shiny Modules
+
 `googleAuthR` uses [Shiny Modules](http://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
 
-* `googleAuth` - creates the authentication token and login button styling
-* `googleAuthUI` - creates the server side login button for users to authenticate with.
-* `with_shiny()` - wraps your API functions so they can be passed the user's authentication token.
+To use modules, you need to use the functions ending with `_UI` in your ui.R, then call the id you set there server side with the `callModule(moduleName, "id")` syntax.  See the examples below. 
 
-## Shiny authentication example
+# Shiny Authentication Examples
+
+Remember that client IDs and secrets will need to be created for the examples below.  You need to pick a clientID for *web applications*, not *"Other"* as is used for offline `googleAuthR` functions.
+
+## `gar_shiny_*` functions example
+
+This uses the most modern `gar_shiny_*` family of functions to create authentication.  The app lists the files you have stored in Google Drive. 
+
+```r
+library(shiny)
+library(googleAuthR)
+gar_set_client(scopes = "https://www.googleapis.com/auth/drive")
+
+fileSearch <- function(query) {
+  gar_api_generator("https://www.googleapis.com/drive/v3/files/",
+                    "GET",
+                    pars_args=list(q=query),
+                    data_parse_function = function(x) x$files)()
+}
+
+## ui.R
+ui <- fluidPage(title = "googleAuthR Shiny Demo",
+                textInput("query", 
+                          label = "Google Drive query", 
+                          value = "mimeType != 'application/vnd.google-apps.folder'"),
+                tableOutput("gdrive")
+)
+
+## server.R
+server <- function(input, output, session){
+  
+  # create a non-reactive access_token as we should never get past this if not authenticated
+  gar_shiny_auth(session)
+  
+  output$gdrive <- renderTable({
+    req(input$query)
+    
+    # no need for with_shiny()
+    fileSearch(input$query)
+    
+  })
+}
+
+shinyApp(gar_shiny_ui(ui, login_ui = gar_shiny_login_ui), server)
+```
+
+## `googleAuth` module example
 
 This is the example [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/)
+
+The Google Cloud project needs to be setup to accept the URL and port of your app (see setup pages).  You can fix the port via `options(shiny.port=1221)`, and then make sure if you launch your app locally to change the ip address from 127.0.0.1 to localhost in your browser (Google doesn't accept ip addresses).
+
 ```r
 ## in global.R
 library(googleAuthR)
@@ -283,6 +341,106 @@ observe({
  
 See this post on [creating a Shiny App with a Google login](https://lesliemyint.wordpress.com/2017/01/01/creating-a-shiny-app-with-google-login/) for details.
 
+## `googleAuth_js` module example
+
+The Google Cloud project needs to be setup to accept JavaScript origin of the URL and port of your app ((see setup pages))note this is different from server-side configurations above).  Make sure if you launch your app locally to change the ip address from 127.0.0.1 to localhost in your browser (Google doesn't accept ip addresses).
+
+```r
+library(shiny)
+library(googleAuthR)
+
+gar_set_client()
+
+## ui.R
+ui <- fluidPage(
+  googleAuth_jsUI("js_token"),
+  textInput("url", "Enter URL"),
+  actionButton("submit", "Shorten URL"),
+  textOutput("short_url")
+)
+
+shorten_url <- function(url){
+  
+  body = list(
+    longUrl = url
+  )
+  
+  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+                         "POST",
+                         data_parse_function = function(x) x$id)
+  
+  f(the_body = body)
+  
+}
+
+## server.R
+server <- function(input, output, session){
+  
+  access_token <- callModule(googleAuth_js, "js_token")
+  
+  short_url_output <- eventReactive(input$submit, {
+    ## wrap existing function with_shiny
+    ## pass the reactive token in shiny_access_token
+    ## pass other named arguments
+    with_shiny(f = shorten_url, 
+               shiny_access_token = access_token(),
+               url=input$url)
+    
+  })
+  
+  output$short_url <- renderText({
+    
+    short_url_output()
+    
+  })
+}
+
+shinyApp(ui, server)
+```
+
+## `googleSignIn` module example
+
+This module is suitable if you don't need to authenticate APIs in your app, you just would like a login.  You can then reach the user email, id, name or avatar to decide which content you want to show with durther logic within your Shiny app. 
+
+You only need to set the `client.id` for this login, as no secrets are being created.
+
+```r
+library(shiny)
+library(googleAuthR)
+
+options(googleAuthR.webapp.client_id = "1080525199262-qecndq7frddi66vr35brgckc1md5rgcl.apps.googleusercontent.com")
+
+ui <- fluidPage(
+    
+    titlePanel("Sample Google Sign-In"),
+    
+    sidebarLayout(
+      sidebarPanel(
+        googleSignInUI("demo")
+      ),
+      
+      mainPanel(
+        with(tags, dl(dt("Name"), dd(textOutput("g_name")),
+                      dt("Email"), dd(textOutput("g_email")),
+                      dt("Image"), dd(uiOutput("g_image")) ))
+      )
+    )
+  )
+
+server <- function(input, output, session) {
+  
+  sign_ins <- shiny::callModule(googleSignIn, "demo")
+  
+  output$g_name = renderText({ sign_ins()$name })
+  output$g_email = renderText({ sign_ins()$email })
+  output$g_image = renderUI({ img(src=sign_ins()$image) })
+  
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
 
 # Authentication via RStudio Addin
 
@@ -326,13 +484,13 @@ Below creates a button that when clicked makes a popup for Google authentication
 ```r
 library(googleAuthR)
 
-gar_auth_jsUI("auth_demo", login_text = "Click Me")
+googleAuth_jsUI("auth_demo", login_text = "Click Me")
 
 ```
 The authentication token is available via the server side module command:
 
 ```
-auth <- callModule(gar_auth_js, "auth_demo")
+auth <- callModule(googleAuth_js, "auth_demo")
 ```
 Pass the auth token to API functions. Below example using googleID to return G+ user info.
 ```

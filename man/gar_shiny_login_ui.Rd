@@ -7,10 +7,13 @@
 gar_shiny_login_ui(req, title = "googleAuthR Login Demo")
 }
 \arguments{
-\item{req}{Used by shiny to generate login URL}
+\item{req}{Passed to \link{gar_shiny_auth_url} to generate login URL}
 
 \item{title}{The title of the page}
 }
 \description{
 An alternative to the immediate login provided by default by \link{gar_shiny_ui}
+}
+\details{
+Use \link{gar_shiny_auth_url} to create the login URL.  You must leave the first argument free as this is used to generate the login, but you can pass other arguments to customise your UI.
 }

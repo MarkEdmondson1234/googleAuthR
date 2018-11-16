@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perform auto authentication — gar_auto_auth • googleAuthR</title>
+<title>Shiny JavaScript Google Authorisation [UI Module] — gar_auth_jsUI • googleAuthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Perform auto authentication — gar_auto_auth" />
+<meta property="og:title" content="Shiny JavaScript Google Authorisation [UI Module] — gar_auth_jsUI" />
 
-<meta property="og:description" content="This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by gar_attach_auto_auth" />
+<meta property="og:description" content="A Javascript Google authorisation flow for Shiny apps." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -149,65 +149,68 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perform auto authentication</h1>
+    <h1>Shiny JavaScript Google Authorisation [UI Module]</h1>
     
-    <div class="hidden name"><code>gar_auto_auth.Rd</code></div>
+    <div class="hidden name"><code>googleAuth_jsUI.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a></p>
+    <p>A Javascript Google authorisation flow for Shiny apps.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gar_auto_auth</span>(<span class='no'>required_scopes</span>, <span class='kw'>new_user</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>no_auto</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>, <span class='kw'>travis_environment_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gar_auth_jsUI</span>(<span class='no'>...</span>)
+
+<span class='fu'>googleAuth_jsUI</span>(<span class='no'>id</span>, <span class='kw'>login_class</span> <span class='kw'>=</span> <span class='st'>"btn btn-primary"</span>,
+  <span class='kw'>logout_class</span> <span class='kw'>=</span> <span class='st'>"btn btn-danger"</span>, <span class='kw'>login_text</span> <span class='kw'>=</span> <span class='st'>"Log In"</span>,
+  <span class='kw'>logout_text</span> <span class='kw'>=</span> <span class='st'>"Log Out"</span>, <span class='kw'>approval_prompt_force</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"googleAuthR.scopes.selected"</span>, <span class='st'>"email"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>required_scopes</th>
-      <td><p>Required scopes needed to authenticate - needs to match at least one</p></td>
+      <th>...</th>
+      <td><p>Arguments passed to googleAuth_jsUI</p></td>
     </tr>
     <tr>
-      <th>new_user</th>
-      <td><p>If TRUE, reauthenticate via Google login screen</p></td>
+      <th>id</th>
+      <td><p>Shiny id</p></td>
     </tr>
     <tr>
-      <th>no_auto</th>
-      <td><p>If TRUE, ignore auto-authentication settings</p></td>
+      <th>login_class</th>
+      <td><p>CSS class of login button</p></td>
     </tr>
     <tr>
-      <th>environment_var</th>
-      <td><p>Name of environment var that contains auth file path</p></td>
+      <th>logout_class</th>
+      <td><p>CSS class of logout button</p></td>
     </tr>
     <tr>
-      <th>travis_environment_var</th>
-      <td><p>No longer supported</p>
-<p>The authentication file can be a <code>.httr-oauth</code> file created via <a href='gar_auth.html'>gar_auth</a> 
-  or a Google service JSON file downloaded from the Google API credential console, 
-  with file extension <code>.json</code>.</p>
-<p>You can use this in your code to authenticate from a file location specified in file, 
-  but it is mainly intended to be called on package load via <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a>.</p>
-
-<p><code>environment_var</code> This is the name that will be called via Sys.getenv on library load.  The environment variable will contain an absolute file path to the location of an authentication file.</p></td>
+      <th>login_text</th>
+      <td><p>Text to show on login button</p></td>
+    </tr>
+    <tr>
+      <th>logout_text</th>
+      <td><p>Text to show on logout button</p></td>
+    </tr>
+    <tr>
+      <th>approval_prompt_force</th>
+      <td><p>Whether to force a login each time</p></td>
+    </tr>
+    <tr>
+      <th>scopes</th>
+      <td><p>Set the scopes, minimum needs is "email"</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an OAuth token object, specifically a
-  <code>Token2.0</code>, invisibly</p>
+    <p>Shiny UI</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p>Help files for .onAttach</p>
-<p>Other authentication functions: <code><a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a></code>,
-  <code><a href='gar_auth_service.html'>gar_auth_service</a></code>, <code><a href='gar_auth.html'>gar_auth</a></code>,
-  <code><a href='gar_gce_auth.html'>gar_gce_auth</a></code>,
-  <code><a href='get_google_token.html'>get_google_token</a></code>,
-  <code><a href='token_exists.html'>token_exists</a></code></p></div>
+    <p>Shiny Module for use with <a href='googleAuth_js.html'>gar_auth_js</a></p>
     
 
   </div>
@@ -218,7 +221,7 @@
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

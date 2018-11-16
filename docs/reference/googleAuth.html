@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Server side google auth (Shiny Module) — googleAuth • googleAuthR</title>
+<title>Shiny Google Authorisation [Server Module] — googleAuth • googleAuthR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,14 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Server side google auth (Shiny Module) — googleAuth" />
+
+
+
+<meta property="og:title" content="Shiny Google Authorisation [Server Module] — googleAuth" />
 
 <meta property="og:description" content="Server part of shiny module, use with googleAuthUI" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -40,19 +46,15 @@
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47480439-2"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-47480439-2', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-47480439-2');
 </script>
-
-
 
   </head>
 
@@ -69,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.2.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.3.9001</span>
       </span>
     </div>
 
@@ -147,14 +149,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Server side google auth (Shiny Module)</h1>
+    <h1>Shiny Google Authorisation [Server Module]</h1>
     
     <div class="hidden name"><code>googleAuth.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Server part of shiny module, use with <a href='googleAuthUI.html'>googleAuthUI</a></p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>googleAuth</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>, <span class='kw'>login_text</span> <span class='kw'>=</span> <span class='st'>"Login via Google"</span>,
   <span class='kw'>logout_text</span> <span class='kw'>=</span> <span class='st'>"Logout"</span>, <span class='kw'>login_class</span> <span class='kw'>=</span> <span class='st'>"btn btn-primary"</span>,

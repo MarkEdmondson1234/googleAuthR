@@ -11,7 +11,77 @@ vignette: >
 
 # Advanced API building techniques
 
-These go into more edge cases: no parsing content, batching and caching API responses.
+These go into more edge cases: paging API responses, no parsing content, batching and caching API responses.
+
+## Paging API responses
+
+A common need for APIs is to read multiple API calls since all data can not fit in one response. `googleAuthR` provides the `gar_api_page` function to help with this.  It operates upon the generated function you create in `gar_api_generator()`, after it has been parsed by the `data_parse_function`.  The output is a list of the API responses, which you then will need to parse into one object if you want (e.g. A list of data.frames, that you turn into one data.frame via `Reduce(rbind, response_list))`
+
+Depending on the API, you have two strategies to consider:
+
+1. A lot of the Google APIs provide a `nextLink` field - if you make this available in your `data_parse_function` you can then use this to fetch all the results.
+2. In some cases the `nextLink` field is not available - in those cases you can use parameters in the API responses to walk through the pages.  These are typically called `start-index` and `page-size`, to control what rows in the response you want each call.
+
+An example of the two approaches can be shown below on a Google Analytics segments API response.  Both provide equivalent output.
+
+```r
+# demos the two methods for the same function.
+# The example is for the Google Analytics management API, 
+#  you need to authenticate with that to run them. 
+ 
+
+# paging by using nextLink that is returned in API response
+ga_segment_list1 <- function(){
+ 
+# this URL will be modified by using the url_override argument in the generated function
+segs <- gar_api_generator("https://www.googleapis.com/analytics/v3/management/segments",
+                             "GET",
+                             pars_args = list("max-results"=10),
+                             data_parse_function = function(x) x)
+                          
+                          
+   gar_api_page(segs, 
+                page_method = "url",
+                page_f = function(x) x$nextLink)
+ 
+}
+ 
+# paging by looking for the next start-index parameter
+ 
+## start by creating the function that will output the correct start-index
+paging_function <- function(x){
+   next_entry <- x$startIndex + x$itemsPerPage
+ 
+   # we have all results e.g. 1001 > 1000
+   if(next_entry > x$totalResults){
+     return(NULL)
+   }
+ 
+   next_entry
+   }
+   
+## remember to add the paging argument (start-index) to the generated function too, 
+##  so it can be modified.    
+ga_segment_list2 <- function(){
+ 
+ segs <- gar_api_generator("https://www.googleapis.com/analytics/v3/management/segments",
+                            "GET",
+                             pars_args = list("start-index" = 1,
+                                              "max-results"=10),
+                             data_parse_function = function(x) x)
+                            
+   gar_api_page(segs, 
+                page_method = "param",
+                page_f = paging_function,
+                page_arg = "start-index")
+ 
+   }
+ 
+ 
+ identical(ga_segment_list1(), ga_segment_list2())
+ 
+ }
+```
 
 ## Skip parsing
 

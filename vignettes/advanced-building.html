@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2018-11-14" />
+<meta name="date" content="2018-11-16" />
 
 <title>Advanced Google API building techniques</title>
 
@@ -70,13 +70,79 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Advanced Google API building techniques</h1>
 <h4 class="author"><em>Mark Edmondson</em></h4>
-<h4 class="date"><em>2018-11-14</em></h4>
+<h4 class="date"><em>2018-11-16</em></h4>
 
 
 
 <div id="advanced-api-building-techniques" class="section level1">
 <h1>Advanced API building techniques</h1>
-<p>These go into more edge cases: no parsing content, batching and caching API responses.</p>
+<p>These go into more edge cases: paging API responses, no parsing content, batching and caching API responses.</p>
+<div id="paging-api-responses" class="section level2">
+<h2>Paging API responses</h2>
+<p>A common need for APIs is to read multiple API calls since all data can not fit in one response. <code>googleAuthR</code> provides the <code>gar_api_page</code> function to help with this. It operates upon the generated function you create in <code>gar_api_generator()</code>, after it has been parsed by the <code>data_parse_function</code>. The output is a list of the API responses, which you then will need to parse into one object if you want (e.g. A list of data.frames, that you turn into one data.frame via <code>Reduce(rbind, response_list))</code></p>
+<p>Depending on the API, you have two strategies to consider:</p>
+<ol style="list-style-type: decimal">
+<li>A lot of the Google APIs provide a <code>nextLink</code> field - if you make this available in your <code>data_parse_function</code> you can then use this to fetch all the results.</li>
+<li>In some cases the <code>nextLink</code> field is not available - in those cases you can use parameters in the API responses to walk through the pages. These are typically called <code>start-index</code> and <code>page-size</code>, to control what rows in the response you want each call.</li>
+</ol>
+<p>An example of the two approaches can be shown below on a Google Analytics segments API response. Both provide equivalent output.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># demos the two methods for the same function.</span>
+<span class="co"># The example is for the Google Analytics management API, </span>
+<span class="co">#  you need to authenticate with that to run them. </span>
+ 
+
+<span class="co"># paging by using nextLink that is returned in API response</span>
+ga_segment_list1 &lt;-<span class="st"> </span><span class="cf">function</span>(){
+ 
+<span class="co"># this URL will be modified by using the url_override argument in the generated function</span>
+segs &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/analytics/v3/management/segments&quot;</span>,
+                             <span class="st">&quot;GET&quot;</span>,
+                             <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="st">&quot;max-results&quot;</span>=<span class="dv">10</span>),
+                             <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
+                          
+                          
+   <span class="kw">gar_api_page</span>(segs, 
+                <span class="dt">page_method =</span> <span class="st">&quot;url&quot;</span>,
+                <span class="dt">page_f =</span> <span class="cf">function</span>(x) x<span class="op">$</span>nextLink)
+ 
+}
+ 
+<span class="co"># paging by looking for the next start-index parameter</span>
+ 
+## start by creating the function that will output the correct start-index
+paging_function &lt;-<span class="st"> </span><span class="cf">function</span>(x){
+   next_entry &lt;-<span class="st"> </span>x<span class="op">$</span>startIndex <span class="op">+</span><span class="st"> </span>x<span class="op">$</span>itemsPerPage
+ 
+   <span class="co"># we have all results e.g. 1001 &gt; 1000</span>
+   <span class="cf">if</span>(next_entry <span class="op">&gt;</span><span class="st"> </span>x<span class="op">$</span>totalResults){
+     <span class="kw">return</span>(<span class="ot">NULL</span>)
+   }
+ 
+   next_entry
+   }
+   
+## remember to add the paging argument (start-index) to the generated function too, 
+##  so it can be modified.    
+ga_segment_list2 &lt;-<span class="st"> </span><span class="cf">function</span>(){
+ 
+ segs &lt;-<span class="st"> </span><span class="kw">gar_api_generator</span>(<span class="st">&quot;https://www.googleapis.com/analytics/v3/management/segments&quot;</span>,
+                            <span class="st">&quot;GET&quot;</span>,
+                             <span class="dt">pars_args =</span> <span class="kw">list</span>(<span class="st">&quot;start-index&quot;</span> =<span class="st"> </span><span class="dv">1</span>,
+                                              <span class="st">&quot;max-results&quot;</span>=<span class="dv">10</span>),
+                             <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
+                            
+   <span class="kw">gar_api_page</span>(segs, 
+                <span class="dt">page_method =</span> <span class="st">&quot;param&quot;</span>,
+                <span class="dt">page_f =</span> paging_function,
+                <span class="dt">page_arg =</span> <span class="st">&quot;start-index&quot;</span>)
+ 
+   }
+ 
+ 
+ <span class="kw">identical</span>(<span class="kw">ga_segment_list1</span>(), <span class="kw">ga_segment_list2</span>())
+ 
+ <span class="er">}</span></code></pre></div>
+</div>
 <div id="skip-parsing" class="section level2">
 <h2>Skip parsing</h2>
 <p>In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.</p>

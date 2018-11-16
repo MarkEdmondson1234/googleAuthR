@@ -131,8 +131,10 @@ silent_auth <- function(req){
 #' 
 #' An alternative to the immediate login provided by default by \link{gar_shiny_ui}
 #' 
-#' @param req Used by shiny to generate login URL
+#' @param req Passed to \link{gar_shiny_auth_url} to generate login URL
 #' @param title The title of the page
+#' 
+#' @details Use \link{gar_shiny_auth_url} to create the login URL.  You must leave the first argument free as this is used to generate the login, but you can pass other arguments to customise your UI.
 #' 
 #' @export
 gar_shiny_login_ui <- function(req, title = "googleAuthR Login Demo"){
@@ -144,8 +146,7 @@ gar_shiny_login_ui <- function(req, title = "googleAuthR Login Demo"){
     padding = 50,
     title = title,
     shiny::tags$head(
-      shiny::tags$link(rel="stylesheet",
-           href="css/button.css")
+      shiny::tags$link(rel="stylesheet", href="css/button.css")
     ),
     shiny::a(href = gar_shiny_auth_url(req),
       shiny::tags$button(class = "loginBtn loginBtn--google",

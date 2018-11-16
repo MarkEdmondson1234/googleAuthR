@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/Authentication.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//index.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/authReturnCode.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/Authentication.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/checkGoogleAPIError.html</loc>
@@ -13,25 +13,19 @@
     <loc>https://code.markedmondson.me/googleAuthR//reference/checkTokenAPI.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/createCode.html</loc>
-  </url>
-  <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/doHttrRequest.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html</loc>
   </url>
   <url>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_api_page.html</loc>
+  </url>
+  <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_attach_auto_auth.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_auth.html</loc>
-  </url>
-  <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_auth_js.html</loc>
-  </url>
-  <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_auth_jsUI.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html</loc>
@@ -76,13 +70,16 @@
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_getAuthUrl.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_auth.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_getToken.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_auth_url.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_getUrl.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_login_ui.html</loc>
+  </url>
+  <url>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_ui.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_token_info.html</loc>
@@ -100,19 +97,19 @@
     <loc>https://code.markedmondson.me/googleAuthR//reference/googleAuthUI.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/loginOutput.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/googleAuth_js.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/reactiveAccessToken.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/googleAuth_jsUI.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/renderLogin.html</loc>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/googleSignIn.html</loc>
+  </url>
+  <url>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/googleSignInUI.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/retryRequest.html</loc>
-  </url>
-  <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/revokeEventObserver.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/skip_if_no_env_auth.html</loc>
