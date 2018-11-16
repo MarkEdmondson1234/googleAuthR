@@ -1,3 +1,7 @@
+# googleAuthR v0.7.0.9000
+
+* tbd
+
 # googleAuthR v0.7.0
 
 * Deprecate `https://www.googleapis.com/batch` batch endpoint fully as per https://developers.googleblog.com/2018/03/discontinuing-support-for-json-rpc-and.html
