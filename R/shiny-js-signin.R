@@ -15,6 +15,10 @@ googleSignInUI <- function(id){
 
   ns <- shiny::NS(id)
   
+  if(getOption("googleAuthR.webapp.client_id") == ""){
+    stop("You need to set options('googleAuthR.webapp.client_id' = 'your.client.id') - see website: https://code.markedmondson.me/googleAuthR/articles/google-authentication-types.html#googlesignin-module-example", call. = FALSE)
+  }
+  
   shiny::tagList(
     shiny::tags$head(
       shiny::tags$meta(name="google-signin-scope", content="profile email"),
