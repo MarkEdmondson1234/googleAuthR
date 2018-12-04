@@ -1,6 +1,6 @@
 # googleAuthR v0.7.0.9000
 
-* tbd
+* Change behaviour on API parse errors to write a diagnostic object to the working directory
 
 # googleAuthR v0.7.0
 

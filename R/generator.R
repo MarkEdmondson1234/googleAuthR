@@ -200,9 +200,19 @@ gar_api_generator <- function(baseURI,
     if(!is.null(data_parse_function)){
       reqtry <- try(data_parse_function(req$content, ...))
       if(any(is.error(reqtry), is.null(reqtry))){
-        warning("API Data failed to parse.  Returning parsed from JSON content.
-                    Use this to test against your data_parse_function.")
-        req <- req$parsed_content
+        
+        error_object <- list(request = list(req_url = req_url,
+                                            request_type = http_header,
+                                            the_body = the_body,
+                                            customConfig=customConfig),
+                             response = list(data_parse_args = list(...),
+                                             data_parse_func = data_parse_function,
+                                             ontent = req$content)
+        )
+        saveRDS(error_object, file = "gar_parse_error.rds")
+        stop("API Data failed to parse.  
+             Wrote diagnostic object to 'gar_parse_error.rds', use readRDS('gar_parse_error.rds') to 
+             debug the data_parse_function.")
       } else {
         req <- reqtry
       }
