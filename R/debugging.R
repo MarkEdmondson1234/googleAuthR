@@ -10,8 +10,28 @@
 #' @export
 gar_debug_parsing <- function(filename = "gar_parse_error.rds"){
   assert_that(is.readable(filename))
+  
   myMessage("# When creating a GitHub issue, please include this output.")
   obj <- readRDS(filename)
-  str(obj)
+  
+  assert_that(is.gar_parse_error(obj))
+  
+  print(obj)
+  
+  tryCatch({
+    myMessage("- Attempting data parsing", level = 3)
+    do.call(obj$response$data_parse_func, args = obj$response$data_parse_args)
+  }, error = function(err){
+    myMessage("** Parsing failed with this error: ", err)
+  })
+  
   obj
+}
+
+is.gar_parse_error <- function(x){
+  inherits(x, "gar_parse_error")
+}
+
+print.gar_parse_error <- function(x, ...){
+  str(x)
 }

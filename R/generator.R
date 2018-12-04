@@ -201,14 +201,19 @@ gar_api_generator <- function(baseURI,
       reqtry <- try(data_parse_function(req$content, ...))
       if(any(is.error(reqtry), is.null(reqtry))){
         
-        error_object <- list(request = list(req_url = req_url,
+        error_object <- structure(list(request = list(req_url = req_url,
                                             request_type = http_header,
                                             the_body = the_body,
                                             customConfig=customConfig),
                              response = list(data_parse_args = list(...),
                                              data_parse_func = data_parse_function,
-                                             content = req$content)
-        )
+                                             content = req$content),
+                             authentication = list(
+                               token = Authentication$public_fields$token,
+                               method = Authentication$public_fields$method
+                             )),
+                             class = "gar_parse_error")
+        
         saveRDS(error_object, file = "gar_parse_error.rds")
         stop("API Data failed to parse.  
              Wrote diagnostic object to 'gar_parse_error.rds', use googleAuthR::gar_debug_parse('gar_parse_error.rds') to 
