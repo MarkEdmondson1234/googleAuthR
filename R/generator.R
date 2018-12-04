@@ -207,11 +207,11 @@ gar_api_generator <- function(baseURI,
                                             customConfig=customConfig),
                              response = list(data_parse_args = list(...),
                                              data_parse_func = data_parse_function,
-                                             ontent = req$content)
+                                             content = req$content)
         )
         saveRDS(error_object, file = "gar_parse_error.rds")
         stop("API Data failed to parse.  
-             Wrote diagnostic object to 'gar_parse_error.rds', use readRDS('gar_parse_error.rds') to 
+             Wrote diagnostic object to 'gar_parse_error.rds', use googleAuthR::gar_debug_parse('gar_parse_error.rds') to 
              debug the data_parse_function.")
       } else {
         req <- reqtry
