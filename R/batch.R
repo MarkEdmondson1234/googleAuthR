@@ -179,6 +179,24 @@ gar_batch <- function(call_list,
 #' # do the walk
 #' walkData()
 #' 
+#' # to walk body data, be careful to modify a top level body name:
+#'     
+#' changed_emails <- lapply(email, function(x){userRef = list(email = x)})
+#' 
+#' 
+#' batched <- gar_batch_walk(users, 
+#'                        walk_vector = changed_emails, 
+#'                                               the_body = list(
+#'                                                 permissions = list(
+#'                                                  local = list(permissions)
+#'                                                   ),
+#'                                                    userRef = list(
+#'                                                    email = email[[1]]
+#'                                                    )
+#'                            ),
+#'                            body_walk = "userRef",
+#'                            batch_size = 300,
+#'                            data_frame_output = FALSE)
 #' }
 #' 
 #' 
@@ -353,7 +371,7 @@ makeBatchRequest <- function(f){
     header <- paste(boundary,
                     "Content-Type: application/http",
                     # paste0("Content-ID: ",f$name),
-                    paste0("Content-ID: ", digest(batch_body)),
+                    paste0("Content-ID: ", digest(c(batch_body, Sys.time()))),
                     sep = "\r\n")
     body_header <- paste(req,
                          "Content-Type: application/json",
