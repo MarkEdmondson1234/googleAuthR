@@ -85,6 +85,10 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     options(googleAuthR.webapp.client_id = web_json$web$client_id,
             googleAuthR.webapp.client_secret = web_json$web$client_secret)
     
+    # fix for shinyapps #57 etc
+    Sys.setenv("GAR_CLIENTID" = web_json$web$client_id)
+    Sys.setenv("GAR_CLIENT_SECRET" = web_json$web$client_secret)
+    
     project_id <- web_json$web$project_id
     
   }
