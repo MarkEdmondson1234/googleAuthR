@@ -3,6 +3,7 @@
 * Change behaviour on API parse errors to write a diagnostic object to the working directory
 * Add `gar_debug_parsing` to help debug API parsing errors.
 * Fix batching that errored if body was exactly the same 
+* Set environment args in `gar_set_client()` to help deployments on Shinyapps.io
 
 # googleAuthR v0.7.0
 
