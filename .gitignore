@@ -17,3 +17,4 @@ revdep/checks.rds
 gdrive.oauth
 bq.oauth
 googleAuthR_tests.httr-oauth
+*.dcf
