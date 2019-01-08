@@ -103,8 +103,6 @@ gar_api_generator <- function(baseURI,
 
   }
 
-
-
   func <- function(path_arguments=NULL,
                    pars_arguments=NULL,
                    the_body=NULL,
