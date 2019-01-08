@@ -4,6 +4,8 @@
 * Add `gar_debug_parsing` to help debug API parsing errors.
 * Fix batching that errored if body was exactly the same 
 * Set environment args in `gar_set_client()` to help deployments on Shinyapps.io
+* Change required scopes in `gar_auto_auth` to only require one of the scopes specified, instead of all of them
+* Fully remove `TRAVIS_AUTH` 
 
 # googleAuthR v0.7.0
 

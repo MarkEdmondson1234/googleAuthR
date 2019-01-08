@@ -273,7 +273,7 @@ retryRequest <- function(f){
                                     encoding = "UTF-8")))
     if(is.error(content)){
 
-      warning("No JSON content found in request", call. = FALSE)
+      myMessage("No JSON content found in request", level = 1)
       
       # perhaps it is not JSON and a webpage with error instead
       if(grepl("invalid char in json text",error.message(content))){
@@ -318,7 +318,7 @@ retryRequest <- function(f){
 
   ## either reraise the error or should be good now
   if(is.error(the_request)){
-    stop(error.message(the_request))
+    stop(error.message(the_request), call. = FALSE)
   }
 
   the_request

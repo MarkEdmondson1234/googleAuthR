@@ -30,7 +30,7 @@
       paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse = ''),
     googleAuthR.tryAttempts = 5,
     googleAuthR.HttrRetryTimes = 3,
-    googleAuthR.HttrRetryTerminateOn = NULL,
+    googleAuthR.HttrRetryTerminateOn = c(403),
     googleAuthR.redirect = "default"
   )
   toset <- !(names(op.googleAuthR) %in% names(op))
