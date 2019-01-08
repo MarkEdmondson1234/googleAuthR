@@ -217,7 +217,6 @@ checkGoogleAPIError <- function(req){
   
   ## get error message from API
   if (!is.null(ga.json$error$message)) {
-    gar_token_info(2)
     stop("API returned: ", paste(ga.json$error$message), call. = FALSE)
   }
   
