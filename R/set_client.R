@@ -53,7 +53,7 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
                            scopes = NULL){
   
   if(json == "" && web_json == ""){
-    stop("No client JSON files found")
+    stop("No client JSON files found", call. = FALSE)
   }
   
   if(json != ""){
@@ -61,7 +61,7 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     the_json <- fromJSON(json)
     if(is.null(the_json$installed)){
       stop("$installed not found in JSON - have you downloaded the correct JSON file? 
-           (Service account client > Other, not Service Account Keys)")
+           (Service account client > Other, not Service Account Keys)", call. = FALSE)
     }
     
     options(googleAuthR.client_id = the_json$installed$client_id,
@@ -79,7 +79,8 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     
     if(is.null(web_json$web)){
       stop("$web not found in JSON - have you downloaded the corret JSON file for web apps?
-           (Service account client > Web Application, not Service Account Keys or Other)")
+           (Service account client > Web Application, not Service Account Keys or Other)", 
+           call. = FALSE)
     }
     
     options(googleAuthR.webapp.client_id = web_json$web$client_id,
@@ -88,7 +89,7 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     # fix for shinyapps #57 etc
     Sys.setenv("GAR_WEB_CLIENTID" = web_json$web$client_id)
     Sys.setenv("GAR_WEB_CLIENT_SECRET" = web_json$web$client_secret)
-    Sys.setenv("GAR_SCOPES" = scopes)
+    Sys.setenv("GAR_SCOPES" = paste(scopes, collapse = ","))
     
     project_id <- web_json$web$project_id
     
@@ -96,7 +97,10 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
   
   if(web_json != "" && json != ""){
     if(web_json$web$project_id != the_json$installed$project_id){
-      warning("Web and offline projects don't match:", web_json$web$project_id, the_json$installed$project_id)
+      warning("Web and offline projects don't match:", 
+              "Web:", web_json$web$project_id, 
+              "Installed:", the_json$installed$project_id, 
+              call. = FALSE)
     }
   }
   

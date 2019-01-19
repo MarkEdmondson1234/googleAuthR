@@ -4,6 +4,8 @@
 * Add `gar_debug_parsing` to help debug API parsing errors.
 * Fix batching that errored if body was exactly the same 
 * Set environment args in `gar_set_client()` to help deployments on Shinyapps.io
+* Support API body page requests in `gar_api_page()`
+* Fix `gar_set_scopes()` to allow multiple scopes when setting with `web_json`
 
 # googleAuthR v0.7.0
 

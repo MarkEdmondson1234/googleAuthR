@@ -45,6 +45,7 @@ test_that("Can set scopes and client id/secret from file", {
               "https://www.googleapis.com/auth/urlshortener")
   
   pid <- gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"),
+                        web_json = Sys.getenv("GAR_CLIENT_WEB_JSON"),
                         scopes = scopes)
   
   expect_equal(getOption("googleAuthR.scopes.selected"), scopes)

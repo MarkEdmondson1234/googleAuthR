@@ -3,9 +3,10 @@
 #' A helper function to help with the common task of paging through large API results.
 #' 
 #' @param f a function created by \link{gar_api_generator}
-#' @param page_f A function that will extract the next page information from \code{f()}
-#' @param page_method Method of paging: \code{url} will fetch by changing the fetch URL; \code{param} will fetch the next page via a parameter set in \code{page_arg}
+#' @param page_f A function that will extract the next page information from \code{f()}.  Should return \code{NULL} if no paging is required, or the value for \code{page_arg} if it is.
+#' @param page_method Method of paging: \code{url} will fetch by changing the fetch URL; \code{param} will fetch the next page via a parameter set in \code{page_arg}; \code{path} will change a path variable set in \code{page_arg}
 #' @param page_arg If \code{page_method="param"}, you need to set this to the parameter that will change for each API page.
+#' @param body_list If \code{page_method="body"}, you need to set the body that will be used in each API call, including the top level parameter \code{page_arg} that will be modified by \code{page_f} 
 #' 
 #' @details 
 #' 
@@ -85,22 +86,33 @@
 #' @import assertthat
 gar_api_page <- function(f, 
                          page_f = function(x) x$nextLink,
-                         page_method = c("url", "param"),
-                         page_arg = NULL){
+                         page_method = c("url", "param", "path","body"),
+                         page_arg = NULL,
+                         body_list = NULL){
 
   page_method <- match.arg(page_method)
   assert_that(is.gar_function(f),
               is.function(page_f))
   
-  if(!is.null(page_arg) && page_method == "param"){
+  if(!is.null(page_arg) && page_method %in% c("param","path")){
     assert_that(is.string(page_arg))
   }
-
-  first <- f()
   
-  needs_paging <- page_f(first)
+  if(!is.null(page_arg) && page_method == "body"){
+    assert_that(is.string(page_arg), is.list(body_list))
+  }
   
-  myMessage()
+  if(page_method != "body"){
+    first <- f()
+  } else {
+    first <- f(the_body = body_list)
+  }
+  
+  needs_paging <- tryCatch(page_f(first),
+                           error = function(err){
+                             stop(paste("The paging function errored with: ", err$message),
+                                  call. = FALSE)
+                           })
   
   if(is.null(needs_paging)){
     myMessage("No paging required", level = 2)
@@ -111,14 +123,22 @@ gar_api_page <- function(f,
   while(!is.null(needs_paging)){
     myMessage("Paging through API - token:", needs_paging, level = 2)
     # api call with new page token
-    l <- list()
     
-    if(page_method == "param"){
-      l[[page_arg]] <- needs_paging
-      a_page <- f(pars_arguments = l)
-    } else if(page_method == "url"){
-      a_page <- f(url_override = needs_paging)
+    if(page_method == "body"){
+      l <- body_list()
+    } else {
+      l <- list()
     }
+    
+    if(page_method != "url"){
+      l[[page_arg]] <- needs_paging
+    }
+    
+    a_page <- switch(page_method,
+                     param = f(pars_arguments = l),
+                     path  = f(path_arguments = l),
+                     url   = f(url_override = needs_paging),
+                     body  = f(the_body = l))
 
     all_pages <- c(all_pages, list(a_page))
     
@@ -126,6 +146,5 @@ gar_api_page <- function(f,
   }
   
   all_pages
-  
   
 }

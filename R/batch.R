@@ -180,23 +180,21 @@ gar_batch <- function(call_list,
 #' walkData()
 #' 
 #' # to walk body data, be careful to modify a top level body name:
-#'     
 #' changed_emails <- lapply(email, function(x){userRef = list(email = x)})
-#' 
 #' 
 #' batched <- gar_batch_walk(users, 
 #'                        walk_vector = changed_emails, 
-#'                                               the_body = list(
-#'                                                 permissions = list(
-#'                                                  local = list(permissions)
-#'                                                   ),
-#'                                                    userRef = list(
-#'                                                    email = email[[1]]
-#'                                                    )
+#'                        the_body = list(
+#'                            permissions = list(
+#'                              local = list(permissions)
 #'                            ),
-#'                            body_walk = "userRef",
-#'                            batch_size = 300,
-#'                            data_frame_output = FALSE)
+#'                            userRef = list(
+#'                              email = email[[1]]
+#'                          )
+#'                         ),
+#'                         body_walk = "userRef",
+#'                         batch_size = 300,
+#'                         data_frame_output = FALSE)
 #' }
 #' 
 #' 

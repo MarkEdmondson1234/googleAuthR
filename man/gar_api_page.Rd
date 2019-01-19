@@ -5,16 +5,18 @@
 \title{Takes a generated API function and lets you page through results}
 \usage{
 gar_api_page(f, page_f = function(x) x$nextLink, page_method = c("url",
-  "param"), page_arg = NULL)
+  "param", "path", "body"), page_arg = NULL, body_list = NULL)
 }
 \arguments{
 \item{f}{a function created by \link{gar_api_generator}}
 
-\item{page_f}{A function that will extract the next page information from \code{f()}}
+\item{page_f}{A function that will extract the next page information from \code{f()}.  Should return \code{NULL} if no paging is required, or the value for \code{page_arg} if it is.}
 
-\item{page_method}{Method of paging: \code{url} will fetch by changing the fetch URL; \code{param} will fetch the next page via a parameter set in \code{page_arg}}
+\item{page_method}{Method of paging: \code{url} will fetch by changing the fetch URL; \code{param} will fetch the next page via a parameter set in \code{page_arg}; \code{path} will change a path variable set in \code{page_arg}}
 
 \item{page_arg}{If \code{page_method="param"}, you need to set this to the parameter that will change for each API page.}
+
+\item{body_list}{If \code{page_method="body"}, you need to set the body that will be used in each API call, including the top level parameter \code{page_arg} that will be modified by \code{page_f}}
 }
 \value{
 A list of the API page responses, that you may need to process further into one object.
