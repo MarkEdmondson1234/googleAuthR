@@ -6,7 +6,6 @@
 #' @param no_auto If TRUE, ignore auto-authentication settings
 #' @param required_scopes Required scopes needed to authenticate - needs to match at least one
 #' @param environment_var Name of environment var that contains auth file path
-#' @param travis_environment_var No longer supported
 #' 
 #' The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
 #'   or a Google service JSON file downloaded from the Google API credential console, 
@@ -32,18 +31,13 @@
 gar_auto_auth <- function(required_scopes,
                           new_user = FALSE, 
                           no_auto = FALSE,
-                          environment_var = "GAR_AUTH_FILE",
-                          travis_environment_var = NULL){
+                          environment_var = "GAR_AUTH_FILE"){
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
                options(googleAuthR.scopes.selected) 
-              - no authentication attempted.", level = 3)
+              - no authentication attempted.", level = 2)
     return(NULL)
-  }
-  
-  if(!is.null(travis_environment_var)){
-    warning("travis_environment_var argument is now unsupported and does nothing")
   }
   
   assert_that(
@@ -96,7 +90,6 @@ gar_auto_auth <- function(required_scopes,
 #' 
 #' @param required_scopes A character vector of minimum required scopes for this API library
 #' @param environment_var The name of the environment variable where the file path to the authentication file is kept
-#' @param travis_environment_var Defunct; now does nothing
 #' 
 #' This function works with \link{gar_auto_auth}.  It is intended to be placed within the \link{.onAttach} hook so that it loads when you load your library.
 #' 
@@ -123,22 +116,17 @@ gar_auto_auth <- function(required_scopes,
 #' @family authentication functions
 #' @import assertthat
 gar_attach_auto_auth <- function(required_scopes,
-                                 environment_var = "GAR_AUTH_FILE",
-                                 travis_environment_var = NULL){
-  
-  if(!is.null(travis_environment_var)){
-    warning("travis_environment_var argument is now unsupported and does nothing")
-  }
+                                 environment_var = "GAR_AUTH_FILE"){
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
               options(googleAuthR.scopes.selected) - 
-              no authentication attempted.", level = 3)
+              no authentication attempted.", level = 2)
     return(NULL)
   }
   
   if(Sys.getenv(environment_var) == ""){
-    myMessage("No environment argument found, looked in ", environment_var, level = 3)
+    myMessage("No environment argument found, looked in ", environment_var, level = 2)
     return(NULL)
   }
   
@@ -148,7 +136,7 @@ gar_attach_auto_auth <- function(required_scopes,
   )
   
   scopes <- getOption("googleAuthR.scopes.selected")
-  if(any(!(required_scopes %in% scopes))){
+  if(all(!(required_scopes %in% scopes))){
     packageStartupMessage("Setting scopes to ", paste(required_scopes, collapse = " and "))
     new_scopes <- required_scopes
   } else {

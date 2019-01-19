@@ -103,8 +103,6 @@ gar_api_generator <- function(baseURI,
 
   }
 
-
-
   func <- function(path_arguments=NULL,
                    pars_arguments=NULL,
                    the_body=NULL,
@@ -217,7 +215,7 @@ gar_api_generator <- function(baseURI,
         saveRDS(error_object, file = "gar_parse_error.rds")
         stop("API Data failed to parse.  
              Wrote diagnostic object to 'gar_parse_error.rds', use googleAuthR::gar_debug_parse('gar_parse_error.rds') to 
-             debug the data_parse_function.")
+             debug the data_parse_function.", call. = FALSE)
       } else {
         req <- reqtry
       }
@@ -273,7 +271,7 @@ retryRequest <- function(f){
                                     encoding = "UTF-8")))
     if(is.error(content)){
 
-      warning("No JSON content found in request", call. = FALSE)
+      myMessage("No JSON content found in request", level = 1)
       
       # perhaps it is not JSON and a webpage with error instead
       if(grepl("invalid char in json text",error.message(content))){
@@ -307,6 +305,7 @@ retryRequest <- function(f){
         myMessage("Trying again: ", i, " of ", try_attempts, level = 3)
         Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
+        status_code <- as.character(the_request$status_code)
         if(grepl("^20",status_code)) break
       }
       myMessage("All attempts failed.", level = 3)
@@ -318,7 +317,7 @@ retryRequest <- function(f){
 
   ## either reraise the error or should be good now
   if(is.error(the_request)){
-    stop(error.message(the_request))
+    stop(error.message(the_request), call. = FALSE)
   }
 
   the_request

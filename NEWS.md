@@ -6,6 +6,8 @@
 * Set environment args in `gar_set_client()` to help deployments on Shinyapps.io
 * Support API body page requests in `gar_api_page()`
 * Fix `gar_set_scopes()` to allow multiple scopes when setting with `web_json`
+* Change required scopes in `gar_auto_auth` to only require one of the scopes specified, instead of all of them
+* Fully remove `TRAVIS_AUTH` 
 
 # googleAuthR v0.7.0
 
