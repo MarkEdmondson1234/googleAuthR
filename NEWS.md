@@ -8,6 +8,7 @@
 * Fix `gar_set_scopes()` to allow multiple scopes when setting with `web_json`
 * Change required scopes in `gar_auto_auth` to only require one of the scopes specified, instead of all of them
 * Fully remove `TRAVIS_AUTH` 
+* Remove some message spam from startup
 
 # googleAuthR v0.7.0
 
