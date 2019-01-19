@@ -122,8 +122,6 @@ gar_auth <- function(token = NULL,
     stop("Unrecognised token object - class ", class(token), call. = FALSE)
   }
   
-  ## output info on token saved
-  gar_token_info()
   gar_check_existing_token()
   
   ## return google_token above
@@ -219,7 +217,7 @@ gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", defau
     return(NULL)
   }
   if(detail_level >= 3){
-    message("Token cache file: ", token$cache_path)
+    message("Authentication from cache file: ", token$cache_path)
 
     ## service
     if(!is.null(token$secrets)){
@@ -296,22 +294,24 @@ overwrite_options <- function(google_token, token_path){
   google_token$cache_path <- token_path
   
   if(is.different(google_token$params$scope, "googleAuthR.scopes.selected")){
-    myMessage("Setting googleAuthR.scopes.selected to ", paste(google_token$params$scope, collapse = " "), level = 3)
+    myMessage("Overwriting googleAuthR.scopes.selected from ", getOption("googleAuthR.scopes.selected"),
+              "to ", paste(google_token$params$scope, collapse = " "), level = 2)
     options("googleAuthR.scopes.selected" = google_token$params$scope)
   }
   
   if(is.null(google_token$app)){
-    myMessage("No client_id in token, authentication from JSON key file", level = 3)
+    myMessage("No client_id in token, authentication from JSON key file", level = 2)
     return(google_token)
   }
   
   if(is.different(google_token$app$key, "googleAuthR.client_id")){
-    myMessage("Setting googleAuthR.client_id to ", google_token$app$key, level = 3)
+    myMessage("Overwriting googleAuthR.client_id from", getOption("googleAuthR.client_id"),
+              "to ", google_token$app$key, level = 2)
     options("googleAuthR.client_id" = google_token$app$key)
   }
   
   if(is.different(google_token$app$secret, "googleAuthR.client_secret")){
-    myMessage("Setting googleAuthR.client_secret to ", google_token$app$secret, level = 3)
+    myMessage("Overwriting googleAuthR.client_secret to ", google_token$app$secret, level = 2)
     options("googleAuthR.client_secret" = google_token$app$secret)
   }
 

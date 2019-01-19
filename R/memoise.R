@@ -14,7 +14,7 @@
 #' 
 #' @noRd
 gar_cache_set_loc <- function(cache, invalid_func){
-  myMessage("Set API cache", level = 3)
+  myMessage("Set API cache", level = 2)
   
   .gar_cache$cache <- cache
   .gar_cache$invalid <- invalid_func

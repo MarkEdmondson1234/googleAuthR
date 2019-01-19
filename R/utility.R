@@ -30,7 +30,7 @@ check_package_loaded <- function(package_name){
 #' @noRd
 myMessage <- function(..., level = 2){
   
-  compare_level <- getOption("googleAuthR.verbose")
+  compare_level <- getOption("googleAuthR.verbose", 3)
   
   if(level >= compare_level){
     message(Sys.time() ,"> ", ...)

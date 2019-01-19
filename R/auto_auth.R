@@ -148,7 +148,7 @@ gar_attach_auto_auth <- function(required_scopes,
   tryCatch({gar_auto_auth(required_scopes = required_scopes,
                           environment_var = environment_var)
     
-    packageStartupMessage("Successfully authenticated via ", Sys.getenv(environment_var))
+    packageStartupMessage("Successfully auto-authenticated via ", Sys.getenv(environment_var))
   }, error = function(ex){
     packageStartupMessage("Failed! Auto-authentication via ", Sys.getenv(environment_var))
     warning(ex)
