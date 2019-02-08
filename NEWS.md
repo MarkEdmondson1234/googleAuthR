@@ -9,6 +9,7 @@
 * Change required scopes in `gar_auto_auth` to only require one of the scopes specified, instead of all of them
 * Fully remove `TRAVIS_AUTH` 
 * Remove some message spam from startup
+* Fix mocks failing with `httptest` if used with `with_mock_api()` vs `with_mock_API()`
 
 # googleAuthR v0.7.0
 

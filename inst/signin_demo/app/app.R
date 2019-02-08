@@ -28,6 +28,13 @@ server <- function(input, output, session) {
   output$g_email = renderText({ sign_ins()$email })
   output$g_image = renderUI({ img(src=sign_ins()$image) })
   
+  observe({
+    req(sign_ins()$name)
+    
+    print("This works")
+    
+  })
+  
 }
 
 # Run the application 
