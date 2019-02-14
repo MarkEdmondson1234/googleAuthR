@@ -68,3 +68,4 @@ Other pre-load shiny authentication: \code{\link{gar_shiny_auth_url}},
 \author{
 Based on a gist by Joe Cheng, RStudio
 }
+\concept{pre-load shiny authentication}

@@ -85,3 +85,4 @@ shinyUI(
     ))
 }
 }
+\concept{shiny auth functions}

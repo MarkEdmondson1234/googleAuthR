@@ -137,12 +137,12 @@ token_exists <- function() {
 checkTokenAPI <- function(shiny_access_token=NULL){
   
   if(any(which(grepl("with_mock_API", as.character(sys.calls()), ignore.case = FALSE)))){
-    myMessage("Skipping token checks as using with_mock_API", level = 2)
+    myMessage("Skipping token checks as using with_mock_API", level = 1)
     return(TRUE)
   }
   
   if(!is.null(gar_cache_get_loc())){
-    myMessage("Skipping token checks as using cache", level = 2)
+    myMessage("Skipping token checks as using cache", level = 1)
     return(TRUE)
   }
   

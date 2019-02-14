@@ -11,8 +11,8 @@ gar_cache_get_loc()
 gar_cache_empty()
 
 gar_cache_setup(mcache = memoise::cache_memory(),
-  invalid_func = function(req) {     tryCatch(req$status_code == 200, error =
-  function(x) FALSE) })
+  invalid_func = function(req) {     tryCatch(req$status_code == 200,
+  error = function(x) FALSE) })
 }
 \arguments{
 \item{mcache}{A cache method from \link[memoise]{memoise}.}
@@ -61,3 +61,4 @@ shorten_url_cache <- function(url){
 }
 
 }
+\concept{cache functions}
