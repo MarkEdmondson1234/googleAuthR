@@ -196,6 +196,8 @@ make_googleAuth_ui <- function(req){
 #' 
 #' This can be used at the top of the server function for authentication when you have used
 #'   \link{gar_shiny_ui} to create a login page for your ui function.
+#'
+#' In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://app.iihnordic.dk/ga-time-normalised/`).  In other circumstances the Shiny app should be able to detect this itself. 
 #' 
 #' @export
 #' 

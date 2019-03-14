@@ -22,6 +22,8 @@ googleAuthUI <- function(id){
 #' 
 #' Call via \code{shiny::callModule(googleAuth, "your_ui_name", login_text = "Login")}
 #' 
+#' In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://app.iihnordic.dk/ga-time-normalised/`).  In other circumstances the Shiny app should be able to detect this itself. 
+#' 
 #' 
 #' @param input shiny input
 #' @param output shiny output

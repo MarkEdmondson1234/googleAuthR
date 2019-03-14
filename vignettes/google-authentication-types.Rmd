@@ -217,6 +217,10 @@ To use modules, you need to use the functions ending with `_UI` in your ui.R, th
 
 Remember that client IDs and secrets will need to be created for the examples below.  You need to pick a clientID for *web applications*, not *"Other"* as is used for offline `googleAuthR` functions.
 
+## URL redirects
+
+In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://app.iihnordic.dk/ga-time-normalised/`).  In other circumstances the Shiny app should be able to detect this itself. 
+
 ## `gar_shiny_*` functions example
 
 This uses the most modern `gar_shiny_*` family of functions to create authentication.  The app lists the files you have stored in Google Drive. 
