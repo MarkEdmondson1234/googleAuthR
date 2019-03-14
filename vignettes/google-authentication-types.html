@@ -236,7 +236,7 @@ analytics_url &lt;-<span class="st"> </span><span class="cf">function</span>(sho
 <p>Remember that client IDs and secrets will need to be created for the examples below. You need to pick a clientID for <em>web applications</em>, not <em>“Other”</em> as is used for offline <code>googleAuthR</code> functions.</p>
 <div id="url-redirects" class="section level2">
 <h2>URL redirects</h2>
-<p>In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via <code>options(googleAuthR.redirect = http://app.iihnordic.dk/ga-time-normalised/</code>). In other circumstances the Shiny app should be able to detect this itself.</p>
+<p>In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via <code>options(googleAuthR.redirect = http://your-shiny-url.com</code>). In other circumstances the Shiny app should be able to detect this itself.</p>
 </div>
 <div id="gar_shiny_-functions-example" class="section level2">
 <h2><code>gar_shiny_*</code> functions example</h2>
