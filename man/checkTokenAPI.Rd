@@ -15,5 +15,4 @@ boolean if it works.
 \description{
 Check API data token
 }
-\concept{data fetching functions}
 \keyword{internal}

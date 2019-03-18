@@ -5,9 +5,8 @@
 \title{Walk data through batches}
 \usage{
 gar_batch_walk(f, walk_vector, gar_pars = NULL, gar_paths = NULL,
-  the_body = NULL, pars_walk = NULL, path_walk = NULL,
-  body_walk = NULL, batch_size = 10, batch_function = NULL,
-  data_frame_output = TRUE, ...,
+  the_body = NULL, pars_walk = NULL, path_walk = NULL, body_walk = NULL,
+  batch_size = 10, batch_function = NULL, data_frame_output = TRUE, ...,
   batch_endpoint = getOption("googleAuthR.batch_endpoint", default =
   "https://www.googleapis.com/batch"))
 }
@@ -121,4 +120,3 @@ batched <- gar_batch_walk(users,
 \seealso{
 Other batch functions: \code{\link{gar_batch}}
 }
-\concept{batch functions}

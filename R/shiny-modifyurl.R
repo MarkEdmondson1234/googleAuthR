@@ -25,23 +25,7 @@ gar_shiny_auth_url <- function(req,
   access_type <- match.arg(access_type)
   approval_prompt <- match.arg(approval_prompt)
   
-  if(Sys.getenv("R_CONFIG_ACTIVE") == "shinyapps"){
-    url_redirect <- getOption("googleAuthR.redirect", "not_configured")
-  } else {
-    if(req$SERVER_NAME == "127.0.0.1"){
-      host <- "localhost"
-    } else {
-      host <- req$SERVER_NAME
-    }
-    
-    url_redirect <- paste0(req$rook.url_scheme,"://",host,":",req$SERVER_PORT)
-    
-    if(req$PATH_INFO != "/"){
-      url_redirect <- paste0(url_redirect, req$PATH_INFO)
-    }
-    
-  }
-
+  url_redirect <- workout_redirect(req)
 
   gar_shiny_getAuthUrl(url_redirect,
                        state = state,
@@ -50,6 +34,32 @@ gar_shiny_auth_url <- function(req,
                        scope         = scope,
                        access_type   = access_type,
                        approval_prompt = approval_prompt)
+  
+}
+
+workout_redirect <- function(req){
+  
+  if(getOption("googleAuthR.redirect") != ""){
+    return(getOption("googleAuthR.redirect"))
+  }
+  
+  if(Sys.getenv("R_CONFIG_ACTIVE") == "shinyapps"){
+    return(getOption("googleAuthR.redirect", "googleAuthR.redirect_option_not_configured"))
+  } 
+  
+  if(req$SERVER_NAME == "127.0.0.1"){
+    host <- "localhost"
+  } else {
+    host <- req$SERVER_NAME
+  }
+  
+  url_redirect <- paste0(req$rook.url_scheme,"://",host,":",req$SERVER_PORT)
+  
+  if(req$PATH_INFO != "/"){
+    url_redirect <- paste0(url_redirect, req$PATH_INFO)
+  }
+  
+  url_redirect
   
 }
 

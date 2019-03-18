@@ -4,8 +4,7 @@
 \alias{gar_auth_service}
 \title{JSON service account authentication}
 \usage{
-gar_auth_service(json_file,
-  scope = getOption("googleAuthR.scopes.selected"))
+gar_auth_service(json_file, scope = getOption("googleAuthR.scopes.selected"))
 }
 \arguments{
 \item{json_file}{the JSON file downloaded from Google Developer Console}
@@ -43,4 +42,3 @@ Other authentication functions: \code{\link{gar_attach_auto_auth}},
   \code{\link{get_google_token}},
   \code{\link{token_exists}}
 }
-\concept{authentication functions}

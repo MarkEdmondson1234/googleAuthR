@@ -12,7 +12,6 @@
 * Fix mocks failing with `httptest` if used with `with_mock_api()` vs `with_mock_API()`
 * Add `option(googleAuthR.redirect)` to help publish Shiny apps to some platforms (#136)
 
-
 # googleAuthR v0.7.0
 
 * Deprecate `https://www.googleapis.com/batch` batch endpoint fully as per https://developers.googleblog.com/2018/03/discontinuing-support-for-json-rpc-and.html

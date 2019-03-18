@@ -69,4 +69,3 @@ https://developers.google.com/webmaster-tools/v3/how-tos/batch
 
 Other batch functions: \code{\link{gar_batch_walk}}
 }
-\concept{batch functions}
