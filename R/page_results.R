@@ -125,7 +125,7 @@ gar_api_page <- function(f,
     # api call with new page token
     
     if(page_method == "body"){
-      l <- body_list()
+      l <- body_list
     } else {
       l <- list()
     }
