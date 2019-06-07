@@ -90,6 +90,6 @@ gar_gce_auth_email <- function(service_account = "default"){
     return(NULL)
   }
   
-  email_content <- httr::content(req, as = "text", encoding = "UTF-8")
-  strsplit(email_content, "\n")[[1]][2]
+  httr::content(req, as = "text", encoding = "UTF-8")
+
 }
