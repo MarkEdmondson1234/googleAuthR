@@ -1,3 +1,74 @@
+#' Authenticate via gcloud's application-default login
+#' 
+#' This allows you to take gcloud's application-default login token and turns it into one that can be used by R
+#' 
+#' @param access_token The token generated via \code{gcloud auth application-default login && gcloud auth application-default print-access-token}
+#' @param scopes The scope you created the access_token with
+#' @param cache_file Where to save the cache file of the token
+#' 
+#' @details 
+#' 
+#'  When authenticating on Google Cloud Platform services, if you are using services that take the cloud scopes you can use \link{gar_gce_auth} to generate authentication.
+#'  
+#'  However, for other services that require a user login (such as Google Analytics API), you need a method of authentication where you can use your own email login.  You have two options - create a token offline and upload it to the instance, or \code{gcloud} allows you to generate your own token online via \code{gcloud auth application-default login && gcloud auth application-default print-access-token}
+#'  
+#'  This function will then take the returned access token and put it within R so it can be used as normal with \code{googleAuthR} functions.
+#'  
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#' ## in the terminal, issue this gcloud command specifying the scopes to authenticate with
+#' gcloud auth application-default login --scopes=https://www.googleapis.com/auth/analytics.readonly
+#' 
+#' ## access the URL, login and create a verification code, paste in console.
+#' 
+#' ## view then copy-paste the access token, to be passed into the R function
+#' gcloud auth application-default print-access-token
+#' 
+#' ## In R:
+#' 
+#' gar_gce_auth_default(<token-copy-pasted>, 
+#'                      scopes = 'https://www.googleapis.com/auth/analytics.readonly',
+#'                      cache_file = 'my_ga.auth')
+#'                      
+#' # use token to authenticate as you would normally with library
+#' }
+#' 
+#' 
+#' @export
+#' @importFrom httr Token2.0 oauth_app oauth_endpoints
+#' @importFrom jsonlite fromJSON
+#' @seealso \href{gcloud reference}{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}
+gar_gce_auth_default <- function(access_token, 
+                             scopes = 'https://www.googleapis.com/auth/analytics.readonly', 
+                             cache_file = "gcloud.auth"){
+  
+  json_creds <- fromJSON('~/.config/gcloud/application_default_credentials.json')
+  
+  token_formatted <-
+    Token2.0$new(app = oauth_app("google", 
+                                 key = json_creds$client_id, 
+                                 secret = json_creds$client_secret),
+                       endpoint = oauth_endpoints("google"),
+                       credentials = list(access_token = access_token,
+                                          token_type = json_creds$type,
+                                          expires_in = NULL,
+                                          refresh_token = NULL),
+                       params = list(scope = scopes, type = NULL,
+                                     use_oob = FALSE, as_header = TRUE),
+                       cache_path = FALSE)
+  
+  saveRDS(token_formatted, cache_file)
+  
+  myMessage("Authenticated. Token saved to ", cache_file, level = 3)
+  
+  token_formatted
+  
+}
+
+
+
 #' Authenticate on Google Compute Engine
 #' 
 #' This takes the metadata auth token in a Google Compute Engine instance as authentication source

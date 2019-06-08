@@ -45,3 +45,4 @@ Other authentication functions: \code{\link{gar_auth_service}},
   \code{\link{get_google_token}},
   \code{\link{token_exists}}
 }
+\concept{authentication functions}

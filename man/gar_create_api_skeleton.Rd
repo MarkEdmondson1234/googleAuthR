@@ -26,3 +26,4 @@ Other Google Discovery API functions: \code{\link{gar_create_api_objects}},
   \code{\link{gar_discovery_apis_list}},
   \code{\link{gar_discovery_api}}
 }
+\concept{Google Discovery API functions}

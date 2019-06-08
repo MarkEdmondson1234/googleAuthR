@@ -18,3 +18,4 @@ Other pre-load shiny authentication: \code{\link{gar_shiny_auth_url}},
   \code{\link{gar_shiny_login_ui}},
   \code{\link{gar_shiny_ui}}
 }
+\concept{pre-load shiny authentication}

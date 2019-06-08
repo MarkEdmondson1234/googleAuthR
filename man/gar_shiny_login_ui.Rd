@@ -22,3 +22,4 @@ Other pre-load shiny authentication: \code{\link{gar_shiny_auth_url}},
   \code{\link{gar_shiny_auth}}, \code{\link{gar_shiny_ui}},
   \code{\link{silent_auth}}
 }
+\concept{pre-load shiny authentication}
