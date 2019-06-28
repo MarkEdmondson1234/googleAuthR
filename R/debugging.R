@@ -33,5 +33,5 @@ is.gar_parse_error <- function(x){
 }
 
 print.gar_parse_error <- function(x, ...){
-  str(x)
+  utils::str(x)
 }

@@ -19,7 +19,8 @@
 #' \dontrun{
 #' 
 #' ## in the terminal, issue this gcloud command specifying the scopes to authenticate with
-#' gcloud auth application-default login --scopes=https://www.googleapis.com/auth/analytics.edit,https://www.googleapis.com/auth/analytics
+#' gcloud auth application-default login \
+#'   --scopes=https://www.googleapis.com/auth/analytics.readonly
 #' 
 #' ## access the URL, login and create a verification code, paste in console.
 #' 
@@ -27,10 +28,9 @@
 #' gcloud auth application-default print-access-token
 #' 
 #' ## In R:
-#' 
 #' gar_gce_auth_default(<token-copy-pasted>, 
-#'                      scopes = 'https://www.googleapis.com/auth/analytics.edit,https://www.googleapis.com/auth/analytics',
-#'                      cache_file = 'my_ga.auth')
+#'      scopes = 'https://www.googleapis.com/auth/analytics.readonly',
+#'      cache_file = 'my_ga.auth')
 #'                      
 #' # use token to authenticate as you would normally with library
 #' }
