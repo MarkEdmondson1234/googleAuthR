@@ -1,3 +1,7 @@
+# googleAuthR v0.8.0.9000
+
+* ...
+
 # googleAuthR v0.8.0
 
 * Change behaviour on API parse errors to write a diagnostic object to the working directory

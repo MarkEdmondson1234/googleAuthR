@@ -5,6 +5,8 @@
   
 ## R CMD check results
 
+This is the second attempt for 0.8.0.  I have corrected the URLs as pointed out by Uwe earlier. 
+
 There were no ERRORs or WARNINGs.
 
 There was 1 NOTE:
