@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A login page for Shiny — gar_shiny_login_ui • googleAuthR</title>
+<title>Authenticate via gcloud's application-default login — gar_gce_auth_default • googleAuthR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="A login page for Shiny — gar_shiny_login_ui" />
+<meta property="og:title" content="Authenticate via gcloud's application-default login — gar_gce_auth_default" />
 
-<meta property="og:description" content="An alternative to the immediate login provided by default by gar_shiny_ui" />
+<meta property="og:description" content="This allows you to take gcloud's application-default login token and turns it into one that can be used by R" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -151,43 +151,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A login page for Shiny</h1>
+    <h1>Authenticate via gcloud's application-default login</h1>
     
-    <div class="hidden name"><code>gar_shiny_login_ui.Rd</code></div>
+    <div class="hidden name"><code>gar_gce_auth_default.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>An alternative to the immediate login provided by default by <a href='gar_shiny_ui.html'>gar_shiny_ui</a></p>
+    <p>This allows you to take gcloud's application-default login token and turns it into one that can be used by R</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gar_shiny_login_ui</span>(<span class='no'>req</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"googleAuthR Login Demo"</span>)</pre>
+    <pre class="usage"><span class='fu'>gar_gce_auth_default</span>(<span class='no'>access_token</span>, <span class='no'>scopes</span>, <span class='kw'>cache_file</span> <span class='kw'>=</span> <span class='st'>"gcloud.auth"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>req</th>
-      <td><p>Passed to <a href='gar_shiny_auth_url.html'>gar_shiny_auth_url</a> to generate login URL</p></td>
+      <th>access_token</th>
+      <td><p>The token generated via <code>gcloud auth application-default login &amp;&amp; gcloud auth application-default print-access-token</code></p></td>
     </tr>
     <tr>
-      <th>title</th>
-      <td><p>The title of the page</p></td>
+      <th>scopes</th>
+      <td><p>The scope you created the access_token with</p></td>
+    </tr>
+    <tr>
+      <th>cache_file</th>
+      <td><p>Where to save the cache file of the token</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Use <a href='gar_shiny_auth_url.html'>gar_shiny_auth_url</a> to create the login URL.  You must leave the first argument free as this is used to generate the login, but you can pass other arguments to customise your UI.</p>
+    <p>When authenticating on Google Cloud Platform services, if you are using services that take the cloud scopes you can use <a href='gar_gce_auth.html'>gar_gce_auth</a> to generate authentication.</p> 
+<p>However, for other services that require a user login (such as Google Analytics API), you need a method of authentication where you can use your own email login.  You have two options - create a token offline and upload it to the instance, or <code>gcloud</code> allows you to generate your own token online via <code>gcloud auth application-default login &amp;&amp; gcloud auth application-default print-access-token</code></p> 
+<p>This function will then take the returned access token and put it within R so it can be used as normal with <code>googleAuthR</code> functions.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other pre-load shiny authentication: <code><a href='gar_shiny_auth_url.html'>gar_shiny_auth_url</a></code>,
-  <code><a href='gar_shiny_auth.html'>gar_shiny_auth</a></code>, <code><a href='gar_shiny_ui.html'>gar_shiny_ui</a></code>,
-  <code><a href='silent_auth.html'>silent_auth</a></code></p></div>
+    <div class='dont-index'><p><a href='https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token'>gcloud reference</a></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+</div># NOT RUN {
+## in the terminal, issue this gcloud command specifying the scopes to authenticate with
+gcloud auth application-default login \
+  --scopes=https://www.googleapis.com/auth/analytics.readonly
+
+## access the URL, login and create a verification code, paste in console.
+
+## view then copy-paste the access token, to be passed into the R function
+gcloud auth application-default print-access-token
+
+## In R:
+gar_gce_auth_default(<token-copy-pasted>, 
+     scopes = 'https://www.googleapis.com/auth/analytics.readonly',
+     cache_file = 'my_ga.auth')
+                     
+# use token to authenticate as you would normally with library
+# }
+<div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -197,7 +223,9 @@
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

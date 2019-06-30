@@ -46,6 +46,7 @@ reference:
       - gar_auto_auth
       - gar_gce_auth
       - gar_gce_auth_email
+      - gar_gce_auth_default
       - gar_check_existing_token
       - gar_token_info
       - gar_set_client
@@ -62,6 +63,7 @@ reference:
       - gar_shiny_auth_url
       - gar_shiny_login_ui
       - gar_shiny_ui
+      - silent_auth
   - title: "Building packages"
     contents:
       - gar_api_generator
