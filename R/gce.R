@@ -39,7 +39,7 @@
 #' @export
 #' @importFrom httr Token2.0 oauth_app oauth_endpoints
 #' @importFrom jsonlite fromJSON
-#' @seealso \href{gcloud reference}{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}
+#' @seealso \href{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}{gcloud reference}
 gar_gce_auth_default <- function(access_token, 
                                  scopes,
                                  cache_file = "gcloud.auth"){

@@ -47,5 +47,5 @@ gar_gce_auth_default(<token-copy-pasted>,
 
 }
 \seealso{
-\href{gcloud reference}{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}
+\href{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}{gcloud reference}
 }
