@@ -37,7 +37,8 @@ Suggests:
     rmarkdown,
     roxygen2 (>= 5.0.0),
     shiny (>= 0.13.2),
-    testthat
+    testthat,
+    usethis,
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr

@@ -231,7 +231,7 @@ make_readme <- function(directory, api_json){
                    "## Features \n",
                    " * Auto generated R functions for every method and object in the API\n",
                    " * Passes CRAN checks in skeleton form\n",
-                   " * Auto-creates R package files via `devtools`\n",
+                   " * Auto-creates R package files via `usethis`\n",
                    " * Auto-documentation of function arguments\n",
                    " * Type-checking of passed objects\n",
                    " * Ability to quickly add new features of the API as they are published.\n",

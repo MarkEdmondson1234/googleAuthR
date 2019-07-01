@@ -2,17 +2,17 @@
 #' 
 #' @param api_json json from \link{gar_discovery_api}
 #' @param directory Where to build the package
-#' @param rstudio Passed to \link[devtools]{create}, creates RStudio project file
-#' @param check Perform a \link[devtools]{check} on the package once done
+#' @param rstudio Passed to \link[usethis]{create}, creates RStudio project file
+#' @param check Perform a \link[usethis]{check} on the package once done
 #' @param github If TRUE will upload package to your github
 #' @param format If TRUE will use \link[formatR]{tidy_eval} on content
 #' @param overwrite Whether to overwrite an existing directory if it exists
 #' 
 #' @details 
 #' 
-#' For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
+#' For github upload to work you need to have your github PAT setup. See \link[usethis]{use_github}.
 #' 
-#' Uses devtools' \link[devtools]{create} to create a package structure then 
+#' Uses usethis' \link[usethis]{usethis} to create a package structure then 
 #'   \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
 #'   starting files for a Google API package.
 #' 
@@ -32,6 +32,7 @@ gar_create_package <- function(api_json,
                                format = TRUE,
                                overwrite = TRUE){
   check_package_loaded("devtools")
+  check_package_loaded("usethis")
   package_name <- paste0("google",
                          gsub("\\.","", make.names(api_json$id, allow_ = FALSE)),
                          ".auto")
@@ -46,7 +47,7 @@ gar_create_package <- function(api_json,
   o_files <- file.path(package_dir, "R", paste0(api_json$name,"_objects.R"))
   
   if(!file.exists(f_files)){
-    devtools::create(file.path(directory, package_name),
+    usethis::create_package(file.path(directory, package_name),
                      list(
                        Package = package_name,
                        Version = "0.0.0.9000",
@@ -77,7 +78,9 @@ gar_create_package <- function(api_json,
   
   if(github){
     ## if fail, use git add
-    devtools::use_github(pkg = package_dir, protocol = "https")
+    usethis::with_project(package_dir,
+      usethis::use_github(protocol = "https")
+    )
   } ## git2r::push
   
   result
