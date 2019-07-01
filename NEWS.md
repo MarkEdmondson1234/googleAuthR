@@ -2,6 +2,9 @@
 
 * ...
 
+* Depend on usethis for `create_package()` and `use_github()` as they are
+  removed in devtools 2.1.0 (@jimhester, #150).
+
 # googleAuthR v0.8.0
 
 * Change behaviour on API parse errors to write a diagnostic object to the working directory
