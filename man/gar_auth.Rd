@@ -4,59 +4,23 @@
 \alias{gar_auth}
 \title{Authorize \code{googleAuthR}}
 \usage{
-gar_auth(token = NULL, new_user = FALSE)
+gar_auth(email = gargle::gargle_oauth_email(), token = NULL,
+  scopes = getOption("googleAuthR.scopes.selected"))
 }
 \arguments{
+\item{email}{A Google email to authenticate with if not the default}
+
 \item{token}{an actual token object or the path to a valid token stored as an
 \code{.rds} file}
 
-\item{new_user}{logical, defaults to \code{FALSE}. Set to \code{TRUE} if you
-want to wipe the slate clean and re-authenticate with the same or different
-Google account. This deletes the \code{.httr-oauth} file in current working
-directory.}
+\item{scopes}{Scope of the request}
 }
 \value{
 an OAuth token object, specifically a
   \code{\link[=Token-class]{Token2.0}}, invisibly
 }
 \description{
-Authorize \code{googleAuthR} to access your Google user data. You will be
-directed to a web browser, asked to sign in to your Google account, and to
-grant \code{googleAuthR} access to user data for Google Search Console. 
-These user credentials are cached in a file named
-\code{.httr-oauth} in the current working directory, from where they can be
-automatically refreshed, as necessary.
-}
-\details{
-These arguments are controlled via options, which, 
-if undefined at the time \code{googleAuthR} is loaded, are
-defined like so:
-
-\describe{
-  \item{key}{Set to option \code{googleAuthR.client_id}, which defaults to
-  a client ID that ships with the package}
-  \item{secret}{Set to option \code{googleAuthR.client_secret}, which
-  defaults to a client secret that ships with the package}
-  \item{cache}{Set to option \code{googleAuthR.httr_oauth_cache}, which
-  defaults to TRUE}
-  \item{scopes}{Set to option \code{googleAuthR.scopes.selected}, which
-  defaults to demo scopes.}
-}
-
-To override these defaults in persistent way, predefine one or more of
-them with lines like this in a \code{.Rprofile} file:
-\preformatted{
-options(googleAuthR.client_id = "FOO",
-        googleAuthR.client_secret = "BAR",
-        googleAuthR.httr_oauth_cache = FALSE)
-}
-See \code{\link[base]{Startup}} for possible locations for this file and the
-implications thereof.
-
-More detail is available from
-\href{https://developers.google.com/identity/protocols/OAuth2}{Using OAuth
-2.0 to Access Google APIs}. This function executes the "installed
-application" flow.
+Wrapper of \link[gargle]{token_fetch}
 }
 \seealso{
 Other authentication functions: \code{\link{gar_attach_auto_auth}},

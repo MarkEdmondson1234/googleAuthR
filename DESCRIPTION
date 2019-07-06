@@ -20,9 +20,9 @@ Depends:
 Imports:
     assertthat (>= 0.2.0),
     digest, 
+    gargle (>= 0.3.0.9000),
     httr (>= 1.4.0),
     jsonlite (>= 0.9.16),
-    R6 (>= 2.1.0),
     memoise (>= 1.1.0),
     utils
 Suggests:
@@ -43,3 +43,4 @@ License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
+Remotes: r-lib/gargle
