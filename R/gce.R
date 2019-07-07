@@ -51,8 +51,6 @@ gar_gce_auth_default <- function(scopes){
 #' This takes the metadata auth token in a Google Compute Engine instance as authentication source
 #' 
 #' @param service_account Specify a different service account from the \code{default}
-#' @param client.id The Google Project API console's client Id
-#' @param client.secret The Google Project API console's client secret
 #' 
 #' @details 
 #' 
