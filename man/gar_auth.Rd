@@ -5,7 +5,8 @@
 \title{Authorize \code{googleAuthR}}
 \usage{
 gar_auth(email = NULL, token = NULL,
-  scopes = getOption("googleAuthR.scopes.selected"), new_user = NULL)
+  scopes = getOption("googleAuthR.scopes.selected"), new_user = NULL,
+  package = "googleAuthR")
 }
 \arguments{
 \item{email}{An existing gargle cached email to authenticate with or TRUE to authenticate with the only email available.}
@@ -16,6 +17,8 @@ gar_auth(email = NULL, token = NULL,
 \item{scopes}{Scope of the request}
 
 \item{new_user}{Not used}
+
+\item{package}{The name of the package authenticating}
 }
 \value{
 an OAuth token object, specifically a

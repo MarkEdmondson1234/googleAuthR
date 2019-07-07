@@ -37,7 +37,7 @@
 #' @export
 #' @importFrom gargle credentials_app_default
 #' @seealso \href{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}{gcloud reference}
-gar_gce_auth_default <- function(scopes){
+gar_gce_auth_default <- function(scopes = getOption("googleAuthR.scopes.selected")){
   
   # doesn't this need the returned access token?
   credentials_app_default(scopes = scopes)
@@ -51,6 +51,7 @@ gar_gce_auth_default <- function(scopes){
 #' This takes the metadata auth token in a Google Compute Engine instance as authentication source
 #' 
 #' @param service_account Specify a different service account from the \code{default}
+#' @param scopes Scopes for the authentication
 #' 
 #' @details 
 #' 
@@ -72,9 +73,10 @@ gar_gce_auth_default <- function(scopes){
 #' @export
 #' @family authentication functions
 #' @importFrom gargle credentials_gce
-gar_gce_auth <- function(service_account = "default"){
+gar_gce_auth <- function(service_account = "default",
+                         scopes = getOption("googleAuthR.scopes.selected")){
   
-  token <- credentials_gce(scopes = getOption("googleAuthR.scopes.selected"),
+  token <- credentials_gce(scopes = scopes,
                            service_account = service_account)
   
   myMessage("Authenticated on Google Compute Engine", level = 2)

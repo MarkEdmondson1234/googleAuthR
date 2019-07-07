@@ -10,6 +10,8 @@
   cred = NULL
 )
 
+
+# REMOVE?
 #' R6 environment to store authentication credentials
 #' Environment to store authentication credentials
 #' 
@@ -34,22 +36,26 @@ Authentication <- R6::R6Class(
 #' @param email An existing gargle cached email to authenticate with or TRUE to authenticate with the only email available.
 #' @param scopes Scope of the request
 #' @param new_user Not used   
+#' @param package The name of the package authenticating
 #'
 #' @return an OAuth token object, specifically a
 #'   \code{\link[=Token-class]{Token2.0}}, invisibly
 #'
 #' @export
 #' @family authentication functions
-#' @importFrom gargle token_fetch
+#' @importFrom gargle token_fetch oauth_app_from_json
 #' @importFrom httr oauth_app
 #' @import assertthat
 gar_auth <- function(email = NULL,
                      token = NULL,
                      scopes = getOption("googleAuthR.scopes.selected"),
-                     new_user = NULL) {
+                     new_user = NULL,
+                     package = "googleAuthR") {
   
   # to aid non-interactive scripts
-  if(is.null(email) && !interactive()){
+  if(is.null(email) 
+     && !interactive() 
+     && is.null(getOption("gargle_oauth_email"))){
     options(gargle_oauth_email=TRUE)
   }
   
@@ -68,18 +74,12 @@ gar_auth <- function(email = NULL,
     Authentication$set("public", "method", "filepath", overwrite=TRUE)
   }
   
-  app = oauth_app(
-    "google",
-    key = getOption("googleAuthR.client_id"),
-    secret = getOption("googleAuthR.client_secret")
-  )
-  
   token <- token_fetch(
     email = email,
     token = token,
     scopes = scopes,
-    app = app,
-    package = "googleAuthR"
+    app = make_app(),
+    package = package
   )
   
   ## set the global session token
@@ -87,6 +87,28 @@ gar_auth <- function(email = NULL,
   
   invisible(token)
   
+}
+
+make_app <- function(){
+  # set GAR_WEB_CLIENT_JSON in Shiny functions?
+  if(Sys.getenv("GAR_CLIENT_JSON") != ""){
+    app <- oauth_app_from_json(Sys.getenv("GAR_CLIENT_JSON"),
+                               appname = "google")
+  } else if(
+    all(getOption("googleAuthR.client_id") != "",
+        getOption("googleAuthR.client_secret") != "")){
+    app <- oauth_app(
+      "google",
+      key = getOption("googleAuthR.client_id"),
+      secret = getOption("googleAuthR.client_secret")
+    )
+  } else {
+    stop("No oauth app could be created.  
+         Set via GAR_CLIENT_JSON environment argument 
+         or via gar_set_client()", call. = FALSE)
+  }
+  
+  app
 }
 
 #' Reads a token from a filepath
@@ -171,6 +193,7 @@ overwrite_options <- function(google_token, token_path){
 #' @param detail_level How much info to show
 #' 
 #' @export
+#' @importFrom gargle gargle_oauth_sitrep
 gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", default = 3)){
   token  <- Authentication$public_fields$token
   method <- Authentication$public_fields$method
@@ -179,6 +202,9 @@ gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", defau
     message("No token found")
     return(NULL)
   }
+  
+  gargle_oauth_sitrep()
+  
   if(detail_level >= 3){
     message("Authentication from cache file: ", token$cache_path)
 
@@ -302,7 +328,6 @@ gar_auth_service <- function(json_file,
   
   Authentication$set("public", "token", google_token, overwrite=TRUE)
   Authentication$set("public", "method", "service_json", overwrite=TRUE)
-  myMessage("Returning service token", level=1)
   
   return(invisible(Authentication$public_fields$token))
   

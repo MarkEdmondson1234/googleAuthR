@@ -4,10 +4,13 @@
 \alias{gar_gce_auth}
 \title{Authenticate on Google Compute Engine}
 \usage{
-gar_gce_auth(service_account = "default")
+gar_gce_auth(service_account = "default",
+  scopes = getOption("googleAuthR.scopes.selected"))
 }
 \arguments{
 \item{service_account}{Specify a different service account from the \code{default}}
+
+\item{scopes}{Scopes for the authentication}
 }
 \value{
 A token

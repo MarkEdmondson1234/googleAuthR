@@ -47,7 +47,8 @@ By default the JSON file will be looked for in the location specified by the
 \examples{
 \dontrun{
 
-gar_set_client("google-client.json", scopes = "http://www.googleapis.com/auth/webmasters")
+gar_set_client("google-client.json", 
+               scopes = "http://www.googleapis.com/auth/webmasters")
 gar_auth_service("google-service-auth.json")
 }
 

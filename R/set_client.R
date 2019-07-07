@@ -42,7 +42,8 @@
 #' @examples
 #' \dontrun{
 #' 
-#' gar_set_client("google-client.json", scopes = "http://www.googleapis.com/auth/webmasters")
+#' gar_set_client("google-client.json", 
+#'                scopes = "http://www.googleapis.com/auth/webmasters")
 #' gar_auth_service("google-service-auth.json")
 #' }
 #' 
@@ -78,7 +79,7 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     web_json <- fromJSON(web_json)
     
     if(is.null(web_json$web)){
-      stop("$web not found in JSON - have you downloaded the corret JSON file for web apps?
+      stop("$web not found in JSON - have you downloaded the correct JSON file for web apps?
            (Service account client > Web Application, not Service Account Keys or Other)", 
            call. = FALSE)
     }
