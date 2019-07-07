@@ -31,7 +31,7 @@ Authentication <- R6::R6Class(
 #'
 #' @param token an actual token object or the path to a valid token stored as an
 #'   \code{.rds} file
-#' @param email A Google email to authenticate with if not the default
+#' @param email An existing gargle cached email to authenticate with or TRUE to authenticate with the only email available.
 #' @param scopes Scope of the request
 #' @param new_user Not used   
 #'
@@ -43,13 +43,19 @@ Authentication <- R6::R6Class(
 #' @importFrom gargle token_fetch
 #' @importFrom httr oauth_app
 #' @import assertthat
-gar_auth <- function(email = gargle::gargle_oauth_email(),
+gar_auth <- function(email = NULL,
                      token = NULL,
                      scopes = getOption("googleAuthR.scopes.selected"),
                      new_user = NULL) {
   
+  # to aid non-interactive scripts
+  if(is.null(email) && !interactive()){
+    options(gargle_oauth_email=TRUE)
+  }
+  
   if(!is.null(new_user)){
-    warning("argument new_user is not used anymore, remove it from calling function")
+    warning("Argument 'new_user' is not used anymore, remove it from ", 
+            paste(sys.call(-1), collapse = " "))
   }
   
   if(!is.null(token)){
@@ -69,6 +75,7 @@ gar_auth <- function(email = gargle::gargle_oauth_email(),
   )
   
   token <- token_fetch(
+    email = email,
     token = token,
     scopes = scopes,
     app = app,
@@ -78,7 +85,7 @@ gar_auth <- function(email = gargle::gargle_oauth_email(),
   ## set the global session token
   Authentication$set("public", "token", token, overwrite=TRUE)
   
-  token
+  invisible(token)
   
 }
 
