@@ -5,7 +5,7 @@
 \title{Authorize \code{googleAuthR}}
 \usage{
 gar_auth(email = gargle::gargle_oauth_email(), token = NULL,
-  scopes = getOption("googleAuthR.scopes.selected"))
+  scopes = getOption("googleAuthR.scopes.selected"), new_user = NULL)
 }
 \arguments{
 \item{email}{A Google email to authenticate with if not the default}
@@ -14,6 +14,8 @@ gar_auth(email = gargle::gargle_oauth_email(), token = NULL,
 \code{.rds} file}
 
 \item{scopes}{Scope of the request}
+
+\item{new_user}{Not used}
 }
 \value{
 an OAuth token object, specifically a

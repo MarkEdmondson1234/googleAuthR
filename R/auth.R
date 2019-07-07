@@ -33,7 +33,7 @@ Authentication <- R6::R6Class(
 #'   \code{.rds} file
 #' @param email A Google email to authenticate with if not the default
 #' @param scopes Scope of the request
-#'   
+#' @param new_user Not used   
 #'
 #' @return an OAuth token object, specifically a
 #'   \code{\link[=Token-class]{Token2.0}}, invisibly
@@ -42,16 +42,22 @@ Authentication <- R6::R6Class(
 #' @family authentication functions
 #' @importFrom gargle token_fetch
 #' @importFrom httr oauth_app
+#' @import assertthat
 gar_auth <- function(email = gargle::gargle_oauth_email(),
                      token = NULL,
-                     scopes = getOption("googleAuthR.scopes.selected")) {
+                     scopes = getOption("googleAuthR.scopes.selected"),
+                     new_user = NULL) {
+  
+  if(!is.null(new_user)){
+    warning("argument new_user is not used anymore, remove it from calling function")
+  }
   
   if(!is.null(token)){
     Authentication$set("public", "method", "passed_token", overwrite=TRUE)
   }
   
   # file locations to read existing httr tokens
-  if(is.readable(token)){
+  if(is.string(token) && is.readable(token)){
     token <- read_cache_token(token)
     Authentication$set("public", "method", "filepath", overwrite=TRUE)
   }
