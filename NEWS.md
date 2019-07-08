@@ -1,3 +1,7 @@
+# googleAuthR v0.8.1.9000
+
+* ...
+
 # googleAuthR v0.8.1
 
 * Depend on usethis for `create_package()` and `use_github()` as they are
