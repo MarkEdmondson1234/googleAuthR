@@ -12,7 +12,7 @@ gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
 
 \item{directory}{Where to build the package}
 
-\item{rstudio}{Passed to \link[devtools]{create}, creates RStudio project file}
+\item{rstudio}{Passed to \link[usethis]{create_package}, creates RStudio project file}
 
 \item{check}{Perform a \link[devtools]{check} on the package once done}
 
@@ -29,9 +29,9 @@ If check is TRUE, the results of the CRAN check, else FALSE
 Create a Google API package
 }
 \details{
-For github upload to work you need to have your github PAT setup. See \link[devtools]{use_github}.
+For github upload to work you need to have your github PAT setup. See \link[usethis]{use_github}.
 
-Uses devtools' \link[devtools]{create} to create a package structure then 
+Uses usethis' \link[usethis]{usethis} to create a package structure then 
   \link{gar_create_api_skeleton} and \link{gar_create_api_objects} to create 
   starting files for a Google API package.
 }

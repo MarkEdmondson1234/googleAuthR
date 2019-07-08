@@ -5,7 +5,9 @@
   
 ## R CMD check results
 
-This is the second attempt for 0.8.0.  I have corrected the URLs as pointed out by Uwe earlier. 
+This is the first attempt for 0.8.1.  
+
+I have corrected the WARNINGS that have appeared from the devtools removing some functions to usethis. 
 
 There were no ERRORs or WARNINGs.
 
