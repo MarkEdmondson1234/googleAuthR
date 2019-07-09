@@ -4,14 +4,10 @@
 \alias{gar_gce_auth_default}
 \title{Authenticate via gcloud's application-default login}
 \usage{
-gar_gce_auth_default(access_token, scopes, cache_file = "gcloud.auth")
+gar_gce_auth_default(scopes = getOption("googleAuthR.scopes.selected"))
 }
 \arguments{
-\item{access_token}{The token generated via \code{gcloud auth application-default login && gcloud auth application-default print-access-token}}
-
 \item{scopes}{The scope you created the access_token with}
-
-\item{cache_file}{Where to save the cache file of the token}
 }
 \description{
 This allows you to take gcloud's application-default login token and turns it into one that can be used by R

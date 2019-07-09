@@ -2,7 +2,7 @@
 #' 
 #' This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by \link{gar_attach_auto_auth}
 #' 
-#' @param new_user If TRUE, reauthenticate via Google login screen
+#' @param new_user Not used
 #' @param no_auto If TRUE, ignore auto-authentication settings
 #' @param required_scopes Required scopes needed to authenticate - needs to match at least one
 #' @param environment_var Name of environment var that contains auth file path
@@ -29,9 +29,14 @@
 #' @import assertthat
 #' @importFrom tools file_ext
 gar_auto_auth <- function(required_scopes,
-                          new_user = FALSE, 
+                          new_user = NULL, 
                           no_auto = FALSE,
                           environment_var = "GAR_AUTH_FILE"){
+  
+  if(!is.null(new_user)){
+    warning("Argument 'new_user' is not used anymore, remove it from ", 
+            paste(sys.call(-1), collapse = " "))
+  }
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
@@ -50,15 +55,15 @@ gar_auto_auth <- function(required_scopes,
          paste(required_scopes, collapse = " or "))
   }
   
-  if(any(no_auto, new_user)){
-    return(invisible(gar_auth(new_user = new_user)))
+  if(no_auto){
+    return(invisible(gar_auth()))
   }
   
   auth_file <- Sys.getenv(environment_var)
   
   if(auth_file == ""){
     ## normal auth looking for .httr-oauth in working folder or new user
-    out <- gar_auth(new_user = new_user)
+    out <- gar_auth()
   } else {
     ## auth_file specified in environment_var
     if(file.exists(auth_file)){
@@ -68,7 +73,7 @@ gar_auto_auth <- function(required_scopes,
         out <- gar_auth_service(auth_file)
       } else {
         ## .httr-oauth file
-        myMessage("Auto-auth - .httr-oauth", level = 2)
+        myMessage("Auto-auth - file path", level = 2)
 
         out <- gar_auth(token = auth_file)
 
@@ -126,7 +131,8 @@ gar_attach_auto_auth <- function(required_scopes,
   }
   
   if(Sys.getenv(environment_var) == ""){
-    myMessage("No environment argument found, looked in ", environment_var, level = 2)
+    myMessage("No environment argument found, looked in ", environment_var, 
+              level = 2)
     return(NULL)
   }
   
@@ -137,7 +143,8 @@ gar_attach_auto_auth <- function(required_scopes,
   
   scopes <- getOption("googleAuthR.scopes.selected")
   if(all(!(required_scopes %in% scopes))){
-    packageStartupMessage("Setting scopes to ", paste(required_scopes, collapse = " and "))
+    packageStartupMessage("Setting scopes to ", 
+                          paste(required_scopes, collapse = " and "))
     new_scopes <- required_scopes
   } else {
     new_scopes <- scopes
@@ -148,9 +155,11 @@ gar_attach_auto_auth <- function(required_scopes,
   tryCatch({gar_auto_auth(required_scopes = required_scopes,
                           environment_var = environment_var)
     
-    packageStartupMessage("Successfully auto-authenticated via ", Sys.getenv(environment_var))
+    packageStartupMessage("Successfully auto-authenticated via ", 
+                          Sys.getenv(environment_var))
   }, error = function(ex){
-    packageStartupMessage("Failed! Auto-authentication via ", Sys.getenv(environment_var), 
+    packageStartupMessage("Failed! Auto-authentication via ", 
+                          Sys.getenv(environment_var), 
                           " - error was: ", ex$error)
   })
   

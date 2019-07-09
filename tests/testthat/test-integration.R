@@ -95,17 +95,6 @@ test_that("Can authenticate .httr passing a token", {
   
 })
 
-test_that("Right message when wrong token file location given", {
-  skip_on_cran()
-  skip_if_no_env_auth(auth_env)
-  skip_if_not(!interactive())
-  
-  options(googleAuthR.httr_oauth_cache = "httr-oauth.rds")
-  
-  expect_error(gar_auth())
-  
-})
-
 context("Auth with JSON")
 
 test_that("The auth JSON file can be found and used",{

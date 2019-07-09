@@ -3,7 +3,8 @@
 \docType{data}
 \name{Authentication}
 \alias{Authentication}
-\title{R6 environment to store authentication credentials}
+\title{R6 environment to store authentication credentials
+Environment to store authentication credentials}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 Authentication

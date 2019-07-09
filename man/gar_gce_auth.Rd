@@ -5,15 +5,12 @@
 \title{Authenticate on Google Compute Engine}
 \usage{
 gar_gce_auth(service_account = "default",
-  client.id = getOption("googleAuthR.webapp.client_id"),
-  client.secret = getOption("googleAuthR.webapp.client_secret"))
+  scopes = getOption("googleAuthR.scopes.selected"))
 }
 \arguments{
 \item{service_account}{Specify a different service account from the \code{default}}
 
-\item{client.id}{The Google Project API console's client Id}
-
-\item{client.secret}{The Google Project API console's client secret}
+\item{scopes}{Scopes for the authentication}
 }
 \value{
 A token
@@ -33,8 +30,6 @@ The metadata token will refresh itself when it has about 60 seconds left.
 You can only use for scopes specified when creating the instance.
 
 If you want to use them make sure their service account email is added to accounts you want to get data from.
-
-If this function is called on a non-Google Compute Engine instance it will return \code{NULL}
 }
 \seealso{
 \link{gar_gce_auth_email}

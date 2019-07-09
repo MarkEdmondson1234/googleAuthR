@@ -1,8 +1,9 @@
 # googleAuthR v0.8.1.9000
 
-* ...
+* Implement `library(gargle)` as backend for authentication functions
 
 # googleAuthR v0.8.1
+
 
 * Depend on usethis for `create_package()` and `use_github()` as they are
   removed in devtools 2.1.0 (@jimhester, #150).
