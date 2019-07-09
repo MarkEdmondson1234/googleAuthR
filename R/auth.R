@@ -46,8 +46,8 @@ Authentication <- R6::R6Class(
 #' @importFrom gargle token_fetch oauth_app_from_json
 #' @importFrom httr oauth_app
 #' @import assertthat
-gar_auth <- function(email = NULL,
-                     token = NULL,
+gar_auth <- function(token = NULL,
+                     email = NULL,
                      scopes = getOption("googleAuthR.scopes.selected"),
                      new_user = NULL,
                      package = "googleAuthR") {

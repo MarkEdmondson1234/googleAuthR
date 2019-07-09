@@ -4,15 +4,15 @@
 \alias{gar_auth}
 \title{Authorize \code{googleAuthR}}
 \usage{
-gar_auth(email = NULL, token = NULL,
+gar_auth(token = NULL, email = NULL,
   scopes = getOption("googleAuthR.scopes.selected"), new_user = NULL,
   package = "googleAuthR")
 }
 \arguments{
-\item{email}{An existing gargle cached email to authenticate with or TRUE to authenticate with the only email available.}
-
 \item{token}{an actual token object or the path to a valid token stored as an
 \code{.rds} file}
+
+\item{email}{An existing gargle cached email to authenticate with or TRUE to authenticate with the only email available.}
 
 \item{scopes}{Scope of the request}
 
