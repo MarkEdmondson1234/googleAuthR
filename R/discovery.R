@@ -2,8 +2,8 @@
 #' 
 #' @param api_json json from \link{gar_discovery_api}
 #' @param directory Where to build the package
-#' @param rstudio Passed to \link[usethis]{create}, creates RStudio project file
-#' @param check Perform a \link[usethis]{check} on the package once done
+#' @param rstudio Passed to \link[usethis]{create_package}, creates RStudio project file
+#' @param check Perform a \link[devtools]{check} on the package once done
 #' @param github If TRUE will upload package to your github
 #' @param format If TRUE will use \link[formatR]{tidy_eval} on content
 #' @param overwrite Whether to overwrite an existing directory if it exists

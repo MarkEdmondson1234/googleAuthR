@@ -12,7 +12,7 @@ gar_create_package(api_json, directory, rstudio = TRUE, check = TRUE,
 
 \item{directory}{Where to build the package}
 
-\item{rstudio}{Passed to \link[usethis]{create}, creates RStudio project file}
+\item{rstudio}{Passed to \link[usethis]{create_package}, creates RStudio project file}
 
 \item{check}{Perform a \link[usethis]{check} on the package once done}
 
