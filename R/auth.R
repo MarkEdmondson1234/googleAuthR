@@ -5,12 +5,10 @@
 .auth <- gargle::init_AuthState(
   package = "googleAuthR",
   auth_active = TRUE,
-  app = NULL,
-  api_key = NULL,
-  cred = NULL
+  #app = NULL,
+  #api_key = NULL,
+  #cred = NULL
 )
-
-
 
 
 #' Authorize \code{googleAuthR}
@@ -51,14 +49,9 @@ gar_auth <- function(token = NULL,
             paste(sys.call(-1), collapse = " "))
   }
   
-  if(!is.null(token)){
-    Authentication$set("public", "method", "passed_token", overwrite=TRUE)
-  }
-  
   # file locations to read existing httr tokens (legacy compatibility)
   if(is.string(token) && is.readable(token)){
     token <- read_cache_token(token)
-    Authentication$set("public", "method", "filepath", overwrite=TRUE)
   }
   
   token <- token_fetch(
@@ -69,8 +62,8 @@ gar_auth <- function(token = NULL,
     package = package
   )
   
-  ## set the global session token
-  Authentication$set("public", "token", token, overwrite=TRUE)
+  .auth$set_cred(token)
+  .auth$set_auth_active(TRUE)
   
   invisible(token)
   
@@ -109,9 +102,8 @@ make_app <- function(){
 #' @export
 #' @importFrom gargle gargle_oauth_sitrep
 gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", default = 3)){
-  token  <- Authentication$public_fields$token
-  method <- Authentication$public_fields$method
- 
+  token  <- .auth$cred
+
   if(is.null(token)){
     message("No token found")
     return(NULL)
@@ -137,8 +129,6 @@ gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", defau
     if(!is.null(token$app$key)){
       message("App key: ", token$app$key)
     }
-    
-    message("Method: ", method)
     
   }
   
@@ -170,20 +160,22 @@ get_google_token <- function(shiny_return_token=NULL) {
     return(NULL)
   }
   
-  if(is.null(shiny_return_token)){
-    token <- Authentication$public_fields$token
-    
-    if(is.null(token) || !is_legit_token(token)) {
-      token <- gar_auth()
-    }
-    
-    
-  } else { #shiny session
-    Authentication$set("public", "method", "shiny", overwrite=TRUE)
-    token <- shiny_return_token
-    
+  # shiny auth provides its own token
+  if(!is.null(shiny_return_token)){
+    return(config(token = shiny_return_token))
   }
   
+  # normal auth
+  if(isTRUE(.auth$auth_active)) {
+    token <- .auth$cred
+  }
+  
+  # trigger auth flow if not valid token
+  if(is.null(token) || !is_legit_token(token)) {
+    token <- gar_auth()
+  }
+  
+  # return config ready for httr request
   config(token = token)
   
 }
@@ -219,7 +211,6 @@ get_google_token <- function(shiny_return_token=NULL) {
 #' 
 #' @export
 #' @family authentication functions
-#' @importFrom httr oauth_endpoints oauth_service_token
 #' @importFrom jsonlite fromJSON
 #' @importFrom gargle credentials_service_account
 gar_auth_service <- function(json_file, 
@@ -235,15 +226,10 @@ gar_auth_service <- function(json_file,
          (Service Account Keys, not service account client)")
   }
   
-  google_token <- credentials_service_account(
+  credentials_service_account(
     scopes = scope,
     path = json_file
   )
-  
-  Authentication$set("public", "token", google_token, overwrite=TRUE)
-  Authentication$set("public", "method", "service_json", overwrite=TRUE)
-  
-  return(invisible(Authentication$public_fields$token))
   
 }
 

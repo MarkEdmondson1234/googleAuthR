@@ -1,19 +1,4 @@
 # functions needed for pre-gargle auth compatibility
-# REMOVE?
-#' R6 environment to store authentication credentials
-#' Environment to store authentication credentials
-#' 
-#' Used to keep persistent state.
-#' @export
-Authentication <- R6::R6Class(
-  "Authentication",
-  public = list(
-    token = NULL,
-    method = NULL
-  ),
-  lock_objects = FALSE,
-  parent_env = emptyenv()
-)
 
 #' Reads a token from a filepath
 #' 
@@ -50,13 +35,9 @@ read_cache_token <- function(token_path){
   }
   
   ## for existing tokens, set the options to what is in the token
-  google_token <- overwrite_options(google_token, token_path = token_path)
-  
-  
-  ## set the global session token
-  Authentication$set("public", "token", google_token, overwrite=TRUE)
-  
-  google_token
+  overwrite_options(google_token, token_path = token_path)
+
+
 }
 
 overwrite_options <- function(google_token, token_path){

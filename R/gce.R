@@ -81,10 +81,6 @@ gar_gce_auth <- function(service_account = "default",
   
   myMessage("Authenticated on Google Compute Engine", level = 2)
   
-  Authentication$set("public", "method", "gce_auth", overwrite=TRUE)
-  ## set the global session token
-  Authentication$set("public", "token", token, overwrite=TRUE)
-  
   invisible(token)
   
 }
