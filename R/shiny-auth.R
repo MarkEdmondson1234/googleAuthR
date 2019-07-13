@@ -117,9 +117,6 @@ googleAuth <- function(input, output, session,
       app_url <- gar_shiny_getUrl(session)    
       access_token <- gar_shiny_getToken(authReturnCode(session), app_url)
       
-      Authentication$set("public", "app_url", app_url, overwrite=TRUE)
-      Authentication$set("public", "shiny", TRUE, overwrite=TRUE)
-      
       access_token
       
     } else {
