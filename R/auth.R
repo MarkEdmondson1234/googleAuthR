@@ -260,7 +260,7 @@ get_google_token <- function(shiny_return_token=NULL) {
     token <- Authentication$public_fields$token
     
     if(is.null(token) || !is_legit_token(token)) {
-      gar_auth()
+      token <- gar_auth()
     }
     
     
