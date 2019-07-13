@@ -143,9 +143,9 @@ gar_auth_configure <- function(app, path, api_key) {
 }
 
 #' @export
-#' @rdname drive_auth_configure
+#' @rdname gar_auth_configure
 gar_api_key <- function() .auth$api_key
 
 #' @export
-#' @rdname drive_auth_configure
+#' @rdname gar_auth_configure
 gar_oauth_app <- function() .auth$app

@@ -25,13 +25,7 @@ gar_auth <- function(token = NULL,
                      use_oob = gargle::gargle_oob_default(),
                      package = "googleAuthR") {
   
-  # to aid non-interactive scripts
-  if(is.null(email) 
-     && !interactive() 
-     && is.null(getOption("gargle_oauth_email"))){
-    stop("Non-interactive session and no authentication email selected.
-         \nSetup JSON service email auth or specify email in gar_auth(email='me@preauthenticated.com')", call.=FALSE)
-  }
+
   
   if(!is.null(new_user)){
     warning("Argument 'new_user' is not used anymore, remove it from ", 
@@ -41,6 +35,15 @@ gar_auth <- function(token = NULL,
   # file locations to read existing httr tokens (legacy compatibility)
   if(is.string(token) && is.readable(token)){
     token <- read_cache_token(token)
+  }
+  
+  # to aid non-interactive scripts
+  if(is.null(token)
+     && is.null(email) 
+     && !interactive() 
+     && is.null(getOption("gargle_oauth_email"))){
+    stop("Non-interactive session and no authentication email selected.
+         \nSetup JSON service email auth or specify email in gar_auth(email='me@preauthenticated.com')", call.=FALSE)
   }
   
   token <- token_fetch(

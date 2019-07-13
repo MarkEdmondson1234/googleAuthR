@@ -2,9 +2,15 @@
 % Please edit documentation in R/auth_gargle.R
 \name{gar_auth_configure}
 \alias{gar_auth_configure}
+\alias{gar_api_key}
+\alias{gar_oauth_app}
 \title{Edit and view auth configuration}
 \usage{
 gar_auth_configure(app, path, api_key)
+
+gar_api_key()
+
+gar_oauth_app()
 }
 \arguments{
 \item{app}{OAuth app, in the sense of [httr::oauth_app()].}
