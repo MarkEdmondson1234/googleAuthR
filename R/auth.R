@@ -1,16 +1,3 @@
-#' Environment to store authentication credentials
-#' 
-#' Used to keep persistent state.
-#' @noRd
-.auth <- gargle::init_AuthState(
-  package = "googleAuthR",
-  auth_active = TRUE,
-  #app = NULL,
-  #api_key = NULL,
-  #cred = NULL
-)
-
-
 #' Authorize \code{googleAuthR}
 #' 
 #' Wrapper of \link[gargle]{token_fetch}
@@ -34,6 +21,8 @@ gar_auth <- function(token = NULL,
                      email = NULL,
                      scopes = getOption("googleAuthR.scopes.selected"),
                      new_user = NULL,
+                     cache = gargle::gargle_oauth_cache(),
+                     use_oob = gargle::gargle_oob_default(),
                      package = "googleAuthR") {
   
   # to aid non-interactive scripts
@@ -59,8 +48,14 @@ gar_auth <- function(token = NULL,
     token = token,
     scopes = scopes,
     app = make_app(),
-    package = package
+    package = package,
+    cache = cache,
+    use_oob = use_oob
   )
+  
+  if(!is.token2.0(token)){
+    stop("Could not authenticate via any gargle cred function", call. = FALSE)
+  }
   
   .auth$set_cred(token)
   .auth$set_auth_active(TRUE)
@@ -165,18 +160,7 @@ get_google_token <- function(shiny_return_token=NULL) {
     return(config(token = shiny_return_token))
   }
   
-  # normal auth
-  if(isTRUE(.auth$auth_active)) {
-    token <- .auth$cred
-  }
-  
-  # trigger auth flow if not valid token
-  if(is.null(token) || !is_legit_token(token)) {
-    token <- gar_auth()
-  }
-  
-  # return config ready for httr request
-  config(token = token)
+  gar_token()
   
 }
 

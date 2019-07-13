@@ -6,7 +6,8 @@
 \usage{
 gar_auth(token = NULL, email = NULL,
   scopes = getOption("googleAuthR.scopes.selected"), new_user = NULL,
-  package = "googleAuthR")
+  cache = gargle::gargle_oauth_cache(),
+  use_oob = gargle::gargle_oob_default(), package = "googleAuthR")
 }
 \arguments{
 \item{token}{an actual token object or the path to a valid token stored as an
