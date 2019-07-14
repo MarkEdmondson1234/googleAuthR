@@ -5,8 +5,8 @@
 \title{Authorize \code{googleAuthR}}
 \usage{
 gar_auth(token = NULL, email = NULL,
-  scopes = getOption("googleAuthR.scopes.selected"), new_user = NULL,
-  cache = gargle::gargle_oauth_cache(),
+  scopes = getOption("googleAuthR.scopes.selected"),
+  app = gar_oauth_app(), cache = gargle::gargle_oauth_cache(),
   use_oob = gargle::gargle_oob_default(), package = "googleAuthR")
 }
 \arguments{
@@ -17,7 +17,7 @@ gar_auth(token = NULL, email = NULL,
 
 \item{scopes}{Scope of the request}
 
-\item{new_user}{Not used}
+\item{app}{app as specified by \link{gar_auth_configure}}
 
 \item{package}{The name of the package authenticating}
 }
@@ -27,6 +27,16 @@ an OAuth token object, specifically a
 }
 \description{
 Wrapper of \link[gargle]{token_fetch}
+}
+\examples{
+
+\dontrun{
+
+gar_auth_configure(path="path/to/gcp-client.json")
+gar_auth()
+
+}
+
 }
 \seealso{
 Other authentication functions: \code{\link{gar_attach_auto_auth}},

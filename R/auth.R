@@ -6,11 +6,22 @@
 #'   \code{.rds} file
 #' @param email An existing gargle cached email to authenticate with or TRUE to authenticate with the only email available.
 #' @param scopes Scope of the request
-#' @param new_user Not used   
+#' @param app app as specified by \link{gar_auth_configure}
 #' @param package The name of the package authenticating
+#' @param cache Where to store authentication tokens
+#' @param use_oob Whther to use OOB browserless authetication
 #'
 #' @return an OAuth token object, specifically a
 #'   \code{\link[=Token-class]{Token2.0}}, invisibly
+#'   
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#' gar_auth_configure(path="path/to/gcp-client.json")
+#' gar_auth()
+#' 
+#' }
 #'
 #' @export
 #' @family authentication functions
@@ -20,17 +31,10 @@
 gar_auth <- function(token = NULL,
                      email = NULL,
                      scopes = getOption("googleAuthR.scopes.selected"),
-                     new_user = NULL,
+                     app = gar_oauth_app(),
                      cache = gargle::gargle_oauth_cache(),
                      use_oob = gargle::gargle_oob_default(),
                      package = "googleAuthR") {
-  
-
-  
-  if(!is.null(new_user)){
-    warning("Argument 'new_user' is not used anymore, remove it from ", 
-            paste(sys.call(-1), collapse = " "))
-  }
   
   # file locations to read existing httr tokens (legacy compatibility)
   if(is.string(token) && is.readable(token)){
@@ -43,14 +47,20 @@ gar_auth <- function(token = NULL,
      && !interactive() 
      && is.null(getOption("gargle_oauth_email"))){
     stop("Non-interactive session and no authentication email selected.
-         \nSetup JSON service email auth or specify email in gar_auth(email='me@preauthenticated.com')", call.=FALSE)
+         \nSetup JSON service email auth or specify email in gar_auth(email='me@preauthenticated.com')", 
+         call.=FALSE)
+  }
+  
+  if(is.null(app)){
+    # sets return value for gar_oauth_app()
+    make_app()
   }
   
   token <- token_fetch(
     email = email,
     token = token,
     scopes = scopes,
-    app = make_app(),
+    app = gar_oauth_app(),
     package = package,
     cache = cache,
     use_oob = use_oob
@@ -67,26 +77,31 @@ gar_auth <- function(token = NULL,
   
 }
 
+# only called if new gar_auth_configure() not used
 make_app <- function(){
-  # set GAR_WEB_CLIENT_JSON in Shiny functions?
+  
+  # legacy old environment argument to json path
   if(Sys.getenv("GAR_CLIENT_JSON") != ""){
-    app <- oauth_app_from_json(Sys.getenv("GAR_CLIENT_JSON"),
-                               appname = "google")
-  } else if(
-    all(getOption("googleAuthR.client_id") != "",
-        getOption("googleAuthR.client_secret") != "")){
-    app <- oauth_app(
+    return(gar_auth_configure(path = Sys.getenv("GAR_CLIENT_JSON")))
+  }
+  # TODO: doesn't cover GAR_WEB_CLIENT_JSON in Shiny functions?
+  
+  # legacy set via gar_set_client()
+  if(!all(getOption("googleAuthR.client_id") != "",
+          getOption("googleAuthR.client_secret") != "")){
+    stop("No oauth app could be created.  
+         Set via gar_auth_configure()", call. = FALSE) 
+  }
+  
+  # set via old option method
+  app <- oauth_app(
       "google",
       key = getOption("googleAuthR.client_id"),
       secret = getOption("googleAuthR.client_secret")
-    )
-  } else {
-    stop("No oauth app could be created.  
-         Set via GAR_CLIENT_JSON environment argument 
-         or via gar_set_client()", call. = FALSE)
-  }
+  )
   
-  app
+  gar_auth_configure(app = app)
+
 }
 
 
@@ -99,7 +114,8 @@ make_app <- function(){
 #' 
 #' @export
 #' @importFrom gargle gargle_oauth_sitrep
-gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", default = 3)){
+gar_token_info <- function(detail_level = getOption("googleAuthR.verbose", 
+                                                    default = 3)){
   token  <- .auth$cred
 
   if(is.null(token)){

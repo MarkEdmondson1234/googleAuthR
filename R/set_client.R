@@ -65,6 +65,8 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
            (Service account client > Other, not Service Account Keys)", call. = FALSE)
     }
     
+    gar_auth_configure(path = json)
+    
     options(googleAuthR.client_id = the_json$installed$client_id,
             googleAuthR.client_secret = the_json$installed$client_secret)
     
@@ -83,6 +85,18 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
            (Service account client > Web Application, not Service Account Keys or Other)", 
            call. = FALSE)
     }
+    
+    #this does not work with web json yet
+    #    gar_auth_configure(path = web_json)
+    
+    # set it manually instead
+    app <- oauth_app(
+      "google",
+      key = web_json$web$client_id,
+      secret = web_json$web$client_secret
+    )
+    
+    gar_auth_configure(app = app)
     
     options(googleAuthR.webapp.client_id = web_json$web$client_id,
             googleAuthR.webapp.client_secret = web_json$web$client_secret)

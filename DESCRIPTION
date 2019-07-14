@@ -24,6 +24,7 @@ Imports:
     httr (>= 1.4.0),
     jsonlite (>= 1.6),
     memoise (>= 1.1.0),
+    rlang,
     utils
 Suggests:
     covr,

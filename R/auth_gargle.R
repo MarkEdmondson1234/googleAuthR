@@ -75,7 +75,7 @@ gar_token <- function() {
 #' @export
 #'
 #' @examples
-#' drive_has_token()
+#' gar_has_token()
 gar_has_token <- function() {
   inherits(.auth$cred, "Token2.0")
 }
@@ -119,6 +119,7 @@ gar_has_token <- function() {
 #'
 #' # restore original auth config
 #' gar_auth_configure(app = original_app, api_key = original_api_key)
+#' @importFrom rlang is_string
 gar_auth_configure <- function(app, path, api_key) {
   if (!missing(app) && !missing(path)) {
     stop("Must supply exactly one of `app` and `path`", call. = FALSE)
