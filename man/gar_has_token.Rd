@@ -14,7 +14,7 @@ Reports whether googleAuthR has stored a token, ready for use in downstream
 requests.
 }
 \examples{
-drive_has_token()
+gar_has_token()
 }
 \seealso{
 Other low-level API functions: \code{\link{gar_token}}

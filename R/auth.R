@@ -82,20 +82,22 @@ make_app <- function(){
   
   # legacy old environment argument to json path
   if(Sys.getenv("GAR_CLIENT_JSON") != ""){
+    myMessage("Setting client.id from GAR_CLIENT_JSON", level = 3)
     return(gar_auth_configure(path = Sys.getenv("GAR_CLIENT_JSON")))
   }
   # TODO: doesn't cover GAR_WEB_CLIENT_JSON in Shiny functions?
   
-  # legacy set via gar_set_client()
+  # legacy set via gar_set_client() or options() directly
   if(!all(getOption("googleAuthR.client_id") != "",
           getOption("googleAuthR.client_secret") != "")){
     stop("No oauth app could be created.  
          Set via gar_auth_configure()", call. = FALSE) 
   }
-  
-  # set via old option method
+
+  myMessage("Setting client.id from options(googleAuthR.client_id)", level = 3)
   app <- oauth_app(
-      "google",
+      appname = paste0("googleAuthR.client_id=", 
+                       substring(getOption("googleAuthR.client_id"),1,13)),
       key = getOption("googleAuthR.client_id"),
       secret = getOption("googleAuthR.client_secret")
   )

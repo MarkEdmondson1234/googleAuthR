@@ -19,6 +19,10 @@ gar_auth(token = NULL, email = NULL,
 
 \item{app}{app as specified by \link{gar_auth_configure}}
 
+\item{cache}{Where to store authentication tokens}
+
+\item{use_oob}{Whther to use OOB browserless authetication}
+
 \item{package}{The name of the package authenticating}
 }
 \value{
