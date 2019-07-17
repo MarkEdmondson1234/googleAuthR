@@ -4,34 +4,16 @@ context("Integration tests setup")
 local_httr_file <- "googleAuthR_tests.httr-oauth"
 auth_env <- "GAR_AUTH_FILE"
 
-shorten_url <- function(url){
-  
-  body = list(
-    longUrl = url
-  )
-  
-  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+get_email <- function(){
+
+  f <- gar_api_generator("https://openidconnect.googleapis.com/v1/userinfo",
                          "POST",
-                         data_parse_function = function(x) x$id)
+                         data_parse_function = function(x) x$email,
+                         checkTrailingSlash = FALSE)
   
-  f(the_body = body)
+  f()
   
 }
-
-shorten_url_cache <- function(url){
-  
-  body = list(
-    longUrl = url
-  )
-  
-  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
-                         "POST",
-                         data_parse_function = function(x) x)
-  
-  f(the_body = body)
-  
-}
-
 
 ### -----  the tests
 
@@ -129,12 +111,14 @@ test_that("Can do an in memory cache", {
   skip_if_no_env_auth(auth_env)
   
   gar_cache_setup()
-  gar_auth("googleAuthR_tests.httr-oauth")
-  one <- shorten_url("http://markedmondson.me")
-  two <- shorten_url("http://markedmondson.me")
+  gar_auth(scopes = "email", email = Sys.getenv("GARGLE_EMAIL"))
   
-  expect_message(shorten_url("http://markedmondson.me"), "Reading cache")
+  one <- get_email()
+  two <- get_email()
+  
+  expect_message(get_email(), "Reading cache")
   expect_equal(one, two)
+  expect_equal(one, Sys.getenv("GARGLE_EMAIL"))
   
 })
 
@@ -146,10 +130,10 @@ test_that("Can do disk memory cache", {
   file_cache <- "mock"
   gar_cache_setup(mcache = memoise::cache_filesystem(file_cache))
   
-  gar_auth("googleAuthR_tests.httr-oauth")
-  one <- shorten_url("http://code.markedmondson.me")
-  two <- shorten_url("http://code.markedmondson.me")
-  expect_message(shorten_url("http://code.markedmondson.me"), "Reading cache")
+  gar_auth(scopes = "email", email = Sys.getenv("GARGLE_EMAIL"))
+  one <- get_email()
+  two <- get_email()
+  expect_message(get_email(), "Reading cache")
   expect_equal(one, two)
   expect_true(length(list.files(file_cache)) > 0)
   
@@ -157,30 +141,30 @@ test_that("Can do disk memory cache", {
 
 
 
-test_that("Can do cache and use invalidate function", {
-  skip_on_cran()
-  skip_if_no_env_auth(auth_env)
-  
-  gar_cache_empty()
-  file_cache <- "mock"
-  
-  ## only cache if this URL
-  gar_cache_setup(invalid_func = function(req){
-    req$content$longUrl == "http://code.markedmondson.me/"
-  })
-  
-  gar_auth("googleAuthR_tests.httr-oauth")
-  shorten_url_cache("http://code.markedmondson.me")
-  
-  ## read cache
-  expect_message(shorten_url("http://code.markedmondson.me"), "Reading cache")
-  
-  options(googleAuthR.verbose = 2)
-  ## dont cache me
-  expect_message(shorten_url_cache("http://blahblah.com"), "Forgetting cache")
-  
-  gar_cache_empty()
-})
+# test_that("Can do cache and use invalidate function", {
+#   skip_on_cran()
+#   skip_if_no_env_auth(auth_env)
+#   
+#   gar_cache_empty()
+#   file_cache <- "mock"
+#   
+#   ## only cache if this URL
+#   gar_cache_setup(invalid_func = function(req){
+#     req$content$longUrl == "http://code.markedmondson.me/"
+#   })
+#   
+#   gar_auth("googleAuthR_tests.httr-oauth")
+#   shorten_url_cache("http://code.markedmondson.me")
+#   
+#   ## read cache
+#   expect_message(shorten_url("http://code.markedmondson.me"), "Reading cache")
+#   
+#   options(googleAuthR.verbose = 2)
+#   ## dont cache me
+#   expect_message(shorten_url_cache("http://blahblah.com"), "Forgetting cache")
+#   
+#   gar_cache_empty()
+# })
 
 context("Previous bugs to solve")
 
@@ -252,8 +236,8 @@ test_that("A generated API function works", {
   skip_on_cran()
   skip_if_no_env_auth(auth_env)
   
-  gar_auth("googleAuthR_tests.httr-oauth")
-  lw <- shorten_url("http://code.markedmondson.me")
+  gar_auth(scopes = "email", email = Sys.getenv("GARGLE_EMAIL"))
+  lw <- get_email()
   expect_type(lw, "character")
   
 })

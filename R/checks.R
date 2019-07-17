@@ -205,7 +205,8 @@ checkGoogleAPIError <- function(req){
   if(!is.null(req$headers$`content-type`)){
     ## charset not strictly required so "application/json" 
     ##  doesn't fail "application/json; charset=UTF-8" (#78)
-    if(!(any(startsWith(ok_content_types, req$headers$`content-type`)))) {
+    if(!(any(startsWith(tolower(ok_content_types), 
+                        tolower(req$headers$`content-type`))))) {
       stop(sprintf(paste("Not expecting content-type to be:\n%s"),
                    req$headers[["content-type"]]), call. = FALSE)
       

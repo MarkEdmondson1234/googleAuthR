@@ -2,6 +2,8 @@
 local_httr_file <- "googleAuthR_tests.httr-oauth"
 auth_env <- "GAR_AUTH_FILE"
 gargle_email <- "GARGLE_EMAIL"
+options(googleAuthR.verbose = 3)
+options(gargle_quiet = TRUE)
 
 context("gargle new features")
 
@@ -11,7 +13,8 @@ test_that("Have existing local email cache", {
   
  gos <- gargle::gargle_oauth_sitrep()
  
- expect_equal(gos[gos$hash == "259f7b4c740afd78ebbdeb63821b77f4", "email"], 
+ expect_equal(gos[gos$scopes == "email", 
+                  "email"][[1]], 
               Sys.getenv(gargle_email) )
   
 })

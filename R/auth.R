@@ -39,6 +39,9 @@ gar_auth <- function(token = NULL,
   # file locations to read existing httr tokens (legacy compatibility)
   if(is.string(token) && is.readable(token)){
     token <- read_cache_token(token)
+    #`scopes` cannot be specified when user brings their own OAuth token; 
+    #`scopes` are already implicit in the token
+    scopes <- NULL 
   }
   
   # to aid non-interactive scripts

@@ -225,36 +225,37 @@ A demonstration is shown below:
 ```r
 #' Shortens a url using goo.gl
 #'
-#' @param url URl to shorten with goo.gl
 #' 
-#' @return a string of the short URL
-shorten_url <- function(url){
-  
-  body = list(
-    longUrl = url
-  )
-  
-  f <- gar_api_generator("https://www.googleapis.com/urlshortener/v1/url",
+#' @return the email of the user authenticated
+get_email <- function(){
+
+  f <- gar_api_generator("https://openidconnect.googleapis.com/v1/userinfo",
                          "POST",
-                         data_parse_function = function(x) x$id)
+                         data_parse_function = function(x) x$email,
+                         checkTrailingSlash = FALSE)
   
-  f(the_body = body)
+  f()
   
 }
 
-gar_auth()
+gar_auth(email = Sys.getenv("GARGLE_EMAIL"), scopes = "email")
 
 ## normal API fetch
-shorten_url("http://markedmondson.me")
+get_email()
+#> email@me.com
 
-## By default this will save the API response to RAM
+## By default this will save the API response to RAM when it has a 200 response
 gar_cache_setup()
+#> [1] TRUE
 
 ## first time no cache
-shorten_url("http://markedmondson.me")
+get_email()
+#> email@me.com
 
-## second time cached - much quicker
-shorten_url("http://markedmondson.me")
+## second time cached - much quicker for slow functions
+get_email()
+#> 2019-07-17 12:29:18> Reading cache
+#> email@me.com
 ```
 
 
