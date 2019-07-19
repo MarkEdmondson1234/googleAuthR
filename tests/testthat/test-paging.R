@@ -1,13 +1,14 @@
-library(httptest)
 context("Paging")
 
-
-auth_env <- "GAR_AUTH_FILE"
-
+auth_env <- "GARGLE_EMAIL"
 
 test_that("Paging via parameters", {
   skip_on_cran()
   skip_if_no_env_auth(auth_env)
+  
+  gar_auth(email = Sys.getenv(auth_env), 
+           scopes = "https://www.googleapis.com/auth/analytics.readonly")
+  
   paging_function <- function(x){
     next_entry <- x$startIndex + x$itemsPerPage
     
@@ -44,6 +45,10 @@ test_that("Paging via parameters", {
 test_that("Paging via nextLink", {
   skip_on_cran()
   skip_if_no_env_auth(auth_env)
+  
+  gar_auth(email = Sys.getenv(auth_env), 
+           scopes = "https://www.googleapis.com/auth/analytics.readonly")
+  
   ga_segment_list <- function(){
     
     url <- "https://www.googleapis.com/analytics/v3/management/segments"

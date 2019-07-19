@@ -18,8 +18,23 @@
 #' 
 #' \dontrun{
 #' 
+#' # sets GCP project to auth through
 #' gar_auth_configure(path="path/to/gcp-client.json")
+#' 
+#' # starts auth process with defaults
 #' gar_auth()
+#' 
+#' # switching between auth scopes
+#' # first time new scope manual auth, then auto if supplied email   
+#' gar_auth(email = "your@email.com", 
+#'          scopes = "https://www.googleapis.com/auth/drive")
+#'          
+#' # ... query Google Drive functions ...
+#' 
+#' gar_auth(email = "your@email.com", 
+#'          scopes = "https://www.googleapis.com/auth/bigquery")
+#'          
+#' # ..query BigQuery functions ...
 #' 
 #' }
 #'
@@ -42,6 +57,11 @@ gar_auth <- function(token = NULL,
     #`scopes` cannot be specified when user brings their own OAuth token; 
     #`scopes` are already implicit in the token
     scopes <- NULL 
+  }
+  
+  # set scopes to options for backward compatibility  
+  if(!is.null(scopes) && scopes != ""){
+    options(googleAuthR.scopes.selected = scopes)
   }
   
   # to aid non-interactive scripts

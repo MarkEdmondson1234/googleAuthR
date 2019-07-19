@@ -36,8 +36,23 @@ Wrapper of \link[gargle]{token_fetch}
 
 \dontrun{
 
+# sets GCP project to auth through
 gar_auth_configure(path="path/to/gcp-client.json")
+
+# starts auth process with defaults
 gar_auth()
+
+# switching between auth scopes
+# first time new scope manual auth, then auto if supplied email   
+gar_auth(email = "your@email.com", 
+         scopes = "https://www.googleapis.com/auth/drive")
+         
+# ... query Google Drive functions ...
+
+gar_auth(email = "your@email.com", 
+         scopes = "https://www.googleapis.com/auth/bigquery")
+         
+# ..query BigQuery functions ...
 
 }
 

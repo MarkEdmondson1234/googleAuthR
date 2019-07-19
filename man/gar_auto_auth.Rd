@@ -4,13 +4,11 @@
 \alias{gar_auto_auth}
 \title{Perform auto authentication}
 \usage{
-gar_auto_auth(required_scopes, new_user = NULL, no_auto = FALSE,
+gar_auto_auth(required_scopes, no_auto = FALSE,
   environment_var = "GAR_AUTH_FILE")
 }
 \arguments{
 \item{required_scopes}{Required scopes needed to authenticate - needs to match at least one}
-
-\item{new_user}{Not used}
 
 \item{no_auto}{If TRUE, ignore auto-authentication settings}
 

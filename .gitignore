@@ -19,3 +19,4 @@ bq.oauth
 googleAuthR_tests.httr-oauth
 *.dcf
 revdep/.cache.rds
+tests/testthat/mock/*

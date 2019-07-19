@@ -170,30 +170,31 @@ context("Previous bugs to solve")
 
 test_that("Encoding parameters works (#100 & #101)", {
   skip_on_cran()
-  skip_if_no_env_auth(auth_env)
+  skip_if_no_env_auth("GARGLE_EMAIL")
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  skip_if_no_env_auth("BQ_DEFAULT_PROJECT_ID")
+  skip_if_no_env_auth("BQ_DEFAULT_DATASET")
   
   fileSearch <- function(query) {
     gar_api_generator("https://www.googleapis.com/drive/v3/files/",
                                    "GET",pars_args=list(q=query))()
   }
   
-  gar_set_client(scopes = "https://www.googleapis.com/auth/drive")
-  gar_auth("googledrive.oauth")
+  gar_auth(email = Sys.getenv("GARGLE_EMAIL"), 
+           scopes = "https://www.googleapis.com/auth/drive")
   
   searchResponse <- fileSearch("mimeType != 'application/vnd.google-apps.folder'")
   
   expect_equal(searchResponse$status_code, 200)
   
-  op <- options()
-  options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/bigquery")
-  googleAuthR::gar_auth_service(Sys.getenv("BQ_AUTH_FILE"))
+  gar_auth(email = Sys.getenv("GARGLE_EMAIL"), 
+           scopes = "https://www.googleapis.com/auth/bigquery")
   
   tables <- bigQueryR::bqr_list_tables(projectId = Sys.getenv("BQ_DEFAULT_PROJECT_ID"),
                                        datasetId = Sys.getenv("BQ_DEFAULT_DATASET"), 
                                        maxResults = 10)
   
   expect_s3_class(tables, "data.frame")
-  options(op)
   
 })
 

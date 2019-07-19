@@ -2,7 +2,6 @@
 #' 
 #' This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by \link{gar_attach_auto_auth}
 #' 
-#' @param new_user Not used
 #' @param no_auto If TRUE, ignore auto-authentication settings
 #' @param required_scopes Required scopes needed to authenticate - needs to match at least one
 #' @param environment_var Name of environment var that contains auth file path
@@ -29,14 +28,8 @@
 #' @import assertthat
 #' @importFrom tools file_ext
 gar_auto_auth <- function(required_scopes,
-                          new_user = NULL, 
                           no_auto = FALSE,
                           environment_var = "GAR_AUTH_FILE"){
-  
-  if(!is.null(new_user)){
-    warning("Argument 'new_user' is not used anymore, remove it from ", 
-            paste(sys.call(-1), collapse = " "))
-  }
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
@@ -50,42 +43,43 @@ gar_auto_auth <- function(required_scopes,
     is.string(environment_var)
   )
   
-  if(!any(getOption("googleAuthR.scopes.selected") %in% required_scopes)){
+  if(!all(getOption("googleAuthR.scopes.selected") %in% required_scopes)){
     stop("Cannot authenticate - options(googleAuthR.scopes.selected) needs to be set to include", 
-         paste(required_scopes, collapse = " or "))
+         paste(required_scopes, collapse = " or "), " but scopes set are: ",
+         paste(getOption("googleAuthR.scopes.selected"), collapse = " "))
   }
   
   if(no_auto){
-    return(invisible(gar_auth()))
+    return(gar_auth())
   }
   
   auth_file <- Sys.getenv(environment_var)
   
   if(auth_file == ""){
     ## normal auth looking for .httr-oauth in working folder or new user
-    out <- gar_auth()
-  } else {
-    ## auth_file specified in environment_var
-    if(file.exists(auth_file)){
-      ## Service JSON file
-      if(file_ext(auth_file) == "json"){
-        myMessage("Auto-auth - json", level = 2)
-        out <- gar_auth_service(auth_file)
-      } else {
-        ## .httr-oauth file
-        myMessage("Auto-auth - file path", level = 2)
-
-        out <- gar_auth(token = auth_file)
-
-      }
-    } else {
-      ## auth_file specified but not present
-      stop(environment_var, " specified in environment variables but file not found - 
-           looked for ", auth_file, " and called from ", getwd())
-    }
+    return(gar_auth())
   }
   
-  invisible(out)
+  if(!file.exists(auth_file)){
+    ## auth_file specified but not present
+    stop(environment_var, " specified in environment variables but file not found - 
+         looked for ", auth_file, " and called from ", getwd())
+  }
+
+  ## auth_file specified in environment_var
+
+  ## Service JSON file
+  if(file_ext(auth_file) == "json"){
+    myMessage("Auto-auth - json", level = 2)
+    out <- gar_auth_service(auth_file)
+  } else {
+    ## .httr-oauth file
+    myMessage("Auto-auth - file path", level = 2)
+    out <- gar_auth(token = auth_file)
+    
+  }
+  
+  out
   
 }
 
