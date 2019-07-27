@@ -37,7 +37,6 @@ test_that("Can set scopes and client id/secret from file", {
 })
 
 test_that("Test scopes are set", {
-  skip_on_cran()
   
   scopes <- getOption("googleAuthR.scopes.selected")
   expected_scopes <- c("https://www.googleapis.com/auth/webmasters",
@@ -64,6 +63,7 @@ test_that("Can authenticate .httr passed as a string", {
   skip_if_no_env_auth(auth_env)
   
   expect_s3_class(gar_auth(local_httr_file), "Token2.0")
+  expect_true(gar_has_token())
 })
 
 
@@ -74,7 +74,7 @@ test_that("Can authenticate .httr passing a token", {
   tt <- gar_auth(local_httr_file)
   
   expect_s3_class(gar_auth(tt), "Token2.0")
-  
+  expect_true(gar_has_token())
 })
 
 context("Auth with JSON")
@@ -87,6 +87,7 @@ test_that("The auth JSON file can be found and used",{
   
   expect_true(file.exists(filep))
   expect_s3_class(gar_auth_service(filep), "Token2.0")
+  expect_true(gar_has_token())
 })
 
 context("Auto authentication")
@@ -100,7 +101,8 @@ test_that("Can authenticate default auto settings", {
   token <- gar_auto_auth(default_scopes, 
                          environment_var = "GAR_AUTH_FILE")
   
-  expect_s3_class(token, "Token2.0")
+  expect_s3_class(token, "TokenServiceAccount")
+  expect_true(gar_has_token())
   
 })
 
