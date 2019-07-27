@@ -20,7 +20,7 @@ Depends:
 Imports:
     assertthat (>= 0.2.0),
     digest, 
-    gargle (>= 0.3.0.9000),
+    gargle (>= 0.3.1),
     httr (>= 1.4.0),
     jsonlite (>= 1.6),
     memoise (>= 1.1.0),
