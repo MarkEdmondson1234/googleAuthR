@@ -254,11 +254,23 @@ gar_auth_service <- function(json_file,
          (Service Account Keys, not service account client)")
   }
   
-  credentials_service_account(
+  token <- credentials_service_account(
     scopes = scope,
     path = json_file
   )
   
+  if(!is.tokenservice(token)){
+    stop("Invalid TokenServiceAccount", call. = FALSE)
+  }
+  
+  .auth$set_cred(token)
+  .auth$set_auth_active(TRUE)
+  
+  invisible(token)
+  
 }
 
+is.tokenservice <- function(x){
+  inherits(x, "TokenServiceAccount")
+}
 

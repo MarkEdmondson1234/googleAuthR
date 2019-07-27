@@ -81,6 +81,9 @@ gar_gce_auth <- function(service_account = "default",
   
   myMessage("Authenticated on Google Compute Engine", level = 2)
   
+  .auth$set_cred(token)
+  .auth$set_auth_active(TRUE)
+  
   invisible(token)
   
 }
