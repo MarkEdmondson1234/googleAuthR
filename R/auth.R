@@ -243,14 +243,7 @@ get_google_token <- function(shiny_return_token=NULL) {
 #' @importFrom gargle credentials_service_account
 gar_auth_service <- function(json_file, 
                              scope = getOption("googleAuthR.scopes.selected")){
-  
-  if(is.raw(json_file)){
-    json_file <- readBin(json_file, what = "character")
-  } else {
-    stopifnot(file.exists(json_file))
-  }
 
-  
   secrets  <- fromJSON(json_file)
   scope <- paste(scope, collapse=" ")
   
