@@ -12,7 +12,7 @@
 #'   If these differ, then reauthentication may be needed.
 #' 
 #' @export
-gar_check_existing_token <- function(token = .auth$creds){
+gar_check_existing_token <- function(token = .auth$cred){
   
   cache_path <- scopes <- client_id <- client_secret <- FALSE
   
@@ -100,7 +100,7 @@ is_legit_token <- function(x) {
 #' @import assertthat
 token_exists <- function() {
   
-  token <- .auth$creds
+  token <- .auth$cred
   
   if(is.null(token)) {
     
@@ -148,8 +148,8 @@ checkTokenAPI <- function(shiny_access_token=NULL){
   
   if(is.null(shiny_access_token)){
     ## local token
-    token <- .auth$creds
-    
+    token <- .auth$cred
+
     if(token_exists() && is_legit_token(token)) {
       myMessage("Valid local token", level = 1)
       return(TRUE)

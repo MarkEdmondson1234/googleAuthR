@@ -4,7 +4,7 @@
 \alias{gar_check_existing_token}
 \title{Check a token vs options}
 \usage{
-gar_check_existing_token(token = .auth$creds)
+gar_check_existing_token(token = .auth$cred)
 }
 \arguments{
 \item{token}{A token to check, default current live session token}
