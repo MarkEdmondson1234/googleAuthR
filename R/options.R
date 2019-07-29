@@ -25,9 +25,10 @@
     googleAuthR.scopes.selected = scopes_split("GAR_SCOPES"),
     googleAuthR.webapp.port = 1221,
     googleAuthR.jsonlite.simplifyVector = TRUE,
-    googleAuthR.ok_content_types = c("application/json; charset=UTF-8", "text/html; charset=UTF-8"),
+    googleAuthR.ok_content_types = c("application/json; charset=UTF-8", 
+                                     "text/html; charset=UTF-8"),
     googleAuthR.securitycode = 
-      paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse = ''),
+      paste0(sample(c(1:9, LETTERS, letters), 20, replace = TRUE), collapse = ''),
     googleAuthR.tryAttempts = 5,
     googleAuthR.HttrRetryTimes = 3,
     googleAuthR.HttrRetryTerminateOn = c(400,401,402,403,404,405,406,407,408,

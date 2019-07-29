@@ -136,7 +136,8 @@ token_exists <- function() {
 #' @family data fetching functions
 checkTokenAPI <- function(shiny_access_token=NULL){
   
-  if(any(which(grepl("with_mock_API", as.character(sys.calls()), ignore.case = FALSE)))){
+  if(any(which(grepl("with_mock_API", 
+                     as.character(sys.calls()), ignore.case = FALSE)))){
     myMessage("Skipping token checks as using with_mock_API", level = 1)
     return(TRUE)
   }
