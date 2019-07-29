@@ -244,7 +244,12 @@ get_google_token <- function(shiny_return_token=NULL) {
 gar_auth_service <- function(json_file, 
                              scope = getOption("googleAuthR.scopes.selected")){
   
-  stopifnot(file.exists(json_file))
+  if(is.raw(json_file)){
+    json_file <- readBin(json_file, what = "character")
+  } else {
+    stopifnot(file.exists(json_file))
+  }
+
   
   secrets  <- fromJSON(json_file)
   scope <- paste(scope, collapse=" ")
