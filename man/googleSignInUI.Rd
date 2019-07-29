@@ -4,10 +4,15 @@
 \alias{googleSignInUI}
 \title{Google SignIn [UI Module]}
 \usage{
-googleSignInUI(id)
+googleSignInUI(id, logout_name = "Sign Out",
+  logout_class = "btn-danger")
 }
 \arguments{
-\item{id}{Shiny id}
+\item{id}{Shiny id.}
+
+\item{logout_name}{Character. Custom name of the logout button.}
+
+\item{logout_class}{Character. Bootstrap class name for buttons, e.g. "btn-info", "btn-dark".}
 }
 \value{
 Shiny UI

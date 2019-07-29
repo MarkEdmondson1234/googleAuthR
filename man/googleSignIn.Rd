@@ -9,19 +9,20 @@ googleSignIn(input, output, session)
 \arguments{
 \item{input}{shiny input}
 
-\item{output}{shiny output}
+\item{output}{shiny output (\code{id}, \code{name}, \code{email}, \code{image}, \code{signed_in})}
 
 \item{session}{shiny session}
 }
 \value{
-A reactive list with values $g_id, $g_name, $g_email and $g_image
+A reactive list with values \code{$g_id}, \code{$g_name}, \code{$g_email}, \code{$g_image}
+and \code{$signed_in}.
 }
 \description{
 Shiny Module for use with \link{googleSignInUI}.  
   Use when you don't need to call APIs, but would like a login to Shiny.
 }
 \details{
-Call via \code{shiny::callModule(googleSignIn, "your_id")}
+Call via \code{shiny::callModule(googleSignIn, "your_id")}.
 }
 \author{
 Based on original code by David Kulp

@@ -202,7 +202,7 @@ gar_api_generator <- function(baseURI,
                                              data_parse_func = data_parse_function,
                                              content = req$content),
                              authentication = list(
-                               token = .auth$creds
+                               token = .auth$cred
                              )),
                              class = "gar_parse_error")
         

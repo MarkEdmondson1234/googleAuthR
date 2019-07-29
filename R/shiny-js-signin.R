@@ -3,7 +3,9 @@
 #' Shiny Module for use with \link{googleSignIn}. 
 #'   If you just want a login to a Shiny app, without API tokens.
 #' 
-#' @param id Shiny id
+#' @param id Shiny id.
+#' @param logout_name Character. Custom name of the logout button.
+#' @param logout_class Character. Bootstrap class name for buttons, e.g. "btn-info", "btn-dark".
 #' 
 #' @author Based on original code by David Kulp
 #' 
@@ -11,7 +13,7 @@
 #'
 #' @return Shiny UI
 #' @export
-googleSignInUI <- function(id){
+googleSignInUI <- function(id, logout_name = "Sign Out", logout_class = "btn-danger"){
 
   ns <- shiny::NS(id)
   
@@ -26,11 +28,11 @@ googleSignInUI <- function(id){
       shiny::HTML('<script src="https://apis.google.com/js/platform.js?onload=init"></script>')
     ),
     shiny::div(id=ns("signin"), class="g-signin2", "data-onsuccess"="onSignIn"),
-    shiny::tags$button(id = ns("signout"), "Sign Out", onclick="signOut();", class="btn-danger"),
+    shiny::tags$button(id = ns("signout"), logout_name, onclick = "signOut();", class = logout_class),
     load_js_template("js/signin-top.js",
                      ns("signin"), ns("signout") ,ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email")),
     load_js_template("js/signin-bottom.js",
-                     ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email"))
+                     ns("g_id"), ns("g_name"), ns("g_image"), ns("g_email"), ns("signed_in"))
   )
 }
 
@@ -41,14 +43,15 @@ googleSignInUI <- function(id){
 #' Shiny Module for use with \link{googleSignInUI}.  
 #'   Use when you don't need to call APIs, but would like a login to Shiny.
 #'
-#' Call via \code{shiny::callModule(googleSignIn, "your_id")}
+#' Call via \code{shiny::callModule(googleSignIn, "your_id")}.
 #'
 #' @param input shiny input
-#' @param output shiny output
+#' @param output shiny output (\code{id}, \code{name}, \code{email}, \code{image}, \code{signed_in})
 #' @param session shiny session
 #'
 #' @author Based on original code by David Kulp
-#' @return A reactive list with values $g_id, $g_name, $g_email and $g_image
+#' @return A reactive list with values \code{$g_id}, \code{$g_name}, \code{$g_email}, \code{$g_image}
+#' and \code{$signed_in}.
 #' @export
 googleSignIn <- function(input, output, session){
   check_package_loaded("shiny")
@@ -62,7 +65,8 @@ googleSignIn <- function(input, output, session){
       id = input$g_id,
       name = input$g_name,
       email = input$g_email,
-      image = input$g_image
+      image = input$g_image,
+      signed_in = input$signed_in
     )
     
   })
