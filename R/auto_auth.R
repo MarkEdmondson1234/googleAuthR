@@ -60,6 +60,11 @@ gar_auto_auth <- function(required_scopes,
     return(gar_auth())
   }
   
+  if(grepl("^[[:alnum:].-_]+@[[:alnum:].-]+$", auth_file)){
+    myMessage("Auto-auth - email address", level = 2)
+    return(gar_auth(email = auth_file))
+  }
+  
   if(!file.exists(auth_file)){
     ## auth_file specified but not present
     stop(environment_var, " specified in environment variables but file not found - 
@@ -153,8 +158,9 @@ gar_attach_auto_auth <- function(required_scopes,
                           Sys.getenv(environment_var))
   }, error = function(ex){
     packageStartupMessage("Failed! Auto-authentication via ", 
+                          environment_var, "=",
                           Sys.getenv(environment_var), 
-                          " - error was: ", ex$error)
+                          " - error was: ", ex$error, ex$message)
   })
   
   invisible()

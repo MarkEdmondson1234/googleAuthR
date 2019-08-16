@@ -30,11 +30,6 @@ check_package_loaded <- function(package_name){
 #' @noRd
 myMessage <- function(..., level = 2){
   
-  if(level < 3){
-    options(gargle_quiet = FALSE)
-  } else {
-    options(gargle_quiet = TRUE)
-  }
   compare_level <- getOption("googleAuthR.verbose", 3)
   
   if(level >= compare_level){
