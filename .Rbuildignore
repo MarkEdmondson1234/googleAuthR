@@ -6,7 +6,6 @@ cran-comments\.md
 \.travis\.yaml
 ^\.httr-oauth$
 .httr-oauth-SUSPENDED
-^revdep.*
 ^codecov\.yml$
 ^auth\.json$
 ^auth\.json\.enc$
@@ -16,10 +15,11 @@ cran-comments\.md
 ^\.httr-oauth\.enc$
 ^README\.Rmd$
 ^_pkgdown\.yml$
-^docs.*
 ^gdrive\.oauth$
 ^issue_template\.md$
 ^bq\.oauth$
 ^googleAuthR_tests\.httr-oauth$
 secrets\.R
 ^inst/jupyter.*
+^revdep$
+^docs$

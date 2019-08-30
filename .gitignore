@@ -20,3 +20,4 @@ googleAuthR_tests.httr-oauth
 *.dcf
 revdep/*
 tests/testthat/mock/*
+docs/

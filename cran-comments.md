@@ -1,21 +1,15 @@
 ## Test environments
-* local OS X install, R 3.5.0
-* Ubuntu 14.04.5 LTS (on travis-ci), R 3.6.0
+* local OS X install, R 3.6.1
+* Ubuntu 14.04.5 LTS (on travis-ci), R 3.6.1
 * Windows Server 2008 R2 SP1, R-devel, 32/64 bit (on r-hub)
   
 ## R CMD check results
 
-This is the first attempt for 0.8.1.  
+This is the first attempt for 1.0.0.  
 
 I have corrected the WARNINGS that have appeared from the devtools removing some functions to usethis. 
 
-There were no ERRORs or WARNINGs.
-
-There was 1 NOTE:
-
-* Namespaces in Imports field not imported from:
-     'R6'
-     All declared Imports should be used.
+There were no ERRORs or WARNINGs or NOTEs
      
 R6 is a runtime dependency
   
@@ -24,13 +18,16 @@ I have also run R CMD check on downstream dependencies of googleAuthR
 
 The results were:
 
-* Checked bigQueryR           : 0 errors | 0 warnings | 0 notes
-* Checked googleAnalyticsR    : 0 errors | 0 warnings | 0 notes
-* Checked googleCloudStorageR : 0 errors | 0 warnings | 0 notes
-* Checked googleComputeEngineR: 0 errors | 0 warnings | 0 notes
-* Checked googleLanguageR     : 0 errors | 0 warnings | 0 notes
-* Checked googlePrintr        : 0 errors | 0 warnings | 0 notes
-* Checked searchConsoleR      : 0 errors | 0 warnings | 0 notes
+✔ googleAnalyticsR 0.6.0                 ── E: 0     | W: 0     | N: 0                         
+✔ bigQueryR 0.4.0                        ── E: 0     | W: 0     | N: 0                            
+✔ googleCloudStorageR 0.5.0              ── E: 0     | W: 0     | N: 0                            
+✔ googleCloudVisionR 0.1.0               ── E: 0     | W: 0     | N: 0                         
+✔ googleComputeEngineR 0.3.0             ── E: 0     | W: 0     | N: 0                            
+✔ HCABrowser 1.0.1                       ── E: 0     | W: 0     | N: 0                            
+✔ googlePrintr 0.0.1                     ── E: 0     | W: 0     | N: 1                            
+✖ searchConsoleR 0.3.0                   ── E: 1     | W: 0     | N: 0                         
+✔ text2speech 0.2.5                      ── E: 0     | W: 0     | N: 0                           
+✔ googleLanguageR 0.2.0                  ── E: 0     | W: 0     | N: 0
 
-All packages passed.
+I will submit a fix for searchConsoleR immediatly after this package is on CRAN
   
