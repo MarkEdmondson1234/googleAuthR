@@ -7,10 +7,8 @@
 
 This is the first attempt for 1.0.0.  
 
-There were no ERRORs or WARNINGs
+There were no ERRORs or WARNINGs or NOTEs
 
-There is 1 NOTE about the size of the tarball, I don't see where I can minimise the package size.
-  
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of googleAuthR
 
