@@ -10,6 +10,7 @@
 #' @param package The name of the package authenticating
 #' @param cache Where to store authentication tokens
 #' @param use_oob Whther to use OOB browserless authetication
+#' @param new_user Deprecated, not used
 #'
 #' @return an OAuth token object, specifically a
 #'   \code{\link[=Token-class]{Token2.0}}, invisibly
@@ -49,7 +50,12 @@ gar_auth <- function(token = NULL,
                      app = gar_oauth_app(),
                      cache = gargle::gargle_oauth_cache(),
                      use_oob = gargle::gargle_oob_default(),
-                     package = "googleAuthR") {
+                     package = "googleAuthR",
+                     new_user = NULL) {
+  
+  if(!is.null(new_user)){
+    warning("Argument new_user is deprecated and will be removed next release.")
+  }
   
   # file locations to read existing httr tokens (legacy compatibility)
   if(is.string(token) && is.readable(token)){

@@ -5,6 +5,7 @@
 #' @param no_auto If TRUE, ignore auto-authentication settings
 #' @param required_scopes Required scopes needed to authenticate - needs to match at least one
 #' @param environment_var Name of environment var that contains auth file path
+#' @param new_user Deprecated, not used
 #' 
 #' The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
 #'   or a Google service JSON file downloaded from the Google API credential console, 
@@ -29,7 +30,12 @@
 #' @importFrom tools file_ext
 gar_auto_auth <- function(required_scopes,
                           no_auto = FALSE,
-                          environment_var = "GAR_AUTH_FILE"){
+                          environment_var = "GAR_AUTH_FILE",
+                          new_user = NULL) {
+  
+  if(!is.null(new_user)){
+    warning("Argument new_user is deprecated and will be removed next release.")
+  } 
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 

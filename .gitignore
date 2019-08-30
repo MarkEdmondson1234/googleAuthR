@@ -18,5 +18,5 @@ gdrive.oauth
 bq.oauth
 googleAuthR_tests.httr-oauth
 *.dcf
-revdep/.cache.rds
+revdep/*
 tests/testthat/mock/*
