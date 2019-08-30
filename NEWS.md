@@ -1,4 +1,4 @@
-# googleAuthR v0.8.1.9000
+# googleAuthR v1.0.0
 
 * Implement `library(gargle)` as backend for authentication functions
 * Auto-attempt authentication via `gar_auth()` if an API call has no auth set
