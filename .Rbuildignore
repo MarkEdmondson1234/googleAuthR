@@ -22,3 +22,4 @@ cran-comments\.md
 ^bq\.oauth$
 ^googleAuthR_tests\.httr-oauth$
 secrets\.R
+^inst/jupyter.*
