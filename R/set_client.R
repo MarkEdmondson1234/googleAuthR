@@ -6,6 +6,7 @@
 #' @param json The file location of an OAuth 2.0 client ID json file
 #' @param web_json The file location of client ID json file for web applications
 #' @param scopes A character vector of scopes to set
+#' @param activate Which credential to activate
 #' 
 #' @details 
 #' 

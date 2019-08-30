@@ -219,7 +219,7 @@ test_that("Can do batching with caching (#106)", {
   expect_false(suppressWarnings(googleAnalyticsR:::is.error("g")))
   
   batched_call <- googleAnalyticsR::google_analytics_3(
-    id = c(115751114, 123875646),
+    id = c(81416156, 129374148),
     start = "2017-01-01", end = "2017-08-01",
     metrics = "sessions",
     dimensions = c("date","deviceCategory","medium"),

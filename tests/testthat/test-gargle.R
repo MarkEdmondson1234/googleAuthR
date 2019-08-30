@@ -13,9 +13,7 @@ test_that("Have existing local email cache", {
   
  gos <- gargle::gargle_oauth_sitrep()
  
- expect_equal(gos[gos$scopes == "email", 
-                  "email"][[1]], 
-              Sys.getenv(gargle_email) )
+ expect_true(any(gos[,"email"] %in% Sys.getenv(gargle_email) ))
   
 })
 

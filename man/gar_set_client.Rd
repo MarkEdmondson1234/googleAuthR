@@ -14,6 +14,8 @@ gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"),
 \item{web_json}{The file location of client ID json file for web applications}
 
 \item{scopes}{A character vector of scopes to set}
+
+\item{activate}{Which credential to activate}
 }
 \value{
 The \code{project-id} the app has been set for
