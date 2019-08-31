@@ -1,3 +1,7 @@
+# googleAuthR v1.0.0.9000
+
+* ...
+
 # googleAuthR v1.0.0
 
 * Implement `library(gargle)` as backend for authentication functions
