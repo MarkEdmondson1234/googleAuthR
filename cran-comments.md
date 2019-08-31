@@ -5,7 +5,9 @@
   
 ## R CMD check results
 
-This is the first attempt for 1.0.0.  
+This is the second attempt for 1.0.0.  
+
+I have removed the test mock files that increased the size of the package to be over 5MB
 
 There were no ERRORs or WARNINGs or NOTEs
 
