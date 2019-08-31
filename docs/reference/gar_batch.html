@@ -8,10 +8,12 @@
 
 <title>Turn a list of gar_fetch_functions into batch functions — gar_batch • googleAuthR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Turn a list of gar_fetch_functions into batch functions — gar_batch" />
 
+<meta property="og:title" content="Turn a list of gar_fetch_functions into batch functions — gar_batch" />
 <meta property="og:description" content="Turn a list of gar_fetch_functions into batch functions" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -73,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -119,7 +122,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://developers.google.com/apis-explorer/">
@@ -157,15 +159,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Turn a list of gar_fetch_functions into batch functions</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>gar_batch</span>(<span class='no'>call_list</span>, <span class='no'>...</span>,
   <span class='kw'>batch_endpoint</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"googleAuthR.batch_endpoint"</span>, <span class='kw'>default</span> <span class='kw'>=</span>
   <span class='st'>"https://www.googleapis.com/batch"</span>))</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -182,18 +182,16 @@
       <td><p>the batch API endpoint to send to</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of the Google API responses</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function will turn all the individual Google API functions
   into one POST request to /batch.</p>  
 <p>If you need to pass multiple data parse function arguments its probably best 
   to do it in separate batches to avoid confusion.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>https://developers.google.com/webmaster-tools/v3/how-tos/batch</p>
@@ -201,7 +199,6 @@
   Other Google APIs are similar.</p>  
 <p>Walk through API calls changing parameters using <code><a href='gar_batch_walk.html'>gar_batch_walk</a></code></p>
 <p>Other batch functions: <code><a href='gar_batch_walk.html'>gar_batch_walk</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -237,13 +234,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

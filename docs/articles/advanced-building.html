@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@
       <h1>Advanced Google API building techniques</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2019-06-30</h4>
+            <h4 class="date">2019-08-31</h4>
       
       
       <div class="hidden name"><code>advanced-building.Rmd</code></div>
@@ -139,62 +139,62 @@
 <li>In some cases the <code>nextLink</code> field is not available - in those cases you can use parameters in the API responses to walk through the pages. These are typically called <code>start-index</code> and <code>page-size</code>, to control what rows in the response you want each call.</li>
 </ol>
 <p>An example of the two approaches can be shown below on a Google Analytics segments API response. Both provide equivalent output.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># demos the two methods for the same function.</span>
-<span class="co"># The example is for the Google Analytics management API, </span>
-<span class="co">#  you need to authenticate with that to run them. </span>
- 
-
-<span class="co"># paging by using nextLink that is returned in API response</span>
-ga_segment_list1 &lt;-<span class="st"> </span><span class="cf">function</span>(){
- 
-<span class="co"># this URL will be modified by using the url_override argument in the generated function</span>
-segs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/analytics/v3/management/segments"</span>,
-                             <span class="st">"GET"</span>,
-                             <span class="dt">pars_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"max-results"</span>=<span class="dv">10</span>),
-                             <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
-                          
-                          
-   <span class="kw"><a href="../reference/gar_api_page.html">gar_api_page</a></span>(segs, 
-                <span class="dt">page_method =</span> <span class="st">"url"</span>,
-                <span class="dt">page_f =</span> <span class="cf">function</span>(x) x<span class="op">$</span>nextLink)
- 
-}
- 
-<span class="co"># paging by looking for the next start-index parameter</span>
- 
-## start by creating the function that will output the correct start-index
-paging_function &lt;-<span class="st"> </span><span class="cf">function</span>(x){
-   next_entry &lt;-<span class="st"> </span>x<span class="op">$</span>startIndex <span class="op">+</span><span class="st"> </span>x<span class="op">$</span>itemsPerPage
- 
-   <span class="co"># we have all results e.g. 1001 &gt; 1000</span>
-   <span class="cf">if</span>(next_entry <span class="op">&gt;</span><span class="st"> </span>x<span class="op">$</span>totalResults){
-     <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="ot">NULL</span>)
-   }
- 
-   next_entry
-   }
-   
-## remember to add the paging argument (start-index) to the generated function too, 
-##  so it can be modified.    
-ga_segment_list2 &lt;-<span class="st"> </span><span class="cf">function</span>(){
- 
- segs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/analytics/v3/management/segments"</span>,
-                            <span class="st">"GET"</span>,
-                             <span class="dt">pars_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"start-index"</span> =<span class="st"> </span><span class="dv">1</span>,
-                                              <span class="st">"max-results"</span>=<span class="dv">10</span>),
-                             <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
-                            
-   <span class="kw"><a href="../reference/gar_api_page.html">gar_api_page</a></span>(segs, 
-                <span class="dt">page_method =</span> <span class="st">"param"</span>,
-                <span class="dt">page_f =</span> paging_function,
-                <span class="dt">page_arg =</span> <span class="st">"start-index"</span>)
- 
-   }
- 
- 
- <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identical">identical</a></span>(<span class="kw">ga_segment_list1</span>(), <span class="kw">ga_segment_list2</span>())
- 
- <span class="er">}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># demos the two methods for the same function.</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># The example is for the Google Analytics management API, </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#  you need to authenticate with that to run them. </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"> </a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># paging by using nextLink that is returned in API response</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">ga_segment_list1 &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"> </a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co"># this URL will be modified by using the url_override argument in the generated function</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">segs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/analytics/v3/management/segments"</span>,</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">                             <span class="st">"GET"</span>,</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">                             <span class="dt">pars_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"max-results"</span>=<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">                             <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">                          </a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">                          </a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">   <span class="kw"><a href="../reference/gar_api_page.html">gar_api_page</a></span>(segs, </a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">                <span class="dt">page_method =</span> <span class="st">"url"</span>,</a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">                <span class="dt">page_f =</span> <span class="cf">function</span>(x) x<span class="op">$</span>nextLink)</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"> </a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">}</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"> </a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co"># paging by looking for the next start-index parameter</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"> </a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">## start by creating the function that will output the correct start-index</span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">paging_function &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">   next_entry &lt;-<span class="st"> </span>x<span class="op">$</span>startIndex <span class="op">+</span><span class="st"> </span>x<span class="op">$</span>itemsPerPage</a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"> </a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">   <span class="co"># we have all results e.g. 1001 &gt; 1000</span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29">   <span class="cf">if</span>(next_entry <span class="op">&gt;</span><span class="st"> </span>x<span class="op">$</span>totalResults){</a>
+<a class="sourceLine" id="cb1-30" data-line-number="30">     <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb1-31" data-line-number="31">   }</a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"> </a>
+<a class="sourceLine" id="cb1-33" data-line-number="33">   next_entry</a>
+<a class="sourceLine" id="cb1-34" data-line-number="34">   }</a>
+<a class="sourceLine" id="cb1-35" data-line-number="35">   </a>
+<a class="sourceLine" id="cb1-36" data-line-number="36"><span class="co">## remember to add the paging argument (start-index) to the generated function too, </span></a>
+<a class="sourceLine" id="cb1-37" data-line-number="37"><span class="co">##  so it can be modified.    </span></a>
+<a class="sourceLine" id="cb1-38" data-line-number="38">ga_segment_list2 &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb1-39" data-line-number="39"> </a>
+<a class="sourceLine" id="cb1-40" data-line-number="40"> segs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/analytics/v3/management/segments"</span>,</a>
+<a class="sourceLine" id="cb1-41" data-line-number="41">                            <span class="st">"GET"</span>,</a>
+<a class="sourceLine" id="cb1-42" data-line-number="42">                             <span class="dt">pars_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"start-index"</span> =<span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb1-43" data-line-number="43">                                              <span class="st">"max-results"</span>=<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb1-44" data-line-number="44">                             <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)</a>
+<a class="sourceLine" id="cb1-45" data-line-number="45">                            </a>
+<a class="sourceLine" id="cb1-46" data-line-number="46">   <span class="kw"><a href="../reference/gar_api_page.html">gar_api_page</a></span>(segs, </a>
+<a class="sourceLine" id="cb1-47" data-line-number="47">                <span class="dt">page_method =</span> <span class="st">"param"</span>,</a>
+<a class="sourceLine" id="cb1-48" data-line-number="48">                <span class="dt">page_f =</span> paging_function,</a>
+<a class="sourceLine" id="cb1-49" data-line-number="49">                <span class="dt">page_arg =</span> <span class="st">"start-index"</span>)</a>
+<a class="sourceLine" id="cb1-50" data-line-number="50"> </a>
+<a class="sourceLine" id="cb1-51" data-line-number="51">   }</a>
+<a class="sourceLine" id="cb1-52" data-line-number="52"> </a>
+<a class="sourceLine" id="cb1-53" data-line-number="53"> </a>
+<a class="sourceLine" id="cb1-54" data-line-number="54"> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identical">identical</a></span>(<span class="kw">ga_segment_list1</span>(), <span class="kw">ga_segment_list2</span>())</a>
+<a class="sourceLine" id="cb1-55" data-line-number="55"> </a>
+<a class="sourceLine" id="cb1-56" data-line-number="56"> <span class="er">}</span></a></code></pre></div>
 </div>
 <div id="skip-parsing" class="section level2">
 <h2 class="hasAnchor">
@@ -202,22 +202,22 @@ ga_segment_list2 &lt;-<span class="st"> </span><span class="cf">function</span>(
 <p>In some cases you may want to skip all parsing of API content, perhaps if it is not JSON or some other reason.</p>
 <p>For this, you can use the option <code><a href="https://www.rdocumentation.org/packages/base/topics/options">options("googleAuthR.rawResponse" = TRUE)</a></code> to skip all tests and return the raw response.</p>
 <p>Here is an example of this from the googleCloudStorageR library:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gcs_get_object &lt;-<span class="st"> </span><span class="cf">function</span>(bucket, 
-                           object_name){
-  ## skip JSON parsing on output as we expect a CSV
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">TRUE</span>)
-  
-  ## do the request
-  ob &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
-                                       <span class="dt">path_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">b =</span> bucket,
-                                                        <span class="dt">o =</span> object_name),
-                                       <span class="dt">pars_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">alt =</span> <span class="st">"media"</span>))
-  req &lt;-<span class="st"> </span><span class="kw">ob</span>()
-  
-  ## set it back to FALSE for other API calls.
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">FALSE</span>)
-  req
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">gcs_get_object &lt;-<span class="st"> </span><span class="cf">function</span>(bucket, </a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">                           object_name){</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="co">## skip JSON parsing on output as we expect a CSV</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  </a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="co">## do the request</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">  ob &lt;-<span class="st"> </span>googleAuthR<span class="op">::</span><span class="kw"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">                                       <span class="dt">path_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">b =</span> bucket,</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">                                                        <span class="dt">o =</span> object_name),</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">                                       <span class="dt">pars_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">alt =</span> <span class="st">"media"</span>))</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  req &lt;-<span class="st"> </span><span class="kw">ob</span>()</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  </a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="co">## set it back to FALSE for other API calls.</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.rawResponse =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  req</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">}</a></code></pre></div>
 </div>
 <div id="batching-api-requests" class="section level2">
 <h2 class="hasAnchor">
@@ -231,42 +231,42 @@ ga_segment_list2 &lt;-<span class="st"> </span><span class="cf">function</span>(
 <p>The batch endpoint is usually of the form:</p>
 <p><code>www.googleapis.com/batch/api-name/api-version</code></p>
 <p>e.g. For BigQuery, the option is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">"https://www.googleapis.com/batch/bigquery/v2"</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">"https://www.googleapis.com/batch/bigquery/v2"</span>)</a></code></pre></div>
 <div id="working-with-batching" class="section level4">
 <h4 class="hasAnchor">
 <a href="#working-with-batching" class="anchor"></a>Working with batching</h4>
 <p>Batching is done via the <code><a href="../reference/gar_batch.html">gar_batch()</a></code> function. This transforms functions created by <code><a href="../reference/gar_api_generator.html">gar_api_generator()</a></code> into one <code>POST</code> request following the batching syntax given by Google API docs. <a href="https://developers.google.com/analytics/devguides/config/mgmt/v3/batching">Here is an example</a> for the Google Analytics management API, but its very standard for all the APIs that support batching. If however it doesn’t have a batching section in its docs, it is likely that the API does not support batching.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## usually set on package load
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">"https://www.googleapis.com/batch/urlshortener/v1"</span>)
-
-## from goo.gl API
-shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){
-
-  body =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-    <span class="dt">longUrl =</span> url
-  )
-  
-  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
-                         <span class="st">"POST"</span>,
-                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)
-  
-  <span class="kw">f</span>(<span class="dt">the_body =</span> body)
-  
-}
-
-## from goo.gl API
-user_history &lt;-<span class="st"> </span><span class="cf">function</span>(){
-  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
-                         <span class="st">"GET"</span>,
-                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>items)
-  
-  <span class="kw">f</span>()
-}
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleAuthR)
-
-<span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>()
-
-ggg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_batch.html">gar_batch</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>), <span class="kw">user_history</span>()))</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">## usually set on package load</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.batch_endpoint =</span> <span class="st">"https://www.googleapis.com/batch/urlshortener/v1"</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">## from goo.gl API</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">  body =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">    <span class="dt">longUrl =</span> url</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">  )</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">                         <span class="st">"POST"</span>,</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">  <span class="kw">f</span>(<span class="dt">the_body =</span> body)</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">  </a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">## from goo.gl API</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">user_history &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,</a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">                         <span class="st">"GET"</span>,</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>items)</a>
+<a class="sourceLine" id="cb4-24" data-line-number="24">  </a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">  <span class="kw">f</span>()</a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">}</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleAuthR)</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>()</a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31">ggg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_batch.html">gar_batch</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>), <span class="kw">user_history</span>()))</a></code></pre></div>
 </div>
 </div>
 <div id="walking-through-batch-requests" class="section level3">
@@ -286,33 +286,33 @@ ggg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_bat
 <li>The <code>batch_function</code> argument gives you a way to operate on the parsed output of each call, before they are merged.</li>
 </ul>
 <p>An example is shown below - this gets a Google Analytics WebProperty object for each Account ID, in batches of 100 per API call:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># outputs a vector of accountIds</span>
-getAccountInfo &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(
-  <span class="st">"https://www.googleapis.com/analytics/v3/management/accounts"</span>,
-  <span class="st">"GET"</span>, <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(x<span class="op">$</span>items<span class="op">$</span>id))
-
-<span class="co"># for each accountId, get a list of web properties</span>
-getWebpropertyInfo &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(
-  <span class="st">"https://www.googleapis.com/analytics/v3/management/"</span>, <span class="co"># don't use sprintf to construct this</span>
-  <span class="st">"GET"</span>,
-  <span class="dt">path_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">accounts =</span> <span class="st">"default"</span>, <span class="dt">webproperties =</span> <span class="st">""</span>),
-  <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>items)
-
-<span class="co"># walks through a list of accountIds</span>
-walkWebpropertyInfo &lt;-<span class="st"> </span><span class="cf">function</span>(accs){
-  
-  <span class="kw"><a href="../reference/gar_batch_walk.html">gar_batch_walk</a></span>(getWebpropertyInfo, 
-                 <span class="dt">walk_vector =</span> accs,
-                 <span class="dt">gar_paths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"webproperties"</span> =<span class="st"> ""</span>),
-                 <span class="dt">path_walk =</span> <span class="st">"accounts"</span>,
-                 <span class="dt">batch_size =</span> <span class="dv">100</span>, <span class="dt">data_frame_output =</span> <span class="ot">FALSE</span>)
-}
-
-##----- to use:
-
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleAuthR)
-accs &lt;-<span class="st"> </span><span class="kw">getAccountInfo</span>()
-<span class="kw">walkWebpropertyInfo</span>(accs)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># outputs a vector of accountIds</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">getAccountInfo &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">"https://www.googleapis.com/analytics/v3/management/accounts"</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="st">"GET"</span>, <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(x<span class="op">$</span>items<span class="op">$</span>id))</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co"># for each accountId, get a list of web properties</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">getWebpropertyInfo &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">  <span class="st">"https://www.googleapis.com/analytics/v3/management/"</span>, <span class="co"># don't use sprintf to construct this</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  <span class="st">"GET"</span>,</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="dt">path_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">accounts =</span> <span class="st">"default"</span>, <span class="dt">webproperties =</span> <span class="st">""</span>),</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">  <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>items)</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co"># walks through a list of accountIds</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">walkWebpropertyInfo &lt;-<span class="st"> </span><span class="cf">function</span>(accs){</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">  </a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">  <span class="kw"><a href="../reference/gar_batch_walk.html">gar_batch_walk</a></span>(getWebpropertyInfo, </a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">                 <span class="dt">walk_vector =</span> accs,</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">                 <span class="dt">gar_paths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"webproperties"</span> =<span class="st"> ""</span>),</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">                 <span class="dt">path_walk =</span> <span class="st">"accounts"</span>,</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">                 <span class="dt">batch_size =</span> <span class="dv">100</span>, <span class="dt">data_frame_output =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">}</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">##----- to use:</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleAuthR)</a>
+<a class="sourceLine" id="cb5-26" data-line-number="26">accs &lt;-<span class="st"> </span><span class="kw">getAccountInfo</span>()</a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="kw">walkWebpropertyInfo</span>(accs)</a></code></pre></div>
 </div>
 </div>
 <div id="caching-api-calls" class="section level2">
@@ -320,38 +320,39 @@ accs &lt;-<span class="st"> </span><span class="kw">getAccountInfo</span>()
 <a href="#caching-api-calls" class="anchor"></a>Caching API calls</h2>
 <p>You can also set up local caching of API calls. This uses the <a href="https://github.com/r-lib/memoise"><code>memoise</code></a> package to let you write API responses to memory or disk and to call them from there instead of the API, if its using the same parameters.</p>
 <p>A demonstration is shown below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' Shortens a url using goo.gl</span>
-<span class="co">#'</span>
-<span class="co">#' @param url URl to shorten with goo.gl</span>
-<span class="co">#' </span>
-<span class="co">#' @return a string of the short URL</span>
-shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){
-  
-  body =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-    <span class="dt">longUrl =</span> url
-  )
-  
-  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
-                         <span class="st">"POST"</span>,
-                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>id)
-  
-  <span class="kw">f</span>(<span class="dt">the_body =</span> body)
-  
-}
-
-<span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>()
-
-## normal API fetch
-<span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>)
-
-## By default this will save the API response to RAM
-<span class="kw"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>()
-
-## first time no cache
-<span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>)
-
-## second time cached - much quicker
-<span class="kw">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">#' Shortens a url using goo.gl</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#'</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#' </span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#' @return the email of the user authenticated</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">get_email &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://openidconnect.googleapis.com/v1/userinfo"</span>,</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">                         <span class="st">"POST"</span>,</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x<span class="op">$</span>email,</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">                         <span class="dt">checkTrailingSlash =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">  </a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">  <span class="kw">f</span>()</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">  </a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">}</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="dt">email =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"GARGLE_EMAIL"</span>), <span class="dt">scopes =</span> <span class="st">"email"</span>)</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">## normal API fetch</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="kw">get_email</span>()</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; email@me.com</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">## By default this will save the API response to RAM when it has a 200 response</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="kw"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>()</a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">## first time no cache</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="kw">get_email</span>()</a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; email@me.com</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">## second time cached - much quicker for slow functions</span></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="kw">get_email</span>()</a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; 2019-07-17 12:29:18&gt; Reading cache</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; email@me.com</span></a></code></pre></div>
 <p>Caching is activated by using the <code><a href="../reference/gar_cache_setup.html">gar_cache_setup()</a></code> function.</p>
 <p>The default uses <code><a href="https://www.rdocumentation.org/packages/memoise/topics/cache_memory">memoise::cache_memory()</a></code> which will cache the response to RAM, but you can change this to any of the <code>memoise</code> cache functions such as <code>cache_s3()</code> or <code>cache_filesytem()</code></p>
 <p><code>cache_filesystem()</code> will write to a local folder, meaning you can save API responses between R sessions.</p>
@@ -369,59 +370,59 @@ shorten_url &lt;-<span class="st"> </span><span class="cf">function</span>(url){
 <p>In some cases, you may only want to cache the API responses under certain conditions. A common use case is if an API call is checking if a job is running or finished. You would only want to cache the finished state, otherwise the function will run indefinitely.</p>
 <p>For those circumstances, you can supply a function that takes the API response as its only input, and outputs <code>TRUE</code> or <code>FALSE</code> whether to do the caching. This allows you to introduce a check e.g. for finished jobs.</p>
 <p>The default will only cache for when a successful request <code>200</code> is found:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">function</span>(req){req<span class="op">$</span>status_code <span class="op">==</span><span class="st"> </span><span class="dv">200</span>}</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="cf">function</span>(req){req<span class="op">$</span>status_code <span class="op">==</span><span class="st"> </span><span class="dv">200</span>}</a></code></pre></div>
 <p>For more advanced use cases, examine the response of failed and successful API calls, and create the appropriate function. Pass that function when creating the cache:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># demo function to cache within</span>
-shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>(url){
-  
-  body =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-    <span class="dt">longUrl =</span> url
-  )
-  
-  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
-                         <span class="st">"POST"</span>,
-                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)
-  
-  <span class="kw">f</span>(<span class="dt">the_body =</span> body)
-  
-}
-
-## only cache if this URL
-<span class="kw"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>(<span class="dt">invalid_func =</span> <span class="cf">function</span>(req){
-    req<span class="op">$</span>content<span class="op">$</span>longUrl <span class="op">==</span><span class="st"> "http://code.markedmondson.me/"</span>
-    })
-
-<span class="co"># authentication</span>
-<span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>()
-
-## caches
-<span class="kw">shorten_url_cache</span>(<span class="st">"http://code.markedmondson.me"</span>)
-  
-## read cache
-<span class="kw">shorten_url_cache</span>(<span class="st">"http://code.markedmondson.me"</span>)
-  
-## ..but dont cache me
-<span class="kw">shorten_url_cache</span>(<span class="st">"http://blahblah.com"</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># demo function to cache within</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>(url){</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">  </a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">  body =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">    <span class="dt">longUrl =</span> url</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  </a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  f &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">                         <span class="st">"POST"</span>,</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">                         <span class="dt">data_parse_function =</span> <span class="cf">function</span>(x) x)</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  </a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">  <span class="kw">f</span>(<span class="dt">the_body =</span> body)</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">  </a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">}</a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">## only cache if this URL</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="kw"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>(<span class="dt">invalid_func =</span> <span class="cf">function</span>(req){</a>
+<a class="sourceLine" id="cb8-18" data-line-number="18">    req<span class="op">$</span>content<span class="op">$</span>longUrl <span class="op">==</span><span class="st"> "http://code.markedmondson.me/"</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">    })</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co"># authentication</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>()</a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">## caches</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="kw">shorten_url_cache</span>(<span class="st">"http://code.markedmondson.me"</span>)</a>
+<a class="sourceLine" id="cb8-26" data-line-number="26">  </a>
+<a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">## read cache</span></a>
+<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="kw">shorten_url_cache</span>(<span class="st">"http://code.markedmondson.me"</span>)</a>
+<a class="sourceLine" id="cb8-29" data-line-number="29">  </a>
+<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">## ..but dont cache me</span></a>
+<a class="sourceLine" id="cb8-31" data-line-number="31"><span class="kw">shorten_url_cache</span>(<span class="st">"http://blahblah.com"</span>)</a></code></pre></div>
 <div id="batching-and-caching" class="section level4">
 <h4 class="hasAnchor">
 <a href="#batching-and-caching" class="anchor"></a>Batching and caching</h4>
 <p>If you are caching a batched call, your cache invalidation function will need to take account that it will recieve a response which is a <code>multipart/mixed; boundary=batch_{random_string}</code> as its content-type header. This response will need to be parsed into JSON first, before applying your data parsing functions and/or deciding to cache. To get you started here is a cache function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">batched_caching &lt;-<span class="st"> </span><span class="cf">function</span>(req){
-
-  ## if a batched response
-  <span class="cf">if</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="st">"^multipart/mixed; boundary=batch_"</span>,req<span class="op">$</span>headers<span class="op">$</span><span class="st">`</span><span class="dt">content-type</span><span class="st">`</span>)){
-
-    ## find content that indicates a successful request ('kind:analytics#gaData')
-    parsed &lt;-<span class="st"> </span>httr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req, <span class="dt">as =</span> <span class="st">"text"</span>, <span class="dt">encoding =</span> <span class="st">"UTF-8"</span>)
-    is_ga &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="st">'"kind":"analytics#gaData"'</span>, parsed)
-    <span class="cf">if</span>(is_ga){
-      ## is a response you want, cache me
-      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="ot">TRUE</span>)
-    }
-  }
-  
-  <span class="ot">FALSE</span>
-}</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">batched_caching &lt;-<span class="st"> </span><span class="cf">function</span>(req){</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">  <span class="co">## if a batched response</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">  <span class="cf">if</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="st">"^multipart/mixed; boundary=batch_"</span>,req<span class="op">$</span>headers<span class="op">$</span><span class="st">`</span><span class="dt">content-type</span><span class="st">`</span>)){</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">    <span class="co">## find content that indicates a successful request ('kind:analytics#gaData')</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">    parsed &lt;-<span class="st"> </span>httr<span class="op">::</span><span class="kw"><a href="https://httr.r-lib.org/reference/content.html">content</a></span>(req, <span class="dt">as =</span> <span class="st">"text"</span>, <span class="dt">encoding =</span> <span class="st">"UTF-8"</span>)</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">    is_ga &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="st">'"kind":"analytics#gaData"'</span>, parsed)</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">    <span class="cf">if</span>(is_ga){</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">      <span class="co">## is a response you want, cache me</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">      <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">    }</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">  }</a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">  <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16">}</a></code></pre></div>
 </div>
 </div>
 <div id="using-caching" class="section level3">
@@ -452,66 +453,66 @@ shorten_url_cache &lt;-<span class="st"> </span><span class="cf">function</span>
 <h4 class="hasAnchor">
 <a href="#integration-tests" class="anchor"></a>Integration tests</h4>
 <p>The integration tests are against the API. Any authentication tokens should be either referenced via the environment arguments or if local JSON or <code>.httr-oauth</code> files ignored in your <code>.gitignore</code></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">context</span>(<span class="st">"Integration tests setup"</span>)
-
-## test google project ID
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"https://www.googleapis.com/auth/urlshortener"</span>),
-        <span class="dt">googleAuthR.client_id =</span> <span class="st">"XXXX"</span>,
-        <span class="dt">googleAuthR.client_secret =</span> <span class="st">"XXXX"</span>)
-
-## this is the name of the environment argument that points to your auth file, 
-## and referenced in `gar_attach_auto_auth` so that it authenticated on package load.
-auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">context</span>(<span class="st">"Integration tests setup"</span>)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">## test google project ID</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"https://www.googleapis.com/auth/urlshortener"</span>),</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">        <span class="dt">googleAuthR.client_id =</span> <span class="st">"XXXX"</span>,</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">        <span class="dt">googleAuthR.client_secret =</span> <span class="st">"XXXX"</span>)</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">## this is the name of the environment argument that points to your auth file, </span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">## and referenced in `gar_attach_auto_auth` so that it authenticated on package load.</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></a></code></pre></div>
 <p>A helper function is available that will skip the test if the <code>auth_env</code> is unavailable, <code><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth()</a></code></p>
 <p>The tests can then be ran, and will only call the API if authenticated.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">test_that</span>(<span class="st">"My function works"</span>, {
-  <span class="kw">skip_on_cran</span>() <span class="co"># don't run on CRAN at all</span>
-  <span class="kw"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(auth_env)
-  
-  ## if not auto-auth
-  ## gar_auth("location_of_auth_file")
-  
-  lw &lt;-<span class="st"> </span><span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
-  <span class="kw">expect_type</span>(lw, <span class="st">"character"</span>)
-  
-})</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">test_that</span>(<span class="st">"My function works"</span>, {</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="kw">skip_on_cran</span>() <span class="co"># don't run on CRAN at all</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="kw"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(auth_env)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">  </a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">  <span class="co">## if not auto-auth</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">  <span class="co">## gar_auth("location_of_auth_file")</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">  </a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">  lw &lt;-<span class="st"> </span><span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">  <span class="kw">expect_type</span>(lw, <span class="st">"character"</span>)</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">})</a></code></pre></div>
 </div>
 <div id="unit-tests" class="section level4">
 <h4 class="hasAnchor">
 <a href="#unit-tests" class="anchor"></a>Unit tests</h4>
 <p>Running unit tests is similar, but you also need to record the API response first locally using <code>httptest</code>’s <code><a href="https://enpiar.com/r/httptest/reference/capture_requests.html">capture_requests()</a></code>. I put this in a test block to check it worked ok.</p>
 <p>These will save to files within your test folder, with the similar name to the API.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(httptest)
-<span class="kw">context</span>(<span class="st">"API Mocking"</span>)
-
-<span class="kw">test_that</span>(<span class="st">"Record requests if online and authenticated"</span>, {
-  <span class="kw"><a href="https://enpiar.com/r/httptest/reference/skip_if_disconnected.html">skip_if_disconnected</a></span>()
-  <span class="kw"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(auth_env)
-  
-  <span class="kw"><a href="https://enpiar.com/r/httptest/reference/capture_requests.html">capture_requests</a></span>(
-    {
-      <span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
-      <span class="co"># ...</span>
-      <span class="co"># any other API calls required for tests below</span>
-    })
-  
-})</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(httptest)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">context</span>(<span class="st">"API Mocking"</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw">test_that</span>(<span class="st">"Record requests if online and authenticated"</span>, {</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="kw"><a href="https://enpiar.com/r/httptest/reference/skip_if_disconnected.html">skip_if_disconnected</a></span>()</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">  <span class="kw"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(auth_env)</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">  </a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">  <span class="kw"><a href="https://enpiar.com/r/httptest/reference/capture_requests.html">capture_requests</a></span>(</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">    {</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">      <span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">      <span class="co"># ...</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">      <span class="co"># any other API calls required for tests below</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">    })</a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">})</a></code></pre></div>
 <p>You can then use <code>httptest</code>s <code>withMockAPI()</code> function to wrap your tests:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://enpiar.com/r/httptest/reference/with_mock_API.html">with_mock_API</a></span>({
-  <span class="kw">context</span>(<span class="st">"API generator - unit"</span>)
-  
-  <span class="kw">test_that</span>(<span class="st">"A generated API function works"</span>, {
-    <span class="kw">skip_on_cran</span>()
-    
-    <span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="st">"googleAuthR_tests.httr-oauth"</span>)
-    lw &lt;-<span class="st"> </span><span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
-    <span class="kw">expect_type</span>(lw, <span class="st">"character"</span>)
-    
-  })
-  
-  <span class="co"># ... any other tests you have captured requests from</span>
-  
-})</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://enpiar.com/r/httptest/reference/with_mock_API.html">with_mock_API</a></span>({</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw">context</span>(<span class="st">"API generator - unit"</span>)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">  </a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="kw">test_that</span>(<span class="st">"A generated API function works"</span>, {</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">    <span class="kw">skip_on_cran</span>()</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">    </a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">    <span class="kw"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="st">"googleAuthR_tests.httr-oauth"</span>)</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">    lw &lt;-<span class="st"> </span><span class="kw">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">    <span class="kw">expect_type</span>(lw, <span class="st">"character"</span>)</a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">    </a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">  })</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">  </a>
+<a class="sourceLine" id="cb13-13" data-line-number="13">  <span class="co"># ... any other tests you have captured requests from</span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">})</a></code></pre></div>
 </div>
 </div>
 <div id="codecov" class="section level3">
@@ -533,6 +534,7 @@ auth_env &lt;-<span class="st"> "GAR_AUTH_FILE"</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

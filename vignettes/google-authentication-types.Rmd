@@ -9,21 +9,31 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Basic
+## Quick user based authentication
 
 Once setup, then you should go through the Google login flow in your browser when you run this command:
 
 ```r
-googleAuthR::gar_auth()
+library(googleAuthR)
+# starts auth process with defaults
+gar_auth()
+#>The googleAuthR package is requesting access to your Google account. Select a 
+#> pre-authorised account or enter '0' to obtain a new token. Press Esc/Ctrl + C to abort.
+
+#> 1: mark@work.com
+#> 2: home@home.com
 ```
 
-If you ever need to authenticate with a new user, use:
+The authentication cache token is kept at a global level as per the `gargle` library documentation - [see there for more details](https://gargle.r-lib.org/).
+
+You can also specify your email to avoid the interactive menu:
 
 ```r
-googleAuthR::gar_auth(new_user=TRUE)
+gar_auth(email = "your@email.com")
 ```
 
-Authentication token is by default cached in a hidden file called `.httr-oauth` in the working directory.
+These functions are usually wrapped in package specific functions when used in other packages, such as `googleAnalyticsR::ga_auth()`
+
 
 ## Client options
 
@@ -38,6 +48,29 @@ You will need as a minimum:
 If creating your own library you can choose to supply some or all of the above to the end-user, as an end-user you may need to set some of the above (most usually your own user authentication).
 
 ## Multiple authentication tokens
+
+### googleAuthR > 1.0.0
+
+Authentication cache tokens are kept at a global level on your computer.  When you authenticate the first time with a new client.id, scope or email then you will go through the authentication process in the browser, however the next time it wil be cached and be a lot quicker.
+
+```r
+# switching between auth scopes
+# first time new scope manual auth, then auto if supplied email   
+gar_auth(email = "your@email.com", 
+         scopes = "https://www.googleapis.com/auth/drive")
+         
+# ... query Google Drive functions ...
+
+gar_auth(email = "your@email.com", 
+         scopes = "https://www.googleapis.com/auth/bigquery")
+         
+# ..query BigQuery functions ...
+
+```
+
+### Legacy flows
+
+> Applicable before `googleAuthR < 1.0.0`
 
 If you supply a filename to `googleAuthR::gar_auth(token = "filename")` then it will save the token there.  If it doesn't exist, it will make a new one, if it does exist it will attempt to read the token from that file.  Relative and absolute filenames work.
 
@@ -92,7 +125,7 @@ list_websites()
 
 # Setting the client via Google Cloud client JSON
 
-To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - `https://console.cloud.google.com/apis/credentials`.  Make sure the client ID type is `Other`.
+To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - `https://console.cloud.google.com/apis/credentials`.  Make sure the client ID type is `Other` for desktop applications.
 
 You can use this to set the client details before your first authentication.  The above example would then be:
 
@@ -108,8 +141,8 @@ scopes = c("https://www.googleapis.com/auth/analytics",
 # set the client
 gar_set_client("client-id.json", scopes = scopes)
 
-# authenticate and go through the OAuth2 flow first time - specify a filename to save to by passing it in
-gar_auth(token = "sc_ga.httr-oauth")
+# authenticate and go through the OAuth2 flow first time
+gar_auth()
                                         
 # can run Google Analytics API calls:
 ga_account_list()
@@ -133,8 +166,7 @@ gar_set_client(scopes = "https://www.googleapis.com/auth/webmasters")
 
 # Authentication with no browser
 
-If for some reason you need authentication without access to a browser (for example when using RStudio Server), then you can authenticate locally and upload the `.httr-oauth` file to the folder of your script.
-Authentication via `gar_auth()` when on a server will default to `oob` style where you will need to copy-paste the token rather than R return the approval token for you (but you will need to allow popups)
+Refer to [this gargle article](https://gargle.r-lib.org/articles/non-interactive-auth.html) on how to authenticate in a non-interactive manner
 
 # Authentication with a JSON file via Service Accounts
 
@@ -194,7 +226,7 @@ list_websites()
 
 # Authentication within Shiny
 
-If you want to create a Shiny app just using your data, upload the app with your own `.httr-oauth`.
+If you want to create a Shiny app just using your data, refer to the [non-interactive authentication article on gargle](https://gargle.r-lib.org/articles/non-interactive-auth.html)
 
 If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, `googleAuthR` provides the below functions to help make the Google login process as easy as possible.
 
@@ -552,7 +584,7 @@ GCS_AUTH_FILE="/Users/mark/auth/my_auth_file.json"
 
 # Revoking Authentication
 
-For local use, delete the `.httr-oauth` file.
+For local use, call `gar_deauth()` to unauthentiucate a session.  To avoid cache tokens being reused delete them from the gargle cache folder, usually `~/.R/gargle/gargle-oauth/`
 
 For service level accounts delete the JSON file.
 

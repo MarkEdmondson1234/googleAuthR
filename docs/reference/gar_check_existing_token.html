@@ -8,10 +8,12 @@
 
 <title>Check a token vs options — gar_check_existing_token • googleAuthR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Check a token vs options — gar_check_existing_token" />
 
+<meta property="og:title" content="Check a token vs options — gar_check_existing_token" />
 <meta property="og:description" content="Useful for debugging authentication issues" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -73,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -119,7 +122,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://developers.google.com/apis-explorer/">
@@ -157,13 +159,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Useful for debugging authentication issues</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>gar_check_existing_token</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>Authentication</span>$<span class='no'>public_fields</span>$<span class='no'>token</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>gar_check_existing_token</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>.auth</span>$<span class='no'>cred</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -172,27 +172,23 @@
       <td><p>A token to check, default current live session token</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>FALSE</code> if the options and current token do not match, <code>TRUE</code> if they do.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Will compare the passed token's settings and compare to set options.  
   If these differ, then reauthentication may be needed.</p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>

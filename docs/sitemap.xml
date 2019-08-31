@@ -4,9 +4,6 @@
     <loc>https://code.markedmondson.me/googleAuthR//index.html</loc>
   </url>
   <url>
-    <loc>https://code.markedmondson.me/googleAuthR//reference/Authentication.html</loc>
-  </url>
-  <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/checkGoogleAPIError.html</loc>
   </url>
   <url>
@@ -26,6 +23,9 @@
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_auth.html</loc>
+  </url>
+  <url>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_auth_configure.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html</loc>
@@ -55,6 +55,9 @@
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_create_package.html</loc>
   </url>
   <url>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_deauth.html</loc>
+  </url>
+  <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_debug_parsing.html</loc>
   </url>
   <url>
@@ -73,6 +76,9 @@
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_gce_auth_email.html</loc>
   </url>
   <url>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_has_token.html</loc>
+  </url>
+  <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html</loc>
   </url>
   <url>
@@ -86,6 +92,9 @@
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_shiny_ui.html</loc>
+  </url>
+  <url>
+    <loc>https://code.markedmondson.me/googleAuthR//reference/gar_token.html</loc>
   </url>
   <url>
     <loc>https://code.markedmondson.me/googleAuthR//reference/gar_token_info.html</loc>

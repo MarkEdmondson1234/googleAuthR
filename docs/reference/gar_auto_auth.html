@@ -8,10 +8,12 @@
 
 <title>Perform auto authentication — gar_auto_auth • googleAuthR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Perform auto authentication — gar_auto_auth" />
 
+<meta property="og:title" content="Perform auto authentication — gar_auto_auth" />
 <meta property="og:description" content="This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by gar_attach_auto_auth" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -73,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -119,7 +122,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://developers.google.com/apis-explorer/">
@@ -157,14 +159,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a></p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>gar_auto_auth</span>(<span class='no'>required_scopes</span>, <span class='kw'>new_user</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>no_auto</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>gar_auto_auth</span>(<span class='no'>required_scopes</span>, <span class='kw'>no_auto</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>, <span class='kw'>new_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -173,16 +173,16 @@
       <td><p>Required scopes needed to authenticate - needs to match at least one</p></td>
     </tr>
     <tr>
-      <th>new_user</th>
-      <td><p>If TRUE, reauthenticate via Google login screen</p></td>
-    </tr>
-    <tr>
       <th>no_auto</th>
       <td><p>If TRUE, ignore auto-authentication settings</p></td>
     </tr>
     <tr>
       <th>environment_var</th>
-      <td><p>Name of environment var that contains auth file path</p>
+      <td><p>Name of environment var that contains auth file path</p></td>
+    </tr>
+    <tr>
+      <th>new_user</th>
+      <td><p>Deprecated, not used</p>
 <p>The authentication file can be a <code>.httr-oauth</code> file created via <a href='gar_auth.html'>gar_auth</a> 
   or a Google service JSON file downloaded from the Google API credential console, 
   with file extension <code>.json</code>.</p>
@@ -192,12 +192,11 @@
 <p><code>environment_var</code> This is the name that will be called via <a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a> on library load.  The environment variable will contain an absolute file path to the location of an authentication file.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>an OAuth token object, specifically a
   <code>Token2.0</code>, invisibly</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Help files for <a href='https://www.rdocumentation.org/packages/base/topics/ns-hooks'>.onAttach</a></p>
@@ -206,18 +205,15 @@
   <code><a href='gar_gce_auth.html'>gar_gce_auth</a></code>,
   <code><a href='get_google_token.html'>get_google_token</a></code>,
   <code><a href='token_exists.html'>token_exists</a></code></p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>

@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@
       <h1>Google API Setup</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2019-06-30</h4>
+            <h4 class="date">2019-08-31</h4>
       
       
       <div class="hidden name"><code>setup.Rmd</code></div>
@@ -129,47 +129,38 @@
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <p>googleAuthR is available on CRAN</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"googleAuthR"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"googleAuthR"</span>)</a></code></pre></div>
 <p>If you want to use the development version on Github, install via:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"MarkEdmondson1234/googleAuthR"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"MarkEdmondson1234/googleAuthR"</span>)</a></code></pre></div>
 </div>
 <div id="set-up-steps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#set-up-steps" class="anchor"></a>Set up steps</h2>
 <ol style="list-style-type: decimal">
-<li>Set up your project in the Google API Console to use the Google API you want.</li>
+<li>Create a Google Cloud Project. You will also need billing attached if the API needs it.</li>
+<li>Set up your project in the Google API Console to use the Google API you want:</li>
 </ol>
 </div>
 <div id="for-local-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#for-local-use" class="anchor"></a>For local use</h2>
-<ol start="2" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>Click ‘Create a new Client ID’, and choose “Installed Application”.</li>
-<li>Note your Client ID and secret.</li>
-<li>Modify these options after <code>googleAuthR</code> has been loaded:</li>
+<li>Download the client JSON file</li>
+<li>Set the <code>GAR_CLIENT_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code> for other options)</li>
 </ol>
-<ul>
-<li><code><a href="https://www.rdocumentation.org/packages/base/topics/options">options("googleAuthR.client_id" = "YOUR_CLIENT_ID")</a></code></li>
-<li><code><a href="https://www.rdocumentation.org/packages/base/topics/options">options("googleAuthR.client_secret" = "YOUR_CLIENT_SECRET")</a></code></li>
-</ul>
 </div>
 <div id="for-shiny-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#for-shiny-use" class="anchor"></a>For Shiny use</h2>
-<ol start="2" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>Click ‘Create a new Client ID’, and choose “Web Application”.</li>
-<li>Note your Client ID and secret.</li>
-<li>Add the URL of where your Shiny app will run, with no port number. e.g. <a href="https://mark.shinyapps.io/searchConsoleRDemo/" class="uri">https://mark.shinyapps.io/searchConsoleRDemo/</a>
+<li>Download the web client JSON file</li>
+<li>Add the URL of where your Shiny app will run to the crendetials, with no port number. e.g. <a href="https://mark.shinyapps.io/searchConsoleRDemo/" class="uri">https://mark.shinyapps.io/searchConsoleRDemo/</a>
 </li>
 <li>And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. <code>http://127.0.0.1:1221</code>
 </li>
-<li>In your Shiny script modify these options:</li>
-</ol>
-<ul>
-<li><code><a href="https://www.rdocumentation.org/packages/base/topics/options">options("googleAuthR.webapp.client_id" = "YOUR_CLIENT_ID")</a></code></li>
-<li><code><a href="https://www.rdocumentation.org/packages/base/topics/options">options("googleAuthR.webapp.client_secret" = "YOUR_CLIENT_SECRET")</a></code></li>
-</ul>
-<ol start="7" style="list-style-type: decimal">
+<li>Set the <code>GAR_CLIENT_WEB_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code> for other options)</li>
 <li>Run the app locally specifying the port number you used e.g. <code><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">shiny::runApp(port=1221)</a></code>
 </li>
 <li>Or deploy to your Shiny Server that deploys to web port (80 or 443).</li>
@@ -179,17 +170,17 @@
 <h1 class="hasAnchor">
 <a href="#activate-api" class="anchor"></a>Activate API</h1>
 <ol style="list-style-type: decimal">
-<li>Click on “APIs”</li>
+<li>In the Google Cloud Platform Click on “APIs” menu to the left</li>
 <li>Select and activate the API you want to use.</li>
 <li>Go to the documentation and find the API scope URL</li>
-<li>Set option in your R script for the scope e.g.</li>
+<li>Set option in your R script for the scope via <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code>
+</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="st">"googleAuthR.scopes.selected"</span> =<span class="st"> </span>
-<span class="st">      </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"https://www.googleapis.com/auth/urlshortener"</span>))</code></pre></div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

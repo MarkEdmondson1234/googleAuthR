@@ -8,10 +8,12 @@
 
 <title>Setup where to put cache — gar_cache_get_loc • googleAuthR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,12 +32,13 @@
 
 
 
-<meta property="og:title" content="Setup where to put cache — gar_cache_get_loc" />
 
+<meta property="og:title" content="Setup where to put cache — gar_cache_get_loc" />
 <meta property="og:description" content="To cache to a file system use memoise::cache_filesystem(&quot;cache_folder&quot;), 
   suitable for unit testing and works between R sessions.
 The cached API calls do not need authentication to be active, but need this function to set caching first." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -75,7 +78,7 @@ The cached API calls do not need authentication to be active, but need this func
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -121,7 +124,6 @@ The cached API calls do not need authentication to be active, but need this func
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://developers.google.com/apis-explorer/">
@@ -159,11 +161,9 @@ The cached API calls do not need authentication to be active, but need this func
     </div>
 
     <div class="ref-description">
-    
     <p>To cache to a file system use <code><a href='https://www.rdocumentation.org/packages/memoise/topics/cache_filesystem'>memoise::cache_filesystem("cache_folder")</a></code>, 
   suitable for unit testing and works between R sessions.</p>
 <p>The cached API calls do not need authentication to be active, but need this function to set caching first.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>gar_cache_get_loc</span>()
@@ -173,7 +173,7 @@ The cached API calls do not need authentication to be active, but need this func
 <span class='fu'>gar_cache_setup</span>(<span class='kw'>mcache</span> <span class='kw'>=</span> <span class='kw pkg'>memoise</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/memoise/topics/cache_memory'>cache_memory</a></span>(),
   <span class='kw'>invalid_func</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>req</span>) {     <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/conditions'>tryCatch</a></span>(<span class='no'>req</span>$<span class='no'>status_code</span> <span class='kw'>==</span> <span class='fl'>200</span>,
   <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>FALSE</span>) })</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -186,11 +186,10 @@ The cached API calls do not need authentication to be active, but need this func
       <td><p>A function that takes API response, and returns <code>TRUE</code> or <code>FALSE</code> whether caching takes place. Default cache everything.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>TRUE</code> if successful.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -228,9 +227,7 @@ The cached API calls do not need authentication to be active, but need this func
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

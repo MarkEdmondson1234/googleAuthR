@@ -8,10 +8,12 @@
 
 <title>Setup the clientId, clientSecret and scopes — gar_set_client • googleAuthR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,11 +32,12 @@
 
 
 
-<meta property="og:title" content="Setup the clientId, clientSecret and scopes — gar_set_client" />
 
+<meta property="og:title" content="Setup the clientId, clientSecret and scopes — gar_set_client" />
 <meta property="og:description" content="Help setup the client ID and secret with the OAuth 2.0 clientID.  
   Do not confuse with Service account keys." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -74,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -120,7 +123,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://developers.google.com/apis-explorer/">
@@ -158,15 +160,14 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Help setup the client ID and secret with the OAuth 2.0 clientID.  
   Do not confuse with Service account keys.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>gar_set_client</span>(<span class='kw'>json</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GAR_CLIENT_JSON"</span>),
-  <span class='kw'>web_json</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GAR_CLIENT_WEB_JSON"</span>), <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+  <span class='kw'>web_json</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GAR_CLIENT_WEB_JSON"</span>), <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>activate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"offline"</span>, <span class='st'>"web"</span>))</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -182,12 +183,15 @@
       <th>scopes</th>
       <td><p>A character vector of scopes to set</p></td>
     </tr>
+    <tr>
+      <th>activate</th>
+      <td><p>Which credential to activate</p></td>
+    </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The <code>project-id</code> the app has been set for</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function helps set the <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(googleAuthR.client_id)</a></code>, 
@@ -206,15 +210,14 @@
   the Service account keys JSON to perform the actual authentication.</p>  
 <p>By default the JSON file will be looked for in the location specified by the
   <code>"GAR_CLIENT_JSON"</code> environment argument, or via <code>"GAR_CLIENT_WEB_JSON"</code> for webapps.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://console.cloud.google.com/apis/credentials'>https://console.cloud.google.com/apis/credentials</a></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>gar_set_client</span>(<span class='st'>"google-client.json"</span>, <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='st'>"http://www.googleapis.com/auth/webmasters"</span>)
+<span class='fu'>gar_set_client</span>(<span class='st'>"google-client.json"</span>,
+               <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='st'>"http://www.googleapis.com/auth/webmasters"</span>)
 <span class='fu'><a href='gar_auth_service.html'>gar_auth_service</a></span>(<span class='st'>"google-service-auth.json"</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
@@ -223,13 +226,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

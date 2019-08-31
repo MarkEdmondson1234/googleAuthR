@@ -8,10 +8,12 @@
 
 <title>Authenticate on Google Compute Engine — gar_gce_auth • googleAuthR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Authenticate on Google Compute Engine — gar_gce_auth" />
 
+<meta property="og:title" content="Authenticate on Google Compute Engine — gar_gce_auth" />
 <meta property="og:description" content="This takes the metadata auth token in a Google Compute Engine instance as authentication source" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -73,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -119,7 +122,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://developers.google.com/apis-explorer/">
@@ -157,15 +159,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>This takes the metadata auth token in a Google Compute Engine instance as authentication source</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>gar_gce_auth</span>(<span class='kw'>service_account</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>client.id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"googleAuthR.webapp.client_id"</span>),
-  <span class='kw'>client.secret</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"googleAuthR.webapp.client_secret"</span>))</pre>
-    
+  <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"googleAuthR.scopes.selected"</span>))</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -174,19 +173,14 @@
       <td><p>Specify a different service account from the <code>default</code></p></td>
     </tr>
     <tr>
-      <th>client.id</th>
-      <td><p>The Google Project API console's client Id</p></td>
-    </tr>
-    <tr>
-      <th>client.secret</th>
-      <td><p>The Google Project API console's client secret</p></td>
+      <th>scopes</th>
+      <td><p>Scopes for the authentication</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A token</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>service_account</code> is <code>default</code> or the service account email 
@@ -196,8 +190,6 @@ e.g. <code>"service-account-key-json@projectname.iam.gserviceaccount.com"</code>
 The metadata token will refresh itself when it has about 60 seconds left.</p>
 <p>You can only use for scopes specified when creating the instance.</p>
 <p>If you want to use them make sure their service account email is added to accounts you want to get data from.</p>
-<p>If this function is called on a non-Google Compute Engine instance it will return <code>NULL</code></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='gar_gce_auth_email.html'>gar_gce_auth_email</a></p>
@@ -206,20 +198,16 @@ The metadata token will refresh itself when it has about 60 seconds left.</p>
   <code><a href='gar_auto_auth.html'>gar_auto_auth</a></code>,
   <code><a href='get_google_token.html'>get_google_token</a></code>,
   <code><a href='token_exists.html'>token_exists</a></code></p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>

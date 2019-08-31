@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@
       <h1>Troubleshooting Authentication</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2019-06-30</h4>
+            <h4 class="date">2019-08-31</h4>
       
       
       <div class="hidden name"><code>troubleshooting.Rmd</code></div>
@@ -186,12 +186,12 @@
 <li>If in doubt, delete the cache file, restart your R session and reauthenticate.</li>
 <li>Set your options within the script before you authenticate, but after you load the library to ensure they are what you think they are:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleAnalyticsR)
-
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.client_id =</span> <span class="st">"XXXX"</span>, <span class="dt">googleAuthR.client_secret =</span> <span class="st">"XXXX"</span>)
-
-## wraps `googleAuthR::gar_auth()`
-<span class="kw"><a href="https://code.markedmondson.me/googleAnalyticsR//reference/ga_auth.html">ga_auth</a></span>()</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleAnalyticsR)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">googleAuthR.client_id =</span> <span class="st">"XXXX"</span>, <span class="dt">googleAuthR.client_secret =</span> <span class="st">"XXXX"</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">## wraps `googleAuthR::gar_auth()`</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://code.markedmondson.me/googleAnalyticsR//reference/ga_auth.html">ga_auth</a></span>()</a></code></pre></div>
 <ul>
 <li>If you are always going to use the same credentials, make use of the auto authentication options by creating a cache token, moving it to a dedicated auth folder and using environment variables <code>GAR_AUTH</code> or package supported ones.</li>
 <li>If you are using auto-authentication, make sure this doesn’t clash with manual authentication. Comment out the environment variable if needed as this will prevent it operating on package load.</li>
@@ -207,6 +207,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

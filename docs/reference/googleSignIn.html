@@ -8,10 +8,12 @@
 
 <title>Google SignIn [Server Module] — googleSignIn • googleAuthR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,11 +32,12 @@
 
 
 
-<meta property="og:title" content="Google SignIn [Server Module] — googleSignIn" />
 
+<meta property="og:title" content="Google SignIn [Server Module] — googleSignIn" />
 <meta property="og:description" content="Shiny Module for use with googleSignInUI.  
   Use when you don't need to call APIs, but would like a login to Shiny." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -74,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -120,7 +123,6 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://developers.google.com/apis-explorer/">
@@ -158,14 +160,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Shiny Module for use with <a href='googleSignInUI.html'>googleSignInUI</a>.  
   Use when you don't need to call APIs, but would like a login to Shiny.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>googleSignIn</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -175,33 +175,30 @@
     </tr>
     <tr>
       <th>output</th>
-      <td><p>shiny output</p></td>
+      <td><p>shiny output (<code>id</code>, <code>name</code>, <code>email</code>, <code>image</code>, <code>signed_in</code>)</p></td>
     </tr>
     <tr>
       <th>session</th>
       <td><p>shiny session</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A reactive list with values $g_id, $g_name, $g_email and $g_image</p>
-    
+    <p>A reactive list with values <code>$g_id</code>, <code>$g_name</code>, <code>$g_email</code>, <code>$g_image</code>
+and <code>$signed_in</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Call via <code><a href='https://www.rdocumentation.org/packages/shiny/topics/callModule'>shiny::callModule(googleSignIn, "your_id")</a></code></p>
-    
+    <p>Call via <code><a href='https://www.rdocumentation.org/packages/shiny/topics/callModule'>shiny::callModule(googleSignIn, "your_id")</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-          </ul>
+    </ul>
 
     <h2>Author</h2>
     <p>Based on original code by David Kulp</p>

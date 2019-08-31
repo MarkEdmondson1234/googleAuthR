@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -117,6 +117,20 @@
 <div id="googleauthr---google-api-r-client" class="section level1">
 
 
+<div id="gargle-backend" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gargle-backend" class="anchor"></a>gargle backend</h2>
+<p>As of version <code>googleAuthR&gt;=1.0.0</code> the OAuth2 and service JSON authentication is provided by <a href="https://gargle.r-lib.org/index.html">gargle</a>. Refer to that documentation for details.</p>
+<p>The plan is to migrate as much functionality to <code>gargle</code> from <code>googleAuthR</code>, but backward compatibility will be maintained for all packages depending on <code>googleAuthR</code> in the meantime.</p>
+<p>Once there is feature parity, client packages can then migrate totally to <code>gargle</code>. At time of writing some of the major features not in <code>gargle</code> yet are:</p>
+<ul>
+<li>Shiny authentication flows</li>
+<li>Paging</li>
+<li>Caching</li>
+<li>Batching</li>
+</ul>
+<p>If you are not using the above then you can use <code>gargle</code> directly now. Otherwise you can still use <code>googleAuthR</code> that will use the features of <code>gargle</code> and wait for more features to be migrated.</p>
+</div>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
@@ -190,10 +204,10 @@
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <p>googleAuthR is available on CRAN</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"googleAuthR"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"googleAuthR"</span>)</a></code></pre></div>
 <p>Check out <a href="NEWS.html">News</a> to see the features of the development version.</p>
 <p>If you want to use the development version on Github, install via:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"MarkEdmondson1234/googleAuthR"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"MarkEdmondson1234/googleAuthR"</span>)</a></code></pre></div>
 </div>
 </div>
   </div>

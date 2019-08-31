@@ -4,6 +4,21 @@
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
 [![codecov](https://codecov.io/gh/MarkEdmondson1234/googleAuthR/branch/master/graph/badge.svg)](https://codecov.io/gh/MarkEdmondson1234/googleAuthR)
 
+## gargle backend
+
+As of version `googleAuthR>=1.0.0` the OAuth2 and service JSON authentication is provided by [gargle](https://gargle.r-lib.org/index.html).  Refer to that documentation for details.
+
+The plan is to migrate as much functionality to `gargle` from `googleAuthR`, but backward compatibility will be maintained for all packages depending on `googleAuthR` in the meantime. 
+
+Once there is feature parity, client packages can then migrate totally to `gargle`.  At time of writing some of the major features not in `gargle` yet are:
+
+* Shiny authentication flows
+* Paging
+* Caching
+* Batching
+
+If you are not using the above then you can use `gargle` directly now.  Otherwise you can still use `googleAuthR` that will use the features of `gargle` and wait for more features to be migrated.
+
 ## Overview
 
 This library allows you to authenticate easily via local use in an OAuth2 flow; within a Shiny app; or via service accounts. 
