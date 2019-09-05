@@ -4,7 +4,7 @@
 \alias{gar_auto_auth}
 \title{Perform auto authentication}
 \usage{
-gar_auto_auth(required_scopes, no_auto = FALSE,
+gar_auto_auth(required_scopes, no_auto = NULL,
   environment_var = "GAR_AUTH_FILE", new_user = NULL)
 }
 \arguments{

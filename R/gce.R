@@ -37,7 +37,8 @@
 #' @export
 #' @importFrom gargle credentials_app_default
 #' @seealso \href{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}{gcloud reference}
-gar_gce_auth_default <- function(scopes = getOption("googleAuthR.scopes.selected")){
+gar_gce_auth_default <- function(scopes = getOption("googleAuthR.scopes.selected",
+                                                    "https://www.googleapis.com/auth/cloud-platform")){
   
   # doesn't this need the returned access token?
   credentials_app_default(scopes = scopes)

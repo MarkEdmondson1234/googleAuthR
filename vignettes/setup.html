@@ -13,7 +13,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2019-08-30" />
+<meta name="date" content="2019-09-05" />
 
 <title>Google API Setup</title>
 
@@ -304,7 +304,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Google API Setup</h1>
 <h4 class="author">Mark Edmondson</h4>
-<h4 class="date">2019-08-30</h4>
+<h4 class="date">2019-09-05</h4>
 
 
 
@@ -313,40 +313,31 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>googleAuthR is available on CRAN</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;googleAuthR&quot;</span>)</a></code></pre></div>
 <p>If you want to use the development version on Github, install via:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;MarkEdmondson1234/googleAuthR&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;MarkEdmondson1234/googleAuthR&quot;</span>)</a></code></pre></div>
 </div>
 <div id="set-up-steps" class="section level2">
 <h2>Set up steps</h2>
 <ol style="list-style-type: decimal">
-<li>Set up your project in the Google API Console to use the Google API you want.</li>
+<li>Create a Google Cloud Project. You will also need billing attached if the API needs it.</li>
+<li>Set up your project in the Google API Console to use the Google API you want:</li>
 </ol>
 </div>
 <div id="for-local-use" class="section level2">
 <h2>For local use</h2>
-<ol start="2" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>Click ‘Create a new Client ID’, and choose “Installed Application”.</li>
-<li>Note your Client ID and secret.</li>
-<li>Modify these options after <code>googleAuthR</code> has been loaded:</li>
+<li>Download the client JSON file</li>
+<li>Set the <code>GAR_CLIENT_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code>gar_set_client()</code> for other options)</li>
 </ol>
-<ul>
-<li><code>options(&quot;googleAuthR.client_id&quot; = &quot;YOUR_CLIENT_ID&quot;)</code></li>
-<li><code>options(&quot;googleAuthR.client_secret&quot; = &quot;YOUR_CLIENT_SECRET&quot;)</code></li>
-</ul>
 </div>
 <div id="for-shiny-use" class="section level2">
 <h2>For Shiny use</h2>
-<ol start="2" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>Click ‘Create a new Client ID’, and choose “Web Application”.</li>
-<li>Note your Client ID and secret.</li>
-<li>Add the URL of where your Shiny app will run, with no port number. e.g. <a href="https://mark.shinyapps.io/searchConsoleRDemo/" class="uri">https://mark.shinyapps.io/searchConsoleRDemo/</a></li>
+<li>Download the web client JSON file</li>
+<li>Add the URL of where your Shiny app will run to the crendetials, with no port number. e.g. <a href="https://mark.shinyapps.io/searchConsoleRDemo/" class="uri">https://mark.shinyapps.io/searchConsoleRDemo/</a></li>
 <li>And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. <code>http://127.0.0.1:1221</code></li>
-<li>In your Shiny script modify these options:</li>
-</ol>
-<ul>
-<li><code>options(&quot;googleAuthR.webapp.client_id&quot; = &quot;YOUR_CLIENT_ID&quot;)</code></li>
-<li><code>options(&quot;googleAuthR.webapp.client_secret&quot; = &quot;YOUR_CLIENT_SECRET&quot;)</code></li>
-</ul>
-<ol start="7" style="list-style-type: decimal">
+<li>Set the <code>GAR_CLIENT_WEB_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code>gar_set_client()</code> for other options)</li>
 <li>Run the app locally specifying the port number you used e.g. <code>shiny::runApp(port=1221)</code></li>
 <li>Or deploy to your Shiny Server that deploys to web port (80 or 443).</li>
 </ol>
@@ -354,13 +345,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="activate-api" class="section level1">
 <h1>Activate API</h1>
 <ol style="list-style-type: decimal">
-<li>Click on “APIs”</li>
+<li>In the Google Cloud Platform Click on “APIs” menu to the left</li>
 <li>Select and activate the API you want to use.</li>
 <li>Go to the documentation and find the API scope URL</li>
-<li>Set option in your R script for the scope e.g.</li>
+<li>Set option in your R script for the scope via <code>gar_set_client()</code></li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">options</span>(<span class="st">&quot;googleAuthR.scopes.selected&quot;</span> =<span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">      </span><span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/urlshortener&quot;</span>))</a></code></pre></div>
 </div>
 
 

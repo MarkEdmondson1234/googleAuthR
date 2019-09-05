@@ -29,13 +29,17 @@
 #' @import assertthat
 #' @importFrom tools file_ext
 gar_auto_auth <- function(required_scopes,
-                          no_auto = FALSE,
+                          no_auto = NULL,
                           environment_var = "GAR_AUTH_FILE",
                           new_user = NULL) {
   
   if(!is.null(new_user)){
     warning("Argument new_user is deprecated and will be removed next release.")
   } 
+  
+  if(!is.null(no_auto)){
+    warning("Argument no_auto is deprecated and will be removed next release.")
+  }
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
@@ -55,20 +59,25 @@ gar_auto_auth <- function(required_scopes,
          paste(getOption("googleAuthR.scopes.selected"), collapse = " "))
   }
   
-  if(no_auto){
-    return(gar_auth())
-  }
+
   
   auth_file <- Sys.getenv(environment_var)
   
   if(auth_file == ""){
-    ## normal auth looking for .httr-oauth in working folder or new user
-    return(gar_auth())
+    ## Can't do anything, return.
+    return(NULL)
   }
   
   if(grepl("^[[:alnum:].-_]+@[[:alnum:].-]+$", auth_file)){
     myMessage("Auto-auth - email address", level = 2)
-    return(gar_auth(email = auth_file))
+    
+    token <- gargle::credentials_user_oauth2(
+      scopes = getOption("googleAuthR.scopes.selected"),
+      app = gar_oauth_app(),
+      package = "googleAuthR",
+      email = auth_file
+    )
+    return(token)
   }
   
   if(!file.exists(auth_file)){

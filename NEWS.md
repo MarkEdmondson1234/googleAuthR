@@ -1,6 +1,6 @@
 # googleAuthR v1.0.0.9000
 
-* ...
+* Add default scope of "https://www.googleapis.com/auth/cloud-platform" to `gar_gce_auth()`
 
 # googleAuthR v1.0.0
 

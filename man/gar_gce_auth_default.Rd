@@ -4,7 +4,8 @@
 \alias{gar_gce_auth_default}
 \title{Authenticate via gcloud's application-default login}
 \usage{
-gar_gce_auth_default(scopes = getOption("googleAuthR.scopes.selected"))
+gar_gce_auth_default(scopes = getOption("googleAuthR.scopes.selected",
+  "https://www.googleapis.com/auth/cloud-platform"))
 }
 \arguments{
 \item{scopes}{The scope you created the access_token with}
