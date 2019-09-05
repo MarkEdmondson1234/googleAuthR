@@ -1,6 +1,7 @@
 # googleAuthR v1.0.0.9000
 
 * Add default scope of "https://www.googleapis.com/auth/cloud-platform" to `gar_gce_auth()`
+* Improvements to stop `gar_auto_auth()` block library installation if auth files not correct.
 
 # googleAuthR v1.0.0
 
