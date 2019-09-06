@@ -1,3 +1,5 @@
+isFALSE <- function(x) identical(x, FALSE)
+
 #' @noRd
 #' @param filename location of JavaScript file with %s template locations in this package's inst folder
 #' @param ... The correct number of strings to be replaced into %s's locations of filename
