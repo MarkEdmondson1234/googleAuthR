@@ -103,13 +103,13 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
   
   # gargle can only set one at a time
   if(activate == "offline" && json != ""){
-    myMessage("Setting client.id from gar_auth_configure(path = json)", level = 3)
+    myMessage(paste("Setting client.id from ", json), level = 3)
     gar_auth_configure(path = json)
   } else if(activate == "web" && web_json != ""){
     #this does not work with web json yet
     #    gar_auth_configure(path = web_json)
     # set it manually instead
-    myMessage("Setting client.id from web JSON - gar_auth_configure(app=app)", level = 3)
+    myMessage(paste("Setting web client.id from ", web_json), level = 3)
     app <- oauth_app(
       paste0("web-",web_json$web$project_id),
       key = web_json$web$client_id,
