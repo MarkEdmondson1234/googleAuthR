@@ -1,4 +1,4 @@
-isFALSE <- function(x) identical(x, FALSE)
+isFALSE <- function(x) identical(x, FALSE) # replicate R 3.5 function 
 
 #' @noRd
 #' @param filename location of JavaScript file with %s template locations in this package's inst folder
