@@ -81,23 +81,23 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
   ## web apps
   if(web_json != ""){
     assert_that(is.readable(web_json))
-    web_json <- fromJSON(web_json)
+    web_json_content <- fromJSON(web_json)
     
-    if(is.null(web_json$web)){
+    if(is.null(web_json_content$web)){
       stop("$web not found in JSON - have you downloaded the correct JSON file for web apps?
            (Service account client > Web Application, not Service Account Keys or Other)", 
            call. = FALSE)
     }
     
-    options(googleAuthR.webapp.client_id = web_json$web$client_id,
-            googleAuthR.webapp.client_secret = web_json$web$client_secret)
+    options(googleAuthR.webapp.client_id = web_json_content$web$client_id,
+            googleAuthR.webapp.client_secret = web_json_content$web$client_secret)
     
     # fix for shinyapps #57 etc
-    Sys.setenv("GAR_WEB_CLIENTID" = web_json$web$client_id)
-    Sys.setenv("GAR_WEB_CLIENT_SECRET" = web_json$web$client_secret)
+    Sys.setenv("GAR_WEB_CLIENTID" = web_json_content$web$client_id)
+    Sys.setenv("GAR_WEB_CLIENT_SECRET" = web_json_content$web$client_secret)
     Sys.setenv("GAR_SCOPES" = paste(scopes, collapse = ","))
     
-    project_id <- web_json$web$project_id
+    project_id <- web_json_content$web$project_id
     
   }
   
@@ -111,9 +111,9 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     # set it manually instead
     myMessage(paste("Setting web client.id from ", web_json), level = 3)
     app <- oauth_app(
-      paste0("web-",web_json$web$project_id),
-      key = web_json$web$client_id,
-      secret = web_json$web$client_secret
+      paste0("web-",web_json_content$web$project_id),
+      key = web_json_content$web$client_id,
+      secret = web_json_content$web$client_secret
     )
     
     gar_auth_configure(app = app)
@@ -121,9 +121,9 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
   
   
   if(web_json != "" && json != ""){
-    if(web_json$web$project_id != the_json$installed$project_id){
+    if(web_json_content$web$project_id != the_json$installed$project_id){
       warning("Web and offline projects don't match:", 
-              "Web:", web_json$web$project_id, 
+              "Web:", web_json_content$web$project_id, 
               "Installed:", the_json$installed$project_id, 
               call. = FALSE)
     }
