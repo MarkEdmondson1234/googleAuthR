@@ -5,11 +5,7 @@
   
 ## R CMD check results
 
-This is the second attempt for 1.0.0.  
-
-I have removed the test mock files that increased the size of the package to be over 5MB
-
-There were no ERRORs or WARNINGs or NOTEs
+This is a patch to fix a bug that prevented some downstream packages to load in certain circumstances. 
 
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of googleAuthR
@@ -23,9 +19,8 @@ The results were:
 ✔ googleComputeEngineR 0.3.0             ── E: 0     | W: 0     | N: 0                            
 ✔ HCABrowser 1.0.1                       ── E: 0     | W: 0     | N: 0                            
 ✔ googlePrintr 0.0.1                     ── E: 0     | W: 0     | N: 1                            
-✖ searchConsoleR 0.3.0                   ── E: 1     | W: 0     | N: 0                         
+✔ searchConsoleR 0.4.0                   ── E: 1     | W: 0     | N: 0                         
 ✔ text2speech 0.2.5                      ── E: 0     | W: 0     | N: 0                           
 ✔ googleLanguageR 0.2.0                  ── E: 0     | W: 0     | N: 0
 
-I will submit a fix for searchConsoleR immediatly after this package is on CRAN
   
