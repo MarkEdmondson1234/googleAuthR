@@ -1,7 +1,8 @@
-# googleAuthR v1.1.0.9000
+# googleAuthR v1.1.1
 
 * Allow to be used by R 3.3 via custom `isFALSE` function (#158 - thanks @matthijsvanderloos)
 * Web JSON client id messaging
+* Auto_auth works on startup now
 
 # googleAuthR v1.1.0
 
