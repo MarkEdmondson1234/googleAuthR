@@ -70,13 +70,15 @@ gar_auto_auth <- function(required_scopes,
   
   if(grepl("^[[:alnum:].-_]+@[[:alnum:].-]+$", auth_file)){
     myMessage("Auto-auth - email address", level = 2)
-    
+    make_app()
     token <- gargle::credentials_user_oauth2(
       scopes = getOption("googleAuthR.scopes.selected"),
       app = gar_oauth_app(),
       package = "googleAuthR",
       email = auth_file
     )
+    .auth$set_cred(token)
+    .auth$set_auth_active(TRUE)
     return(token)
   }
   
@@ -166,11 +168,18 @@ gar_attach_auto_auth <- function(required_scopes,
   
   options(googleAuthR.scopes.selected = new_scopes)
   
-  tryCatch({gar_auto_auth(required_scopes = required_scopes,
+  tryCatch({
+    token <- gar_auto_auth(required_scopes = required_scopes,
                           environment_var = environment_var)
-    
-    packageStartupMessage("Successfully auto-authenticated via ", 
-                          Sys.getenv(environment_var))
+    if(inherits(token, "Token")){
+      mess <- paste("Successfully auto-authenticated via", 
+                    Sys.getenv(environment_var))
+      
+    } else {
+      mess <- paste("No token in auto-auth via",
+                    Sys.getenv(environment_var))
+    }
+    packageStartupMessage(mess)
   }, error = function(ex){
     packageStartupMessage("Failed! Auto-authentication via ", 
                           environment_var, "=",
