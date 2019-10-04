@@ -24,3 +24,4 @@ secrets\.R
 ^revdep$
 ^docs$
 ^tests$
+^Dockerfile$
