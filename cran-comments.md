@@ -5,7 +5,7 @@
   
 ## R CMD check results
 
-This is a patch to fix a bug that prevented some downstream packages to load in certain circumstances. 
+Sorry to submit again so soon, a bug to fix from the bug I fixed last time.  Last time I promise. 
 
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of googleAuthR

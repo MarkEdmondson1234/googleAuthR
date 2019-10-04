@@ -1,6 +1,6 @@
 Package: googleAuthR
 Type: Package
-Version: 1.1.1
+Version: 1.1.1.9000
 Title: Authenticate and Create Google APIs
 Description: Create R functions that interact with OAuth2 Google APIs 
     <https://developers.google.com/apis-explorer/> easily,
@@ -20,7 +20,7 @@ Depends:
 Imports:
     assertthat (>= 0.2.0),
     digest, 
-    gargle (>= 0.3.1),
+    gargle (>= 0.4.0),
     httr (>= 1.4.0),
     jsonlite (>= 1.6),
     memoise (>= 1.1.0),

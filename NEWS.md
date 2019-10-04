@@ -1,3 +1,7 @@
+# googleAuthR 1.1.1.9000
+
+* Add `gar_scope_config` 
+
 # googleAuthR v1.1.1
 
 * Allow to be used by R 3.3 via custom `isFALSE` function (#158 - thanks @matthijsvanderloos)
