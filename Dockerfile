@@ -15,6 +15,6 @@ RUN install2.r --error \
     -r 'http://cran.rstudio.com' \
     googleAuthR \
     ## install Github packages
-    installGithub.r MarkEdmondson1234/googleAuthR \
+    && installGithub.r MarkEdmondson1234/googleAuthR \
     ## clean up
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
