@@ -9,8 +9,9 @@
 #' @param app app as specified by \link{gar_auth_configure}
 #' @param package The name of the package authenticating
 #' @param cache Where to store authentication tokens
-#' @param use_oob Whther to use OOB browserless authetication
+#' @param use_oob Whether to use OOB browserless authentication
 #' @param new_user Deprecated, not used
+#' @param ... Arguments passed to \link[gargle]{token_fetch}
 #'
 #' @return an OAuth token object, specifically a
 #'   \code{\link[=Token-class]{Token2.0}}, invisibly
@@ -37,6 +38,9 @@
 #'          
 #' # ..query BigQuery functions ...
 #' 
+#' # use an existing refresh token to generate a fresh one
+#' gar_auth(credentials = list(refresh_token = "1//the-refresh-token"))
+#' 
 #' }
 #'
 #' @export
@@ -51,7 +55,8 @@ gar_auth <- function(token = NULL,
                      cache = gargle::gargle_oauth_cache(),
                      use_oob = gargle::gargle_oob_default(),
                      package = "googleAuthR",
-                     new_user = NULL) {
+                     new_user = NULL,
+                     ...) {
   
   if(!is.null(new_user)){
     warning("Argument new_user is deprecated and will be removed next release.")
@@ -92,7 +97,8 @@ gar_auth <- function(token = NULL,
     app = gar_oauth_app(),
     package = package,
     cache = cache,
-    use_oob = use_oob
+    use_oob = use_oob,
+    ...
   )
   
   if(!is.token2.0(token)){

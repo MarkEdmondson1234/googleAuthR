@@ -8,7 +8,7 @@ gar_auth(token = NULL, email = NULL,
   scopes = getOption("googleAuthR.scopes.selected"),
   app = gar_oauth_app(), cache = gargle::gargle_oauth_cache(),
   use_oob = gargle::gargle_oob_default(), package = "googleAuthR",
-  new_user = NULL)
+  new_user = NULL, ...)
 }
 \arguments{
 \item{token}{an actual token object or the path to a valid token stored as an
@@ -22,11 +22,13 @@ gar_auth(token = NULL, email = NULL,
 
 \item{cache}{Where to store authentication tokens}
 
-\item{use_oob}{Whther to use OOB browserless authetication}
+\item{use_oob}{Whether to use OOB browserless authentication}
 
 \item{package}{The name of the package authenticating}
 
 \item{new_user}{Deprecated, not used}
+
+\item{...}{Arguments passed to \link[gargle]{token_fetch}}
 }
 \value{
 an OAuth token object, specifically a
@@ -56,6 +58,9 @@ gar_auth(email = "your@email.com",
          scopes = "https://www.googleapis.com/auth/bigquery")
          
 # ..query BigQuery functions ...
+
+# use an existing refresh token to generate a fresh one
+gar_auth(credentials = list(refresh_token = "1//the-refresh-token"))
 
 }
 

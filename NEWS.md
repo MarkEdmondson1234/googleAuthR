@@ -2,6 +2,7 @@
 
 * Add `gar_scope_config` 
 * Add Docker build available at `gcr.io/gcer-public/googleauthr`
+* Pass parameters from `gar_auth(...)` to `gargle::token_fetch(...)`
 
 # googleAuthR v1.1.1
 
