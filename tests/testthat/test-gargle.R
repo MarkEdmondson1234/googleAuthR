@@ -25,6 +25,15 @@ test_that("Auth works by specifying email", {
   expect_s3_class(token, "Gargle2.0")
 })
 
+test_that("Auth works using an existing refresh token", {
+  skip_on_cran()
+
+  credentials <- list(token = "abc", refresh_token = '1//a-b-c')
+  tt <- gar_auth(email='a@b.c', credentials = credentials)
+  
+  expect_s3_class(gar_auth(tt), "Token2.0")
+  expect_equal(tt$credentials, credentials)
+})
 
 context("gargle backward compatibility")
 
