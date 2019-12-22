@@ -53,7 +53,7 @@ gar_auto_auth <- function(required_scopes,
     is.string(environment_var)
   )
   
-  if(!all(getOption("googleAuthR.scopes.selected") %in% required_scopes)){
+  if(!any(getOption("googleAuthR.scopes.selected") %in% required_scopes)){
     stop("Cannot authenticate - options(googleAuthR.scopes.selected) needs to be set to include", 
          paste(required_scopes, collapse = " or "), " but scopes set are: ",
          paste(getOption("googleAuthR.scopes.selected"), collapse = " "))

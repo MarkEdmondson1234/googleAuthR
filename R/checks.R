@@ -219,7 +219,17 @@ checkGoogleAPIError <- function(req){
   
   ## get error message from API
   if (!is.null(ga.json$error$message)) {
-    stop("API returned: ", paste(ga.json$error$message), call. = FALSE)
+    
+    if(all(!is.null(ga.json$error$errors), 
+           getOption("googleAuthR.verbose") < 3)){
+      error_message <- paste(
+        paste("#", ga.json$error$errors, collapse = "\n")
+      )
+    } else {
+      error_message <- paste(ga.json$error$message)
+    }
+    
+    stop("API returned: ", error_message, call. = FALSE)
   }
   
   stop_for_status(req)
