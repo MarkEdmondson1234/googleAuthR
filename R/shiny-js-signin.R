@@ -45,13 +45,14 @@ googleSignInUI <- function(id, logout_name = "Sign Out", logout_class = "btn-dan
 #'
 #' Call via \code{shiny::callModule(googleSignIn, "your_id")}.
 #'
-#' @param input shiny input
-#' @param output shiny output (\code{id}, \code{name}, \code{email}, \code{image}, \code{signed_in})
+#' @param input shiny input (must contain \code{g_id}, \code{g_name},
+#'   \code{g_email}, \code{g_image}, \code{g_signed_in})
+#' @param output shiny output (passed by shiny but not used)
 #' @param session shiny session
 #'
 #' @author Based on original code by David Kulp
-#' @return A reactive list with values \code{$g_id}, \code{$g_name}, \code{$g_email}, \code{$g_image}
-#' and \code{$signed_in}.
+#' @return A reactive list with values \code{$id}, \code{$name}, \code{$email},
+#'   \code{$image} and \code{$signed_in}.
 #' @export
 googleSignIn <- function(input, output, session){
   check_package_loaded("shiny")
