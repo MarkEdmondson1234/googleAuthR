@@ -4,6 +4,7 @@
 * Add Docker build available at `gcr.io/gcer-public/googleauthr`
 * More API error feedback if using googleAuthR.verbose < 3
 * Auto-auth should succeed if one of the scopes needed is present
+* Corrected and clarified `googleSignIn` documentation (#171, @jonthegeek).
 
 # googleAuthR v1.1.1
 
