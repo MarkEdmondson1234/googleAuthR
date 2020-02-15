@@ -7,15 +7,16 @@
 googleSignIn(input, output, session)
 }
 \arguments{
-\item{input}{shiny input}
+\item{input}{shiny input (must contain \code{g_id}, \code{g_name},
+\code{g_email}, \code{g_image}, \code{g_signed_in})}
 
-\item{output}{shiny output (\code{id}, \code{name}, \code{email}, \code{image}, \code{signed_in})}
+\item{output}{shiny output (passed by shiny but not used)}
 
 \item{session}{shiny session}
 }
 \value{
-A reactive list with values \code{$g_id}, \code{$g_name}, \code{$g_email}, \code{$g_image}
-and \code{$signed_in}.
+A reactive list with values \code{$id}, \code{$name}, \code{$email},
+  \code{$image} and \code{$signed_in}.
 }
 \description{
 Shiny Module for use with \link{googleSignInUI}.  
