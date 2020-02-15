@@ -75,7 +75,7 @@ gar_gce_auth_default <- function(scopes = getOption("googleAuthR.scopes.selected
 #' @family authentication functions
 #' @importFrom gargle credentials_gce
 gar_gce_auth <- function(service_account = "default",
-                         scopes = getOption("googleAuthR.scopes.selected")){
+                         scopes = "https://www.googleapis.com/auth/cloud-platform"){
   
   token <- credentials_gce(scopes = scopes,
                            service_account = service_account)
