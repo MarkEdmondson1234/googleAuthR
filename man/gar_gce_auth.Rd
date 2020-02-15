@@ -4,8 +4,10 @@
 \alias{gar_gce_auth}
 \title{Authenticate on Google Compute Engine}
 \usage{
-gar_gce_auth(service_account = "default",
-  scopes = getOption("googleAuthR.scopes.selected"))
+gar_gce_auth(
+  service_account = "default",
+  scopes = "https://www.googleapis.com/auth/cloud-platform"
+)
 }
 \arguments{
 \item{service_account}{Specify a different service account from the \code{default}}
@@ -34,10 +36,12 @@ If you want to use them make sure their service account email is added to accoun
 \seealso{
 \link{gar_gce_auth_email}
 
-Other authentication functions: \code{\link{gar_attach_auto_auth}},
-  \code{\link{gar_auth_service}}, \code{\link{gar_auth}},
-  \code{\link{gar_auto_auth}},
-  \code{\link{get_google_token}},
-  \code{\link{token_exists}}
+Other authentication functions: 
+\code{\link{gar_attach_auto_auth}()},
+\code{\link{gar_auth_service}()},
+\code{\link{gar_auth}()},
+\code{\link{gar_auto_auth}()},
+\code{\link{get_google_token}()},
+\code{\link{token_exists}()}
 }
 \concept{authentication functions}

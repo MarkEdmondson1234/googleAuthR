@@ -7,10 +7,15 @@
 \usage{
 gar_auth_jsUI(...)
 
-googleAuth_jsUI(id, login_class = "btn btn-primary",
-  logout_class = "btn btn-danger", login_text = "Log In",
-  logout_text = "Log Out", approval_prompt_force = TRUE,
-  scopes = getOption("googleAuthR.scopes.selected", "email"))
+googleAuth_jsUI(
+  id,
+  login_class = "btn btn-primary",
+  logout_class = "btn btn-danger",
+  login_text = "Log In",
+  logout_text = "Log Out",
+  approval_prompt_force = TRUE,
+  scopes = getOption("googleAuthR.scopes.selected", "email")
+)
 }
 \arguments{
 \item{...}{Arguments passed to \link{googleAuth_jsUI}}

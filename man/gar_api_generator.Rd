@@ -4,11 +4,16 @@
 \alias{gar_api_generator}
 \title{googleAuthR data fetch function generator}
 \usage{
-gar_api_generator(baseURI, http_header = c("GET", "POST", "PUT",
-  "DELETE", "PATCH"), path_args = NULL, pars_args = NULL,
-  data_parse_function = NULL, customConfig = NULL,
+gar_api_generator(
+  baseURI,
+  http_header = c("GET", "POST", "PUT", "DELETE", "PATCH"),
+  path_args = NULL,
+  pars_args = NULL,
+  data_parse_function = NULL,
+  customConfig = NULL,
   simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"),
-  checkTrailingSlash = TRUE)
+  checkTrailingSlash = TRUE
+)
 }
 \arguments{
 \item{baseURI}{The stem of the API call.}

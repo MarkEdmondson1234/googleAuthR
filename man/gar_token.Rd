@@ -30,6 +30,7 @@ req
 }
 }
 \seealso{
-Other low-level API functions: \code{\link{gar_has_token}}
+Other low-level API functions: 
+\code{\link{gar_has_token}()}
 }
 \concept{low-level API functions}

@@ -23,6 +23,7 @@ gar_deauth()
 }
 }
 \seealso{
-Other auth functions: \code{\link{gar_auth_configure}}
+Other auth functions: 
+\code{\link{gar_auth_configure}()}
 }
 \concept{auth functions}

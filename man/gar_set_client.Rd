@@ -4,9 +4,12 @@
 \alias{gar_set_client}
 \title{Setup the clientId, clientSecret and scopes}
 \usage{
-gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"),
-  web_json = Sys.getenv("GAR_CLIENT_WEB_JSON"), scopes = NULL,
-  activate = c("offline", "web"))
+gar_set_client(
+  json = Sys.getenv("GAR_CLIENT_JSON"),
+  web_json = Sys.getenv("GAR_CLIENT_WEB_JSON"),
+  scopes = NULL,
+  activate = c("offline", "web")
+)
 }
 \arguments{
 \item{json}{The file location of an OAuth 2.0 client ID json file}

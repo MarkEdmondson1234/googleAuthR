@@ -4,9 +4,12 @@
 \alias{gar_batch}
 \title{Turn a list of gar_fetch_functions into batch functions}
 \usage{
-gar_batch(call_list, ...,
+gar_batch(
+  call_list,
+  ...,
   batch_endpoint = getOption("googleAuthR.batch_endpoint", default =
-  "https://www.googleapis.com/batch"))
+    "https://www.googleapis.com/batch")
+)
 }
 \arguments{
 \item{call_list}{a list of functions from \code{\link{gar_api_generator}}}
@@ -67,6 +70,7 @@ https://developers.google.com/webmaster-tools/v3/how-tos/batch
   
   Walk through API calls changing parameters using \code{\link{gar_batch_walk}}
 
-Other batch functions: \code{\link{gar_batch_walk}}
+Other batch functions: 
+\code{\link{gar_batch_walk}()}
 }
 \concept{batch functions}

@@ -7,8 +7,12 @@
 \usage{
 gar_auth_js(...)
 
-googleAuth_js(input, output, session,
-  message = "Authenticate with your Google account")
+googleAuth_js(
+  input,
+  output,
+  session,
+  message = "Authenticate with your Google account"
+)
 }
 \arguments{
 \item{...}{Arguments passed to \link{googleAuth_js}}

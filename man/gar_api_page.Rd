@@ -4,8 +4,13 @@
 \alias{gar_api_page}
 \title{Takes a generated API function and lets you page through results}
 \usage{
-gar_api_page(f, page_f = function(x) x$nextLink, page_method = c("url",
-  "param", "path", "body"), page_arg = NULL, body_list = NULL)
+gar_api_page(
+  f,
+  page_f = function(x) x$nextLink,
+  page_method = c("url", "param", "path", "body"),
+  page_arg = NULL,
+  body_list = NULL
+)
 }
 \arguments{
 \item{f}{a function created by \link{gar_api_generator}}

@@ -4,9 +4,14 @@
 \alias{doHttrRequest}
 \title{Get URL content based on if its Shiny or local}
 \usage{
-doHttrRequest(url, shiny_access_token = NULL, request_type = "GET",
-  the_body = NULL, customConfig = NULL,
-  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector"))
+doHttrRequest(
+  url,
+  shiny_access_token = NULL,
+  request_type = "GET",
+  the_body = NULL,
+  customConfig = NULL,
+  simplifyVector = getOption("googleAuthR.jsonlite.simplifyVector")
+)
 }
 \arguments{
 \item{url}{the url of the page to retrieve}

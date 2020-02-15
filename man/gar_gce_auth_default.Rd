@@ -4,8 +4,10 @@
 \alias{gar_gce_auth_default}
 \title{Authenticate via gcloud's application-default login}
 \usage{
-gar_gce_auth_default(scopes = getOption("googleAuthR.scopes.selected",
-  "https://www.googleapis.com/auth/cloud-platform"))
+gar_gce_auth_default(
+  scopes = getOption("googleAuthR.scopes.selected",
+    "https://www.googleapis.com/auth/cloud-platform")
+)
 }
 \arguments{
 \item{scopes}{The scope you created the access_token with}
@@ -25,7 +27,7 @@ When authenticating on Google Cloud Platform services, if you are using services
 \dontrun{
 
 ## in the terminal, issue this gcloud command specifying the scopes to authenticate with
-gcloud auth application-default login \\
+gcloud auth application-default login \
   --scopes=https://www.googleapis.com/auth/analytics.readonly
 
 ## access the URL, login and create a verification code, paste in console.

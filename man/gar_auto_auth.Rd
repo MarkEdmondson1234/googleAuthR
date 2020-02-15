@@ -4,8 +4,12 @@
 \alias{gar_auto_auth}
 \title{Perform auto authentication}
 \usage{
-gar_auto_auth(required_scopes, no_auto = NULL,
-  environment_var = "GAR_AUTH_FILE", new_user = NULL)
+gar_auto_auth(
+  required_scopes,
+  no_auto = NULL,
+  environment_var = "GAR_AUTH_FILE",
+  new_user = NULL
+)
 }
 \arguments{
 \item{required_scopes}{Required scopes needed to authenticate - needs to match at least one}
@@ -36,10 +40,12 @@ This helper function lets you use environment variables to auto-authenticate on 
 \seealso{
 Help files for \link{.onAttach}
 
-Other authentication functions: \code{\link{gar_attach_auto_auth}},
-  \code{\link{gar_auth_service}}, \code{\link{gar_auth}},
-  \code{\link{gar_gce_auth}},
-  \code{\link{get_google_token}},
-  \code{\link{token_exists}}
+Other authentication functions: 
+\code{\link{gar_attach_auto_auth}()},
+\code{\link{gar_auth_service}()},
+\code{\link{gar_auth}()},
+\code{\link{gar_gce_auth}()},
+\code{\link{get_google_token}()},
+\code{\link{token_exists}()}
 }
 \concept{authentication functions}

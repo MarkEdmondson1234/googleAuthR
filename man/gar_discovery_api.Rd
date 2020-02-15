@@ -20,9 +20,10 @@ Does not require authentication
 \seealso{
 \url{https://developers.google.com/discovery/v1/reference/apis/getRest}
 
-Other Google Discovery API functions: \code{\link{gar_create_api_objects}},
-  \code{\link{gar_create_api_skeleton}},
-  \code{\link{gar_create_package}},
-  \code{\link{gar_discovery_apis_list}}
+Other Google Discovery API functions: 
+\code{\link{gar_create_api_objects}()},
+\code{\link{gar_create_api_skeleton}()},
+\code{\link{gar_create_package}()},
+\code{\link{gar_discovery_apis_list}()}
 }
 \concept{Google Discovery API functions}

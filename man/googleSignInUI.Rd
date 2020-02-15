@@ -4,8 +4,7 @@
 \alias{googleSignInUI}
 \title{Google SignIn [UI Module]}
 \usage{
-googleSignInUI(id, logout_name = "Sign Out",
-  logout_class = "btn-danger")
+googleSignInUI(id, logout_name = "Sign Out", logout_class = "btn-danger")
 }
 \arguments{
 \item{id}{Shiny id.}

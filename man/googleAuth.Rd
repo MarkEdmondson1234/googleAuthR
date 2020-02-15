@@ -4,10 +4,18 @@
 \alias{googleAuth}
 \title{Shiny Google Authorisation [Server Module]}
 \usage{
-googleAuth(input, output, session, login_text = "Login via Google",
-  logout_text = "Logout", login_class = "btn btn-primary",
-  logout_class = "btn btn-default", access_type = c("online",
-  "offline"), approval_prompt = c("auto", "force"), revoke = FALSE)
+googleAuth(
+  input,
+  output,
+  session,
+  login_text = "Login via Google",
+  logout_text = "Logout",
+  login_class = "btn btn-primary",
+  logout_class = "btn btn-default",
+  access_type = c("online", "offline"),
+  approval_prompt = c("auto", "force"),
+  revoke = FALSE
+)
 }
 \arguments{
 \item{input}{shiny input}
@@ -98,6 +106,7 @@ shinyApp(ui = ui, server = server)
 
 }
 \seealso{
-Other shiny module functions: \code{\link{googleAuthUI}}
+Other shiny module functions: 
+\code{\link{googleAuthUI}()}
 }
 \concept{shiny module functions}

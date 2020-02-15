@@ -21,9 +21,10 @@ This will create a file with the skeleton of the API functions
   for the specified library
 }
 \seealso{
-Other Google Discovery API functions: \code{\link{gar_create_api_objects}},
-  \code{\link{gar_create_package}},
-  \code{\link{gar_discovery_apis_list}},
-  \code{\link{gar_discovery_api}}
+Other Google Discovery API functions: 
+\code{\link{gar_create_api_objects}()},
+\code{\link{gar_create_package}()},
+\code{\link{gar_discovery_apis_list}()},
+\code{\link{gar_discovery_api}()}
 }
 \concept{Google Discovery API functions}

@@ -76,6 +76,7 @@ gar_auth_configure(
 gar_auth_configure(app = original_app, api_key = original_api_key)
 }
 \seealso{
-Other auth functions: \code{\link{gar_deauth}}
+Other auth functions: 
+\code{\link{gar_deauth}()}
 }
 \concept{auth functions}

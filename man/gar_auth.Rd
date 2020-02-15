@@ -4,11 +4,16 @@
 \alias{gar_auth}
 \title{Authorize \code{googleAuthR}}
 \usage{
-gar_auth(token = NULL, email = NULL,
+gar_auth(
+  token = NULL,
+  email = NULL,
   scopes = getOption("googleAuthR.scopes.selected"),
-  app = gar_oauth_app(), cache = gargle::gargle_oauth_cache(),
-  use_oob = gargle::gargle_oob_default(), package = "googleAuthR",
-  new_user = NULL)
+  app = gar_oauth_app(),
+  cache = gargle::gargle_oauth_cache(),
+  use_oob = gargle::gargle_oob_default(),
+  package = "googleAuthR",
+  new_user = NULL
+)
 }
 \arguments{
 \item{token}{an actual token object or the path to a valid token stored as an
@@ -61,10 +66,12 @@ gar_auth(email = "your@email.com",
 
 }
 \seealso{
-Other authentication functions: \code{\link{gar_attach_auto_auth}},
-  \code{\link{gar_auth_service}},
-  \code{\link{gar_auto_auth}}, \code{\link{gar_gce_auth}},
-  \code{\link{get_google_token}},
-  \code{\link{token_exists}}
+Other authentication functions: 
+\code{\link{gar_attach_auto_auth}()},
+\code{\link{gar_auth_service}()},
+\code{\link{gar_auto_auth}()},
+\code{\link{gar_gce_auth}()},
+\code{\link{get_google_token}()},
+\code{\link{token_exists}()}
 }
 \concept{authentication functions}

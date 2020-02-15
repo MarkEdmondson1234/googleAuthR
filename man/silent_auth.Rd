@@ -13,9 +13,10 @@ silent_auth(req)
 The default for logging in via \link{gar_shiny_ui}, this creates no login page and just takes you straight to authentication on Shiny app load.
 }
 \seealso{
-Other pre-load shiny authentication: \code{\link{gar_shiny_auth_url}},
-  \code{\link{gar_shiny_auth}},
-  \code{\link{gar_shiny_login_ui}},
-  \code{\link{gar_shiny_ui}}
+Other pre-load shiny authentication: 
+\code{\link{gar_shiny_auth_url}()},
+\code{\link{gar_shiny_auth}()},
+\code{\link{gar_shiny_login_ui}()},
+\code{\link{gar_shiny_ui}()}
 }
 \concept{pre-load shiny authentication}

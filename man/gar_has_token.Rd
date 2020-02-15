@@ -17,6 +17,7 @@ requests.
 gar_has_token()
 }
 \seealso{
-Other low-level API functions: \code{\link{gar_token}}
+Other low-level API functions: 
+\code{\link{gar_token}()}
 }
 \concept{low-level API functions}
