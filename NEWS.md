@@ -6,6 +6,7 @@
 * Auto-auth should succeed if one of the scopes needed is present
 * Set default scopes to "https://www.googleapis.com/auth/cloud-platform" in `gar_gce_auth`
 * Corrected and clarified `googleSignIn` documentation (#171, @jonthegeek).
+* Fix `gar_debug_parsing()` message
 
 # googleAuthR v1.1.1
 
