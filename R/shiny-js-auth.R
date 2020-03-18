@@ -2,7 +2,7 @@
 #' 
 #' A Javascript Google authorisation flow for Shiny apps.
 #'
-#' Shiny Module for use with \link{gar_auth_js}
+#' Shiny Module for use with \link{garAuth_js}
 #' 
 #' @param id Shiny id
 #' @param login_class CSS class of login button
@@ -63,9 +63,9 @@ googleAuth_jsUI <- function(id,
 
 #' Shiny JavaScript Google Authorisation [Server Module]
 #'
-#' Shiny Module for use with \link{gar_auth_jsUI}
+#' Shiny Module for use with \link{garAuth_jsUI}
 #'
-#' Call via \code{shiny::callModule(gar_auth_js, "your_id")}
+#' Call via \code{shiny::callModule(garAuth_js, "your_id")}
 #'
 #' @param input shiny input
 #' @param output shiny output
