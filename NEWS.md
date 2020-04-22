@@ -8,6 +8,7 @@
 * Corrected and clarified `googleSignIn` documentation (#171, @jonthegeek).
 * Fix `gar_debug_parsing()` message
 * Remove deprecated `gar_auth_jsUI` since it causes an issue when used 
+* Add functions `gar_service_*` to provision service accounts via R (#178)
 
 # googleAuthR v1.1.1
 
