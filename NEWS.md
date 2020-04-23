@@ -1,4 +1,4 @@
-# googleAuthR 1.1.1.9000
+# googleAuthR 1.2.0
 
 * Add `gar_scope_config` 
 * Add Docker build available at `gcr.io/gcer-public/googleauthr`
