@@ -24,8 +24,8 @@ googleAuth_js(
 A httr reactive OAuth2.0 token
 }
 \description{
-Shiny Module for use with \link{garAuth_jsUI}
+Shiny Module for use with \link{googleAuth_jsUI}
 }
 \details{
-Call via \code{shiny::callModule(garAuth_js, "your_id")}
+Call via \code{shiny::callModule(googleAuth_js, "your_id")}
 }

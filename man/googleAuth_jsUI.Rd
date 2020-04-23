@@ -36,5 +36,5 @@ Shiny UI
 A Javascript Google authorisation flow for Shiny apps.
 }
 \details{
-Shiny Module for use with \link{garAuth_js}
+Shiny Module for use with \link{googleAuth_js}
 }
