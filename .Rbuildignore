@@ -26,3 +26,4 @@ secrets\.R
 ^tests$
 ^Dockerfile$
 ^.github$
+^cloud_build$
