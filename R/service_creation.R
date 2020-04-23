@@ -84,7 +84,7 @@ gar_service_create <- function(
 #' Grant IAM roles to accountIds
 #' 
 #' @param accountIds A vector of accountIds in the form \code{accountId@projectid.iam.gserviceaccount.com}
-#' @param roles A character vector of roles to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles}
+#' @param roles A character vector of roles to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles} or in your GCP console \code{https://console.cloud.google.com/iam-admin/roles/details/roles}
 #' @param type The type of accountId to add role for - e.g. \code{user:mark@me.com} or \code{serviceAccount:accountId@projectid.iam.gserviceaccount.com}
 #' 
 #' @details 
@@ -118,7 +118,9 @@ gar_service_grant_roles <- function(accountIds,
       )
     )
   
-  myMessage("Granting roles", level = 3)
+  myMessage("Granting roles: ", paste(roles, collapse = " "), 
+            "to accountIds: ", paste(accountIds, collapse = " "),
+            level = 3)
   api_call <- gar_api_generator(the_url, "POST", 
                                 data_parse_function = function(x) x$bindings)
   
@@ -147,7 +149,7 @@ gar_service_get_roles <- function(projectId){
     projectId
   )
   
-  myMessage("Getting existing roles", level = 3)
+  myMessage("Checking existing roles", level = 3)
   api_call <- gar_api_generator(the_url, "POST", 
                                 data_parse_function = function(x) x$bindings)
   
