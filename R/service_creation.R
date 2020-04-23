@@ -35,11 +35,11 @@ gar_service_provision <- function(accountId,
   gar_auth(email = email)
   created <- gar_service_create(accountId, projectId = projectId)
     
-  gar_service_grant_roles(created$email,
-                          roles = roles,
-                          projectId = projectId)
+  # gar_service_grant_roles(created$email,
+  #                         roles = roles,
+  #                         projectId = projectId)
     
-  gar_service_key(accountId, projectId = projectId, file = file)
+  # gar_service_key(accountId, projectId = projectId, file = file)
   
 }
 
@@ -73,6 +73,7 @@ gar_service_create <- function(
     )
   )
   
+  myMessage("Creating service accountId - ", accountId, level = 3)
   api_call <- gar_api_generator(the_url, "POST", 
                                 data_parse_function = function(x) x)
   
@@ -86,12 +87,19 @@ gar_service_create <- function(
 #' @param roles A character vector of roles to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles}
 #' @param type The type of accountId to add role for - e.g. \code{user:mark@me.com} or \code{serviceAccount:accountId@projectid.iam.gserviceaccount.com}
 #' 
+#' @details 
+#' 
+#' WARNING - you will overwrite any existing roles and emails
+#' 
 #' @export
 #' @rdname gar_service_create
+#' @seealso \url{https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy}
 gar_service_grant_roles <- function(accountIds,
                                     roles,
                                     projectId,
-                                    type = c("serviceAccount", "user")){
+                                    type = c("serviceAccount", "user", "group")){
+  return()
+  existing <- gar_service_get_roles(projectId)
   
   type <- match.arg(type)
   
@@ -109,11 +117,33 @@ gar_service_grant_roles <- function(accountIds,
       bindings = list(the_roles)
       )
     )
-  
+  myMessage("Granting roles", level = 3)
   api_call <- gar_api_generator(the_url, "POST", 
                                 data_parse_function = function(x) x)
   
   api_call(the_body = body)
+  
+}
+
+#' Get current IAM roles
+#' 
+#' @details 
+#' 
+#' @export
+#' @rdname gar_service_create
+#' @seealso \url{https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy}
+gar_service_get_roles <- function(projectId){
+  
+  the_url <- sprintf(
+    "https://cloudresourcemanager.googleapis.com/v1/projects/%s:getIamPolicy",
+    projectId
+  )
+  
+  myMessage("Getting existing roles", level = 3)
+  api_call <- gar_api_generator(the_url, "POST", 
+                                data_parse_function = function(x) x)
+  
+  api_call()
   
 }
 
@@ -149,6 +179,8 @@ gar_service_key <- function(accountId,
     "https://iam.googleapis.com/v1/projects/%s/serviceAccounts/%s@%s.iam.gserviceaccount.com/keys",
     projectId, accountId, projectId)
   
+  myMessage("Creating secret auth key for service account", accountId,
+            " for project ", projectId, level = 3)
   api_call <- gar_api_generator(
     the_url, "POST", data_parse_function = decode_key)
   

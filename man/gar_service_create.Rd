@@ -3,6 +3,7 @@
 \name{gar_service_create}
 \alias{gar_service_create}
 \alias{gar_service_grant_roles}
+\alias{gar_service_get_roles}
 \alias{gar_service_key}
 \alias{gar_service_key_list}
 \title{Work with service accounts via the API}
@@ -18,8 +19,10 @@ gar_service_grant_roles(
   accountIds,
   roles,
   projectId,
-  type = c("serviceAccount", "user")
+  type = c("serviceAccount", "user", "group")
 )
+
+gar_service_get_roles(projectId)
 
 gar_service_key(
   accountId,
@@ -49,6 +52,11 @@ gar_service_key_list(accountId, projectId)
 \description{
 These functions let you create a service JSON key from an OAuth2 login.  You can then assign it roles and do a one time download of a service account key to use for authentication in other Google APIs
 }
+\details{
+WARNING - you will overwrite any existing roles and emails
+
+
+}
 \examples{
 \dontrun{
  library(googleAuthR)
@@ -66,5 +74,9 @@ These functions let you create a service JSON key from an OAuth2 login.  You can
 }
 }
 \seealso{
+\url{https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy}
+
+\url{https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy}
+
 https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts.keys/create
 }
