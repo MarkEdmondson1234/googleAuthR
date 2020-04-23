@@ -16,7 +16,7 @@ gar_service_create(
 
 gar_service_grant_roles(
   accountIds,
-  role,
+  roles,
   projectId,
   type = c("serviceAccount", "user")
 )
@@ -38,9 +38,11 @@ gar_service_key_list(accountId, projectId)
 
 \item{serviceDescription}{Description of service account}
 
-\item{accountIds}{A vector of accountIds in the form \code{serviceAccount:accountId@projectid.iam.gserviceaccount.com}}
+\item{accountIds}{A vector of accountIds in the form \code{accountId@projectid.iam.gserviceaccount.com}}
 
-\item{role}{The role to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles}}
+\item{roles}{A character vector of roles to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles}}
+
+\item{type}{The type of accountId to add role for - e.g. \code{user:mark@me.com} or \code{serviceAccount:accountId@projectid.iam.gserviceaccount.com}}
 
 \item{file}{The file to download the private JSON key to}
 }

@@ -1,3 +1,48 @@
+#' Provision a service account
+#' 
+#' This uses all the \link{gar_service_create} functions to enable creating service account roles more easily
+#' 
+#' @inheritParams gar_service_create
+#' @inheritParams gar_set_client
+#' @inheritParams gar_auth
+#' @details 
+#' 
+#' You will need the OAuth2.0 Client ID JSON from your GCP project via 
+#' \code{menu icon > APIs & Services > Credentials > Create Credentials > OAuth client ID}
+#' 
+#' You need to authenticate with a user with permission \code{iam.serviceAccounts.create} for the project.  Most often the user is an Owner/Editor
+#' 
+#' @seealso \url{https://cloud.google.com/iam/docs/creating-managing-service-accounts#iam-service-accounts-create-rest}
+#' 
+#' @export
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#' gar_service_provision("my-service-account", 
+#'                       c("roles/viewer", "roles/bigquery.jobUser"))
+#' }
+gar_service_provision <- function(accountId, 
+                                  roles,
+                                  json = Sys.getenv("GAR_CLIENT_JSON"),
+                                  file = paste0(accountId,"-auth-key.json"),
+                                  email = Sys.getenv("GARGLE_EMAIL")){
+  projectId <- gar_set_client(json, 
+                  scopes = "https://www.googleapis.com/auth/cloud-platform")
+  if(email == ""){
+    email <- NULL
+  }
+  gar_auth(email = email)
+  created <- gar_service_create(accountId, projectId = projectId)
+    
+  gar_service_grant_roles(created$email,
+                          roles = roles,
+                          projectId = projectId)
+    
+  gar_service_key(accountId, projectId = projectId, file = file)
+  
+}
+
 #' Work with service accounts via the API
 #' 
 #' These functions let you create a service JSON key from an OAuth2 login.  You can then assign it roles and do a one time download of a service account key to use for authentication in other Google APIs
@@ -37,13 +82,14 @@ gar_service_create <- function(
 
 #' Grant IAM roles to accountIds
 #' 
-#' @param accountIds A vector of accountIds in the form \code{serviceAccount:accountId@projectid.iam.gserviceaccount.com}
-#' @param role The role to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles}
+#' @param accountIds A vector of accountIds in the form \code{accountId@projectid.iam.gserviceaccount.com}
+#' @param roles A character vector of roles to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles}
+#' @param type The type of accountId to add role for - e.g. \code{user:mark@me.com} or \code{serviceAccount:accountId@projectid.iam.gserviceaccount.com}
 #' 
 #' @export
 #' @rdname gar_service_create
 gar_service_grant_roles <- function(accountIds,
-                                    role,
+                                    roles,
                                     projectId,
                                     type = c("serviceAccount", "user")){
   
@@ -54,16 +100,13 @@ gar_service_grant_roles <- function(accountIds,
     projectId
   )
   
+  the_roles <- lapply(roles, function(x){
+    list(role = x, members = list(paste0(type,":",accountIds)))
+  })
+  
   body <- list(
     policy = list(
-      bindings = list(
-        list(
-          role = role,
-          members = list(
-              paste0(type, ":", accountIds)
-              )
-          )
-        )
+      bindings = list(the_roles)
       )
     )
   
