@@ -35,11 +35,11 @@ gar_service_provision <- function(accountId,
   gar_auth(email = email)
   created <- gar_service_create(accountId, projectId = projectId)
     
-  # gar_service_grant_roles(created$email,
-  #                         roles = roles,
-  #                         projectId = projectId)
-    
-  # gar_service_key(accountId, projectId = projectId, file = file)
+  gar_service_grant_roles(created$email,
+                          roles = roles,
+                          projectId = projectId)
+
+  gar_service_key(accountId, projectId = projectId, file = file)
   
 }
 
@@ -89,7 +89,7 @@ gar_service_create <- function(
 #' 
 #' @details 
 #' 
-#' WARNING - you will overwrite any existing roles and emails
+#' It will download the existing roles, and append the role you add to it here.
 #' 
 #' @export
 #' @rdname gar_service_create
@@ -98,10 +98,10 @@ gar_service_grant_roles <- function(accountIds,
                                     roles,
                                     projectId,
                                     type = c("serviceAccount", "user", "group")){
-  return()
-  existing <- gar_service_get_roles(projectId)
   
   type <- match.arg(type)
+  
+  existing <- extract_existing(gar_service_get_roles(projectId))
   
   the_url <- sprintf(
     "https://cloudresourcemanager.googleapis.com/v1/projects/%s:setIamPolicy",
@@ -114,15 +114,23 @@ gar_service_grant_roles <- function(accountIds,
   
   body <- list(
     policy = list(
-      bindings = list(the_roles)
+      bindings = unname(c(existing, the_roles))
       )
     )
+  
   myMessage("Granting roles", level = 3)
   api_call <- gar_api_generator(the_url, "POST", 
-                                data_parse_function = function(x) x)
+                                data_parse_function = function(x) x$bindings)
   
   api_call(the_body = body)
   
+}
+
+extract_existing <- function(bs){
+  lapply(bs$role, function(x){
+    list(role = x, 
+         members = list(bs$members[[which(bs$role == x)]]))
+    })
 }
 
 #' Get current IAM roles
@@ -141,7 +149,7 @@ gar_service_get_roles <- function(projectId){
   
   myMessage("Getting existing roles", level = 3)
   api_call <- gar_api_generator(the_url, "POST", 
-                                data_parse_function = function(x) x)
+                                data_parse_function = function(x) x$bindings)
   
   api_call()
   

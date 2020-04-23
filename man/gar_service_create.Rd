@@ -53,7 +53,7 @@ gar_service_key_list(accountId, projectId)
 These functions let you create a service JSON key from an OAuth2 login.  You can then assign it roles and do a one time download of a service account key to use for authentication in other Google APIs
 }
 \details{
-WARNING - you will overwrite any existing roles and emails
+It will download the existing roles, and append the role you add to it here.
 
 
 }
