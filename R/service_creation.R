@@ -154,7 +154,9 @@ gar_service_key <- function(accountId,
   
   o <- api_call()
   
-  myMessage("Writing secret auth JSON key to ", file, level = 3)
+  myMessage("Writing secret auth JSON key to ", file, 
+            " and adding to .gitignore", level = 3)
+  add_line(file, ".gitignore")
   write(o, file = file)
 
 }
