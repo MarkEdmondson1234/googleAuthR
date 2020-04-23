@@ -10,21 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +43,6 @@
 <meta property="og:description" content="This can be used at the top of the server function for authentication when you have used
   gar_shiny_ui to create a login page for your ui function.
 In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://your-shiny-url`).  In other circumstances the Shiny app should be able to detect this itself." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,9 +67,10 @@ In some platforms the URL you are authenticating from will not match the Docker 
   gtag('config', 'UA-47480439-2');
 </script>
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -78,7 +84,7 @@ In some platforms the URL you are authenticating from will not match the Docker 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.1</span>
       </span>
     </div>
 
@@ -150,13 +156,14 @@ In some platforms the URL you are authenticating from will not match the Docker 
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create Authentication within Shiny's server.R</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/MarkEdmondson1234/googleAuthR/blob/master/R/shiny-modifyurl.R'><code>R/shiny-modifyurl.R</code></a></small>
     <div class="hidden name"><code>gar_shiny_auth.Rd</code></div>
     </div>
 
@@ -182,30 +189,32 @@ In some platforms the URL you are authenticating from will not match the Docker 
     <p>If using  <a href='gar_shiny_ui.html'>gar_shiny_ui</a>, put this at the top of your server.R function</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other pre-load shiny authentication: <code><a href='gar_shiny_auth_url.html'>gar_shiny_auth_url</a></code>,
-  <code><a href='gar_shiny_login_ui.html'>gar_shiny_login_ui</a></code>,
-  <code><a href='gar_shiny_ui.html'>gar_shiny_ui</a></code>, <code><a href='silent_auth.html'>silent_auth</a></code></p></div>
+    <div class='dont-index'><p>Other pre-load shiny authentication: 
+<code><a href='gar_shiny_auth_url.html'>gar_shiny_auth_url</a>()</code>,
+<code><a href='gar_shiny_login_ui.html'>gar_shiny_login_ui</a>()</code>,
+<code><a href='gar_shiny_ui.html'>gar_shiny_ui</a>()</code>,
+<code><a href='silent_auth.html'>silent_auth</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>shiny</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>googleAuthR</span>)
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>googleAuthR</span>)
 <span class='fu'><a href='gar_set_client.html'>gar_set_client</a></span>()
 
 <span class='no'>fileSearch</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>query</span>) {
-  <span class='kw pkg'>googleAuthR</span><span class='kw ns'>::</span><span class='fu'><a href='https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/drive/v3/files/"</span>,
+  <span class='kw pkg'>googleAuthR</span><span class='kw ns'>::</span><span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/drive/v3/files/"</span>,
                                 <span class='st'>"GET"</span>,
-                                <span class='kw'>pars_args</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>q</span><span class='kw'>=</span><span class='no'>query</span>),
+                                <span class='kw'>pars_args</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>q</span><span class='kw'>=</span><span class='no'>query</span>),
                                 <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>$<span class='no'>files</span>)()
 }
 
 <span class='co'>## ui.R</span>
-<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/fluidPage'>fluidPage</a></span>(<span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"googleAuthR Shiny Demo"</span>,
-                <span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/textInput'>textInput</a></span>(<span class='st'>"query"</span>,
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(<span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"googleAuthR Shiny Demo"</span>,
+                <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>"query"</span>,
                 <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Google Drive query"</span>,
                 <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"mimeType != 'application/vnd.google-apps.folder'"</span>),
-                <span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/tableOutput'>tableOutput</a></span>(<span class='st'>"gdrive"</span>)
+                <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tableOutput.html'>tableOutput</a></span>(<span class='st'>"gdrive"</span>)
                 )
 
 <span class='co'>## server.R</span>
@@ -214,8 +223,8 @@ In some platforms the URL you are authenticating from will not match the Docker 
 <span class='co'># this is not reactive, no need as you only reach here authenticated</span>
 <span class='fu'>gar_shiny_auth</span>(<span class='no'>session</span>)
 
-<span class='no'>output</span>$<span class='no'>gdrive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/renderTable'>renderTable</a></span>({
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/req'>req</a></span>(<span class='no'>input</span>$<span class='no'>query</span>)
+<span class='no'>output</span>$<span class='no'>gdrive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderTable.html'>renderTable</a></span>({
+  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/req.html'>req</a></span>(<span class='no'>input</span>$<span class='no'>query</span>)
 
   <span class='co'># no need for with_shiny()</span>
   <span class='fu'>fileSearch</span>(<span class='no'>input</span>$<span class='no'>query</span>)
@@ -224,22 +233,16 @@ In some platforms the URL you are authenticating from will not match the Docker 
   }
 
 <span class='co'># gar_shiny_ui() needs to wrap the ui you have created above.</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/shinyApp'>shinyApp</a></span>(<span class='fu'><a href='gar_shiny_ui.html'>gar_shiny_ui</a></span>(<span class='no'>ui</span>), <span class='no'>server</span>)
-<span class='co'># }</span></pre>
+<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='fu'><a href='gar_shiny_ui.html'>gar_shiny_ui</a></span>(<span class='no'>ui</span>), <span class='no'>server</span>)
+}</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Based on a gist by Joe Cheng, RStudio</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -247,13 +250,16 @@ In some platforms the URL you are authenticating from will not match the Docker 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
