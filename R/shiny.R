@@ -56,10 +56,10 @@ gar_shiny_getAuthUrl <-
            client.secret = getOption("googleAuthR.webapp.client_secret"),
            scope         = getOption("googleAuthR.scopes.selected"),
            access_type   = c("online","offline"),
-           approval_prompt = c("auto","force")) {
+           prompt = c("consent", "select_account", "both", "none")) {
     
     access_type <- match.arg(access_type)
-    approval_prompt <- match.arg(approval_prompt)
+    prompt <- match.arg(prompt)
 
     scopeEnc <- paste(scope, sep='', collapse=' ')
     
@@ -72,7 +72,7 @@ gar_shiny_getAuthUrl <-
                    scope = scopeEnc,
                    state = state,
                    access_type = access_type,
-                   approval_prompt = approval_prompt))
+                   prompt = prompt))
     myMessage("Auth Token URL: ", url, level=2)
     url
 }

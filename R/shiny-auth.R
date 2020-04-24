@@ -101,12 +101,12 @@ googleAuth <- function(input, output, session,
                        login_class="btn btn-primary",
                        logout_class="btn btn-default",
                        access_type = c("online","offline"),
-                       approval_prompt = c("auto","force"),
+                       prompt = c("consent", "select_account", "both", "none"),
                        revoke = FALSE){
   check_package_loaded("shiny")
   
   access_type     <- match.arg(access_type)
-  approval_prompt <- match.arg(approval_prompt)
+  prompt <- match.arg(prompt)
   ns              <- session$ns
   
   accessToken <- shiny::reactive({
@@ -133,7 +133,7 @@ googleAuth <- function(input, output, session,
                         shiny::a(login_text, 
                                  href = gar_shiny_getAuthUrl(gar_shiny_getUrl(session), 
                                                              access_type = access_type,
-                                                             approval_prompt = approval_prompt), 
+                                                             prompt = prompt), 
                                  class=login_class, 
                                  role="button"))
     } else {
