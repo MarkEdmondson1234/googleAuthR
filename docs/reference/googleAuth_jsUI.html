@@ -175,7 +175,7 @@
   <span class='kw'>logout_class</span> <span class='kw'>=</span> <span class='st'>"btn btn-danger"</span>,
   <span class='kw'>login_text</span> <span class='kw'>=</span> <span class='st'>"Log In"</span>,
   <span class='kw'>logout_text</span> <span class='kw'>=</span> <span class='st'>"Log Out"</span>,
-  <span class='kw'>approval_prompt_force</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prompt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"consent"</span>, <span class='st'>"select_account"</span>, <span class='st'>"both"</span>, <span class='st'>"none"</span>),
   <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"googleAuthR.scopes.selected"</span>, <span class='st'>"email"</span>)
 )</pre>
 
@@ -203,8 +203,8 @@
       <td><p>Text to show on logout button</p></td>
     </tr>
     <tr>
-      <th>approval_prompt_force</th>
-      <td><p>Whether to force a login each time</p></td>
+      <th>prompt</th>
+      <td><p>The type of login screen</p></td>
     </tr>
     <tr>
       <th>scopes</th>
