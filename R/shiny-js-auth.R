@@ -9,7 +9,7 @@
 #' @param logout_class CSS class of logout button
 #' @param login_text Text to show on login button
 #' @param logout_text Text to show on logout button
-#' @param approval_prompt_force Whether to force a login each time
+#' @param prompt The type of login screen 
 #' @param scopes Set the scopes, minimum needs is "email"
 #'
 #' @return Shiny UI
@@ -20,27 +20,27 @@ googleAuth_jsUI <- function(id,
                           logout_class = "btn btn-danger",
                           login_text = "Log In",
                           logout_text = "Log Out",
-                          approval_prompt_force = TRUE,
+                          prompt = c("consent", "select_account", "both", "none"),
                           scopes = getOption("googleAuthR.scopes.selected", "email")){
   check_package_loaded("shiny")
+  prompt <- match.arg(prompt)
   
   assert_that(
     is.string(login_class),
     is.string(logout_class),
     is.string(login_text),
     is.string(logout_text),
-    is.flag(approval_prompt_force),
     !is.null(scopes)
   )
   
-  if(approval_prompt_force){
-    approval_prompt_line <- ",\n          'approval_prompt':'force'"
-  } else {
-    approval_prompt_line <-NULL
+  if(prompt == "both"){
+    prompt <- "consent select_account"
   }
   
+  approval_prompt_line <- paste0(",\n 'prompt':'",prompt,"'")
+  
   ## No @import to avoid making shiny and miniUI an import
-  check_package_loaded("shiny")
+
   ns <- shiny::NS(id)
   shiny::tagList(
     

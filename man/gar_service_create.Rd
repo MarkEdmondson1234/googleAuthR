@@ -43,7 +43,7 @@ gar_service_key_list(accountId, projectId)
 
 \item{accountIds}{A vector of accountIds in the form \code{accountId@projectid.iam.gserviceaccount.com}}
 
-\item{roles}{A character vector of roles to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles}}
+\item{roles}{A character vector of roles to give the accountIds e.g. \code{roles/editor} - see list of roles here \url{https://cloud.google.com/iam/docs/understanding-roles#predefined_roles} or in your GCP console \code{https://console.cloud.google.com/iam-admin/roles/details/roles}}
 
 \item{type}{The type of accountId to add role for - e.g. \code{user:mark@me.com} or \code{serviceAccount:accountId@projectid.iam.gserviceaccount.com}}
 

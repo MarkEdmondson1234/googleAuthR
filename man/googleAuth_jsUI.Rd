@@ -10,7 +10,7 @@ googleAuth_jsUI(
   logout_class = "btn btn-danger",
   login_text = "Log In",
   logout_text = "Log Out",
-  approval_prompt_force = TRUE,
+  prompt = c("consent", "select_account", "both", "none"),
   scopes = getOption("googleAuthR.scopes.selected", "email")
 )
 }
@@ -25,7 +25,7 @@ googleAuth_jsUI(
 
 \item{logout_text}{Text to show on logout button}
 
-\item{approval_prompt_force}{Whether to force a login each time}
+\item{prompt}{The type of login screen}
 
 \item{scopes}{Set the scopes, minimum needs is "email"}
 }
