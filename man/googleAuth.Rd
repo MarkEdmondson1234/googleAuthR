@@ -34,9 +34,9 @@ googleAuth(
 
 \item{access_type}{Online or offline access for the authentication URL}
 
-\item{revoke}{If TRUE a user on logout will need to re-authenticate}
+\item{prompt}{What type of consent screen on authentication}
 
-\item{approval_prompt}{Whether to show the consent screen on authentication}
+\item{revoke}{If TRUE a user on logout will need to re-authenticate}
 }
 \value{
 A reactive authentication token

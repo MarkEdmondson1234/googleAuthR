@@ -11,7 +11,7 @@ gar_shiny_auth_url(
   client.secret = getOption("googleAuthR.webapp.client_secret"),
   scope = getOption("googleAuthR.scopes.selected"),
   access_type = c("online", "offline"),
-  approval_prompt = c("auto", "force")
+  prompt = c("consent", "select_account", "both", "none")
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ gar_shiny_auth_url(
 
 \item{access_type}{whether to keep the token}
 
-\item{approval_prompt}{Auto-login if user is recognised or always force signin}
+\item{prompt}{Auto-login if user is recognised or always force signin}
 }
 \description{
 Set this within your login_ui where you need the Google login.
