@@ -33,7 +33,7 @@ googleAuthUI <- function(id){
 #' @param login_class The CSS class for the login link
 #' @param logout_class The CSS class for the logout link
 #' @param access_type Online or offline access for the authentication URL
-#' @param approval_prompt Whether to show the consent screen on authentication
+#' @param prompt What type of consent screen on authentication
 #' @param revoke If TRUE a user on logout will need to re-authenticate
 #' 
 #' @return A reactive authentication token

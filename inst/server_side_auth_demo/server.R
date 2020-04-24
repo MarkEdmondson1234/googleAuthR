@@ -22,7 +22,7 @@ shorten_url <- function(url){
 server <- function(input, output, session){
   
   ## Create access token and render login button
-  access_token <- callModule(googleAuth, "loginButton", approval_prompt = "force")
+  access_token <- callModule(googleAuth, "loginButton", prompt = "consent")
   
   short_url_output <- eventReactive(input$submit, {
     ## wrap existing function with_shiny

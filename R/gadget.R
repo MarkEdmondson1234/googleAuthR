@@ -71,7 +71,7 @@ gar_gadget <- function(){
       token <- shiny::callModule(googleAuth, 
                                  "gadget", 
                                  login_text = "Login",
-                                 approval_prompt="force")
+                                 prompt="consent")
       
       token <- token()
       
