@@ -55,16 +55,13 @@ The below libraries are all cross-compatible as they use `googleAuthR` for authe
 * [googleTagManagerR](https://github.com/IronistM/googleTagManageR) - Google Tag Manager API by IronistM
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
 * [googleCloudStorageR](http://code.markedmondson.me/googleCloudStorageR/) - Google Cloud Storage API
-* [RoogleVision](https://github.com/cloudyr/RoogleVision) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
-* [googleLanguageR](https://github.com/MarkEdmondson1234/googleLanguageR) - Access Speech to Text, Entity analysis and translation APIs from R
+* [RoogleVision](https://github.com/cloudyr/googleCloudVisionR) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
+* [googleLanguageR](https://github.com/ropensci/googleLanguageR) - Access Speech to Text, Entity analysis and translation APIs from R
+* [googleCloudRunner](https://code.markedmondson.me/googleCloudRunner/) - Continuous Development and Integration with Cloud Run, Cloud Scheduler and Cloud Build
 
 Feel free to add your own via email or a pull request if you have used googleAuthR to build something cool. 
 
 `googleAuthR` now has an R package generator which makes R package skeletons you can use to build your own Google API R package upon.  Browse through the 154 options at this [Github repository](https://github.com/MarkEdmondson1234/autoGoogleAPI).
-
-## Example Shiny app
-
-An example shiny app with Google authentication is [deployed to shinyapps.io here](https://mark.shinyapps.io/googleAuthRexample/).   It uses the example app that is available in `system.file("shiny", package="googleAuthR")`
 
 ## Thanks to
 

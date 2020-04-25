@@ -216,13 +216,13 @@ check_results <- lapply(api_json_list,
 ## Creating an API library from scratch - Example with goo.gl
 
 Below is an example building a link shortner R package using `googleAuthR`.
-It was done referring to the [documentation for Google URL shortener](https://developers.google.com/url-shortener/v1/getting_started).
+It was done referring to the documentation for Google URL shortener.
 Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.
 
 1. Creating a project
 2. Activate API
 3. Provide scope
-4. Specify the base URL (in this case `https://www.googleapis.com/urlshortener/v1/url`)
+4. Specify the base URL (in this case it was `https://www.googleapis.com/urlshortener/v1/url`)
 5. Specify the httr request type e.g. `POST`
 6. Constructing a body request
 7. Giving the response format
@@ -267,7 +267,7 @@ expand_url <- function(shortUrl){
   f(pars_arguments = list(shortUrl = shortUrl))
   
 }
-#' Get analyitcs of a url that has used goo.gl
+#' Get analytics of a url that has used goo.gl
 #'
 #' @param shortUrl Url that was shortened with goo.gl
 #' @param timespan The time period for the analytics data
