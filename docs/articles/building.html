@@ -118,7 +118,7 @@
       <h1 data-toc-skip>Building your own Google R library</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2020-04-24</h4>
+            <h4 class="date">2020-04-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/building.Rmd"><code>vignettes/building.Rmd</code></a></small>
       <div class="hidden name"><code>building.Rmd</code></div>
@@ -300,12 +300,12 @@ $body_json
 <div id="creating-an-api-library-from-scratch---example-with-goo-gl" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-an-api-library-from-scratch---example-with-goo-gl" class="anchor"></a>Creating an API library from scratch - Example with goo.gl</h2>
-<p>Below is an example building a link shortner R package using <code>googleAuthR</code>. It was done referring to the <a href="https://developers.google.com/url-shortener/v1/getting_started">documentation for Google URL shortener</a>. Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.</p>
+<p>Below is an example building a link shortner R package using <code>googleAuthR</code>. It was done referring to the documentation for Google URL shortener. Note the help docs specifies the steps outlined above. These are in general the steps for every Google API.</p>
 <ol style="list-style-type: decimal">
 <li>Creating a project</li>
 <li>Activate API</li>
 <li>Provide scope</li>
-<li>Specify the base URL (in this case <code>https://www.googleapis.com/urlshortener/v1/url</code>)</li>
+<li>Specify the base URL (in this case it was <code>https://www.googleapis.com/urlshortener/v1/url</code>)</li>
 <li>Specify the httr request type e.g. <code>POST</code>
 </li>
 <li>Constructing a body request</li>
@@ -351,7 +351,7 @@ $body_json
   <span class="fu">f</span>(<span class="kw">pars_arguments</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">shortUrl</span> <span class="kw">=</span> <span class="no">shortUrl</span>))
 
 }
-<span class="co">#' Get analyitcs of a url that has used goo.gl</span>
+<span class="co">#' Get analytics of a url that has used goo.gl</span>
 <span class="co">#'</span>
 <span class="co">#' @param shortUrl Url that was shortened with goo.gl</span>
 <span class="co">#' @param timespan The time period for the analytics data</span>
