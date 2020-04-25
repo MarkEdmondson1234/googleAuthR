@@ -7,6 +7,8 @@
 
 0 errors | 0 warnings | 0 notes 
 
+This is second submission, I have fixed the links that were 404 in the first. 
+
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of googleAuthR
 
