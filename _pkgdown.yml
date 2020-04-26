@@ -15,9 +15,10 @@ navbar:
   left:
     - text: "Setup"
       icon: fa-child fa-lg
+      href: articles/setup.html
     - text: "Authentication"
       icon: fa-sign-in fa-lg
-      href: "articles/google-authentication-types.html"
+      href: articles/google-authentication-types.html
     - text: "Building Google APIs"
       icon: fa-wrench fa-lg
       href: articles/building.html
