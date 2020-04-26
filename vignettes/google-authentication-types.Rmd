@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Quick user based authentication
+# Quick user based authentication
 
 Once setup, then you should go through the Google login flow in your browser when you run this command:
 
@@ -35,7 +35,7 @@ gar_auth(email = "your@email.com")
 These functions are usually wrapped in package specific functions when used in other packages, such as `googleAnalyticsR::ga_auth()`
 
 
-## Client options
+# Client options
 
 Most libraries will set the appropriate options for you, otherwise you will need to supply them from the Google Cloud console, in its `APIs & services > Credentials` section ( `https://console.cloud.google.com/apis/credentials` ).
 
@@ -47,9 +47,9 @@ You will need as a minimum:
 
 If creating your own library you can choose to supply some or all of the above to the end-user, as an end-user you may need to set some of the above (most usually your own user authentication).
 
-## Multiple authentication tokens
+# Multiple authentication tokens
 
-### googleAuthR > 1.0.0
+## googleAuthR > 1.0.0
 
 Authentication cache tokens are kept at a global level on your computer.  When you authenticate the first time with a new client.id, scope or email then you will go through the authentication process in the browser, however the next time it wil be cached and be a lot quicker.
 
@@ -68,7 +68,7 @@ gar_auth(email = "your@email.com",
 
 ```
 
-### Legacy flows
+## Legacy flows
 
 > Applicable before `googleAuthR < 1.0.0`
 
@@ -177,6 +177,30 @@ This involves downloading a secret JSON key with the authentication details.  Mo
 To use, go to your Project in the Google Developement Console and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
 `gar_auth_service()`
   
+## Creating service account and a key
+
+### From R
+
+The `gar_service_create()` and related functions let you create service accounts from a user OAuth2 login.  The user requires permission `iam.serviceAccounts.create` for the project. Most often the user is an Owner/Editor.
+
+The workflow for authenticating with a new key from R is:
+
+* Creating a new service account Id
+* Giving that service account any roles it needs to operate
+* Downloading a one-time only JSON key file that authenticates that account Id
+* Using that key file in `gar_auth_service()` or otherwise with the correct scopes to use the API
+
+See this related [Google help article or creating service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts#iam-service-accounts-create-rest).
+
+The above workflow is encapsulated within `gar_service_provision()` which will run through them for you if you supply it with your GCP projects Client Id (another JSON file that identifies your project.)
+
+#### Roles
+
+Roles all start with `roles/*` e.g. `roles/editor` - a list of [predefined roles are here](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) or you can see [roles within your GCP console here](https://console.cloud.google.com/iam-admin/roles/details/roles). 
+
+
+### WebUI
+
 Navigate to the JSON file from the Google Developer Console via: 
 `Credentials > New credentials > Service account Key > Select service account > Key type = JSON`
 
@@ -230,7 +254,7 @@ If you want to create a Shiny app just using your data, refer to the [non-intera
 
 If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, `googleAuthR` provides the below functions to help make the Google login process as easy as possible.
 
-# Types of Shiny Authentication
+## Types of Shiny Authentication
 
 There are now these types of logins available, which suit different needs:
 
@@ -245,15 +269,15 @@ There are now these types of logins available, which suit different needs:
 
 To use modules, you need to use the functions ending with `_UI` in your ui.R, then call the id you set there server side with the `callModule(moduleName, "id")` syntax.  See the examples below. 
 
-# Shiny Authentication Examples
+## Shiny Authentication Examples
 
 Remember that client IDs and secrets will need to be created for the examples below.  You need to pick a clientID for *web applications*, not *"Other"* as is used for offline `googleAuthR` functions.
 
-## URL redirects
+### URL redirects
 
 In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://your-shiny-url.com`).  In other circumstances the Shiny app should be able to detect this itself. 
 
-## `gar_shiny_*` functions example
+### `gar_shiny_*` functions example
 
 This uses the most modern `gar_shiny_*` family of functions to create authentication.  The app lists the files you have stored in Google Drive. 
 
@@ -295,7 +319,7 @@ server <- function(input, output, session){
 shinyApp(gar_shiny_ui(ui, login_ui = gar_shiny_login_ui), server)
 ```
 
-## `googleAuth` module example
+### `googleAuth` module example
 
 The Google Cloud project needs to be setup to accept the URL and port of your app (see setup pages).  You can fix the port via `options(shiny.port=1221)`, and then make sure if you launch your app locally to change the ip address from 127.0.0.1 to localhost in your browser (Google doesn't accept ip addresses).
 
@@ -375,7 +399,7 @@ observe({
  
 See this post on [creating a Shiny App with a Google login](https://lesliemyint.wordpress.com/2017/01/01/creating-a-shiny-app-with-google-login/) for details.
 
-## `googleAuth_js` module example
+### `googleAuth_js` module example
 
 The Google Cloud project needs to be setup to accept JavaScript origin of the URL and port of your app ((see setup pages))note this is different from server-side configurations above).  Make sure if you launch your app locally to change the ip address from 127.0.0.1 to localhost in your browser (Google doesn't accept ip addresses).
 
@@ -432,7 +456,7 @@ server <- function(input, output, session){
 shinyApp(ui, server)
 ```
 
-## `googleSignIn` module example
+### `googleSignIn` module example
 
 This module is suitable if you don't need to authenticate APIs in your app, you just would like a login.  You can then reach the user email, id, name or avatar to decide which content you want to show with durther logic within your Shiny app. 
 

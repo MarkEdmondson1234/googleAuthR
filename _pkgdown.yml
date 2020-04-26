@@ -13,6 +13,8 @@ navbar:
   title: googleAuthR
   type: inverse
   left:
+    - text: "Setup"
+      icon: fa-child fa-lg
     - text: "Authentication"
       icon: fa-sign-in fa-lg
       href: "articles/google-authentication-types.html"
@@ -50,6 +52,10 @@ reference:
       - gar_check_existing_token
       - gar_token_info
       - gar_set_client
+  - title: "Service accounts"
+    contents:
+      - gar_auth_service
+      - matches("gar_service")
   - title: "Shiny authentication helpers"
     contents:
       - with_shiny
