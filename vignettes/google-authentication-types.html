@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2019-09-05" />
+<meta name="date" content="2020-04-26" />
 
 <title>Google authentication types for R</title>
 
@@ -118,9 +117,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -289,7 +285,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -304,7 +301,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Google authentication types for R</h1>
 <h4 class="author">Mark Edmondson</h4>
-<h4 class="date">2019-09-05</h4>
+<h4 class="date">2020-04-26</h4>
 
 
 
@@ -542,7 +539,6 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="googleauth-module-example" class="section level2">
 <h2><code>googleAuth</code> module example</h2>
-<p>This is the example <a href="https://mark.shinyapps.io/googleAuthRexample/">deployed to shinyapps.io here</a></p>
 <p>The Google Cloud project needs to be setup to accept the URL and port of your app (see setup pages). You can fix the port via <code>options(shiny.port=1221)</code>, and then make sure if you launch your app locally to change the ip address from 127.0.0.1 to localhost in your browser (Google doesn’t accept ip addresses).</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">## in global.R</span></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">library</span>(googleAuthR)</a>
