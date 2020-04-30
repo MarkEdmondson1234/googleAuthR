@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Get meta data details for specified Google API — gar_discovery_api" />
-<meta property="og:description" content="Does not require authentication" />
+<meta property="og:description" content="Download the discovery document for an API" />
 
 
 
@@ -173,10 +173,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Does not require authentication</p>
+    <p>Download the discovery document for an API</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gar_discovery_api</span>(<span class='no'>api</span>, <span class='no'>version</span>)</pre>
+    <pre class="usage"><span class='fu'>gar_discovery_api</span>(<span class='no'>api</span>, <span class='no'>version</span>, <span class='kw'>a_url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -188,6 +188,10 @@
     <tr>
       <th>version</th>
       <td><p>The API version to fetch</p></td>
+    </tr>
+    <tr>
+      <th>a_url</th>
+      <td><p>Supply your own discovery URL, for private APIs only</p></td>
     </tr>
     </table>
 
