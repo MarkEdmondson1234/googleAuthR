@@ -27,8 +27,8 @@
 gar_create_package <- function(api_json, 
                                directory, 
                                rstudio = TRUE, 
-                               check = TRUE, 
-                               github = TRUE,
+                               check = FALSE, 
+                               github = FALSE,
                                format = TRUE,
                                overwrite = TRUE){
   check_package_loaded("devtools")
@@ -118,31 +118,37 @@ gar_discovery_apis_list <- function(){
 
 #' Get meta data details for specified Google API
 #' 
-#' Does not require authentication
+#' Download the discovery document for an API
 #' 
 #' @param api The API to fetch
 #' @param version The API version to fetch
+#' @param a_url Supply your own discovery URL, for private APIs only
 #' 
 #' @seealso \url{https://developers.google.com/discovery/v1/reference/apis/getRest}
 #' 
 #' @return Details of the API 
 #' @family Google Discovery API functions
 #' @export
-gar_discovery_api <- function(api, version){
+gar_discovery_api <- function(api, version, a_url = NULL){
   
-  url <- sprintf("https://www.googleapis.com/discovery/v1/apis/%s/%s/rest",
-                 api,
-                 version)
+  if(is.null(a_url)){
+    the_url <- sprintf("https://www.googleapis.com/discovery/v1/apis/%s/%s/rest",
+                   api,
+                   version)
+  } else {
+    assert_that(is.string(a_url))
+    the_url <- a_url
+  }
   
-  req <- httr::RETRY("GET", url)
+  req <- httr::RETRY("GET", the_url)
   
   httr::stop_for_status(req)
   
   stuff <- httr::content(req, as = "text")
-  api <- jsonlite::fromJSON(stuff)
+  dd <- jsonlite::fromJSON(stuff)
   
-  if(!is.null(api$kind) && api$kind == "discovery#restDescription"){
-    out <- api
+  if(!is.null(dd$kind) && dd$kind == "discovery#restDescription"){
+    out <- dd
   } else {
     stop("Problem fetching API Description")
   }

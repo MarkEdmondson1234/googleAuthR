@@ -213,7 +213,7 @@ object_body <- function(properties_name, properties){
                prop,
                sep = " = ",
                collapse = ","), 
-         "), class = '",paste0("gar_",properties_name),"')}\n")
+         "), class = c('",paste0("gar_",properties_name),"','list'))}\n")
   }
 
 

@@ -8,8 +8,8 @@ gar_create_package(
   api_json,
   directory,
   rstudio = TRUE,
-  check = TRUE,
-  github = TRUE,
+  check = FALSE,
+  github = FALSE,
   format = TRUE,
   overwrite = TRUE
 )
