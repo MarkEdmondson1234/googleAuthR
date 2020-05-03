@@ -6,6 +6,7 @@
 \alias{gar_service_get_roles}
 \alias{gar_service_key}
 \alias{gar_service_key_list}
+\alias{gar_service_list}
 \title{Work with service accounts via the API}
 \usage{
 gar_service_create(
@@ -31,6 +32,8 @@ gar_service_key(
 )
 
 gar_service_key_list(accountId, projectId)
+
+gar_service_list(projectId)
 }
 \arguments{
 \item{accountId}{The service accountId}

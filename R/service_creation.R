@@ -178,6 +178,8 @@ gar_service_get_roles <- function(projectId){
 #'  
 #'  gar_service_key("test12345678", "my-project", "my-auth.json")
 #'  
+#'  gar_service_list("my-project")
+#'  
 #'  gar_service_key_list("test12345678", "my-project")
 #' }
 #' @rdname gar_service_create
@@ -218,6 +220,19 @@ gar_service_key_list <- function(accountId,
   
   api_call <- gar_api_generator(the_url, "GET", 
                                 data_parse_function = function(x) x$keys)
+  
+  api_call()
+}
+
+#' @rdname gar_service_create
+#' @export
+gar_service_list <- function(projectId){
+  the_url <- sprintf(
+    "https://iam.googleapis.com/v1/projects/%s/serviceAccounts", projectId
+  )
+  
+  api_call <- gar_api_generator(the_url, "GET", 
+                                data_parse_function = function(x) x$accounts)
   
   api_call()
 }

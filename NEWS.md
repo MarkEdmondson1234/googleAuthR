@@ -3,6 +3,7 @@
 * Let you supply your own URL for discovery documents in `gar_discovery_api()`
 * Change defaults on `gar_create_package()` to check = FALSE, github=FALSE
 * Add class 'list' to `gar_discovery_*()` objects so they work with `jsonlite`
+* Add `gar_service_list`
 
 # googleAuthR 1.2.1
 
