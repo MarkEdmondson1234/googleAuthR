@@ -7,6 +7,7 @@
 \alias{gar_service_key}
 \alias{gar_service_key_list}
 \alias{gar_service_list}
+\alias{gar_service_get}
 \title{Work with service accounts via the API}
 \usage{
 gar_service_create(
@@ -34,6 +35,8 @@ gar_service_key(
 gar_service_key_list(accountId, projectId)
 
 gar_service_list(projectId)
+
+gar_service_get(accountId, projectId)
 }
 \arguments{
 \item{accountId}{The service accountId}
@@ -52,6 +55,9 @@ gar_service_list(projectId)
 
 \item{file}{The file to download the private JSON key to}
 }
+\value{
+If it already exists, returns it via \link{gar_service_get}, else creates the service key
+}
 \description{
 These functions let you create a service JSON key from an OAuth2 login.  You can then assign it roles and do a one time download of a service account key to use for authentication in other Google APIs
 }
@@ -67,11 +73,16 @@ It will download the existing roles, and append the role you add to it here.
  gar_auth()
  gar_service_create("test12345678", "my-project")
  
+ gar_service_get("test12345678@my-project.iam.gserviceaccount.com", 
+                 projectId = "my-project")
+ 
  gar_service_grant_roles("test12345678@my-project.iam.gserviceaccount.com",
                          role = "roles/editor",
                          projectId = "my-project")
  
  gar_service_key("test12345678", "my-project", "my-auth.json")
+ 
+ gar_service_list("my-project")
  
  gar_service_key_list("test12345678", "my-project")
 }
