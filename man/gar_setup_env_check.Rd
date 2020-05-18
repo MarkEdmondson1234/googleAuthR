@@ -27,6 +27,8 @@ Pass edit_option = FALSE to edit an existing environment arg, TRUE will
 }
 \seealso{
 Other setup functions: 
+\code{\link{gar_setup_auth_check}()},
+\code{\link{gar_setup_auth_key}()},
 \code{\link{gar_setup_edit_renviron}()},
 \code{\link{gar_setup_menu_do}()},
 \code{\link{gar_setup_menu}()}

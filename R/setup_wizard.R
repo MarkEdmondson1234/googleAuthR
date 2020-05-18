@@ -140,7 +140,7 @@ gar_setup_env_check <- function(env_arg,
     cli_alert_success("Found: {env_arg}={arg}")
     return(TRUE)
   }
-  
+
   if(!is.null(set_to)){
     assert_that(is.string(set_to))
     gar_setup_edit_renviron(set_to, session_user = session_user)

@@ -61,6 +61,8 @@ gar_setup_menu_do(op, c(1,4), my_setup_something_f)
 }
 \seealso{
 Other setup functions: 
+\code{\link{gar_setup_auth_check}()},
+\code{\link{gar_setup_auth_key}()},
 \code{\link{gar_setup_edit_renviron}()},
 \code{\link{gar_setup_env_check}()},
 \code{\link{gar_setup_menu}()}

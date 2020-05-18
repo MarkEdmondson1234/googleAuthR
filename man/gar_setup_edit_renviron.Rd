@@ -32,6 +32,8 @@ gar_setup_edit_renviron("ENV_ARG=blah", session_user = choice)
 }
 \seealso{
 Other setup functions: 
+\code{\link{gar_setup_auth_check}()},
+\code{\link{gar_setup_auth_key}()},
 \code{\link{gar_setup_env_check}()},
 \code{\link{gar_setup_menu_do}()},
 \code{\link{gar_setup_menu}()}
