@@ -410,6 +410,7 @@ check_body <- function(arg_list, the_body, request_type){
 
     ## if verbose = 0 then write the JSON body to a file
     if(getOption("googleAuthR.verbose") == 0){
+      class(the_body) <- c(class(the_body), "list")
       write_out <- list(url = arg_list$url,
                         request_type = request_type,
                         body_json = jsonlite::toJSON(the_body, auto_unbox=T))

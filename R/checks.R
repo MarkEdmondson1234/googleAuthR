@@ -192,7 +192,7 @@ checkGoogleAPIError <- function(req){
     warning("JSON parsing was NULL")
     return(FALSE)
   }
-  
+
   if(nchar(ga.json) > 0) {
     ga.json <- fromJSON(ga.json)
   } else {
