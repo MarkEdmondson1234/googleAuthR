@@ -4,12 +4,12 @@
 \alias{gar_setup_get_authenv}
 \title{Setup wizard helper - add authentication file to .Renviron}
 \usage{
-gar_setup_get_authenv(session_user, env_arg = "GCE_AUTH_FILE")
+gar_setup_get_authenv(env_arg = "GCE_AUTH_FILE", ...)
 }
 \arguments{
-\item{session_user}{1 if its a session or 2 if user based .Renviron}
-
 \item{env_arg}{The environment argument to set}
+
+\item{...}{Other arguments passed to \link{gar_setup_auth_key}}
 }
 \value{
 A string to paste into an .Renviron, or NULL

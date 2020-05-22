@@ -6,6 +6,7 @@
 * Add `gar_service_list()` and `gar_service_get()`
 * If using `gar_service_create()` and it already exists, will return existing via `gar_service_get()`
 * Move the setup wizard functions from `googleCloudRunner` to `googleAuthR` so they are available for all packages.
+* Remove deprecated `new_user` param from `gar_auth()`
 
 # googleAuthR 1.2.1
 

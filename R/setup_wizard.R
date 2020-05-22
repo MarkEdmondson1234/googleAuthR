@@ -135,6 +135,12 @@ gar_setup_env_check <- function(env_arg,
   if(arg == ""){
     cli_alert_info("No environment argument detected: {env_arg}")
   } else if(edit_option) {
+    cli_alert_success("Found: {env_arg}={arg}")
+    yes_edit <- menu(title = "Do you want to edit this setting?",
+                     choices = c("Yes", "No, leave it as it is"))
+    if(yes_edit == 2){
+      return(TRUE)
+    }
     cli_alert_info("Editing environment argument: {env_arg}={arg}")
   } else {
     cli_alert_success("Found: {env_arg}={arg}")
@@ -202,14 +208,19 @@ add_renviron <- function(scope = c("user", "project"), line){
 
 #' @export
 #' @rdname gar_setup_edit_renviron
-gar_setup_check_session <- function(){
+gar_setup_check_session <- function(session_user = NULL){
+  # its already set
+  if(!is.null(session_user)){
+    return(TRUE)
+  }
+  
   session_user <- menu(title = "Do you want to configure for all R sessions or just this project?",
                        choices = c("All R sessions (Recommended)", "Project only"))
   if(session_user == 2){
     local_file <- file.path(rstudioapi::getActiveProject(), ".Renviron")
     if(!file.exists(local_file)){
       file.create(local_file)
-      stop("Restart R to enable local project .Renviron", call. = FALSE)
+      stop("Restart R to enable local project .Renviron then rerun setup", call. = FALSE)
     }
   }
   cli_rule()

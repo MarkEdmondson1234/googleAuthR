@@ -7,7 +7,7 @@
 \usage{
 gar_setup_edit_renviron(to_paste, session_user)
 
-gar_setup_check_session()
+gar_setup_check_session(session_user = NULL)
 }
 \arguments{
 \item{to_paste}{The line to paste into .Renviron}
@@ -34,6 +34,7 @@ gar_setup_edit_renviron("ENV_ARG=blah", session_user = choice)
 Other setup functions: 
 \code{\link{gar_setup_auth_check}()},
 \code{\link{gar_setup_auth_key}()},
+\code{\link{gar_setup_clientid}()},
 \code{\link{gar_setup_env_check}()},
 \code{\link{gar_setup_menu_do}()},
 \code{\link{gar_setup_menu}()}

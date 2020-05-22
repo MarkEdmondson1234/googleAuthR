@@ -11,8 +11,7 @@ gar_auth(
   app = gar_oauth_app(),
   cache = gargle::gargle_oauth_cache(),
   use_oob = gargle::gargle_oob_default(),
-  package = "googleAuthR",
-  new_user = NULL
+  package = "googleAuthR"
 )
 }
 \arguments{
@@ -30,8 +29,6 @@ gar_auth(
 \item{use_oob}{Whther to use OOB browserless authetication}
 
 \item{package}{The name of the package authenticating}
-
-\item{new_user}{Deprecated, not used}
 }
 \value{
 an OAuth token object, specifically a

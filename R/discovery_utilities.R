@@ -8,7 +8,7 @@ add_line <- function(line, path, quiet = FALSE) {
   }
   
   if (line %in% lines) return(TRUE)
-  if (!quiet) message("Adding ", line, " to ", path)
+  if (!quiet) myMessage("Adding ", line, " to ", path, level = 2)
   
   lines <- c(lines, line)
   writeLines(lines, path)
