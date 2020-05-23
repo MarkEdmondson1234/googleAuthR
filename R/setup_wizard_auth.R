@@ -7,7 +7,7 @@
 gar_setup_auth_check <- function(env_arg = "GCE_AUTH_FILE"){
   tryCatch(gar_auth_service(Sys.getenv(env_arg)),
     error = function(err){
-      cli_alert_danger("GCE_AUTH_FILE is set but authentication invalid.  
+      cli_alert_danger("{env_arg} is set but authentication invalid.  
                        Start auth setup again.")
       stop("Authentication error", call. = FALSE)
     })
