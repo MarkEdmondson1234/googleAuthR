@@ -19,6 +19,7 @@ Depends:
     R (>= 3.3.0)
 Imports:
     assertthat (>= 0.2.0),
+    cli (>= 2.0.2),
     digest, 
     gargle (>= 0.4.0),
     httr (>= 1.4.0),
