@@ -10,4 +10,4 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args: 
       - push 
-      - gcr.io/gcer-public/googleauthr:$SHORT_SHA
+      - gcr.io/gcer-public/googleauthr
