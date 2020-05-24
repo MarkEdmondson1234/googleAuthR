@@ -198,6 +198,7 @@ add_renviron <- function(scope = c("user", "project"), line){
     user = file.path(Sys.getenv("HOME"), ".Renviron"),
     project = file.path(rstudioapi::getActiveProject(), ".Renviron")
   )
+  cli_alert_info("Writing to {the_file}")
   
   if(!file.exists(the_file)){
     file.create(the_file)

@@ -66,7 +66,7 @@ gar_setup_clientid <- function(session_user = NULL,
     return(FALSE)
   }
   
-  json <- file.choose()
+  json <- clean_windows(file.choose())
   valid <- validate_json(json)
   
   if(valid){
@@ -184,7 +184,7 @@ gar_setup_get_authenv <- function(env_arg = "GCE_AUTH_FILE",
       !is.null(check_file$private_key)){
     
       cli_alert_success("Validated authentication JSON file")
-      return(paste0(env_arg,"=", auth_file))
+      return(paste0(env_arg,"=", clean_windows(auth_file)))
   }
     
   cli_alert_danger("Checked {auth_file} and it was not a valid JSON file? Confirm file is JSON service account auth key")
@@ -212,4 +212,8 @@ validate_json <- function(json){
 
 extract_project_number <- function(json = Sys.getenv("GAR_CLIENT_JSON")){
   gsub("^([0-9]+?)\\-(.+)\\.apps.+","\\1",jsonlite::fromJSON(json)$installed$client_id)
+}
+
+clean_windows <- function(x){
+  gsub("\\\\","/",x)
 }
