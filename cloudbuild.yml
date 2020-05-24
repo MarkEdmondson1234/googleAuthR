@@ -1,0 +1,8 @@
+steps:
+  name: gcr.io/cloud-builders/docker
+  args: docker build \
+    -t gcr.io/gcer-public/googleauthr:$SHORT_SHA \
+    -t gcr.io/gcer-public/googleauthr:$BRANCH_NAME
+    .
+artifacts:
+  - gcr.io/gcer-public/googleauthr:$SHORT_SHA
