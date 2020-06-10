@@ -212,7 +212,7 @@ add_renviron <- function(scope = c("user", "project"), line){
 gar_setup_check_session <- function(session_user = NULL){
   # its already set
   if(!is.null(session_user)){
-    return(TRUE)
+    return(session_user)
   }
   
   session_user <- menu(title = "Do you want to configure for all R sessions or just this project?",
