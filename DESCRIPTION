@@ -26,6 +26,7 @@ Imports:
     jsonlite (>= 1.6),
     memoise (>= 1.1.0),
     rlang,
+    usethis (>= 1.6.0),
     utils
 Suggests:
     bigQueryR,
