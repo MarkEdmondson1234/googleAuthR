@@ -65,7 +65,7 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     the_json <- fromJSON(json)
     if(is.null(the_json$installed)){
       stop("$installed not found in JSON - have you downloaded the correct JSON file? 
-           (Service account client > Other, not Service Account Keys)", call. = FALSE)
+           (Service account client > Desktop, not Service Account Keys)", call. = FALSE)
     }
     
 
