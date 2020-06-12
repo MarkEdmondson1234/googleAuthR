@@ -89,7 +89,7 @@ gar_setup_clientid <- function(session_user = NULL,
 #' @param roles Whether to assign roles to the service key
 #' @param default_key The default name of the service key
 #'
-#' @return TRUE if the file is ready to be setup by \link{cr_setup}, FALSE if need to stop
+#' @return TRUE if the file is ready to be setup, FALSE if need to stop
 #'
 #' @export
 #' @importFrom cli cli_alert_warning cli_alert_info cli_li cli_rule cli_alert_danger

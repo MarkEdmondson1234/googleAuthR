@@ -9,6 +9,7 @@
 #' 
 #' @export
 #' @importFrom cli cli_alert_info cli_rule
+#' @importFrom utils menu
 #' @family setup functions
 gar_setup_menu <- function(choices,
                            package_name = "googleAuthR"){
@@ -124,6 +125,7 @@ gar_setup_menu_do <- function(menu_option,
 #'   check if it exists, and will pass if its present.
 #' @import assertthat
 #' @importFrom cli cli_alert_info cli_alert_success
+#' @importFrom utils menu
 #' @export
 #' @family setup functions
 gar_setup_env_check <- function(env_arg,
@@ -209,6 +211,7 @@ add_renviron <- function(scope = c("user", "project"), line){
 
 #' @export
 #' @rdname gar_setup_edit_renviron
+#' @importFrom utils menu
 gar_setup_check_session <- function(session_user = NULL){
   # its already set
   if(!is.null(session_user)){

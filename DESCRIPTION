@@ -26,7 +26,6 @@ Imports:
     jsonlite (>= 1.6),
     memoise (>= 1.1.0),
     rlang,
-    usethis (>= 1.6.0),
     utils
 Suggests:
     bigQueryR,
@@ -38,9 +37,10 @@ Suggests:
     miniUI (>= 0.1.1),
     rmarkdown,
     roxygen2 (>= 5.0.0),
+    rstudioapi,
     shiny (>= 0.13.2),
     testthat,
-    usethis (>= 1.5.1)
+    usethis (>= 1.6.0)
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr

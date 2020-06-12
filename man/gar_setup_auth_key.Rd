@@ -27,7 +27,7 @@ gar_setup_auth_key(
 \item{default_key}{The default name of the service key}
 }
 \value{
-TRUE if the file is ready to be setup by \link{cr_setup}, FALSE if need to stop
+TRUE if the file is ready to be setup, FALSE if need to stop
 }
 \description{
 This will use your Google OAuth2 user to create a suitable service account

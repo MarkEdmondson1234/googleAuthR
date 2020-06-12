@@ -27,3 +27,4 @@ secrets\.R
 ^Dockerfile$
 ^.github$
 ^cloud_build$
+^cloudbuild\.yml$
