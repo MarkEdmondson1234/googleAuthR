@@ -60,7 +60,7 @@ gar_auth <- function(token = NULL,
   }
   
   # set scopes to options for backward compatibility  
-  if(!is.null(scopes) && scopes != ""){
+  if(!is.null(scopes) && any(scopes != "")){
     options(googleAuthR.scopes.selected = scopes)
   }
   
