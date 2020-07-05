@@ -125,7 +125,7 @@
       <h1 data-toc-skip>Advanced Google API building techniques</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2020-07-01</h4>
+            <h4 class="date">2020-07-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/advanced-building.Rmd"><code>vignettes/advanced-building.Rmd</code></a></small>
       <div class="hidden name"><code>advanced-building.Rmd</code></div>
@@ -138,6 +138,12 @@
 <h1 class="hasAnchor">
 <a href="#advanced-api-building-techniques" class="anchor"></a>Advanced API building techniques</h1>
 <p>These go into more edge cases: paging API responses, no parsing content, batching and caching API responses.</p>
+<div id="setup-wizard-helpers" class="section level2">
+<h2 class="hasAnchor">
+<a href="#setup-wizard-helpers" class="anchor"></a>Setup wizard helpers</h2>
+<p>If making a Google API package the trickest bit for new users is usually navigating the GCP console and files needed for authentication - client JSON or service key JSON? Environment arguments? Authentication after or before library load?</p>
+<p>To help with the onboarding process, the <code>gar_setup_*</code> functions give helpers to create a startup wizard to guide users through the process.</p>
+</div>
 <div id="paging-api-responses" class="section level2">
 <h2 class="hasAnchor">
 <a href="#paging-api-responses" class="anchor"></a>Paging API responses</h2>
@@ -450,80 +456,7 @@ ga_segment_list2 &lt;- function(){
 <p>This is this package’s current Travis badge: <a href="https://travis-ci.org/MarkEdmondson1234/googleAuthR"><img src="https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master" alt="Travis-CI Build Status"></a></p>
 <p>However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response.</p>
 <p>One option is to encrypt and upload your token, for which you can read a guide by Jenny Bryan here - <code>https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html</code>.</p>
-<div id="mocking-tests-with-httptest" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mocking-tests-with-httptest" class="anchor"></a>Mocking tests with httptest</h3>
-<p>However, I recommend using mocking to run tests online.</p>
-<p>Mocking means you do not have to upload your authentication token - instead you first run your tests locally with your normal authentication token and the responses are saved to disk. When those tests are then run online, instead of calling the API the saved responses on disk are used to test the function.</p>
-<p>In truth, you are most interested in if your functions call the API correctly, rather than if the API is working (the API provider has their own tests for that), so you don’t lose coverage testing against a mock file, and this has the added advantage of being much quicker so you can run tests more often.</p>
-<p>When creating your tests, I suggest two types: unit tests that will run against your mocks; and integration tests that will run against the API but only when used locally.</p>
-<p>To help with mocking, Neal Richardson has created a package called <a href="https://github.com/nealrichardson/httptest">httptest</a> which we use in the examples below:</p>
-<div id="integration-tests" class="section level4">
-<h4 class="hasAnchor">
-<a href="#integration-tests" class="anchor"></a>Integration tests</h4>
-<p>The integration tests are against the API. Any authentication tokens should be either referenced via the environment arguments or if local JSON or <code>.httr-oauth</code> files ignored in your <code>.gitignore</code></p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu">context</span>(<span class="st">"Integration tests setup"</span>)
-
-<span class="co">## test google project ID</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">googleAuthR.scopes.selected</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"https://www.googleapis.com/auth/urlshortener"</span>),
-        <span class="kw">googleAuthR.client_id</span> <span class="kw">=</span> <span class="st">"XXXX"</span>,
-        <span class="kw">googleAuthR.client_secret</span> <span class="kw">=</span> <span class="st">"XXXX"</span>)
-
-<span class="co">## this is the name of the environment argument that points to your auth file, </span>
-<span class="co">## and referenced in `gar_attach_auto_auth` so that it authenticated on package load.</span>
-<span class="no">auth_env</span> <span class="kw">&lt;-</span> <span class="st">"GAR_AUTH_FILE"</span></pre></body></html></div>
-<p>A helper function is available that will skip the test if the <code>auth_env</code> is unavailable, <code><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth()</a></code></p>
-<p>The tests can then be ran, and will only call the API if authenticated.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">test_that</span>(<span class="st">"My function works"</span>, {
-  <span class="fu">skip_on_cran</span>() <span class="co"># don't run on CRAN at all</span>
-  <span class="fu"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(<span class="no">auth_env</span>)
-
-  <span class="co">## if not auto-auth</span>
-  <span class="co">## gar_auth("location_of_auth_file")</span>
-
-  <span class="no">lw</span> <span class="kw">&lt;-</span> <span class="fu">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
-  <span class="fu">expect_type</span>(<span class="no">lw</span>, <span class="st">"character"</span>)
-
-})</pre></body></html></div>
-</div>
-<div id="unit-tests" class="section level4">
-<h4 class="hasAnchor">
-<a href="#unit-tests" class="anchor"></a>Unit tests</h4>
-<p>Running unit tests is similar, but you also need to record the API response first locally using <code>httptest</code>’s <code>capture_requests()</code>. I put this in a test block to check it worked ok.</p>
-<p>These will save to files within your test folder, with the similar name to the API.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">httptest</span>)
-<span class="fu">context</span>(<span class="st">"API Mocking"</span>)
-
-<span class="fu">test_that</span>(<span class="st">"Record requests if online and authenticated"</span>, {
-  <span class="fu">skip_if_disconnected</span>()
-  <span class="fu"><a href="../reference/skip_if_no_env_auth.html">skip_if_no_env_auth</a></span>(<span class="no">auth_env</span>)
-
-  <span class="fu">capture_requests</span>(
-    {
-      <span class="fu">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
-      <span class="co"># ...</span>
-      <span class="co"># any other API calls required for tests below</span>
-    })
-
-})</pre></body></html></div>
-<p>You can then use <code>httptest</code>s <code>withMockAPI()</code> function to wrap your tests:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu">with_mock_API</span>({
-  <span class="fu">context</span>(<span class="st">"API generator - unit"</span>)
-
-  <span class="fu">test_that</span>(<span class="st">"A generated API function works"</span>, {
-    <span class="fu">skip_on_cran</span>()
-
-    <span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="st">"googleAuthR_tests.httr-oauth"</span>)
-    <span class="no">lw</span> <span class="kw">&lt;-</span> <span class="fu">shorten_url</span>(<span class="st">"http://code.markedmondson.me"</span>)
-    <span class="fu">expect_type</span>(<span class="no">lw</span>, <span class="st">"character"</span>)
-
-  })
-
-  <span class="co"># ... any other tests you have captured requests from</span>
-
-})</pre></body></html></div>
-</div>
-</div>
+<p>Since <a href="https://code.markedmondson.me/googleCloudRunner/"><code>googleCloudRunner</code></a> has been published, Google Cloud Build has been used for a lot of <code>googleAuthR</code> packages - this includes a <a href="https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_packagetests.html"><code>cr_deploy_packagetests()</code></a> function to which you can supply a secret token via <a href="https://code.markedmondson.me/googleCloudRunner/reference/cr_buildstep_secret.html"><code>cr_buildstep_secret()</code></a></p>
 <div id="codecov" class="section level3">
 <h3 class="hasAnchor">
 <a href="#codecov" class="anchor"></a>Codecov</h3>
