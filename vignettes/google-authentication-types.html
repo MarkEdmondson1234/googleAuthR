@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2020-04-26" />
+<meta name="date" content="2020-06-18" />
 
 <title>Google authentication types for R</title>
 
@@ -301,7 +301,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Google authentication types for R</h1>
 <h4 class="author">Mark Edmondson</h4>
-<h4 class="date">2020-04-26</h4>
+<h4 class="date">2020-06-18</h4>
 
 
 
@@ -398,7 +398,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="setting-the-client-via-google-cloud-client-json" class="section level1">
 <h1>Setting the client via Google Cloud client JSON</h1>
-<p>To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - <code>https://console.cloud.google.com/apis/credentials</code>. Make sure the client ID type is <code>Other</code> for desktop applications.</p>
+<p>To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - <code>https://console.cloud.google.com/apis/credentials</code>. Make sure the client ID type is <code>Desktop</code> for desktop applications.</p>
 <p>You can use this to set the client details before your first authentication. The above example would then be:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(googleAuthR)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">library</span>(googleAnalyticsR)</a>

@@ -13,6 +13,12 @@ vignette: >
 
 These go into more edge cases: paging API responses, no parsing content, batching and caching API responses.
 
+## Setup wizard helpers
+
+If making a Google API package the trickest bit for new users is usually navigating the GCP console and files needed for authentication - client JSON or service key JSON?  Environment arguments?  Authentication after or before library load?
+
+To help with the onboarding process, the `gar_setup_*` functions give helpers to create a startup wizard to guide users through the process.
+
 ## Paging API responses
 
 A common need for APIs is to read multiple API calls since all data can not fit in one response. `googleAuthR` provides the `gar_api_page` function to help with this.  It operates upon the generated function you create in `gar_api_generator()`, after it has been parsed by the `data_parse_function`.  The output is a list of the API responses, which you then will need to parse into one object if you want (e.g. A list of data.frames, that you turn into one data.frame via `Reduce(rbind, response_list))`
@@ -365,95 +371,8 @@ However, testing APIs that need authentication is more complicated, as you need 
 
 One option is to encrypt and upload your token, for which you can read a guide by Jenny Bryan here - `https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html`.
 
-### Mocking tests with httptest
+Since [`googleCloudRunner`](https://code.markedmondson.me/googleCloudRunner/) has been published, Google Cloud Build has been used for a lot of `googleAuthR` packages - this includes a [`cr_deploy_packagetests()`](https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_packagetests.html) function to which you can supply a secret token via [`cr_buildstep_secret()`](https://code.markedmondson.me/googleCloudRunner/reference/cr_buildstep_secret.html)
 
-However, I recommend using mocking to run tests online.  
-
-Mocking means you do not have to upload your authentication token - instead you first run your tests locally with your normal authentication token and the responses are saved to disk. When those tests are then run online, instead of calling the API the saved responses on disk are used to test the function.
-
-In truth, you are most interested in if your functions call the API correctly, rather than if the API is working (the API provider has their own tests for that), so you don't lose coverage testing against a mock file, and this has the added advantage of being much quicker so you can run tests more often. 
-
-When creating your tests, I suggest two types: unit tests that will run against your mocks; and integration tests that will run against the API but only when used locally. 
-
-To help with mocking, Neal Richardson has created a package called [httptest](https://github.com/nealrichardson/httptest) which we use in the examples below:
-
-#### Integration tests
-
-The integration tests are against the API.  Any authentication tokens should be either referenced via the environment arguments or if local JSON or `.httr-oauth` files ignored in your `.gitignore` 
-
-```r
-context("Integration tests setup")
-
-## test google project ID
-options(googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/urlshortener"),
-        googleAuthR.client_id = "XXXX",
-        googleAuthR.client_secret = "XXXX")
-
-## this is the name of the environment argument that points to your auth file, 
-## and referenced in `gar_attach_auto_auth` so that it authenticated on package load.
-auth_env <- "GAR_AUTH_FILE"
-```
-A helper function is available that will skip the test if the `auth_env` is unavailable, `skip_if_no_env_auth()`
-
-The tests can then be ran, and will only call the API if authenticated. 
-
-```r
-test_that("My function works", {
-  skip_on_cran() # don't run on CRAN at all
-  skip_if_no_env_auth(auth_env)
-  
-  ## if not auto-auth
-  ## gar_auth("location_of_auth_file")
-  
-  lw <- shorten_url("http://code.markedmondson.me")
-  expect_type(lw, "character")
-  
-})
-```
-
-#### Unit tests
-
-Running unit tests is similar, but you also need to record the API response first locally using `httptest`'s `capture_requests()`.  I put this in a test block to check it worked ok.  
-
-These will save to files within your test folder, with the similar name to the API. 
-
-```r
-library(httptest)
-context("API Mocking")
-
-test_that("Record requests if online and authenticated", {
-  skip_if_disconnected()
-  skip_if_no_env_auth(auth_env)
-  
-  capture_requests(
-    {
-      shorten_url("http://code.markedmondson.me")
-      # ...
-      # any other API calls required for tests below
-    })
-  
-})
-```
-
-You can then use `httptest`s `withMockAPI()` function to wrap your tests:
-
-```r
-with_mock_API({
-  context("API generator - unit")
-  
-  test_that("A generated API function works", {
-    skip_on_cran()
-    
-    gar_auth("googleAuthR_tests.httr-oauth")
-    lw <- shorten_url("http://code.markedmondson.me")
-    expect_type(lw, "character")
-    
-  })
-  
-  # ... any other tests you have captured requests from
-  
-})
-```
 
 ### Codecov
 

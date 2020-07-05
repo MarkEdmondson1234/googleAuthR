@@ -78,7 +78,7 @@ workout_redirect <- function(req){
 #' 
 #' @export
 #' 
-#' @author Based on a gist by Joe Cheng, RStudio
+#' @author Based on \href{https://gist.github.com/jcheng5/44bd750764713b5a1df7d9daf5538aea}{this gist} by Joe Cheng, RStudio
 #' 
 #' @examples 
 #' 

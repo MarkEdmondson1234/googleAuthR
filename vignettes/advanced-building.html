@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2019-08-30" />
+<meta name="date" content="2020-06-18" />
 
 <title>Advanced Google API building techniques</title>
 
@@ -118,9 +117,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -289,7 +285,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -304,13 +301,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Advanced Google API building techniques</h1>
 <h4 class="author">Mark Edmondson</h4>
-<h4 class="date">2019-08-30</h4>
+<h4 class="date">2020-06-18</h4>
 
 
 
 <div id="advanced-api-building-techniques" class="section level1">
 <h1>Advanced API building techniques</h1>
 <p>These go into more edge cases: paging API responses, no parsing content, batching and caching API responses.</p>
+<div id="setup-wizard-helpers" class="section level2">
+<h2>Setup wizard helpers</h2>
+<p>If making a Google API package the trickest bit for new users is usually navigating the GCP console and files needed for authentication - client JSON or service key JSON? Environment arguments? Authentication after or before library load?</p>
+<p>To help with the onboarding process, the <code>gar_setup_*</code> functions give helpers to create a startup wizard to guide users through the process.</p>
+</div>
 <div id="paging-api-responses" class="section level2">
 <h2>Paging API responses</h2>
 <p>A common need for APIs is to read multiple API calls since all data can not fit in one response. <code>googleAuthR</code> provides the <code>gar_api_page</code> function to help with this. It operates upon the generated function you create in <code>gar_api_generator()</code>, after it has been parsed by the <code>data_parse_function</code>. The output is a list of the API responses, which you then will need to parse into one object if you want (e.g. A list of data.frames, that you turn into one data.frame via <code>Reduce(rbind, response_list))</code></p>
@@ -605,84 +607,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Tests</h2>
 <p>All packages should ideally have tests to ensure that any changes do not break functionality.</p>
 <p>If new to testing, first read this guide on using the <code>tidyverse</code>’s <a href="http://testthat.r-lib.org/">testthat</a>, then read this for a <a href="https://juliasilge.com/blog/beginners-guide-to-travis/">beginner’s guide to travis-CI for R</a>, which is a continuous integration system that will run and test your code everytime it is committed to GitHub.</p>
-<p>This is this package’s current Travis badge: <a href="https://travis-ci.org/MarkEdmondson1234/googleAuthR"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NiIgaGVpZ2h0PSIyMCI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4Mj0iMCIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPjwvbGluZWFyR3JhZGllbnQ+PHJlY3Qgcng9IjMiIHdpZHRoPSI3NiIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHJ4PSIzIiB4PSIzNyIgd2lkdGg9IjM5IiBoZWlnaHQ9IjIwIiBmaWxsPSIjOWY5ZjlmIi8+PHBhdGggZmlsbD0iIzlmOWY5ZiIgZD0iTTM3IDBoNHYyMGgtNHoiLz48cmVjdCByeD0iMyIgd2lkdGg9Ijc2IiBoZWlnaHQ9IjIwIiBmaWxsPSJ1cmwoI2EpIi8+PGcgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPjx0ZXh0IHg9IjE5LjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5idWlsZDwvdGV4dD48dGV4dCB4PSIxOS41IiB5PSIxNCI+YnVpbGQ8L3RleHQ+PHRleHQgeD0iNTUuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPmVycm9yPC90ZXh0Pjx0ZXh0IHg9IjU1LjUiIHk9IjE0Ij5lcnJvcjwvdGV4dD48L2c+PC9zdmc+" alt="Travis-CI Build Status" /></a></p>
+<p>This is this package’s current Travis badge: <a href="https://travis-ci.org/MarkEdmondson1234/googleAuthR"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MCIgaGVpZ2h0PSIyMCI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4Mj0iMCIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPjwvbGluZWFyR3JhZGllbnQ+PHJlY3Qgcng9IjMiIHdpZHRoPSI5MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHJ4PSIzIiB4PSIzNyIgd2lkdGg9IjUzIiBoZWlnaHQ9IjIwIiBmaWxsPSIjNGMxIi8+PHBhdGggZmlsbD0iIzRjMSIgZD0iTTM3IDBoNHYyMGgtNHoiLz48cmVjdCByeD0iMyIgd2lkdGg9IjkwIiBoZWlnaHQ9IjIwIiBmaWxsPSJ1cmwoI2EpIi8+PGcgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPjx0ZXh0IHg9IjE5LjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5idWlsZDwvdGV4dD48dGV4dCB4PSIxOS41IiB5PSIxNCI+YnVpbGQ8L3RleHQ+PHRleHQgeD0iNjIuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPnBhc3Npbmc8L3RleHQ+PHRleHQgeD0iNjIuNSIgeT0iMTQiPnBhc3Npbmc8L3RleHQ+PC9nPjwvc3ZnPg==" alt="Travis-CI Build Status" /></a></p>
 <p>However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response.</p>
 <p>One option is to encrypt and upload your token, for which you can read a guide by Jenny Bryan here - <code>https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html</code>.</p>
-<div id="mocking-tests-with-httptest" class="section level3">
-<h3>Mocking tests with httptest</h3>
-<p>However, I recommend using mocking to run tests online.</p>
-<p>Mocking means you do not have to upload your authentication token - instead you first run your tests locally with your normal authentication token and the responses are saved to disk. When those tests are then run online, instead of calling the API the saved responses on disk are used to test the function.</p>
-<p>In truth, you are most interested in if your functions call the API correctly, rather than if the API is working (the API provider has their own tests for that), so you don’t lose coverage testing against a mock file, and this has the added advantage of being much quicker so you can run tests more often.</p>
-<p>When creating your tests, I suggest two types: unit tests that will run against your mocks; and integration tests that will run against the API but only when used locally.</p>
-<p>To help with mocking, Neal Richardson has created a package called <a href="https://github.com/nealrichardson/httptest">httptest</a> which we use in the examples below:</p>
-<div id="integration-tests" class="section level4">
-<h4>Integration tests</h4>
-<p>The integration tests are against the API. Any authentication tokens should be either referenced via the environment arguments or if local JSON or <code>.httr-oauth</code> files ignored in your <code>.gitignore</code></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">context</span>(<span class="st">&quot;Integration tests setup&quot;</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">## test google project ID</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw">options</span>(<span class="dt">googleAuthR.scopes.selected =</span> <span class="kw">c</span>(<span class="st">&quot;https://www.googleapis.com/auth/urlshortener&quot;</span>),</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">        <span class="dt">googleAuthR.client_id =</span> <span class="st">&quot;XXXX&quot;</span>,</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">        <span class="dt">googleAuthR.client_secret =</span> <span class="st">&quot;XXXX&quot;</span>)</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">## this is the name of the environment argument that points to your auth file, </span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">## and referenced in `gar_attach_auto_auth` so that it authenticated on package load.</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">auth_env &lt;-<span class="st"> &quot;GAR_AUTH_FILE&quot;</span></a></code></pre></div>
-<p>A helper function is available that will skip the test if the <code>auth_env</code> is unavailable, <code>skip_if_no_env_auth()</code></p>
-<p>The tests can then be ran, and will only call the API if authenticated.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">test_that</span>(<span class="st">&quot;My function works&quot;</span>, {</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="kw">skip_on_cran</span>() <span class="co"># don't run on CRAN at all</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="kw">skip_if_no_env_auth</span>(auth_env)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">  </a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">  <span class="co">## if not auto-auth</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">  <span class="co">## gar_auth(&quot;location_of_auth_file&quot;)</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">  </a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">  lw &lt;-<span class="st"> </span><span class="kw">shorten_url</span>(<span class="st">&quot;http://code.markedmondson.me&quot;</span>)</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">  <span class="kw">expect_type</span>(lw, <span class="st">&quot;character&quot;</span>)</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">  </a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">})</a></code></pre></div>
-</div>
-<div id="unit-tests" class="section level4">
-<h4>Unit tests</h4>
-<p>Running unit tests is similar, but you also need to record the API response first locally using <code>httptest</code>’s <code>capture_requests()</code>. I put this in a test block to check it worked ok.</p>
-<p>These will save to files within your test folder, with the similar name to the API.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(httptest)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">context</span>(<span class="st">&quot;API Mocking&quot;</span>)</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw">test_that</span>(<span class="st">&quot;Record requests if online and authenticated&quot;</span>, {</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="kw">skip_if_disconnected</span>()</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">  <span class="kw">skip_if_no_env_auth</span>(auth_env)</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">  </a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">  <span class="kw">capture_requests</span>(</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">    {</a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">      <span class="kw">shorten_url</span>(<span class="st">&quot;http://code.markedmondson.me&quot;</span>)</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11">      <span class="co"># ...</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12">      <span class="co"># any other API calls required for tests below</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13">    })</a>
-<a class="sourceLine" id="cb12-14" data-line-number="14">  </a>
-<a class="sourceLine" id="cb12-15" data-line-number="15">})</a></code></pre></div>
-<p>You can then use <code>httptest</code>s <code>withMockAPI()</code> function to wrap your tests:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">with_mock_API</span>({</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw">context</span>(<span class="st">&quot;API generator - unit&quot;</span>)</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  </a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="kw">test_that</span>(<span class="st">&quot;A generated API function works&quot;</span>, {</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">    <span class="kw">skip_on_cran</span>()</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">    </a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">    <span class="kw">gar_auth</span>(<span class="st">&quot;googleAuthR_tests.httr-oauth&quot;</span>)</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">    lw &lt;-<span class="st"> </span><span class="kw">shorten_url</span>(<span class="st">&quot;http://code.markedmondson.me&quot;</span>)</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9">    <span class="kw">expect_type</span>(lw, <span class="st">&quot;character&quot;</span>)</a>
-<a class="sourceLine" id="cb13-10" data-line-number="10">    </a>
-<a class="sourceLine" id="cb13-11" data-line-number="11">  })</a>
-<a class="sourceLine" id="cb13-12" data-line-number="12">  </a>
-<a class="sourceLine" id="cb13-13" data-line-number="13">  <span class="co"># ... any other tests you have captured requests from</span></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14">  </a>
-<a class="sourceLine" id="cb13-15" data-line-number="15">})</a></code></pre></div>
-</div>
-</div>
+<p>Since <a href="https://code.markedmondson.me/googleCloudRunner/"><code>googleCloudRunner</code></a> has been published, Google Cloud Build has been used for a lot of <code>googleAuthR</code> packages - this includes a <a href="https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_packagetests.html"><code>cr_deploy_packagetests()</code></a> function to which you can supply a secret token via <a href="https://code.markedmondson.me/googleCloudRunner/reference/cr_buildstep_secret.html"><code>cr_buildstep_secret()</code></a></p>
 <div id="codecov" class="section level3">
 <h3>Codecov</h3>
 <p>One of the nicest features of continuous integration / Travis is it can be used for code coverage. This uses your tests to find out how many lines of code are triggered within them. This lets you see how thorough yours tests are. Developers covert the 100% coverage badge as it shows all of your code is checked every time you push to GitHub and helps mitigate bugs.</p>
-<p>This is this package’s current Codecov status: <a href="https://codecov.io/gh/MarkEdmondson1234/googleAuthR"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIiIGhlaWdodD0iMjAiPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiIiB4Mj0iMCIgeTI9IjEwMCUiPgogICAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIgLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3Atb3BhY2l0eT0iLjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hc2sgaWQ9ImEiPgogICAgICAgIDxyZWN0IHdpZHRoPSIxMTIiIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmIiAvPgogICAgPC9tYXNrPgogICAgPGcgbWFzaz0idXJsKCNhKSI+CiAgICAgICAgPHBhdGggZmlsbD0iIzU1NSIgZD0iTTAgMGg3NnYyMEgweiIgLz4KICAgICAgICA8cGF0aCBmaWxsPSIjZTA1ZDQ0IiBkPSJNNzYgMGgzNnYyMEg3NnoiIC8+CiAgICAgICAgPHBhdGggZmlsbD0idXJsKCNiKSIgZD0iTTAgMGgxMTJ2MjBIMHoiIC8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgICAgPHRleHQgeD0iNDYiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5jb2RlY292PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjQ2IiB5PSIxNCI+Y29kZWNvdjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI5MyIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPjklPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjkzIiB5PSIxNCI+OSU8L3RleHQ+CiAgICA8L2c+CiAgICA8c3ZnIHZpZXdCb3g9IjEyMCAtOCA2MCA2MCI+CiAgICAgICAgPHBhdGggZD0iTTIzLjAxMyAwQzEwLjMzMy4wMDkuMDEgMTAuMjIgMCAyMi43NjJ2LjA1OGwzLjkxNCAyLjI3NS4wNTMtLjAzNmExMS4yOTEgMTEuMjkxIDAgMCAxIDguMzUyLTEuNzY3IDEwLjkxMSAxMC45MTEgMCAwIDEgNS41IDIuNzI2bC42NzMuNjI0LjM4LS44MjhjLjM2OC0uODAyLjc5My0xLjU1NiAxLjI2NC0yLjI0LjE5LS4yNzYuMzk4LS41NTQuNjM3LS44NTFsLjM5My0uNDktLjQ4NC0uNDA0YTE2LjA4IDE2LjA4IDAgMCAwLTcuNDUzLTMuNDY2IDE2LjQ4MiAxNi40ODIgMCAwIDAtNy43MDUuNDQ5QzcuMzg2IDEwLjY4MyAxNC41NiA1LjAxNiAyMy4wMyA1LjAxYzQuNzc5IDAgOS4yNzIgMS44NCAxMi42NTEgNS4xOCAyLjQxIDIuMzgyIDQuMDY5IDUuMzUgNC44MDcgOC41OTFhMTYuNTMgMTYuNTMgMCAwIDAtNC43OTItLjcyM2wtLjI5Mi0uMDAyYTE2LjcwNyAxNi43MDcgMCAwIDAtMS45MDIuMTRsLS4wOC4wMTJjLS4yOC4wMzctLjUyNC4wNzQtLjc0OC4xMTUtLjExLjAxOS0uMjE4LjA0MS0uMzI3LjA2My0uMjU3LjA1Mi0uNTEuMTA4LS43NS4xNjlsLS4yNjUuMDY3YTE2LjM5IDE2LjM5IDAgMCAwLS45MjYuMjc2bC0uMDU2LjAxOGMtLjY4Mi4yMy0xLjM2LjUxMS0yLjAxNi44MzhsLS4wNTIuMDI2Yy0uMjkuMTQ1LS41ODQuMzA1LS44OTkuNDlsLS4wNjkuMDRhMTUuNTk2IDE1LjU5NiAwIDAgMC00LjA2MSAzLjQ2NmwtLjE0NS4xNzVjLS4yOS4zNi0uNTIxLjY2Ni0uNzIzLjk2LS4xNy4yNDctLjM0LjUxMy0uNTUyLjg2NGwtLjExNi4xOTljLS4xNy4yOTItLjMyLjU3LS40NDkuODI0bC0uMDMuMDU3YTE2LjExNiAxNi4xMTYgMCAwIDAtLjg0MyAyLjAyOWwtLjAzNC4xMDJhMTUuNjUgMTUuNjUgMCAwIDAtLjc4NiA1LjE3NGwuMDAzLjIxNGEyMS41MjMgMjEuNTIzIDAgMCAwIC4wNC43NTRjLjAwOS4xMTkuMDIuMjM3LjAzMi4zNTUuMDE0LjE0NS4wMzIuMjkuMDQ5LjQzMmwuMDEuMDhjLjAxLjA2Ny4wMTcuMTMzLjAyNi4xOTcuMDM0LjI0Mi4wNzQuNDguMTE5LjcyLjQ2MyAyLjQxOSAxLjYyIDQuODM2IDMuMzQ1IDYuOTlsLjA3OC4wOTguMDgtLjA5NWMuNjg4LS44MSAyLjM5NS0zLjM4IDIuNTM5LTQuOTIybC4wMDMtLjAyOS0uMDE0LS4wMjVhMTAuNzI3IDEwLjcyNyAwIDAgMS0xLjIyNi00Ljk1NmMwLTUuNzYgNC41NDUtMTAuNTQ0IDEwLjM0My0xMC44OWwuMzgxLS4wMTRhMTEuNDAzIDExLjQwMyAwIDAgMSA2LjY1MSAxLjk1N2wuMDU0LjAzNiAzLjg2Mi0yLjIzNy4wNS0uMDN2LS4wNTZjLjAwNi02LjA4LTIuMzg0LTExLjc5My02LjcyOS0xNi4wODlDMzQuOTMyIDIuMzYxIDI5LjE2IDAgMjMuMDEzIDAiIGZpbGw9IiNGMDFGN0EiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPgogICAgPC9zdmc+Cjwvc3ZnPg==" alt="codecov" /></a></p>
+<p>This is this package’s current Codecov status: <a href="https://codecov.io/gh/MarkEdmondson1234/googleAuthR"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTIiIGhlaWdodD0iMjAiPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiIiB4Mj0iMCIgeTI9IjEwMCUiPgogICAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIgLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3Atb3BhY2l0eT0iLjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hc2sgaWQ9ImEiPgogICAgICAgIDxyZWN0IHdpZHRoPSIxMTIiIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmIiAvPgogICAgPC9tYXNrPgogICAgPGcgbWFzaz0idXJsKCNhKSI+CiAgICAgICAgPHBhdGggZmlsbD0iIzU1NSIgZD0iTTAgMGg3NnYyMEgweiIgLz4KICAgICAgICA8cGF0aCBmaWxsPSIjZTA1ZDQ0IiBkPSJNNzYgMGgzNnYyMEg3NnoiIC8+CiAgICAgICAgPHBhdGggZmlsbD0idXJsKCNiKSIgZD0iTTAgMGgxMTJ2MjBIMHoiIC8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgICAgPHRleHQgeD0iNDYiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5jb2RlY292PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjQ2IiB5PSIxNCI+Y29kZWNvdjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI5MyIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPjElPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjkzIiB5PSIxNCI+MSU8L3RleHQ+CiAgICA8L2c+CiAgICA8c3ZnIHZpZXdCb3g9IjEyMCAtOCA2MCA2MCI+CiAgICAgICAgPHBhdGggZD0iTTIzLjAxMyAwQzEwLjMzMy4wMDkuMDEgMTAuMjIgMCAyMi43NjJ2LjA1OGwzLjkxNCAyLjI3NS4wNTMtLjAzNmExMS4yOTEgMTEuMjkxIDAgMCAxIDguMzUyLTEuNzY3IDEwLjkxMSAxMC45MTEgMCAwIDEgNS41IDIuNzI2bC42NzMuNjI0LjM4LS44MjhjLjM2OC0uODAyLjc5My0xLjU1NiAxLjI2NC0yLjI0LjE5LS4yNzYuMzk4LS41NTQuNjM3LS44NTFsLjM5My0uNDktLjQ4NC0uNDA0YTE2LjA4IDE2LjA4IDAgMCAwLTcuNDUzLTMuNDY2IDE2LjQ4MiAxNi40ODIgMCAwIDAtNy43MDUuNDQ5QzcuMzg2IDEwLjY4MyAxNC41NiA1LjAxNiAyMy4wMyA1LjAxYzQuNzc5IDAgOS4yNzIgMS44NCAxMi42NTEgNS4xOCAyLjQxIDIuMzgyIDQuMDY5IDUuMzUgNC44MDcgOC41OTFhMTYuNTMgMTYuNTMgMCAwIDAtNC43OTItLjcyM2wtLjI5Mi0uMDAyYTE2LjcwNyAxNi43MDcgMCAwIDAtMS45MDIuMTRsLS4wOC4wMTJjLS4yOC4wMzctLjUyNC4wNzQtLjc0OC4xMTUtLjExLjAxOS0uMjE4LjA0MS0uMzI3LjA2My0uMjU3LjA1Mi0uNTEuMTA4LS43NS4xNjlsLS4yNjUuMDY3YTE2LjM5IDE2LjM5IDAgMCAwLS45MjYuMjc2bC0uMDU2LjAxOGMtLjY4Mi4yMy0xLjM2LjUxMS0yLjAxNi44MzhsLS4wNTIuMDI2Yy0uMjkuMTQ1LS41ODQuMzA1LS44OTkuNDlsLS4wNjkuMDRhMTUuNTk2IDE1LjU5NiAwIDAgMC00LjA2MSAzLjQ2NmwtLjE0NS4xNzVjLS4yOS4zNi0uNTIxLjY2Ni0uNzIzLjk2LS4xNy4yNDctLjM0LjUxMy0uNTUyLjg2NGwtLjExNi4xOTljLS4xNy4yOTItLjMyLjU3LS40NDkuODI0bC0uMDMuMDU3YTE2LjExNiAxNi4xMTYgMCAwIDAtLjg0MyAyLjAyOWwtLjAzNC4xMDJhMTUuNjUgMTUuNjUgMCAwIDAtLjc4NiA1LjE3NGwuMDAzLjIxNGEyMS41MjMgMjEuNTIzIDAgMCAwIC4wNC43NTRjLjAwOS4xMTkuMDIuMjM3LjAzMi4zNTUuMDE0LjE0NS4wMzIuMjkuMDQ5LjQzMmwuMDEuMDhjLjAxLjA2Ny4wMTcuMTMzLjAyNi4xOTcuMDM0LjI0Mi4wNzQuNDguMTE5LjcyLjQ2MyAyLjQxOSAxLjYyIDQuODM2IDMuMzQ1IDYuOTlsLjA3OC4wOTguMDgtLjA5NWMuNjg4LS44MSAyLjM5NS0zLjM4IDIuNTM5LTQuOTIybC4wMDMtLjAyOS0uMDE0LS4wMjVhMTAuNzI3IDEwLjcyNyAwIDAgMS0xLjIyNi00Ljk1NmMwLTUuNzYgNC41NDUtMTAuNTQ0IDEwLjM0My0xMC44OWwuMzgxLS4wMTRhMTEuNDAzIDExLjQwMyAwIDAgMSA2LjY1MSAxLjk1N2wuMDU0LjAzNiAzLjg2Mi0yLjIzNy4wNS0uMDN2LS4wNTZjLjAwNi02LjA4LTIuMzg0LTExLjc5My02LjcyOS0xNi4wODlDMzQuOTMyIDIuMzYxIDI5LjE2IDAgMjMuMDEzIDAiIGZpbGw9IiNGMDFGN0EiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPgogICAgPC9zdmc+Cjwvc3ZnPg==" alt="codecov" /></a></p>
 <p>Using code coverage is a case of adding another metafile and a command to your travis file. <a href="https://walczak.org/2017/06/how-to-add-code-coverage-codecov-to-your-r-package/">This post by Eryk has some details</a></p>
 <div id="offline-code-coverage" class="section level4">
 <h4>Offline code coverage</h4>

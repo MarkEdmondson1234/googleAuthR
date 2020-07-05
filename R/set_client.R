@@ -97,7 +97,7 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
     Sys.setenv("GAR_WEB_CLIENT_SECRET" = web_json_content$web$client_secret)
     Sys.setenv("GAR_SCOPES" = paste(scopes, collapse = ","))
     
-    project_id <- web_json_content$web$project_id
+    web_project_id <- web_json_content$web$project_id
     
   }
   
@@ -121,9 +121,9 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
   
   
   if(web_json != "" && json != ""){
-    if(web_json_content$web$project_id != the_json$installed$project_id){
+    if(web_project_id != the_json$installed$project_id){
       warning("Web and offline projects don't match:", 
-              "Web:", web_json_content$web$project_id, 
+              "Web:", web_project_id, 
               "Installed:", the_json$installed$project_id, 
               call. = FALSE)
     }
@@ -135,12 +135,16 @@ gar_set_client <- function(json = Sys.getenv("GAR_CLIENT_JSON"),
   }
   
   myMessage("\noptions(googleAuthR.scopes.selected=c('",
-            paste(getOption("googleAuthR.scopes.selected"), collapse = "','"),"'))",
+            paste0(getOption("googleAuthR.scopes.selected"), collapse = "','"),"'))",
             "\noptions(googleAuthR.client_id='", getOption("googleAuthR.client_id"),"')",
-            "\noptions(googleAuthR.client_secret=' ", getOption("googleAuthR.client_secret"),"')", 
+            "\noptions(googleAuthR.client_secret='", getOption("googleAuthR.client_secret"),"')", 
             "\noptions(googleAuthR.webapp.client_id='", getOption("googleAuthR.webapp.client_id"),"')",
-            "\noptions(googleAuthR.webapp.client_secret=' ", getOption("googleAuthR.webapp.client_secret"),"')", 
+            "\noptions(googleAuthR.webapp.client_secret='", getOption("googleAuthR.webapp.client_secret"),"')", 
             level = 2)
+  
+  if(activate == "web"){
+    return(web_project_id)
+  }
   
   project_id
   
