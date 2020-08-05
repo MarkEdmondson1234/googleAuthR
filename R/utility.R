@@ -50,6 +50,12 @@ myMessage <- function(..., level = 2){
   
 }
 
+#' remove leading or trailing from vector
+#' @noRd
+remove_trailing_leading <- function(x, remove_me){
+  x[min(which(x!=remove_me)):max(which(x!=remove_me))]
+}
+
 #' split a vector on an element
 #' 
 #' Why doesn't this exist?
@@ -75,8 +81,7 @@ split_vector <- function(vector, index, remove_splits=TRUE){
     }
     
     # remove leading or trailing empty strings
-    if(s[1] == "") s <- s[-1]
-    if(s[length(s)] == "") s <- s[-length(s)] # bug in searchConsoleR #43
+    s <- remove_trailing_leading(s, "")
     
     if(exists("l")){
       l <- c(l, list(s))
@@ -84,6 +89,7 @@ split_vector <- function(vector, index, remove_splits=TRUE){
       l <- list(s)
     }
   }
+
   l
 }
 

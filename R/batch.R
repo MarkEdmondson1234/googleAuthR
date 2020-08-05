@@ -72,6 +72,7 @@ gar_batch <- function(call_list,
   ## call doHttrRequest with batched together functions
   cached_call <- !is.null(gar_cache_get_loc())
   if(cached_call){
+    myMessage("cached batched request")
     req <- memDoBatchRequest(l, batch_endpoint = batch_endpoint)
   } else {
     req <- doBatchRequest(l, batch_endpoint = batch_endpoint)
@@ -79,6 +80,8 @@ gar_batch <- function(call_list,
   
   if(req$status_code == 404){
     stop("Batch Request: 404 Not Found", call. = FALSE)
+  } else {
+    myMessage("Batch status code: ", req$status_code, level = 3)
   }
 
   batch_content <-  tryCatch(parseBatchResponse(req),
@@ -86,7 +89,7 @@ gar_batch <- function(call_list,
                                if(getOption("googleAuthR.verbose") < 3){
                                  tmp <- tempfile(fileext = ".rds")
                                  saveRDS(req, file = tmp)
-                                 stop("Error with batch response - writing response to ",tmp)
+                                 stop("Error with batch response - ", ee$message)
                                }
                              })
   
@@ -94,11 +97,15 @@ gar_batch <- function(call_list,
     stop(batch_content[[1]]$content[[1]]$error$message, call. = FALSE) 
   }
   
+  if(is.null(batch_content[[1]]$content[[1]])){
+    myMessage("Warning: No content found for batch")
+  }
+  
   ## now only one function allowed, this is shortcut to use only first function's data_parse
   f <- function_list[[1]]$data_parse_function
   
   batch_content_content <- lapply(batch_content, function(x) x$content[[1]])
-  
+
   ## apply data parse function from function_list$data_parse_function
   lapply(batch_content_content, f, ... = ...)
 
@@ -248,26 +255,31 @@ gar_batch_walk <- function(f,
     
     ## do the API call in batches
     batch_data <- gar_batch(fl, ..., batch_endpoint = batch_endpoint)
-    
+    if(length(batch_data) == 0){
+      myMessage("#Warning: No data returned in batch", level = 3)
+      return(NULL)
+    }
+
     if(!is.null(batch_function)) {
       batch_data <- batch_function(batch_data)
     } 
     batch_data
   })
-  
+
   ## rbind all the dataframes if TRUE
   if(data_frame_output){
     myMessage("Binding dataframes into one.", level=1)
+
     the_data <- Reduce(rbind,
                        lapply(bl,
                               function(x) {
-                                if(!inherits(x[[1]], "data.frame")){
-                                  stop("Attempting to rbind a non dataframe output. 
-                                       Set data_frame_output to FALSE?")
-                                } else Reduce(rbind, x)
-                                
-                                })
-                       )
+      if(!is.null(x[[1]]) && !inherits(x[[1]], "data.frame")){
+          stop("Attempting to rbind a non dataframe output. 
+                Set data_frame_output to FALSE?")
+      } else { 
+        Reduce(rbind, x)
+      }})
+      )
   } else {
     the_data <- bl
   }
@@ -288,11 +300,18 @@ parseBatchResponse <- function(batch_response){
   b_content <- textConnection(httr::content(batch_response, as="text", encoding = "UTF-8"))
   r <- readLines(b_content)
   
+  # remove whitespace 
+  r <- remove_trailing_leading(r, remove_me = "")
+  
   if(grepl("Error",r[1])) stop("Error in API response.  Got: ", r) 
+  myMessage("r[1] = ", r[1])
 
   index <- which(grepl(r[1], r))
+  myMessage("index: ", paste(index, collapse = " "), " length(r): ", length(r))
   responses <- split_vector(r, index)
   
+  # responses <- remove_trailing_leading(split(r, r[1]), r[1])
+
   responses_content <- lapply(responses, function(x){
     ## detect empty body responses
     ## https://github.com/MarkEdmondson1234/googleAuthR/issues/43
@@ -326,17 +345,16 @@ parseBatchResponse <- function(batch_response){
     
   })
   
-
-  
   batch_list <- lapply(1:length(responses), 
                        function(x) {
                          list(meta = responses_meta[x], 
                               header = responses_header[x], 
                               content = responses_content[x])
                          })
-  names(batch_list) <- gsub("(Content-ID: )|-", "", Reduce(c, lapply(responses_meta, function(x) x[2])))
+  names(batch_list) <- gsub("(Content-ID: )|-", "", 
+                            Reduce(c, lapply(responses_meta, function(x) x[2])))
 
-  
+
   batch_list
 }
 
@@ -368,7 +386,6 @@ makeBatchRequest <- function(f){
     
     header <- paste(boundary,
                     "Content-Type: application/http",
-                    # paste0("Content-ID: ",f$name),
                     paste0("Content-ID: ", digest(c(batch_body, Sys.time()))),
                     sep = "\r\n")
     body_header <- paste(req,
