@@ -217,11 +217,11 @@ In some platforms the URL you are authenticating from will not match the Docker 
 }
 
 <span class='co'>## ui.R</span>
-<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(<span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"googleAuthR Shiny Demo"</span>,
-                <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>"query"</span>,
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(<span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"googleAuthR Shiny Demo"</span>,
+                <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/textInput.html'>textInput</a></span>(<span class='st'>"query"</span>,
                 <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Google Drive query"</span>,
                 <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"mimeType != 'application/vnd.google-apps.folder'"</span>),
-                <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tableOutput.html'>tableOutput</a></span>(<span class='st'>"gdrive"</span>)
+                <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/tableOutput.html'>tableOutput</a></span>(<span class='st'>"gdrive"</span>)
                 )
 
 <span class='co'>## server.R</span>
@@ -230,8 +230,8 @@ In some platforms the URL you are authenticating from will not match the Docker 
 <span class='co'># this is not reactive, no need as you only reach here authenticated</span>
 <span class='fu'>gar_shiny_auth</span>(<span class='no'>session</span>)
 
-<span class='no'>output</span>$<span class='no'>gdrive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderTable.html'>renderTable</a></span>({
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/req.html'>req</a></span>(<span class='no'>input</span>$<span class='no'>query</span>)
+<span class='no'>output</span>$<span class='no'>gdrive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/renderTable.html'>renderTable</a></span>({
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/req.html'>req</a></span>(<span class='no'>input</span>$<span class='no'>query</span>)
 
   <span class='co'># no need for with_shiny()</span>
   <span class='fu'>fileSearch</span>(<span class='no'>input</span>$<span class='no'>query</span>)
@@ -240,7 +240,7 @@ In some platforms the URL you are authenticating from will not match the Docker 
   }
 
 <span class='co'># gar_shiny_ui() needs to wrap the ui you have created above.</span>
-<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='fu'><a href='gar_shiny_ui.html'>gar_shiny_ui</a></span>(<span class='no'>ui</span>), <span class='no'>server</span>)
+<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='fu'><a href='gar_shiny_ui.html'>gar_shiny_ui</a></span>(<span class='no'>ui</span>), <span class='no'>server</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

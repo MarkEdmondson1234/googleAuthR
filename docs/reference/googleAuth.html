@@ -239,7 +239,7 @@
     <p>A reactive authentication token</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Call via <code><a href='https://rdrr.io/pkg/shiny/man/callModule.html'>shiny::callModule(googleAuth, "your_ui_name", login_text = "Login")</a></code></p>
+    <p>Call via <code><a href='https://shiny.rstudio.com/reference/shiny/latest/callModule.html'>shiny::callModule(googleAuth, "your_ui_name", login_text = "Login")</a></code></p>
 <p>In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://your-shiny-url`).  In other circumstances the Shiny app should be able to detect this itself.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
