@@ -88,9 +88,12 @@ It will download the existing roles, and append the role you add to it here.
 }
 }
 \seealso{
+Combine these functions to provision emails in one step with \link{gar_service_provision}
+
 \url{https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy}
 
 \url{https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy}
 
 https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts.keys/create
 }
+\concept{IAM functions}

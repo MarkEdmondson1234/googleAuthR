@@ -16,7 +16,7 @@
 #' 
 #' @export
 #' @examples 
-#' 
+#' @family IAM functions
 #' \dontrun{
 #' 
 #' gar_service_provision("my-service-account", 
@@ -54,7 +54,10 @@ gar_service_provision <- function(accountId,
 #' 
 #' @return If it already exists, returns it via \link{gar_service_get}, else creates the service key
 #' 
+#' @seealso Combine these functions to provision emails in one step with \link{gar_service_provision}
+#' 
 #' @export
+#' @family IAM functions
 gar_service_create <- function(
   accountId,
   projectId,
