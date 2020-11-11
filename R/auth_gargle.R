@@ -3,15 +3,9 @@
 
 #' Environment to store authentication credentials
 #' 
-#' Used to keep persistent state.
+#' Used to keep persistent state. Initialized in .onLoad.
 #' @noRd
-.auth <- gargle::init_AuthState(
-  package = "googleAuthR",
-  auth_active = TRUE
-  #app = NULL,
-  #api_key = NULL,
-  #cred = NULL
-)
+.auth <- NULL
 
 
 ## The roxygen comments for these functions are mostly generated from data
