@@ -1,5 +1,13 @@
 .onLoad <- function(libname, pkgname) {
   
+  .auth <<- gargle::init_AuthState(
+    package = "googleAuthR",
+    auth_active = TRUE
+    #app = NULL,
+    #api_key = NULL,
+    #cred = NULL
+  )
+  
   sys_or_null <- function(x){
     sys <- Sys.getenv(x)
     if (sys == "") return(NULL)
