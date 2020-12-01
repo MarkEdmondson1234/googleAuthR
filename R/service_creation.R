@@ -67,11 +67,13 @@ gar_service_create <- function(
   
   candidate <- sprintf("%s@%s.iam.gserviceaccount.com",
                        accountId, projectId)
-  
-  tryCatch(
+
+  o <- tryCatch(
     gar_service_get(candidate, projectId = projectId), 
     error = function(err){
-         need_one <- grepl(paste(candidate, "does not exist"), err$message)
+
+         # watch out if they update the error message
+         need_one <- grepl(paste("Not found"), err$message)
          if(need_one){
            myMessage("Creating new service account: ", candidate, level = 3)
            the_url <- sprintf(
@@ -96,6 +98,7 @@ gar_service_create <- function(
            stop(err$message)
          }
       })
+  o
   
 }
 
