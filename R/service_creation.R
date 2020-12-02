@@ -72,7 +72,7 @@ gar_service_create <- function(
     gar_service_get(candidate, projectId = projectId), 
     error = function(err){
 
-         # watch out if they update the error message
+         # watch out if they update the error message #197
          need_one <- grepl(paste("Not found"), err$message)
          if(need_one){
            myMessage("Creating new service account: ", candidate, level = 3)
