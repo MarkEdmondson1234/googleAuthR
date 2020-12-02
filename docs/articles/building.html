@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="building_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Building your own Google R library</h1>
@@ -148,9 +148,9 @@
 <li>
 <code>http_header</code> - what type of request, most common are GET and POST</li>
 <li>
-<code>path_args</code> - some APIs need you to alter the URL folder structure when calling, e.g. <code>/account/{accountId}/</code> where <code>accountId</code> is variable.</li>
+<code>path_args</code> - some APIs need you to alter the URL folder structure when calling, e.g. <code>/account/{accountId}/</code> where <code>accountId</code> is variable.</li>
 <li>
-<code>pars_args</code> - other APIS require you to send URL parameters e.g. <code>?account={accountId}</code> where <code>accountId</code> is variable.</li>
+<code>pars_args</code> - other APIS require you to send URL parameters e.g. <code>?account={accountId}</code> where <code>accountId</code> is variable.</li>
 <li>
 <code>data_parse_function</code> - [optional] If the API call returns data, it will be available in <code>$content</code>. You can create a parsing function that transforms it in to something you can work with (for instance, a dataframe)</li>
 </ul>
@@ -178,7 +178,7 @@
 <h3 class="hasAnchor">
 <a href="#body-data" class="anchor"></a>Body data</h3>
 <p>A lot of Google APIs look for you to send data in the Body of the request. This is done after you construct the function. <code>googleAuthR</code> uses <code>httr</code>’s JSON parsing via <code>jsonlite</code> to construct JSON from R lists.</p>
-<p>Construct your list, then use <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">jsonlite::toJSON</a></code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
+<p>Construct your list, then use <code><a href="https://jeroen.cran.dev/jsonlite/reference/fromJSON.html">jsonlite::toJSON</a></code> to check if its in the correct format as specified by the Google documentation. This is often the hardest part using the API.</p>
 <p>To aid debugging use the <code><a href="https://rdrr.io/r/base/options.html">options(googleAuthR.verbose = 0)</a></code> to see all the sent and recieved HTTP requests, and also write what was sent as JSON in the body is written to a file called <code>request_debug.rds</code> in the working directory.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r">library(googleAuthR)
@@ -268,7 +268,7 @@ $body_json
   &gt; str(parsed)
    chr "http://goo.gl/mCYw2i"
                              </pre></body></html></div>
-<p>The response is turned from JSON to a dataframe if possible, via <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">jsonlite::fromJSON</a></code></p>
+<p>The response is turned from JSON to a dataframe if possible, via <code><a href="https://jeroen.cran.dev/jsonlite/reference/fromJSON.html">jsonlite::fromJSON</a></code></p>
 </div>
 </div>
 <div id="auto-build-libraries" class="section level2">
@@ -313,7 +313,7 @@ $body_json
 <li>Activate API</li>
 <li>Provide scope</li>
 <li>Specify the base URL (in this case it was <code>https://www.googleapis.com/urlshortener/v1/url</code>)</li>
-<li>Specify the httr request type e.g. <code>POST</code>
+<li>Specify the httr request type e.g. <code>POST</code>
 </li>
 <li>Constructing a body request</li>
 <li>Giving the response format</li>

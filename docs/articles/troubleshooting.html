@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="troubleshooting_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Troubleshooting Authentication</h1>
@@ -170,7 +170,7 @@
 <div id="gar_auth-options" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gar_auth-options" class="anchor"></a>gar_auth() options</h3>
-<p>Several libraries wrap <code><a href="../reference/gar_auth.html">googleAuthR::gar_auth()</a></code> with presets, so you don’t call them directly e.g. <code>ga_auth()</code> in <code>googleAnalyticsR</code>. Use <code><a href="../reference/gar_auth.html">googleAuthR::gar_auth()</a></code> instead of native authentication function if you want more control.</p>
+<p>Several libraries wrap <code><a href="../reference/gar_auth.html">googleAuthR::gar_auth()</a></code> with presets, so you don’t call them directly e.g. <code><a href="https://code.markedmondson.me/googleAnalyticsR//reference/ga_auth.html">ga_auth()</a></code> in <code>googleAnalyticsR</code>. Use <code><a href="../reference/gar_auth.html">googleAuthR::gar_auth()</a></code> instead of native authentication function if you want more control.</p>
 <p>If you call <code><a href="../reference/gar_auth.html">googleAuthR::gar_auth()</a></code> then it will look for a cache token given by <code><a href="https://rdrr.io/r/base/options.html">option("googleAuthR.httr_oauth_cache")</a></code> or the filename you pass in - if not present it will trigger the OAuth2 flow.</p>
 <p>If you call <code><a href="../reference/gar_auth.html">googleAuthR::gar_auth("token_name")</a></code> then it will look for a cache token given by <code>"token_name"</code> and <em>set the <code><a href="https://rdrr.io/r/base/options.html">option("googleAuthR.httr_oauth_cache")</a></code> to <code>"token_name"</code></em>. This means refreshes etc. will be to that token cache file. It will also set the client ID, client secret and scopes to that specified in the file.</p>
 </div>
@@ -200,7 +200,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">googleAuthR.client_id</span> <span class="kw">=</span> <span class="st">"XXXX"</span>, <span class="kw">googleAuthR.client_secret</span> <span class="kw">=</span> <span class="st">"XXXX"</span>)
 
 <span class="co">## wraps `googleAuthR::gar_auth()`</span>
-<span class="fu">ga_auth</span>()</pre></body></html></div>
+<span class="fu"><a href="https://code.markedmondson.me/googleAnalyticsR//reference/ga_auth.html">ga_auth</a></span>()</pre></body></html></div>
 <ul>
 <li>If you are always going to use the same credentials, make use of the auto authentication options by creating a cache token, moving it to a dedicated auth folder and using environment variables <code>GAR_AUTH</code> or package supported ones.</li>
 <li>If you are using auto-authentication, make sure this doesn’t clash with manual authentication. Comment out the environment variable if needed as this will prevent it operating on package load.</li>
