@@ -39,7 +39,7 @@ Use it within your own function definitions, to query the Google API you want.
 
 Auto-build libraries for Google APIs with OAuth2 for both local and Shiny app use.
 
-Get more details at the [googleAuthR website](http://code.markedmondson.me/googleAuthR/)
+Get more details at the [googleAuthR website](https://code.markedmondson.me/googleAuthR/)
 
 The [`googleAuthRverse`](https://googleauthrverse.slack.com) Slack team has been setup for support for using `googleAuthR` and the libraries it helps create.  Sign up via this [Google form](https://goo.gl/forms/d541yrJoDFMrrSJp1) to get access. 
 
