@@ -125,7 +125,7 @@
       <h1 data-toc-skip>Google authentication types for R</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2020-12-02</h4>
+            <h4 class="date">2020-12-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/google-authentication-types.Rmd"><code>vignettes/google-authentication-types.Rmd</code></a></small>
       <div class="hidden name"><code>google-authentication-types.Rmd</code></div>
@@ -270,7 +270,7 @@
 <h1 class="hasAnchor">
 <a href="#authentication-with-a-json-file-via-service-accounts" class="anchor"></a>Authentication with a JSON file via Service Accounts</h1>
 <p>You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow. The end user could supply this JSON file, or you can upload your own JSON file to your applications. This is generally more secure if you know its only one user on the service, such as for Cloud services.</p>
-<p>This involves downloading a secret JSON key with the authentication details. More details are available from Google here: Using OAuth2.0 for Server to Server Applications[<a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount" class="uri">https://developers.google.com/identity/protocols/OAuth2ServiceAccount</a>]</p>
+<p>This involves downloading a secret JSON key with the authentication details. More details are available from Google here: Using OAuth2.0 for Server to Server Applications[<a href="https://developers.google.com/identity/protocols/oauth2/service-account" class="uri">https://developers.google.com/identity/protocols/oauth2/service-account</a>]</p>
 <p>To use, go to your Project in the Google Developement Console and select JSON Key type. Save the JSON file to your computer and supply the file location to the function <code><a href="../reference/gar_auth_service.html">gar_auth_service()</a></code></p>
 <div id="creating-service-account-and-a-key" class="section level2">
 <h2 class="hasAnchor">
@@ -359,7 +359,7 @@
 <div id="shiny-modules" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shiny-modules" class="anchor"></a>Shiny Modules</h2>
-<p><code>googleAuthR</code> uses <a href="http://shiny.rstudio.com/articles/modules.html">Shiny Modules</a>. This means less code and the ability to have multiple login buttons on the same app.</p>
+<p><code>googleAuthR</code> uses <a href="https://shiny.rstudio.com/articles/modules.html">Shiny Modules</a>. This means less code and the ability to have multiple login buttons on the same app.</p>
 <p>To use modules, you need to use the functions ending with <code>_UI</code> in your ui.R, then call the id you set there server side with the <code><a href="https://shiny.rstudio.com/reference/shiny/latest/callModule.html">callModule(moduleName, "id")</a></code> syntax. See the examples below.</p>
 </div>
 <div id="shiny-authentication-examples" class="section level2">

@@ -125,7 +125,7 @@
       <h1 data-toc-skip>Advanced Google API building techniques</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2020-12-02</h4>
+            <h4 class="date">2020-12-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/advanced-building.Rmd"><code>vignettes/advanced-building.Rmd</code></a></small>
       <div class="hidden name"><code>advanced-building.Rmd</code></div>
@@ -452,7 +452,7 @@ ga_segment_list2 &lt;- function(){
 <h2 class="hasAnchor">
 <a href="#tests" class="anchor"></a>Tests</h2>
 <p>All packages should ideally have tests to ensure that any changes do not break functionality.</p>
-<p>If new to testing, first read this guide on using the <code>tidyverse</code>’s <a href="http://testthat.r-lib.org/">testthat</a>, then read this for a <a href="https://juliasilge.com/blog/beginners-guide-to-travis/">beginner’s guide to travis-CI for R</a>, which is a continuous integration system that will run and test your code everytime it is committed to GitHub.</p>
+<p>If new to testing, first read this guide on using the <code>tidyverse</code>’s <a href="https://testthat.r-lib.org/">testthat</a>, then read this for a <a href="https://juliasilge.com/blog/beginners-guide-to-travis/">beginner’s guide to travis-CI for R</a>, which is a continuous integration system that will run and test your code everytime it is committed to GitHub.</p>
 <p>This is this package’s current Travis badge: <a href="https://travis-ci.org/MarkEdmondson1234/googleAuthR"><img src="https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master" alt="Travis-CI Build Status"></a></p>
 <p>However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response.</p>
 <p>One option is to encrypt and upload your token, for which you can read a guide by Jenny Bryan here - <code>https://cran.r-project.org/web/packages/googlesheets/vignettes/managing-auth-tokens.html</code>.</p>
