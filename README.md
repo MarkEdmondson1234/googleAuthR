@@ -66,8 +66,8 @@ Feel free to add your own via email or a pull request if you have used googleAut
 ## Thanks to
 
 * Jenny Bryan and her work on the [googlesheets](https://github.com/jennybc/googlesheets) package that this work derives from.
-* Hadley Wickham for [httr's OAuth2](https://github.com/hadley/httr) excellence
-* RStudio team for [Shiny](http://shiny.rstudio.com/)
+* Hadley Wickham for [httr's OAuth2](https://github.com/r-lib/httr) excellence
+* RStudio team for [Shiny](https://shiny.rstudio.com/)
 * [Johann de Boer](https://github.com/jdeboer) for some code contributions.
 
 ## Install

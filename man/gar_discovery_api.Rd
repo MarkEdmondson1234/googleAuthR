@@ -20,7 +20,7 @@ Details of the API
 Download the discovery document for an API
 }
 \seealso{
-\url{https://developers.google.com/discovery/v1/reference/apis/getRest}
+\url{https://developers.google.com/discovery/v1/getting_started}
 
 Other Google Discovery API functions: 
 \code{\link{gar_create_api_objects}()},

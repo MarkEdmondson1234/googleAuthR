@@ -15,8 +15,8 @@
 #' @seealso \url{https://cloud.google.com/iam/docs/creating-managing-service-accounts#iam-service-accounts-create-rest}
 #' 
 #' @export
-#' @examples 
 #' @family IAM functions
+#' @examples 
 #' \dontrun{
 #' 
 #' gar_service_provision("my-service-account", 

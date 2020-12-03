@@ -124,7 +124,7 @@ gar_discovery_apis_list <- function(){
 #' @param version The API version to fetch
 #' @param a_url Supply your own discovery URL, for private APIs only
 #' 
-#' @seealso \url{https://developers.google.com/discovery/v1/reference/apis/getRest}
+#' @seealso \url{https://developers.google.com/discovery/v1/getting_started}
 #' 
 #' @return Details of the API 
 #' @family Google Discovery API functions

@@ -172,7 +172,7 @@ Refer to [this gargle article](https://gargle.r-lib.org/articles/non-interactive
 
 You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow.  The end user could supply this JSON file, or you can upload your own JSON file to your applications. This is generally more secure if you know its only one user on the service, such as for Cloud services. 
 
-This involves downloading a secret JSON key with the authentication details.  More details are available from Google here: Using OAuth2.0 for Server to Server Applications[https://developers.google.com/identity/protocols/OAuth2ServiceAccount]
+This involves downloading a secret JSON key with the authentication details.  More details are available from Google here: Using OAuth2.0 for Server to Server Applications[https://developers.google.com/identity/protocols/oauth2/service-account]
 
 To use, go to your Project in the Google Developement Console and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
 `gar_auth_service()`
@@ -265,7 +265,7 @@ There are now these types of logins available, which suit different needs:
 
 ## Shiny Modules
 
-`googleAuthR` uses [Shiny Modules](http://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
+`googleAuthR` uses [Shiny Modules](https://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
 
 To use modules, you need to use the functions ending with `_UI` in your ui.R, then call the id you set there server side with the `callModule(moduleName, "id")` syntax.  See the examples below. 
 

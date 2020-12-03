@@ -362,7 +362,7 @@ Be careful to only use caching where you know the API request won't change - if 
 
 All packages should ideally have tests to ensure that any changes do not break functionality. 
 
-If new to testing, first read this guide on using the `tidyverse`'s [testthat](http://testthat.r-lib.org/), then read this for a [beginner's guide to travis-CI for R](https://juliasilge.com/blog/beginners-guide-to-travis/), which is a continuous integration system that will run and test your code everytime it is committed to GitHub.
+If new to testing, first read this guide on using the `tidyverse`'s [testthat](https://testthat.r-lib.org/), then read this for a [beginner's guide to travis-CI for R](https://juliasilge.com/blog/beginners-guide-to-travis/), which is a continuous integration system that will run and test your code everytime it is committed to GitHub.
 
 This is this package's current Travis badge:
 [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)

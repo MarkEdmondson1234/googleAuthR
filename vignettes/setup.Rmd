@@ -38,7 +38,7 @@ remotes::install_github("MarkEdmondson1234/googleAuthR")
 
 3. Click 'Create a new Client ID', and choose "Web Application".
 4. Download the web client JSON file
-5. Add the URL of where your Shiny app will run to the crendetials, with no port number. e.g. https://mark.shinyapps.io/searchConsoleRDemo/
+5. Add the URL of where your Shiny app will run to the credentials, with no port number. e.g. `https://your-account.shinyapps.io/your-shiny-app/`
 6. And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. `http://127.0.0.1:1221`
 7. Set the `GAR_CLIENT_WEB_JSON` environment argument (via `.Renviron` or otherwise) to the full path file location of the JSON file (see `gar_set_client()` for other options)
 8. Run the app locally specifying the port number you used e.g. `shiny::runApp(port=1221)`

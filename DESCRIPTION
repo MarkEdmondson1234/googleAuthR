@@ -13,7 +13,7 @@ Authors@R: c(person("Mark", "Edmondson",email = "m@sunholo.com",
            person("Neal", "Richardson", email="neal.p.richardson@gmail.com", role = "ctb"),
            person("David","Kulp", email="dkulp@cs.umass.edu", role = "ctb"),
            person("Joe","Cheng", email = "joe@rstudio.com", role = "ctb"))
-URL: http://code.markedmondson.me/googleAuthR/
+URL: https://code.markedmondson.me/googleAuthR/
 BugReports: https://github.com/MarkEdmondson1234/googleAuthR/issues
 Depends:
     R (>= 3.3.0)
