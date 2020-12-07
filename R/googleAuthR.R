@@ -1,6 +1,6 @@
 #' googleAuthR: Easy Authentication with Google OAuth2 APIs
 #' 
-#' Get more details on the \href{http://code.markedmondson.me/googleAuthR/}{googleAuthR website}.
+#' Get more details on the \href{https://code.markedmondson.me/googleAuthR/}{googleAuthR website}.
 #' 
 #' @section Default options:
 #' 
