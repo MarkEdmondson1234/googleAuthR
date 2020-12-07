@@ -1,3 +1,7 @@
+# googleAUthR 1.3.1.9000
+
+* ...
+
 # googleAuthR 1.3.1
 
 * Fix `gar_set_client()` returning web-project id if expecting project id and both env arguments are set.
