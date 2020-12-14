@@ -290,7 +290,7 @@ parseBatchResponse <- function(batch_response){
   
   if(grepl("Error",r[1])) stop("Error in API response.  Got: ", r) 
 
-  index <- which(grepl(r[1], r))
+  index <- which(grepl("--batch_", r))
   responses <- split_vector(r, index)
   
   responses_content <- lapply(responses, function(x){
