@@ -287,7 +287,7 @@ parseBatchResponse <- function(batch_response){
 
   b_content <- textConnection(httr::content(batch_response, as="text", encoding = "UTF-8"))
   r <- readLines(b_content)
-  
+
   if(grepl("Error",r[1])) stop("Error in API response.  Got: ", r) 
 
   index <- which(grepl("--batch_", r))
@@ -300,6 +300,9 @@ parseBatchResponse <- function(batch_response){
     if(any(empty_status_code)) return(NULL)
     
     index <- which(grepl("Content-Length:", x, ignore.case = TRUE))
+    if(length(index) == 0){
+      stop("No content-length header found in batched response", call. = FALSE)
+    }
     index <- c(index+1, length(x))
     if(any(is.na(index))){
       warning("Index has an NA. Not splitting JSON")

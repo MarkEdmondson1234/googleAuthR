@@ -1,4 +1,4 @@
-# googleAUthR 1.3.1.9000
+# googleAuthR 1.3.1.9000
 
 * Fix batching when response has a blank line in first line
 
