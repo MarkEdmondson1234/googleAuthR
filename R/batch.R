@@ -87,6 +87,8 @@ gar_batch <- function(call_list,
                                  tmp <- tempfile(fileext = ".rds")
                                  saveRDS(req, file = tmp)
                                  stop("Error with batch response - writing response to ",tmp)
+                               } else {
+                                 stop(ee$message)
                                }
                              })
   
@@ -300,6 +302,8 @@ parseBatchResponse <- function(batch_response){
     if(any(empty_status_code)) return(NULL)
     
     index <- which(grepl("Content-Length:", x, ignore.case = TRUE))
+    myMessage("Batch index: ", index, level = 1)
+
     if(length(index) == 0){
       stop("No content-length header found in batched response", call. = FALSE)
     }
