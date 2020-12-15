@@ -90,13 +90,6 @@
 #   
 # })
 # 
-# test_that("A batch call works", {
-#   skip_on_cran()
-#   ggg <- gar_batch(list(list_websites(), google_analytics_account_list()))
-#   
-#   expect_s3_class(ggg[[1]], "data.frame")
-#   expect_equal(ggg[[2]]$kind, "analytics#accountSummaries")
-# })
 # 
 # test_that("A walk batch call works but with no returned data", {
 #   skip_on_cran()

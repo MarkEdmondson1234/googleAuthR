@@ -81,19 +81,19 @@ gar_batch <- function(call_list,
     stop("Batch Request: 404 Not Found", call. = FALSE)
   }
 
-  batch_content <-  tryCatch(parseBatchResponse(req),
+  batch_content <-  tryCatch(parse_batch_response(req),
                              error = function(ee){
                                if(getOption("googleAuthR.verbose") < 3){
                                  tmp <- tempfile(fileext = ".rds")
                                  saveRDS(req, file = tmp)
-                                 stop("Error with batch response - writing response to ",tmp)
+                    stop("Error with batch response - writing response to ",tmp)
                                } else {
                                  stop(ee$message)
                                }
                              })
   
-  if(!is.null(batch_content[[1]]$content[[1]]$error$message)){
-    stop(batch_content[[1]]$content[[1]]$error$message, call. = FALSE) 
+  if(!is.null(batch_content[[1]]$content$error$message)){
+    stop(batch_content[[1]]$content$error$message, call. = FALSE) 
   }
   
   ## now only one function allowed, this is shortcut to use only first function's data_parse
@@ -286,7 +286,7 @@ gar_batch_walk <- function(f,
 #' @family batch functions
 #' @noRd
 parseBatchResponse <- function(batch_response){
-
+browser()
   b_content <- textConnection(httr::content(batch_response, as="text", encoding = "UTF-8"))
   r <- readLines(b_content)
 
@@ -341,7 +341,8 @@ parseBatchResponse <- function(batch_response){
                               header = responses_header[x], 
                               content = responses_content[x])
                          })
-  names(batch_list) <- gsub("(Content-ID: )|-", "", Reduce(c, lapply(responses_meta, function(x) x[2])))
+  names(batch_list) <- gsub("(Content-ID: )|-", "", 
+                            Reduce(c, lapply(responses_meta, function(x) x[2])))
 
   
   batch_list

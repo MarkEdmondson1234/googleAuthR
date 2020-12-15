@@ -1,17 +1,39 @@
 parse_batch_response <- function(batch_response){
   raw <- httr::content(batch_response, as="raw")
   lines <- strsplit(rawToChar(raw), "\r?\n")[[1]]
-  
   new_response <- grepl("^--batch_", lines)
   grps <- cumsum(new_response)
-
   split_responses <- unname(split(lines, grps))
   # remove length 1 responses
   split_responses <- split_responses[vapply(split_responses, 
                                             function(x) length(x) !=1, logical(1))]
   batch_response_bits <- lapply(split_responses, parse_single_response)
   
+  batch_meta <- lapply(batch_response_bits, function(x) x$meta_header)
   
+  batch_list <- lapply(batch_response_bits, function(x){
+    list(meta = x$meta_header,
+         header = parse_http_headers(x$response_header),
+         content = parse_response_content(x$response_content))
+  })
+  the_names <- vapply(batch_meta, 
+                              function(x) x[grepl("Content-ID", x)], 
+                              character(1))
+  the_names <- gsub("content-id: ", "", the_names, ignore.case = TRUE)
+  names(batch_list) <- the_names
+  
+  batch_list
+  
+  
+}
+
+parse_response_content <- function(x){
+  o <- jsonlite::fromJSON(x)
+  if(!is.null(o$error)){
+    myMessage("Error in batch response:", o$error$code, o$error$message, 
+              level = 3)
+  }
+  o
 }
 
 parse_single_response <- function(lines){
@@ -19,7 +41,7 @@ parse_single_response <- function(lines){
   grps <- cumsum(bits)
   bit_grps <- unname(split(lines, grps))
   
-  list(batch_header = bit_grps[[1]],
+  list(meta_header = bit_grps[[1]],
        response_header = bit_grps[[2]],
        response_content = bit_grps[[3]])
 }
