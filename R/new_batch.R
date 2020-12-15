@@ -1,28 +1,32 @@
 parse_batch_response <- function(batch_response){
   raw <- httr::content(batch_response, as="raw")
   lines <- strsplit(rawToChar(raw), "\r?\n")[[1]]
+  
+  # split on --batch boundaries
   new_response <- grepl("^--batch_", lines)
   grps <- cumsum(new_response)
   split_responses <- unname(split(lines, grps))
   # remove length 1 responses
   split_responses <- split_responses[vapply(split_responses, 
-                                            function(x) length(x) !=1, logical(1))]
+                                            function(x) length(x) !=1, 
+                                            logical(1))]
   batch_response_bits <- lapply(split_responses, parse_single_response)
   
+  # process individual batch parts
   batch_meta <- lapply(batch_response_bits, function(x) x$meta_header)
   
-  batch_list <- lapply(batch_response_bits, function(x){
+  o <- lapply(batch_response_bits, function(x){
     list(meta = x$meta_header,
          header = parse_http_headers(x$response_header),
          content = parse_response_content(x$response_content))
   })
   the_names <- vapply(batch_meta, 
-                              function(x) x[grepl("Content-ID", x)], 
-                              character(1))
+                      function(x) x[grepl("content-id", x, ignore.case = TRUE)], 
+                      character(1))
   the_names <- gsub("content-id: ", "", the_names, ignore.case = TRUE)
-  names(batch_list) <- the_names
+  names(o) <- the_names
   
-  batch_list
+  o
   
   
 }

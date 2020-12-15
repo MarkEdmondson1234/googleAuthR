@@ -96,9 +96,13 @@ gar_batch <- function(call_list,
     stop(batch_content[[1]]$content$error$message, call. = FALSE) 
   }
   
+  if(length(batch_content[[1]]$content) < 1){
+    myMessage("No content in batched response", level = 2)
+    return(NULL)
+  }
   ## now only one function allowed, this is shortcut to use only first function's data_parse
   f <- function_list[[1]]$data_parse_function
-  
+
   batch_content_content <- lapply(batch_content, function(x) x$content[[1]])
   
   ## apply data parse function from function_list$data_parse_function
