@@ -55,12 +55,12 @@
 #' @family batch functions
 #' @importFrom httr content
 gar_batch <- function(call_list, 
-                      ..., 
-                      batch_endpoint = getOption("googleAuthR.batch_endpoint", 
-                                                 default = "https://www.googleapis.com/batch")){
+    ..., 
+    batch_endpoint = getOption("googleAuthR.batch_endpoint", 
+                                default = "https://www.googleapis.com/batch")){
   
-  # function_list <- lapply(call_list, eval)
   function_list <- call_list
+  
   ## construct batch POST request
   parse_list <- lapply(function_list, makeBatchRequest)
   
@@ -229,28 +229,18 @@ gar_batch_walk <- function(f,
   
   ## lapply for each batch
   bl <- lapply(limit_batch, function(y){
-    if(length(limit_batch) > 1) myMessage("Request #: ", paste(y, collapse=" : "), level = 3)
-    ## lapply for each call in batch
-    fl <- lapply(y, function(x){
-      
-      ## modify the arguments of f to include walked argument
-      pars_walk_list <- lapply(pars_walk, function(z) z = x)
-      names(pars_walk_list) <- pars_walk
-      path_walk_list <- lapply(path_walk, function(z) z = x)
-      names(path_walk_list) <- path_walk
-      body_walk_list <- lapply(body_walk, function(z) z = x)
-      names(body_walk_list) <- body_walk
-
-      if(length(pars_walk) > 0) gar_pars  <- modifyList(gar_pars, pars_walk_list)
-      if(length(path_walk) > 0) gar_paths <- modifyList(gar_paths, path_walk_list)
-      if(length(body_walk) > 0) the_body  <- modifyList(the_body, body_walk_list)      
-      ## create the API call
-      f(pars_arguments = gar_pars, 
-        path_arguments = gar_paths, 
-        the_body = the_body, 
-        batch = TRUE)
-    })
-    names(fl) <- as.character(y)
+    if(length(limit_batch) > 1){
+      myMessage("Request #: ", paste(y, collapse=" : "), level = 3)
+    }
+    
+    ## list for each call in batch
+    fl <- make_batch_requests(y, f, 
+                              pars_walk = pars_walk,
+                              path_walk = path_walk,
+                              body_walk = body_walk,
+                              gar_pars = gar_pars,
+                              gar_paths = gar_paths,
+                              the_body = the_body)
     
     ## do the API call in batches
     batch_data <- gar_batch(fl, ..., batch_endpoint = batch_endpoint)
@@ -281,75 +271,47 @@ gar_batch_walk <- function(f,
   the_data
 }
 
-
-#' Parse batch request
-#' 
-#' @param batch_response An element of the list of responses from a batched request
-#' 
-#' @keywords internal
-#' @family batch functions
-#' @noRd
-parseBatchResponse <- function(batch_response){
-browser()
-  b_content <- textConnection(httr::content(batch_response, as="text", encoding = "UTF-8"))
-  r <- readLines(b_content)
-
-  if(grepl("Error",r[1])) stop("Error in API response.  Got: ", r) 
-
-  index <- which(grepl("--batch_", r))
-  responses <- split_vector(r, index)
-
-  responses_content <- lapply(responses, function(x){
-    ## detect empty body responses
-    ## https://github.com/MarkEdmondson1234/googleAuthR/issues/43
-    empty_status_code <- grepl("HTTP/1.1 204 No Content", x)
-    if(any(empty_status_code)) return(NULL)
+make_batch_requests <- function(y, f,
+                                pars_walk=NULL,
+                                path_walk=NULL,
+                                body_walk=NULL,
+                                gar_pars = NULL,
+                                gar_paths = NULL,
+                                the_body=NULL){
+  fl <- lapply(y, function(x){
     
-    index <- which(grepl("Content-Length:", x, ignore.case = TRUE))
-    myMessage("Batch index: ", index, level = 1)
-
-    if(length(index) == 0){
-      stop("No content-length header found in batched response", call. = FALSE)
-    }
-    index <- c(index+1, length(x))
-    if(any(is.na(index))){
-      warning("Index has an NA. Not splitting JSON")
-      return(unlist(split_vector(x, index, remove_splits = FALSE)))
-    }
-    jsonlite::fromJSON(unlist(split_vector(x, index, remove_splits = FALSE)))
-  })
-
-  responses_meta <- lapply(responses, function(x){
-    index <- c(1:2)
-    unlist(split_vector(x, index, remove_splits = FALSE))
-  })
-  
-  responses_header <- lapply(responses, function(x){
-    index <- which(grepl("HTTP|Content-Length", x, ignore.case = TRUE))
-    rh <- unlist(split_vector(x, index, remove_splits = FALSE))
-    if(grepl("40", rh[2])){
-      myMessage("400 type error in response", level=2)
-    }
-    if(grepl("50", rh[2])){
-      myMessage("500 type error in response", level=2)
-    }
-    rh
+    ## modify the arguments of f to include walked argument
+    pars_walk_list <- make_walk_list(pars_walk, x)
+    path_walk_list <- make_walk_list(path_walk, x)
+    body_walk_list <- make_walk_list(body_walk, x)
     
+    #if(length(pars_walk) > 0) gar_pars  <- modifyList(gar_pars, pars_walk_list)
+    gar_pars  <- modify_walk_list(pars_walk_list, gar_pars, pars_walk)
+    gar_paths <- modify_walk_list(path_walk_list, gar_paths, path_walk)
+    the_body  <- modify_walk_list(body_walk_list, the_body, body_walk)
+    
+    ## create the API call
+    f(pars_arguments = gar_pars, 
+      path_arguments = gar_paths, 
+      the_body = the_body, 
+      batch = TRUE)
   })
+  names(fl) <- as.character(y)  
   
+  fl
+}
 
+make_walk_list <- function(walk, this){
+  o <- lapply(walk, function(x) x = this)
+  names(o) <- walk
   
-  batch_list <- lapply(1:length(responses), 
-                       function(x) {
-                         list(meta = responses_meta[x], 
-                              header = responses_header[x], 
-                              content = responses_content[x])
-                         })
-  names(batch_list) <- gsub("(Content-ID: )|-", "", 
-                            Reduce(c, lapply(responses_meta, function(x) x[2])))
+  o
+}
 
+modify_walk_list <- function(walk, original, change){
+  if(is.null(walk)) return(original)
   
-  batch_list
+  modifyList(original, change)
 }
 
 
