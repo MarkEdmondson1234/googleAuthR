@@ -294,7 +294,7 @@ parseBatchResponse <- function(batch_response){
 
   index <- which(grepl("--batch_", r))
   responses <- split_vector(r, index)
-  
+
   responses_content <- lapply(responses, function(x){
     ## detect empty body responses
     ## https://github.com/MarkEdmondson1234/googleAuthR/issues/43
