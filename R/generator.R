@@ -293,7 +293,7 @@ retryRequest <- function(f){
 
     myMessage("API returned error: ",paste(error), level = 2)
 
-    if(grepl("^5|429",status_code)){
+    if(grepl("^5|429|408",status_code)){
       try_attempts <- getOption("googleAuthR.tryAttempts")
       for(i in 1:try_attempts){
         myMessage("Trying again: ", i, " of ", try_attempts, level = 3)
