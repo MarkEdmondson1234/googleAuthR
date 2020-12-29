@@ -47,7 +47,7 @@ gar_setup_clientid <- function(session_user = NULL,
   if(!client_id){
     cli_alert_warning("You must have a client ID file to proceed.")
     cli_alert_info("Download via https://console.cloud.google.com/apis/credentials/oauthclient :")
-    cli_li(c("Other > Name > Create >",
+    cli_li(c("Desktop app > Name > Create >",
              "OAuth 2.0 Client IDs >",
              "Click Download Arrow to the right >",
              "Download to your computer"))
