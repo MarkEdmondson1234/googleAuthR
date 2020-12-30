@@ -87,5 +87,8 @@ reference:
       - gar_create_package
       - gar_create_api_objects
       - gar_create_api_skeleton
+  - title: "Setup Wizard functions"
+    contents:
+      - matches("gar_setup")
 
       
