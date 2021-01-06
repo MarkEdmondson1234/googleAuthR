@@ -96,3 +96,9 @@
 #   gg <- test_walk()
 #   expect_type(gg, "list")
 # })
+
+# tests batching with googleAnalyticsR
+# library(googleAnalyticsR)
+# accountId <- 54019251
+# test_email_adds <- c("mark@iihnordic.com", "iihmarkedmondson@gmail.com")
+# done <- ga_users_add(test_email_adds,permissions = "EDIT", accountId = accountId)
