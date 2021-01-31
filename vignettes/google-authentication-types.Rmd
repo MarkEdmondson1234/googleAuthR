@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Quick user based authentication
+## Quick user based authentication
 
 Once setup, then you should go through the Google login flow in your browser when you run this command:
 
@@ -35,7 +35,7 @@ gar_auth(email = "your@email.com")
 These functions are usually wrapped in package specific functions when used in other packages, such as `googleAnalyticsR::ga_auth()`
 
 
-# Client options
+## Client options
 
 Most libraries will set the appropriate options for you, otherwise you will need to supply them from the Google Cloud console, in its `APIs & services > Credentials` section ( `https://console.cloud.google.com/apis/credentials` ).
 
@@ -47,9 +47,9 @@ You will need as a minimum:
 
 If creating your own library you can choose to supply some or all of the above to the end-user, as an end-user you may need to set some of the above (most usually your own user authentication).
 
-# Multiple authentication tokens
+## Multiple authentication tokens
 
-## googleAuthR > 1.0.0
+### googleAuthR > 1.0.0
 
 Authentication cache tokens are kept at a global level on your computer.  When you authenticate the first time with a new client.id, scope or email then you will go through the authentication process in the browser, however the next time it wil be cached and be a lot quicker.
 
@@ -68,7 +68,7 @@ gar_auth(email = "your@email.com",
 
 ```
 
-## Legacy flows
+### Legacy flows
 
 > Applicable before `googleAuthR < 1.0.0`
 
@@ -123,7 +123,7 @@ ga_account_list()
 list_websites()
 ```
 
-# Setting the client via Google Cloud client JSON
+## Setting the client via Google Cloud client JSON
 
 To avoid keeping track of which client_id/secret to use, Google offers a client ID JSON file you can download from the Google Cloud console here - `https://console.cloud.google.com/apis/credentials`.  Make sure the client ID type is `Desktop` for desktop applications.
 
@@ -164,11 +164,11 @@ Then you just need to supply the scopes:
 gar_set_client(scopes = "https://www.googleapis.com/auth/webmasters")
 ```
 
-# Authentication with no browser
+## Authentication with no browser
 
 Refer to [this gargle article](https://gargle.r-lib.org/articles/non-interactive-auth.html) on how to authenticate in a non-interactive manner
 
-# Authentication with a JSON file via Service Accounts
+## Authentication with a JSON file via Service Accounts
 
 You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow.  The end user could supply this JSON file, or you can upload your own JSON file to your applications. This is generally more secure if you know its only one user on the service, such as for Cloud services. 
 
@@ -177,9 +177,9 @@ This involves downloading a secret JSON key with the authentication details.  Mo
 To use, go to your Project in the Google Developement Console and select JSON Key type.  Save the JSON file to your computer and supply the file location to the function
 `gar_auth_service()`
   
-## Creating service account and a key
+### Creating service account and a key
 
-### From R
+#### From R
 
 The `gar_service_create()` and related functions let you create service accounts from a user OAuth2 login.  The user requires permission `iam.serviceAccounts.create` for the project. Most often the user is an Owner/Editor.
 
@@ -199,7 +199,7 @@ The above workflow is encapsulated within `gar_service_provision()` which will r
 Roles all start with `roles/*` e.g. `roles/editor` - a list of [predefined roles are here](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) or you can see [roles within your GCP console here](https://console.cloud.google.com/iam-admin/roles/details/roles). 
 
 
-### WebUI
+#### WebUI
 
 Navigate to the JSON file from the Google Developer Console via: 
 `Credentials > New credentials > Service account Key > Select service account > Key type = JSON`
@@ -248,13 +248,13 @@ list_websites()
 ```
 
 
-# Authentication within Shiny
+## Authentication within Shiny
 
 If you want to create a Shiny app just using your data, refer to the [non-interactive authentication article on gargle](https://gargle.r-lib.org/articles/non-interactive-auth.html)
 
 If you want to make a multi-user Shiny app, where users login to their own Google account and the app works with their data, `googleAuthR` provides the below functions to help make the Google login process as easy as possible.
 
-## Types of Shiny Authentication
+### Types of Shiny Authentication
 
 There are now these types of logins available, which suit different needs:
 
@@ -263,21 +263,21 @@ There are now these types of logins available, which suit different needs:
 * `googleAuth_js` module - this creates a client side token object via JavaScript, that you can then pass to your API calls.  You need to wrap your `googleAuthR` functions with `with_shiny()` to pass the reactive token.
 * `googleSignIn` module - this is for when you just want to have a login, but do not need to make API calls.  It is a lightweight JavaScript based sign in solution.
 
-## Shiny Modules
+### Shiny Modules
 
 `googleAuthR` uses [Shiny Modules](https://shiny.rstudio.com/articles/modules.html).  This means less code and the ability to have multiple login buttons on the same app.
 
 To use modules, you need to use the functions ending with `_UI` in your ui.R, then call the id you set there server side with the `callModule(moduleName, "id")` syntax.  See the examples below. 
 
-## Shiny Authentication Examples
+### Shiny Authentication Examples
 
 Remember that client IDs and secrets will need to be created for the examples below.  You need to pick a clientID for *web applications*, not *"Other"* as is used for offline `googleAuthR` functions.
 
-### URL redirects
+#### URL redirects
 
 In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://your-shiny-url.com`).  In other circumstances the Shiny app should be able to detect this itself. 
 
-### `gar_shiny_*` functions example
+#### `gar_shiny_*` functions example
 
 This uses the most modern `gar_shiny_*` family of functions to create authentication.  The app lists the files you have stored in Google Drive. 
 
@@ -319,7 +319,7 @@ server <- function(input, output, session){
 shinyApp(gar_shiny_ui(ui, login_ui = gar_shiny_login_ui), server)
 ```
 
-### `googleAuth` module example
+#### `googleAuth` module example
 
 The Google Cloud project needs to be setup to accept the URL and port of your app (see setup pages).  You can fix the port via `options(shiny.port=1221)`, and then make sure if you launch your app locally to change the ip address from 127.0.0.1 to localhost in your browser (Google doesn't accept ip addresses).
 
@@ -399,7 +399,7 @@ observe({
  
 See this post on [creating a Shiny App with a Google login](https://lesliemyint.wordpress.com/2017/01/01/creating-a-shiny-app-with-google-login/) for details.
 
-### `googleAuth_js` module example
+#### `googleAuth_js` module example
 
 The Google Cloud project needs to be setup to accept JavaScript origin of the URL and port of your app ((see setup pages))note this is different from server-side configurations above).  Make sure if you launch your app locally to change the ip address from 127.0.0.1 to localhost in your browser (Google doesn't accept ip addresses).
 
@@ -456,7 +456,7 @@ server <- function(input, output, session){
 shinyApp(ui, server)
 ```
 
-### `googleSignIn` module example
+#### `googleSignIn` module example
 
 This module is suitable if you don't need to authenticate APIs in your app, you just would like a login.  You can then reach the user email, id, name or avatar to decide which content you want to show with durther logic within your Shiny app. 
 
@@ -500,19 +500,19 @@ shinyApp(ui = ui, server = server)
 ```
 
 
-# Authentication via RStudio Addin
+## Authentication via RStudio Addin
 
 An RStudio Addin is available via the RStudio Addin menu once you load the package.
 
 It lets you set the scopes and then saves you some typing by calling the Google authentication flow for you.
 
-# Authentication in RMarkdown via JavaScript
+## Authentication in RMarkdown via JavaScript
 
 There are two functions that can be called from within RMarkdown for authentication.  They use JavaScript, rather than R/Shiny to authenticate, as an RMarkdown document can not read the URL tokens.
 
 A demo and example are available here: `https://mark.shinyapps.io/googleAuthRMarkdown/`
 
-## RMarkdown authentication - Setup
+### RMarkdown authentication - Setup
 
 The RMarkdown document YAML needs runtime shiny and to be a HTML document:
 
@@ -535,7 +535,7 @@ rmarkdown::run("googleAuthRMarkdown.Rmd")
 
 When publishing, you also need to add the domain to the Javascript origins in the Google API console. Use `127.0.0.1:XXX` where XXX is your chosen Shiny port for local testing.
 
-## Example of RMarkdown authentication
+### Example of RMarkdown authentication
 
 Below creates a button that when clicked makes a popup for Google authentication:
 
@@ -577,7 +577,7 @@ renderUI({
 })
 ```
 
-# Auto-authentication
+## Auto-authentication
 
 Auto-authentication can be performed upon a package load.
 
@@ -604,7 +604,7 @@ GCS_AUTH_FILE="/Users/mark/auth/my_auth_file.json"
 ```
 
 
-# Revoking Authentication
+## Revoking Authentication
 
 For local use, call `gar_deauth()` to unauthentiucate a session.  To avoid cache tokens being reused delete them from the gargle cache folder, usually `~/.R/gargle/gargle-oauth/`
 

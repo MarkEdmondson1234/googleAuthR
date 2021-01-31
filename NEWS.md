@@ -2,6 +2,7 @@
 
 * Fix batching when response has a blank line in first line
 * Retry on 408 status codes (#199)
+* Add filter down to roles for one accountId in `gar_service_get_roles()`
 
 # googleAuthR 1.3.1
 

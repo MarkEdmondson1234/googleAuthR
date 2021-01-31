@@ -24,7 +24,11 @@ gar_service_grant_roles(
   type = c("serviceAccount", "user", "group")
 )
 
-gar_service_get_roles(projectId)
+gar_service_get_roles(
+  projectId,
+  accountId = NULL,
+  type = c("serviceAccount", "user", "group")
+)
 
 gar_service_key(
   accountId,
@@ -64,9 +68,24 @@ These functions let you create a service JSON key from an OAuth2 login.  You can
 \details{
 It will download the existing roles, and append the role you add to it here.
 
-
+If you supply an accountId to \code{gar_service_get_roles} then it will return only those roles that accountId has.
 }
 \examples{
+
+\dontrun{
+
+# all roles
+projectId <- gar_set_client(
+                json = Sys.getenv("GAR_CLIENT_JSON"), 
+                scopes = "https://www.googleapis.com/auth/cloud-platform")
+gar_service_get_roles(projectId)
+
+# roles for one accountId
+gar_service_get_roles(
+    projectId, 
+    accountId = "1080525199262@cloudbuild.gserviceaccount.com")
+
+}
 \dontrun{
  library(googleAuthR)
  gar_set_client(scopes = "https://www.googleapis.com/auth/cloud-platform")

@@ -109,7 +109,9 @@ memDoHttrRequest <- function(req_url,
                              customConfig,
                              simplifyVector){
 
-  cachedHttrRequest <- memoise(doHttrRequest, cache = gar_cache_get_loc())
+  cachedHttrRequest <- memoise(
+    doHttrRequest, 
+    cache = gar_cache_get_loc())
 
   existing_cache <- has_cache(cachedHttrRequest)(
     req_url,
@@ -126,12 +128,13 @@ memDoHttrRequest <- function(req_url,
     myMessage("Making new cache", level = 1)
   }
   
-  req <- cachedHttrRequest(req_url,
-                           shiny_access_token=shiny_access_token,
-                           request_type=request_type,
-                           the_body=the_body,
-                           customConfig=customConfig,
-                           simplifyVector=simplifyVector)
+  req <- cachedHttrRequest(
+    req_url,
+    shiny_access_token=shiny_access_token,
+    request_type=request_type,
+    the_body=the_body,
+    customConfig=customConfig,
+    simplifyVector=simplifyVector)
   
   ## check request against cache_function to see whether to cache result is TRUE
   cache_function <- .gar_cache$invalid

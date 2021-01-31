@@ -160,10 +160,33 @@ extract_existing <- function(bs){
 #' 
 #' @details 
 #' 
+#' If you supply an accountId to \code{gar_service_get_roles} then it will return only those roles that accountId has.
+#' 
 #' @export
 #' @rdname gar_service_create
 #' @seealso \url{https://cloud.google.com/resource-manager/reference/rest/v1/projects/setIamPolicy}
-gar_service_get_roles <- function(projectId){
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#' # all roles
+#' projectId <- gar_set_client(
+#'                 json = Sys.getenv("GAR_CLIENT_JSON"), 
+#'                 scopes = "https://www.googleapis.com/auth/cloud-platform")
+#' gar_service_get_roles(projectId)
+#' 
+#' # roles for one accountId
+#' gar_service_get_roles(
+#'     projectId, 
+#'     accountId = "1080525199262@cloudbuild.gserviceaccount.com")
+#' 
+#' }
+gar_service_get_roles <- function(
+  projectId, 
+  accountId = NULL, 
+  type = c("serviceAccount", "user", "group")){
+  
+  type <- match.arg(type)
   
   the_url <- sprintf(
     "https://cloudresourcemanager.googleapis.com/v1/projects/%s:getIamPolicy",
@@ -174,7 +197,20 @@ gar_service_get_roles <- function(projectId){
   api_call <- gar_api_generator(the_url, "POST", 
                                 data_parse_function = function(x) x$bindings)
   
-  api_call()
+  existing_roles <- api_call()
+  
+  if(!is.null(accountId)){
+    # return roles only for this accountId
+    check_email <- paste0(type, ":", accountId)
+    present <- unlist(lapply(existing_roles$members,
+                             function(x) check_email %in% x))
+    present_roles <- existing_roles[present, "role"]
+    existing_roles <- data.frame(roles = present_roles, 
+                                 members = check_email,
+                                 stringsAsFactors = FALSE)
+  }
+  
+  existing_roles
   
 }
 

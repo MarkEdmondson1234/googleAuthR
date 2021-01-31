@@ -112,7 +112,7 @@ gar_api_generator <- function(baseURI,
     with_shiny_env <- which(grepl("with_shiny", all_envs))
     ## gets the arguments of with_shiny
     if(any(with_shiny_env)){
-      warning("with_shiny_env() will be removed soon.  Replace with new Shiny auth functions detailed on the googleAuthR website")
+      warning("with_shiny() will be removed soon.  Replace with new Shiny auth functions detailed on the googleAuthR website")
       call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
                                       call = sys.call(with_shiny_env),
                                       expand.dots = FALSE)[-1])
