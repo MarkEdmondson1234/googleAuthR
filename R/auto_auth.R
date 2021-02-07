@@ -2,10 +2,8 @@
 #' 
 #' This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by \link{gar_attach_auto_auth}
 #' 
-#' @param no_auto If TRUE, ignore auto-authentication settings
 #' @param required_scopes Required scopes needed to authenticate - needs to match at least one
 #' @param environment_var Name of environment var that contains auth file path
-#' @param new_user Deprecated, not used
 #' 
 #' The authentication file can be a \code{.httr-oauth} file created via \link{gar_auth} 
 #'   or a Google service JSON file downloaded from the Google API credential console, 
@@ -29,17 +27,7 @@
 #' @import assertthat
 #' @importFrom tools file_ext
 gar_auto_auth <- function(required_scopes,
-                          no_auto = NULL,
-                          environment_var = "GAR_AUTH_FILE",
-                          new_user = NULL) {
-  
-  if(!is.null(new_user)){
-    warning("Argument new_user is deprecated and will be removed next release.")
-  } 
-  
-  if(!is.null(no_auto)){
-    warning("Argument no_auto is deprecated and will be removed next release.")
-  }
+                          environment_var = "GAR_AUTH_FILE") {
   
   if(is.null(required_scopes)){
     myMessage("No scopes have been set, set them via 
@@ -159,8 +147,8 @@ gar_attach_auto_auth <- function(required_scopes,
   
   scopes <- getOption("googleAuthR.scopes.selected")
   if(all(!(required_scopes %in% scopes))){
-    packageStartupMessage("Setting scopes to ", 
-                          paste(required_scopes, collapse = " and "))
+    cli::cli_alert_success(paste("Setting scopes to", 
+                          paste(required_scopes, collapse = " and ")))
     new_scopes <- required_scopes
   } else {
     new_scopes <- scopes
@@ -172,19 +160,18 @@ gar_attach_auto_auth <- function(required_scopes,
     token <- gar_auto_auth(required_scopes = required_scopes,
                           environment_var = environment_var)
     if(inherits(token, "Token")){
-      mess <- paste("Successfully auto-authenticated via", 
-                    Sys.getenv(environment_var))
+      cli::cli_alert_success(paste("Successfully auto-authenticated via", 
+                    Sys.getenv(environment_var)))
       
     } else {
-      mess <- paste("No token in auto-auth via",
-                    Sys.getenv(environment_var))
+      cli::cli_alert_info(paste("No token in auto-auth via",
+                    Sys.getenv(environment_var)))
     }
-    packageStartupMessage(mess)
   }, error = function(ex){
-    packageStartupMessage("Failed! Auto-authentication via ", 
+    cli::cli_alert_danger(paste("Failed! Auto-authentication via ", 
                           environment_var, "=",
                           Sys.getenv(environment_var), 
-                          " - error was: ", ex$error, ex$message)
+                          " - error was: ", ex$error, ex$message))
   })
   
   invisible()
