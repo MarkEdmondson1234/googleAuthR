@@ -176,12 +176,7 @@
     <p>This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>gar_auto_auth</span>(
-  <span class='no'>required_scopes</span>,
-  <span class='kw'>no_auto</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>,
-  <span class='kw'>new_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>gar_auto_auth</span>(<span class='no'>required_scopes</span>, <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,16 +186,8 @@
       <td><p>Required scopes needed to authenticate - needs to match at least one</p></td>
     </tr>
     <tr>
-      <th>no_auto</th>
-      <td><p>If TRUE, ignore auto-authentication settings</p></td>
-    </tr>
-    <tr>
       <th>environment_var</th>
-      <td><p>Name of environment var that contains auth file path</p></td>
-    </tr>
-    <tr>
-      <th>new_user</th>
-      <td><p>Deprecated, not used</p>
+      <td><p>Name of environment var that contains auth file path</p>
 <p>The authentication file can be a <code>.httr-oauth</code> file created via <a href='gar_auth.html'>gar_auth</a> 
   or a Google service JSON file downloaded from the Google API credential console, 
   with file extension <code>.json</code>.</p>
