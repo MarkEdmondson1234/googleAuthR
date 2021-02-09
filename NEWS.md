@@ -4,6 +4,7 @@
 * Retry on 408 status codes (#199)
 * Add filter down to roles for one accountId in `gar_service_get_roles()`
 * Prettier startup messages via `cli`
+* Make setup flow easier without needing so many R restarts
 
 # googleAuthR 1.3.1
 

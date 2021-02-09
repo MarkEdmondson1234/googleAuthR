@@ -4,7 +4,10 @@
 \alias{gar_setup_auth_check}
 \title{Check service key works via environment argument}
 \usage{
-gar_setup_auth_check(env_arg = "GCE_AUTH_FILE")
+gar_setup_auth_check(
+  env_arg = "GCE_AUTH_FILE",
+  scope = "https://www.googleapis.com/auth/cloud-platform"
+)
 }
 \arguments{
 \item{env_arg}{The authentication environment argument}

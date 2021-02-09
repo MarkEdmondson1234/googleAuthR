@@ -44,6 +44,6 @@ Suggests:
 License: MIT + file LICENSE
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Remotes:
    MarkEdmondson1234/googleAuthR

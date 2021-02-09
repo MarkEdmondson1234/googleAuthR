@@ -4,13 +4,17 @@
 #' 
 #' @export
 #' @family setup functions
-gar_setup_auth_check <- function(env_arg = "GCE_AUTH_FILE"){
-  tryCatch(gar_auth_service(Sys.getenv(env_arg)),
+gar_setup_auth_check <- function(
+  env_arg = "GCE_AUTH_FILE", 
+  scope = "https://www.googleapis.com/auth/cloud-platform"){
+  tryCatch(
+    gar_attach_auto_auth(scope, environment_var = env_arg),
     error = function(err){
       cli_alert_danger("{env_arg} is set but authentication not yet valid.  
                        Restart R to check auth setup.")
       stop("Authentication error", call. = FALSE)
     })
+  cli_alert_success("Validated authentication in {env_arg}")
   TRUE
 }
 
@@ -69,12 +73,16 @@ gar_setup_clientid <- function(session_user = NULL,
   json <- clean_windows(file.choose())
   valid <- validate_json(json)
   
-  if(valid){
-    gar_setup_edit_renviron(paste0(client_json,"=",json), 
-                            session_user = session_user)
+  if(!valid){
+    cli_alert_danger("ClientId JSON is not valid - downloaded wrong file?")
+    return(FALSE)
   }
-  # we always return that R needs to be restarted and this needs to be rerun
-  FALSE
+  
+  # also sets it via Sys.setenv
+  gar_setup_edit_renviron(paste0(client_json,"=",json), 
+                          session_user = session_user)
+
+  TRUE
   
 }
 

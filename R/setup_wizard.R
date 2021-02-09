@@ -93,7 +93,8 @@ gar_setup_menu_do <- function(menu_option,
               is.function(do_function),
               is.flag(stop))
 
-  myMessage("Checking do_function ", as.character(substitute(do_function)), level = 2)
+  myMessage("Checking do_function ", 
+            as.character(substitute(do_function)), level = 2)
   if(!menu_option %in% trigger){
     return(FALSE)
   }
@@ -135,7 +136,7 @@ gar_setup_env_check <- function(env_arg,
   arg <- Sys.getenv(env_arg)
   
   if(arg == ""){
-    cli_alert_info("No environment argument detected: {env_arg}")
+    cli_alert_danger("No environment argument detected: {env_arg}")
   } else if(edit_option) {
     cli_alert_success("Found: {env_arg}={arg}")
     yes_edit <- menu(title = "Do you want to edit this setting?",
@@ -191,7 +192,7 @@ gar_setup_edit_renviron <- function(to_paste, session_user){
   cli_ul("Configuring your .Renviron...")
   cli_code(to_paste)
   add_renviron(scope = scope, line = to_paste)
-  cli_alert_success("Restart R and run the wizard again to check configuration")
+  cli_alert_success("Added {to_paste} to .Renviron and set via Sys.setenv()")
 }
 
 add_renviron <- function(scope = c("user", "project"), line){
@@ -206,6 +207,12 @@ add_renviron <- function(scope = c("user", "project"), line){
     file.create(the_file)
   }
   
+  # set it locally too
+  env_set <- unlist(strsplit(line, "="))
+  if(length(env_set) == 2){
+    do.call(Sys.setenv, setNames(list(env_set[2]),env_set[1]))
+  }
+  
   add_line(line, the_file)
 }
 
@@ -218,13 +225,21 @@ gar_setup_check_session <- function(session_user = NULL){
     return(session_user)
   }
   
-  session_user <- menu(title = "Do you want to configure for all R sessions or just this project?",
-                       choices = c("All R sessions (Recommended)", "Project only"))
+  local_file <- file.path(rstudioapi::getActiveProject(), ".Renviron")
+  if(file.exists(local_file)){
+    cli_alert_info("Using local project .Renviron")
+    return(2)
+  }
+  
+  session_user <- menu(
+    title = "Do you want to configure for all R sessions or just this project?",
+    choices = c("All R sessions (Recommended)", "Project only"))
   if(session_user == 2){
-    local_file <- file.path(rstudioapi::getActiveProject(), ".Renviron")
     if(!file.exists(local_file)){
       file.create(local_file)
-      stop("Restart R to enable local project .Renviron then rerun setup", call. = FALSE)
+      cli_alert_success(
+        "Created local .Renviron file - please restart R then rerun setup.")
+      stop("Need R restart", call. = FALSE)
     }
   }
   cli_rule()
