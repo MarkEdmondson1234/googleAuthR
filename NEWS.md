@@ -1,4 +1,4 @@
-# googleAuthR 1.3.1.9000
+# googleAuthR 1.4.0
 
 * Fix batching when response has a blank line in first line
 * Retry on 408 status codes (#199)

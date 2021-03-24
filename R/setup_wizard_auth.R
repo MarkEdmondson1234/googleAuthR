@@ -1,6 +1,7 @@
 #' Check service key works via environment argument
 #' 
 #' @param env_arg The authentication environment argument
+#' @param scope The scope of the GCP request
 #' 
 #' @export
 #' @family setup functions
@@ -202,11 +203,12 @@ gar_setup_get_authenv <- function(env_arg = "GCE_AUTH_FILE",
 }
 
 validate_json <- function(json){
-  validated <- tryCatch(jsonlite::fromJSON(json),
-                        error = function(err){
-                          cli::cli_alert_danger("Could not load alleged Client ID file: {err$message}")
-                          return(FALSE)
-                        })
+  validated <- tryCatch(
+    jsonlite::fromJSON(json),
+    error = function(err){
+      cli::cli_alert_danger("Could not load alleged Client ID file: {err$message}")
+      return(FALSE)
+    })
   if(!is.null(validated$installed$client_id)){
     cli::cli_alert_success("Validated Client ID file {json}")
     cli::cli_alert_success("Found Client ID project: {validated$installed$project_id}")

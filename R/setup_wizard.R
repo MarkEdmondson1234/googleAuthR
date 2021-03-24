@@ -210,7 +210,7 @@ add_renviron <- function(scope = c("user", "project"), line){
   # set it locally too
   env_set <- unlist(strsplit(line, "="))
   if(length(env_set) == 2){
-    do.call(Sys.setenv, setNames(list(env_set[2]),env_set[1]))
+    do.call(Sys.setenv, stats::setNames(list(env_set[2]),env_set[1]))
   }
   
   add_line(line, the_file)

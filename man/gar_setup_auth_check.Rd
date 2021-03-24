@@ -11,6 +11,8 @@ gar_setup_auth_check(
 }
 \arguments{
 \item{env_arg}{The authentication environment argument}
+
+\item{scope}{The scope of the GCP request}
 }
 \description{
 Check service key works via environment argument
