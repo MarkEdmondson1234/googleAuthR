@@ -42,6 +42,5 @@ Suggests:
     testthat,
     usethis (>= 1.6.0)
 License: MIT + file LICENSE
-LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1

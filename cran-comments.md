@@ -12,7 +12,7 @@ I have also run R CMD check on downstream dependencies of googleAuthR
 
 The results were:
 
-✔ googleAnalyticsR 0.6.0                 ── E: 0     | W: 0     | N: 0                         
+✔ googleAnalyticsR 0.8.0                 ── E: 0     | W: 0     | N: 0                         
 ✔ bigQueryR 0.4.0                        ── E: 0     | W: 0     | N: 0                            
 ✔ googleCloudStorageR 0.5.0              ── E: 0     | W: 0     | N: 0                            
 ✔ googleCloudVisionR 0.1.0               ── E: 0     | W: 0     | N: 0                         
@@ -21,6 +21,6 @@ The results were:
 ✔ googlePrintr 0.0.1                     ── E: 0     | W: 0     | N: 0                            
 ✔ searchConsoleR 0.4.0                   ── E: 0     | W: 0     | N: 0                         
 ✔ text2speech 0.2.5                      ── E: 0     | W: 0     | N: 0                           
-✔ googleLanguageR 0.2.0                  ── E: 0     | W: 0     | N: 0
-
+✔ googleLanguageR 0.3.0                  ── E: 0     | W: 0     | N: 0
+✔ googleCloudRunner 0.4.1                  ── E: 0     | W: 0     | N: 0
   

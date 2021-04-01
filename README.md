@@ -49,12 +49,12 @@ Here is a list of [available Google APIs](https://developers.google.com/apis-exp
 The below libraries are all cross-compatible as they use `googleAuthR` for authentication backend e.g. can use just one OAuth2 login flow and can be used in multi-user Shiny apps. 
 
 * [googleComputeEngineR](https://cloudyr.github.io/googleComputeEngineR/) - Google Compute Engine VMs API
-* [searchConsoleR](http://code.markedmondson.me/searchConsoleR/) - Search Console API
-* [bigQueryR](http://code.markedmondson.me/bigQueryR/) - BigQuery API. Part of the cloudyr project.
-* [googleAnalyticsR](http://code.markedmondson.me/googleAnalyticsR/) - Google Analytics API
+* [searchConsoleR](https://code.markedmondson.me/searchConsoleR/) - Search Console API
+* [bigQueryR](https://code.markedmondson.me/bigQueryR/) - BigQuery API. Part of the cloudyr project.
+* [googleAnalyticsR](https://code.markedmondson.me/googleAnalyticsR/) - Google Analytics API
 * [googleTagManagerR](https://github.com/IronistM/googleTagManageR) - Google Tag Manager API by IronistM
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
-* [googleCloudStorageR](http://code.markedmondson.me/googleCloudStorageR/) - Google Cloud Storage API
+* [googleCloudStorageR](https://code.markedmondson.me/googleCloudStorageR/) - Google Cloud Storage API
 * [RoogleVision](https://github.com/cloudyr/googleCloudVisionR) - R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
 * [googleLanguageR](https://github.com/ropensci/googleLanguageR) - Access Speech to Text, Entity analysis and translation APIs from R
 * [googleCloudRunner](https://code.markedmondson.me/googleCloudRunner/) - Continuous Development and Integration with Cloud Run, Cloud Scheduler and Cloud Build
