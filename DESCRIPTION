@@ -21,7 +21,7 @@ Imports:
     assertthat (>= 0.2.0),
     cli (>= 2.0.2),
     digest, 
-    gargle (>= 1.0.0),
+    gargle (>= 1.1.0),
     httr (>= 1.4.0),
     jsonlite (>= 1.6),
     memoise (>= 1.1.0),
