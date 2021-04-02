@@ -7,20 +7,10 @@
 
 0 errors | 0 warnings | 0 notes 
 
-## Downstream dependencies
-I have also run R CMD check on downstream dependencies of googleAuthR
+## revdepcheck results
 
-The results were:
+We checked 14 reverse dependencies (6 from CRAN + 8 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
-✔ googleAnalyticsR 0.8.0                 ── E: 0     | W: 0     | N: 0                         
-✔ bigQueryR 0.4.0                        ── E: 0     | W: 0     | N: 0                            
-✔ googleCloudStorageR 0.5.0              ── E: 0     | W: 0     | N: 0                            
-✔ googleCloudVisionR 0.1.0               ── E: 0     | W: 0     | N: 0                         
-✔ googleComputeEngineR 0.3.0             ── E: 0     | W: 0     | N: 0                            
-✔ HCABrowser 1.0.1                       ── E: 0     | W: 0     | N: 0                            
-✔ googlePrintr 0.0.1                     ── E: 0     | W: 0     | N: 0                            
-✔ searchConsoleR 0.4.0                   ── E: 0     | W: 0     | N: 0                         
-✔ text2speech 0.2.5                      ── E: 0     | W: 0     | N: 0                           
-✔ googleLanguageR 0.3.0                  ── E: 0     | W: 0     | N: 0
-✔ googleCloudRunner 0.4.1                  ── E: 0     | W: 0     | N: 0
+ * We saw 0 new problems
+ * We failed to check 0 packages
   
