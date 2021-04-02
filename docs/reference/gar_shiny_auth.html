@@ -84,7 +84,7 @@ In some platforms the URL you are authenticating from will not match the Docker 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -176,7 +176,7 @@ In some platforms the URL you are authenticating from will not match the Docker 
 
     <div class="ref-description">
     <p>This can be used at the top of the server function for authentication when you have used
-  <a href='gar_shiny_ui.html'>gar_shiny_ui</a> to create a login page for your ui function.</p>
+  gar_shiny_ui to create a login page for your ui function.</p>
 <p>In some platforms the URL you are authenticating from will not match the Docker container the script is running in (e.g. shinyapps.io or a kubernetes cluster) - in that case you can manually set it via `options(googleAuthR.redirect = http://your-shiny-url`).  In other circumstances the Shiny app should be able to detect this itself.</p>
     </div>
 
@@ -193,24 +193,24 @@ In some platforms the URL you are authenticating from will not match the Docker 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If using  <a href='gar_shiny_ui.html'>gar_shiny_ui</a>, put this at the top of your server.R function</p>
+    <p>If using  <a href='https://code.markedmondson.me/googleAuthR//reference/gar_shiny_ui.html'>gar_shiny_ui</a>, put this at the top of your server.R function</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other pre-load shiny authentication: 
-<code><a href='gar_shiny_auth_url.html'>gar_shiny_auth_url</a>()</code>,
-<code><a href='gar_shiny_login_ui.html'>gar_shiny_login_ui</a>()</code>,
-<code><a href='gar_shiny_ui.html'>gar_shiny_ui</a>()</code>,
-<code><a href='silent_auth.html'>silent_auth</a>()</code></p></div>
+<code><a href='https://code.markedmondson.me/googleAuthR//reference/gar_shiny_auth_url.html'>gar_shiny_auth_url</a>()</code>,
+<code><a href='https://code.markedmondson.me/googleAuthR//reference/gar_shiny_login_ui.html'>gar_shiny_login_ui</a>()</code>,
+<code><a href='https://code.markedmondson.me/googleAuthR//reference/gar_shiny_ui.html'>gar_shiny_ui</a>()</code>,
+<code><a href='https://code.markedmondson.me/googleAuthR//reference/silent_auth.html'>silent_auth</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>googleAuthR</span>)
-<span class='fu'><a href='gar_set_client.html'>gar_set_client</a></span>()
+<span class='fu'><a href='https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html'>gar_set_client</a></span>()
 
 <span class='no'>fileSearch</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>query</span>) {
-  <span class='kw pkg'>googleAuthR</span><span class='kw ns'>::</span><span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/drive/v3/files/"</span>,
+  <span class='kw pkg'>googleAuthR</span><span class='kw ns'>::</span><span class='fu'><a href='https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/drive/v3/files/"</span>,
                                 <span class='st'>"GET"</span>,
                                 <span class='kw'>pars_args</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>q</span><span class='kw'>=</span><span class='no'>query</span>),
                                 <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>$<span class='no'>files</span>)()
@@ -228,7 +228,7 @@ In some platforms the URL you are authenticating from will not match the Docker 
 <span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>){
 
 <span class='co'># this is not reactive, no need as you only reach here authenticated</span>
-<span class='fu'>gar_shiny_auth</span>(<span class='no'>session</span>)
+<span class='fu'><a href='https://code.markedmondson.me/googleAuthR//reference/gar_shiny_auth.html'>gar_shiny_auth</a></span>(<span class='no'>session</span>)
 
 <span class='no'>output</span>$<span class='no'>gdrive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/renderTable.html'>renderTable</a></span>({
   <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/req.html'>req</a></span>(<span class='no'>input</span>$<span class='no'>query</span>)
@@ -240,7 +240,7 @@ In some platforms the URL you are authenticating from will not match the Docker 
   }
 
 <span class='co'># gar_shiny_ui() needs to wrap the ui you have created above.</span>
-<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='fu'><a href='gar_shiny_ui.html'>gar_shiny_ui</a></span>(<span class='no'>ui</span>), <span class='no'>server</span>)
+<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='fu'><a href='https://code.markedmondson.me/googleAuthR//reference/gar_shiny_ui.html'>gar_shiny_ui</a></span>(<span class='no'>ui</span>), <span class='no'>server</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
       <h1 data-toc-skip>Google API Setup</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2021-03-24</h4>
+            <h4 class="date">2021-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/setup.Rmd"><code>vignettes/setup.Rmd</code></a></small>
       <div class="hidden name"><code>setup.Rmd</code></div>
@@ -156,7 +156,7 @@
 <ol start="3" style="list-style-type: decimal">
 <li>Click ‘Create a new Client ID’, and choose “Installed Application”.</li>
 <li>Download the client JSON file</li>
-<li>Set the <code>GAR_CLIENT_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code> for other options)</li>
+<li>Set the <code>GAR_CLIENT_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code>gar_set_client()</code> for other options)</li>
 </ol>
 </div>
 <div id="for-shiny-use" class="section level2">
@@ -169,7 +169,7 @@
 </li>
 <li>And/Or also put in localhost or 127.0.0.1 with a port number for local testing. Remember the port number you use as you will need it later to launch the app e.g. <code>http://127.0.0.1:1221</code>
 </li>
-<li>Set the <code>GAR_CLIENT_WEB_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code> for other options)</li>
+<li>Set the <code>GAR_CLIENT_WEB_JSON</code> environment argument (via <code>.Renviron</code> or otherwise) to the full path file location of the JSON file (see <code>gar_set_client()</code> for other options)</li>
 <li>Run the app locally specifying the port number you used e.g. <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">shiny::runApp(port=1221)</a></code>
 </li>
 <li>Or deploy to your Shiny Server that deploys to web port (80 or 443).</li>
@@ -182,7 +182,7 @@
 <li>In the Google Cloud Platform Click on “APIs” menu to the left</li>
 <li>Select and activate the API you want to use.</li>
 <li>Go to the documentation and find the API scope URL</li>
-<li>Set option in your R script for the scope via <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code>
+<li>Set option in your R script for the scope via <code>gar_set_client()</code>
 </li>
 </ol>
 </div>

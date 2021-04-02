@@ -84,7 +84,7 @@ The cached API calls do not need authentication to be active, but need this func
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -214,7 +214,7 @@ The cached API calls do not need authentication to be active, but need this func
 <span class='co'># demo function to cache within</span>
 <span class='no'>shorten_url_cache</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>url</span>){
   <span class='no'>body</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>longUrl</span> <span class='kw'>=</span> <span class='no'>url</span>)
-  <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>gar_api_generator</span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
                       <span class='st'>"POST"</span>,
                       <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>)
  <span class='fu'>f</span>(<span class='kw'>the_body</span> <span class='kw'>=</span> <span class='no'>body</span>)
@@ -227,7 +227,7 @@ The cached API calls do not need authentication to be active, but need this func
  })
 
  <span class='co'># authentication</span>
- <span class='fu'><a href='gar_auth.html'>gar_auth</a></span>()
+ <span class='fu'>gar_auth</span>()
  <span class='co'>## caches</span>
  <span class='fu'>shorten_url_cache</span>(<span class='st'>"http://code.markedmondson.me"</span>)
 

@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
       <h1 data-toc-skip>Advanced Google API building techniques</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2021-03-24</h4>
+            <h4 class="date">2021-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/advanced-building.Rmd"><code>vignettes/advanced-building.Rmd</code></a></small>
       <div class="hidden name"><code>advanced-building.Rmd</code></div>
@@ -147,7 +147,7 @@
 <div id="paging-api-responses" class="section level2">
 <h2 class="hasAnchor">
 <a href="#paging-api-responses" class="anchor"></a>Paging API responses</h2>
-<p>A common need for APIs is to read multiple API calls since all data can not fit in one response. <code>googleAuthR</code> provides the <code>gar_api_page</code> function to help with this. It operates upon the generated function you create in <code><a href="../reference/gar_api_generator.html">gar_api_generator()</a></code>, after it has been parsed by the <code>data_parse_function</code>. The output is a list of the API responses, which you then will need to parse into one object if you want (e.g. A list of data.frames, that you turn into one data.frame via <code>Reduce(rbind, response_list))</code></p>
+<p>A common need for APIs is to read multiple API calls since all data can not fit in one response. <code>googleAuthR</code> provides the <code>gar_api_page</code> function to help with this. It operates upon the generated function you create in <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator()</a></code>, after it has been parsed by the <code>data_parse_function</code>. The output is a list of the API responses, which you then will need to parse into one object if you want (e.g. A list of data.frames, that you turn into one data.frame via <code>Reduce(rbind, response_list))</code></p>
 <p>Depending on the API, you have two strategies to consider:</p>
 <ol style="list-style-type: decimal">
 <li>A lot of the Google APIs provide a <code>nextLink</code> field - if you make this available in your <code>data_parse_function</code> you can then use this to fetch all the results.</li>
@@ -223,7 +223,7 @@ ga_segment_list2 &lt;- function(){
   <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">googleAuthR.rawResponse</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
   <span class="co">## do the request</span>
-  <span class="no">ob</span> <span class="kw">&lt;-</span> <span class="kw pkg">googleAuthR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
+  <span class="no">ob</span> <span class="kw">&lt;-</span> <span class="kw pkg">googleAuthR</span><span class="kw ns">::</span><span class="fu">gar_api_generator</span>(<span class="st">"https://www.googleapis.com/storage/v1/"</span>,
                                        <span class="kw">path_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">b</span> <span class="kw">=</span> <span class="no">bucket</span>,
                                                         <span class="kw">o</span> <span class="kw">=</span> <span class="no">object_name</span>),
                                        <span class="kw">pars_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">alt</span> <span class="kw">=</span> <span class="st">"media"</span>))
@@ -250,7 +250,7 @@ ga_segment_list2 &lt;- function(){
 <div id="working-with-batching" class="section level4">
 <h4 class="hasAnchor">
 <a href="#working-with-batching" class="anchor"></a>Working with batching</h4>
-<p>Batching is done via the <code><a href="../reference/gar_batch.html">gar_batch()</a></code> function. This transforms functions created by <code><a href="../reference/gar_api_generator.html">gar_api_generator()</a></code> into one <code>POST</code> request following the batching syntax given by Google API docs. <a href="https://developers.google.com/analytics/devguides/config/mgmt/v3/batching">Here is an example</a> for the Google Analytics management API, but its very standard for all the APIs that support batching. If however it doesn’t have a batching section in its docs, it is likely that the API does not support batching.</p>
+<p>Batching is done via the <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_batch.html">gar_batch()</a></code> function. This transforms functions created by <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator()</a></code> into one <code>POST</code> request following the batching syntax given by Google API docs. <a href="https://developers.google.com/analytics/devguides/config/mgmt/v3/batching">Here is an example</a> for the Google Analytics management API, but its very standard for all the APIs that support batching. If however it doesn’t have a batching section in its docs, it is likely that the API does not support batching.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">## usually set on package load</span>
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">googleAuthR.batch_endpoint</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/batch/urlshortener/v1"</span>)
 
@@ -261,7 +261,7 @@ ga_segment_list2 &lt;- function(){
     <span class="kw">longUrl</span> <span class="kw">=</span> <span class="no">url</span>
   )
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">id</span>)
 
@@ -271,7 +271,7 @@ ga_segment_list2 &lt;- function(){
 
 <span class="co">## from goo.gl API</span>
 <span class="no">user_history</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(){
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
                          <span class="st">"GET"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">items</span>)
 
@@ -279,35 +279,35 @@ ga_segment_list2 &lt;- function(){
 }
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
 
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>()
 
-<span class="no">ggg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_batch.html">gar_batch</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>), <span class="fu">user_history</span>()))</pre></body></html></div>
+<span class="no">ggg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_batch.html">gar_batch</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>), <span class="fu">user_history</span>()))</pre></body></html></div>
 </div>
 </div>
 <div id="walking-through-batch-requests" class="section level3">
 <h3 class="hasAnchor">
 <a href="#walking-through-batch-requests" class="anchor"></a>Walking through batch requests</h3>
-<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling. This is implemented at <code><a href="../reference/gar_batch_walk.html">gar_batch_walk()</a></code></p>
+<p>A common batch task is to walk through the same API call, modifying only one parameter. An example includes walking through Google Analytics API calls by date to avoid sampling. This is implemented at <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_batch_walk.html">gar_batch_walk()</a></code></p>
 <p>This modifies the API function parameters, so you need to supply it which parameters you will (and will not) vary, as well as the values you want to walk through. Some rules to help you get started are:</p>
 <ul>
-<li>The <code>f</code> function needs to be a <code><a href="../reference/gar_api_generator.html">gar_api_generator()</a></code> function that uses at least one of <code>path_args</code>, <code>pars_args</code> or <code>body_args</code> to construct the URL (rather than say using <code><a href="https://rdrr.io/r/base/sprintf.html">sprintf()</a></code> to create the API URL)</li>
+<li>The <code>f</code> function needs to be a <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator()</a></code> function that uses at least one of <code>path_args</code>, <code>pars_args</code> or <code>body_args</code> to construct the URL (rather than say using <code><a href="https://rdrr.io/r/base/sprintf.html">sprintf()</a></code> to create the API URL)</li>
 <li>You don’t need to set the headers as described in the Google docs for batching API functions - those are done for you.</li>
 <li>The argument <code>walk_vector</code> needs to be a vector of the values of the arguments to walk over, which you indicate will walk over the pars/path or body arguments on the function via on of the <code>*_walk</code> arguments e.g. if walking over id=1, id=2, for a path argument then it would be <code>path_walk="id"</code> and <code>walk_vector=c(1,2,3,4)</code>
 </li>
 <li>
-<code><a href="../reference/gar_batch_walk.html">gar_batch_walk()</a></code> only supports changing one value at a time, for one or multiple arguments (I think only changing the <code>start-date</code>, <code>end-date</code> example would be the case when you walk through more than one per call)</li>
+<code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_batch_walk.html">gar_batch_walk()</a></code> only supports changing one value at a time, for one or multiple arguments (I think only changing the <code>start-date</code>, <code>end-date</code> example would be the case when you walk through more than one per call)</li>
 <li>
 <code>batch_size</code> should be over 1 for batching to be of any benefit at all</li>
 <li>The <code>batch_function</code> argument gives you a way to operate on the parsed output of each call, before they are merged.</li>
 </ul>
 <p>An example is shown below - this gets a Google Analytics WebProperty object for each Account ID, in batches of 100 per API call:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># outputs a vector of accountIds</span>
-<span class="no">getAccountInfo</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(
+<span class="no">getAccountInfo</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(
   <span class="st">"https://www.googleapis.com/analytics/v3/management/accounts"</span>,
   <span class="st">"GET"</span>, <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">x</span>$<span class="no">items</span>$<span class="no">id</span>))
 
 <span class="co"># for each accountId, get a list of web properties</span>
-<span class="no">getWebpropertyInfo</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(
+<span class="no">getWebpropertyInfo</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(
   <span class="st">"https://www.googleapis.com/analytics/v3/management/"</span>, <span class="co"># don't use sprintf to construct this</span>
   <span class="st">"GET"</span>,
   <span class="kw">path_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">accounts</span> <span class="kw">=</span> <span class="st">"default"</span>, <span class="kw">webproperties</span> <span class="kw">=</span> <span class="st">""</span>),
@@ -316,7 +316,7 @@ ga_segment_list2 &lt;- function(){
 <span class="co"># walks through a list of accountIds</span>
 <span class="no">walkWebpropertyInfo</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">accs</span>){
 
-  <span class="fu"><a href="../reference/gar_batch_walk.html">gar_batch_walk</a></span>(<span class="no">getWebpropertyInfo</span>,
+  <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_batch_walk.html">gar_batch_walk</a></span>(<span class="no">getWebpropertyInfo</span>,
                  <span class="kw">walk_vector</span> <span class="kw">=</span> <span class="no">accs</span>,
                  <span class="kw">gar_paths</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"webproperties"</span> <span class="kw">=</span> <span class="st">""</span>),
                  <span class="kw">path_walk</span> <span class="kw">=</span> <span class="st">"accounts"</span>,
@@ -341,7 +341,7 @@ ga_segment_list2 &lt;- function(){
 <span class="co">#' @return the email of the user authenticated</span>
 <span class="no">get_email</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(){
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://openidconnect.googleapis.com/v1/userinfo"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://openidconnect.googleapis.com/v1/userinfo"</span>,
                          <span class="st">"POST"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">email</span>,
                          <span class="kw">checkTrailingSlash</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
@@ -350,14 +350,14 @@ ga_segment_list2 &lt;- function(){
 
 }
 
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GARGLE_EMAIL"</span>), <span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"email"</span>)
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GARGLE_EMAIL"</span>), <span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"email"</span>)
 
 <span class="co">## normal API fetch</span>
 <span class="fu">get_email</span>()
 <span class="co">#&gt; email@me.com</span>
 
 <span class="co">## By default this will save the API response to RAM when it has a 200 response</span>
-<span class="fu"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_cache_setup.html">gar_cache_setup</a></span>()
 <span class="co">#&gt; [1] TRUE</span>
 
 <span class="co">## first time no cache</span>
@@ -368,7 +368,7 @@ ga_segment_list2 &lt;- function(){
 <span class="fu">get_email</span>()
 <span class="co">#&gt; 2019-07-17 12:29:18&gt; Reading cache</span>
 <span class="co">#&gt; email@me.com</span></pre></body></html></div>
-<p>Caching is activated by using the <code><a href="../reference/gar_cache_setup.html">gar_cache_setup()</a></code> function.</p>
+<p>Caching is activated by using the <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_cache_setup.html">gar_cache_setup()</a></code> function.</p>
 <p>The default uses <code><a href="https://rdrr.io/pkg/memoise/man/cache_memory.html">memoise::cache_memory()</a></code> which will cache the response to RAM, but you can change this to any of the <code>memoise</code> cache functions such as <code>cache_s3()</code> or <code>cache_filesytem()</code></p>
 <p><code>cache_filesystem()</code> will write to a local folder, meaning you can save API responses between R sessions.</p>
 <div id="other-cache-functions" class="section level3">
@@ -394,7 +394,7 @@ ga_segment_list2 &lt;- function(){
     <span class="kw">longUrl</span> <span class="kw">=</span> <span class="no">url</span>
   )
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>)
 
@@ -403,12 +403,12 @@ ga_segment_list2 &lt;- function(){
 }
 
 <span class="co">## only cache if this URL</span>
-<span class="fu"><a href="../reference/gar_cache_setup.html">gar_cache_setup</a></span>(<span class="kw">invalid_func</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">req</span>){
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_cache_setup.html">gar_cache_setup</a></span>(<span class="kw">invalid_func</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">req</span>){
     <span class="no">req</span>$<span class="no">content</span>$<span class="no">longUrl</span> <span class="kw">==</span> <span class="st">"http://code.markedmondson.me/"</span>
     })
 
 <span class="co"># authentication</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>()
 
 <span class="co">## caches</span>
 <span class="fu">shorten_url_cache</span>(<span class="st">"http://code.markedmondson.me"</span>)

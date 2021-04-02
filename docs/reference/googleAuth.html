@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -173,7 +173,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Server part of shiny module, use with <a href='googleAuthUI.html'>googleAuthUI</a></p>
+    <p>Server part of shiny module, use with googleAuthUI</p>
     </div>
 
     <pre class="usage"><span class='fu'>googleAuth</span>(
@@ -244,7 +244,7 @@
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other shiny module functions: 
-<code><a href='googleAuthUI.html'>googleAuthUI</a>()</code></p></div>
+<code>googleAuthUI()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -258,7 +258,7 @@
  )
 
  <span class='no'>f</span> <span class='kw'>&lt;-</span>
-   <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
+   <span class='fu'>gar_api_generator</span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
                      <span class='st'>"POST"</span>,
                      <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>$<span class='no'>id</span>)
 
@@ -277,7 +277,7 @@
     <span class='co'>## wrap existing function with_shiny</span>
     <span class='co'>## pass the reactive token in shiny_access_token</span>
     <span class='co'>## pass other named arguments</span>
-    <span class='fu'><a href='with_shiny.html'>with_shiny</a></span>(<span class='kw'>f</span> <span class='kw'>=</span> <span class='no'>shorten_url</span>,
+    <span class='fu'>with_shiny</span>(<span class='kw'>f</span> <span class='kw'>=</span> <span class='no'>shorten_url</span>,
                <span class='kw'>shiny_access_token</span> <span class='kw'>=</span> <span class='fu'>access_token</span>(),
                <span class='kw'>url</span><span class='kw'>=</span><span class='no'>input</span>$<span class='no'>url</span>)
   })
@@ -292,7 +292,7 @@
 
 <span class='co'>## ui</span>
 <span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'>fluidPage</span>(
-  <span class='fu'><a href='googleAuthUI.html'>googleAuthUI</a></span>(<span class='st'>"loginButton"</span>),
+  <span class='fu'>googleAuthUI</span>(<span class='st'>"loginButton"</span>),
   <span class='fu'>textInput</span>(<span class='st'>"url"</span>, <span class='st'>"Enter URL"</span>),
   <span class='fu'>actionButton</span>(<span class='st'>"submit"</span>, <span class='st'>"Shorten URL"</span>),
   <span class='fu'>textOutput</span>(<span class='st'>"short_url"</span>)

@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -188,7 +188,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>function_list</th>
-      <td><p>a list of functions from <code><a href='gar_api_generator.html'>gar_api_generator</a></code></p></td>
+      <td><p>a list of functions from <code>gar_api_generator</code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -214,9 +214,9 @@
     <div class='dont-index'><p>https://developers.google.com/webmaster-tools/v3/how-tos/batch</p>
 <p>Documentation on doing batch requests for the search console API.  
   Other Google APIs are similar.</p>  
-<p>Walk through API calls changing parameters using <code><a href='gar_batch_walk.html'>gar_batch_walk</a></code></p>
+<p>Walk through API calls changing parameters using <code>gar_batch_walk</code></p>
 <p>Other batch functions: 
-<code><a href='gar_batch_walk.html'>gar_batch_walk</a>()</code></p></div>
+<code>gar_batch_walk()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -228,7 +228,7 @@
 <span class='co'>## from goo.gl API</span>
 <span class='no'>shorten_url</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>url</span>){
   <span class='no'>body</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>longUrl</span> <span class='kw'>=</span> <span class='no'>url</span>)
-  <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>gar_api_generator</span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class='st'>"POST"</span>,
                           <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>$<span class='no'>id</span>)
 
@@ -238,7 +238,7 @@
 
 <span class='co'>## from goo.gl API</span>
 <span class='no'>user_history</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){
-  <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
+  <span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>gar_api_generator</span>(<span class='st'>"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
                       <span class='st'>"GET"</span>,
                       <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>$<span class='no'>items</span>)
 

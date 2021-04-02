@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -223,7 +223,7 @@
   googleAuthR RStudio addin or the Google API documentation.</p>
 <p>Do not confuse this JSON file with the service account keys, that are
   used to authenticate a service email.  This JSON only sets up which
-  app you are going to authenticate with - use <a href='gar_auth_service.html'>gar_auth_service</a> with
+  app you are going to authenticate with - use gar_auth_service with
   the Service account keys JSON to perform the actual authentication.</p>  
 <p>By default the JSON file will be looked for in the location specified by the
   <code>"GAR_CLIENT_JSON"</code> environment argument, or via <code>"GAR_CLIENT_WEB_JSON"</code> for webapps.</p>
@@ -236,7 +236,7 @@
 
 <span class='fu'>gar_set_client</span>(<span class='st'>"google-client.json"</span>,
                <span class='kw'>scopes</span> <span class='kw'>=</span> <span class='st'>"http://www.googleapis.com/auth/webmasters"</span>)
-<span class='fu'><a href='gar_auth_service.html'>gar_auth_service</a></span>(<span class='st'>"google-service-auth.json"</span>)
+<span class='fu'>gar_auth_service</span>(<span class='st'>"google-service-auth.json"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

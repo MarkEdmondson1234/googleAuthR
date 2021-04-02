@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -170,6 +170,14 @@
       <small>Source: <a href='https://github.com/MarkEdmondson1234/googleAuthR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="googleauthr-1-4-0-9000" class="section level1">
+<h1 class="page-header" data-toc-text="1.4.0.9000">
+<a href="#googleauthr-1-4-0-9000" class="anchor"></a>googleAuthR 1.4.0.9000<small> Unreleased </small>
+</h1>
+<ul>
+<li>…</li>
+</ul>
+</div>
     <div id="googleauthr-1-4-0" class="section level1">
 <h1 class="page-header" data-toc-text="1.4.0">
 <a href="#googleauthr-1-4-0" class="anchor"></a>googleAuthR 1.4.0<small> Unreleased </small>
@@ -177,7 +185,7 @@
 <ul>
 <li>Fix batching when response has a blank line in first line</li>
 <li>Retry on 408 status codes (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/199'>#199</a>)</li>
-<li>Add filter down to roles for one accountId in <code><a href="../reference/gar_service_create.html">gar_service_get_roles()</a></code>
+<li>Add filter down to roles for one accountId in <code>gar_service_get_roles()</code>
 </li>
 <li>Prettier startup messages via <code>cli</code>
 </li>
@@ -189,8 +197,8 @@
 <a href="#googleauthr-1-3-1" class="anchor"></a>googleAuthR 1.3.1<small> 2020-12-05 </small>
 </h1>
 <ul>
-<li>Fix <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code> returning web-project id if expecting project id and both env arguments are set.</li>
-<li>Fix <code><a href="../reference/gar_service_provision.html">gar_service_provision()</a></code> and <code><a href="../reference/gar_service_create.html">gar_service_get()</a></code> as API error message changed (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/197'>#197</a>)</li>
+<li>Fix <code>gar_set_client()</code> returning web-project id if expecting project id and both env arguments are set.</li>
+<li>Fix <code>gar_service_provision()</code> and <code>gar_service_get()</code> as API error message changed (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/197'>#197</a>)</li>
 </ul>
 </div>
     <div id="googleauthr-1-3-0" class="section level1">
@@ -198,17 +206,17 @@
 <a href="#googleauthr-1-3-0" class="anchor"></a>googleAuthR 1.3.0<small> 2020-06-15 </small>
 </h1>
 <ul>
-<li>Let you supply your own URL for discovery documents in <code><a href="../reference/gar_discovery_api.html">gar_discovery_api()</a></code>
+<li>Let you supply your own URL for discovery documents in <code>gar_discovery_api()</code>
 </li>
-<li>Change defaults on <code><a href="../reference/gar_create_package.html">gar_create_package()</a></code> to check = FALSE, github=FALSE</li>
+<li>Change defaults on <code>gar_create_package()</code> to check = FALSE, github=FALSE</li>
 <li>Add class ‘list’ to <code>gar_discovery_*()</code> objects so they work with <code>jsonlite</code>
 </li>
-<li>Add <code><a href="../reference/gar_service_create.html">gar_service_list()</a></code> and <code><a href="../reference/gar_service_create.html">gar_service_get()</a></code>
+<li>Add <code>gar_service_list()</code> and <code>gar_service_get()</code>
 </li>
-<li>If using <code><a href="../reference/gar_service_create.html">gar_service_create()</a></code> and it already exists, will return existing via <code><a href="../reference/gar_service_create.html">gar_service_get()</a></code>
+<li>If using <code>gar_service_create()</code> and it already exists, will return existing via <code>gar_service_get()</code>
 </li>
 <li>Move the setup wizard functions from <code>googleCloudRunner</code> to <code>googleAuthR</code> so they are available for all packages.</li>
-<li>Remove deprecated <code>new_user</code> param from <code><a href="../reference/gar_auth.html">gar_auth()</a></code>
+<li>Remove deprecated <code>new_user</code> param from <code>gar_auth()</code>
 </li>
 </ul>
 </div>
@@ -226,7 +234,7 @@
 <li>Set default scopes to “<a href="https://www.googleapis.com/auth/cloud-platform" class="uri">https://www.googleapis.com/auth/cloud-platform</a>” in <code>gar_gce_auth</code>
 </li>
 <li>Corrected and clarified <code>googleSignIn</code> documentation (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/171'>#171</a>, <a href='https://github.com/jonthegeek'>@jonthegeek</a>).</li>
-<li>Fix <code><a href="../reference/gar_debug_parsing.html">gar_debug_parsing()</a></code> message</li>
+<li>Fix <code>gar_debug_parsing()</code> message</li>
 <li>Remove deprecated <code>gar_auth_jsUI</code> since it causes an issue when used</li>
 <li>Add functions <code>gar_service_*</code> to provision service accounts via R (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/178'>#178</a>)</li>
 <li>Remove OAuth2 login parameter <code>approval_prompt</code> as its replaced by <code>prompt</code> (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/177'>#177</a> - thanks @<a href="mailto:OuNao/@rasmes" class="email">OuNao/@rasmes</a>/@hugovk)</li>
@@ -247,9 +255,9 @@
 <a href="#googleauthr-v1-1-0" class="anchor"></a>googleAuthR v1.1.0<small> 2019-09-07 </small>
 </h1>
 <ul>
-<li>Add default scope of “<a href="https://www.googleapis.com/auth/cloud-platform" class="uri">https://www.googleapis.com/auth/cloud-platform</a>” to <code><a href="../reference/gar_gce_auth.html">gar_gce_auth()</a></code>
+<li>Add default scope of “<a href="https://www.googleapis.com/auth/cloud-platform" class="uri">https://www.googleapis.com/auth/cloud-platform</a>” to <code>gar_gce_auth()</code>
 </li>
-<li>Improvements to stop <code><a href="../reference/gar_auto_auth.html">gar_auto_auth()</a></code> block library installation if auth files not correct.</li>
+<li>Improvements to stop <code>gar_auto_auth()</code> block library installation if auth files not correct.</li>
 </ul>
 </div>
     <div id="googleauthr-v1-0-0" class="section level1">
@@ -258,12 +266,12 @@
 </h1>
 <ul>
 <li>Implement <code><a href="https://gargle.r-lib.org/reference">library(gargle)</a></code> as backend for authentication functions</li>
-<li>Auto-attempt authentication via <code><a href="../reference/gar_auth.html">gar_auth()</a></code> if an API call has no auth set</li>
+<li>Auto-attempt authentication via <code>gar_auth()</code> if an API call has no auth set</li>
 <li>Remove explicit R6 dependency as imported via <code>gargle</code>
 </li>
 <li>Enable some customization of <code>googleSignInUI</code>’s logout button via <code>logout_name</code> and <code>logout_class</code> parameters</li>
 <li>Expose information whether user is signed in via <code>googleSignIn</code> module</li>
-<li>Auto-auth by specifying an email address in <code><a href="../reference/gar_auto_auth.html">gar_auto_auth()</a></code>
+<li>Auto-auth by specifying an email address in <code>gar_auto_auth()</code>
 </li>
 </ul>
 </div>
@@ -283,8 +291,8 @@
 <li>Change behaviour on API parse errors to write a diagnostic object to the working directory</li>
 <li>Add <code>gar_debug_parsing</code> to help debug API parsing errors.</li>
 <li>Fix batching that errored if body was exactly the same</li>
-<li>Set environment args in <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code> to help deployments on Shinyapps.io</li>
-<li>Support API body page requests in <code><a href="../reference/gar_api_page.html">gar_api_page()</a></code>
+<li>Set environment args in <code>gar_set_client()</code> to help deployments on Shinyapps.io</li>
+<li>Support API body page requests in <code>gar_api_page()</code>
 </li>
 <li>Fix <code>gar_set_scopes()</code> to allow multiple scopes when setting with <code>web_json</code>
 </li>
@@ -295,7 +303,7 @@
 <li>Fix mocks failing with <code>httptest</code> if used with <code>with_mock_api()</code> vs <code>with_mock_API()</code>
 </li>
 <li>Add <code><a href="https://rdrr.io/r/base/options.html">option(googleAuthR.redirect)</a></code> to help publish Shiny apps to some platforms (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/136'>#136</a>)</li>
-<li>Add support for using gcloud application-default credentials on Jupyter notebooks via <code><a href="../reference/gar_gce_auth_default.html">gar_gce_auth_default()</a></code> (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/147'>#147</a>)</li>
+<li>Add support for using gcloud application-default credentials on Jupyter notebooks via <code>gar_gce_auth_default()</code> (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/147'>#147</a>)</li>
 </ul>
 </div>
     <div id="googleauthr-v0-7-0" class="section level1">
@@ -305,11 +313,11 @@
 <ul>
 <li>Deprecate <code>https://www.googleapis.com/batch</code> batch endpoint fully as per <a href="https://developers.googleblog.com/2018/03/discontinuing-support-for-json-rpc-and.html" class="uri">https://developers.googleblog.com/2018/03/discontinuing-support-for-json-rpc-and.html</a>
 </li>
-<li>Add <code><a href="../reference/gar_api_page.html">gar_api_page()</a></code> to help page through APIs (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/121'>#121</a>)</li>
+<li>Add <code>gar_api_page()</code> to help page through APIs (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/121'>#121</a>)</li>
 <li>Add a <code>url_override</code> argument to generated Google API functions to help with (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/121'>#121</a>)</li>
 <li>Add support for the Google Sign In JavaScript API via a Shiny module (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/119'>#119</a> - thanks <a href='https://github.com/dkulp2'>@dkulp2</a>) - see <code>googleSignIn</code>
 </li>
-<li>Add support for new Shiny authentication flow where you load auth before main ui.R - see <code><a href="../reference/gar_shiny_auth.html">gar_shiny_auth()</a></code>
+<li>Add support for new Shiny authentication flow where you load auth before main ui.R - see <code>gar_shiny_auth()</code>
 </li>
 </ul>
 </div>
@@ -321,7 +329,7 @@
 <li>Another go at JavaScript approval prompt options</li>
 <li>Support web apps (Shiny) in <code>gar_set_client</code> (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/107'>#107</a>)</li>
 <li>Shiny auth will not attempt to create a <code>.httr-oauth</code> file (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/84'>#84</a>)</li>
-<li>Update docs for <code><a href="../reference/gar_batch_walk.html">gar_batch_walk()</a></code> with some examples (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/175'>#175</a>)</li>
+<li>Update docs for <code>gar_batch_walk()</code> with some examples (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/175'>#175</a>)</li>
 <li>Add bigQueryR and googleAnalyticsR to suggests for CRAN test checks.</li>
 </ul>
 </div>
@@ -341,7 +349,7 @@
 </h1>
 <ul>
 <li>Fix bug with batching that didn’t parse data (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/103'>#103</a>)</li>
-<li>If you specify a filename in <code><a href="../reference/gar_auth.html">gar_auth(token = "blah")</a></code> that doesn’t exist, will create new token there instead of an error</li>
+<li>If you specify a filename in <code>gar_auth(token = "blah")</code> that doesn’t exist, will create new token there instead of an error</li>
 <li>If you specify a valid auth token filename, the scopes and client Id/secret options will now update to the settings within it</li>
 <li>Add encoding to URL parameters you pass in (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/101'>#101</a>)</li>
 </ul>
@@ -374,7 +382,7 @@
 <li>RStudio Addin now offers menu to prepopulate scopes for APIs from discovery API.</li>
 <li>Add <code>googleAuthR.batch_endpoint</code> option for specific library batches.</li>
 <li>Remove TRAVIS support in environment arguments</li>
-<li>Add <code><a href="../reference/gar_check_existing_token.html">gar_check_existing_token()</a></code> to improve user feedback on why a reauthentication occurs</li>
+<li>Add <code>gar_check_existing_token()</code> to improve user feedback on why a reauthentication occurs</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -410,11 +418,11 @@
 <li>Catch error for retry if no status response at all</li>
 <li>Fix bug where unnamed customConfigs were ignored</li>
 <li>Fixes to discovery API package creations, order of parameters and NULL parameters</li>
-<li>Add authentication option when using Google Compute Engine <code><a href="../reference/gar_gce_auth.html">gar_gce_auth()</a></code> (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/52'>#52</a>)</li>
+<li>Add authentication option when using Google Compute Engine <code>gar_gce_auth()</code> (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/52'>#52</a>)</li>
 <li>Add a warning if the cached <code>.httr-oauth</code> token has different scopes to the ones specified at time of authentication (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/53'>#53</a>)</li>
 <li>Add debug body aid: if <code><a href="https://rdrr.io/r/base/options.html">option(googleAuthR.verbose = 0)</a></code> then a request with a body will write to a file <code>request_debug.rds</code> in working directory</li>
-<li>Passing in a file location token to <code><a href="../reference/gar_auth.html">gar_auth("file-location.rds")</a></code> will only load the first element <code>[[1]]</code> if that token is a list of <code>Token2.0</code> class objects</li>
-<li>Add debug tool <code><a href="../reference/gar_token_info.html">gar_token_info()</a></code> which will report on current authentication. Available at <code><a href="https://rdrr.io/r/base/options.html">options(googleAuthR.verbose = 2)</a></code>
+<li>Passing in a file location token to <code>gar_auth("file-location.rds")</code> will only load the first element <code>[[1]]</code> if that token is a list of <code>Token2.0</code> class objects</li>
+<li>Add debug tool <code>gar_token_info()</code> which will report on current authentication. Available at <code><a href="https://rdrr.io/r/base/options.html">options(googleAuthR.verbose = 2)</a></code>
 </li>
 </ul>
 </div>
@@ -439,7 +447,7 @@
 <li>allow overwriting of default httr “encode” again (<a href='https://github.com/MarkEdmondson1234/googleAuthR/issues/28'>#28</a>)</li>
 <li>Headers will contain up to date version number of package</li>
 <li>Add <code>gar_auto_auth</code> and <code>gar_attach_auto_auth</code> for auto-authentication upon a package load</li>
-<li>Fix bug where you couldn’t pass in the file location of the “.httr-oauth” location to <code><a href="../reference/gar_auth.html">gar_auth()</a></code>
+<li>Fix bug where you couldn’t pass in the file location of the “.httr-oauth” location to <code>gar_auth()</code>
 </li>
 <li>
 <code>gar_auth</code> now raises errors not NULL for passing incorrect token file locations of tokens</li>
@@ -472,7 +480,7 @@
 <h2 class="hasAnchor">
 <a href="#major-changes-5" class="anchor"></a>Major changes</h2>
 <ul>
-<li>Document default options in <code><a href="../reference/googleAuthR.html">?googleAuthR</a></code>
+<li>Document default options in <code>?googleAuthR</code>
 </li>
 <li>Add <code><a href="https://rdrr.io/r/base/options.html">option(googleAuthR.rawResponse)</a></code> - skip API checks on response.</li>
 <li>Add an example Shiny app in <code>/inst/shiny/shiny-example.R</code>
@@ -508,7 +516,7 @@
 <li>
 <code>renderLogin</code> : logout now has option <code>revoke</code> to revoke authentication token</li>
 <li>Added option for <code>googleAuthR.jsonlite.simplifyVector</code> for content parsing for compatibility for some APIs</li>
-<li>Batch Google API requests now implemented. See readme or <code><a href="../reference/gar_batch.html">?gar_batch</a></code> and <code><a href="../reference/gar_batch_walk.html">?gar_batch_walk</a></code> for details.</li>
+<li>Batch Google API requests now implemented. See readme or <code>?gar_batch</code> and <code>?gar_batch_walk</code> for details.</li>
 <li>If data parsing fails, return the raw content so you can test and modify your data parsing function</li>
 <li>Missed Jenny credit now corrected</li>
 <li>Add tip about using <code>!is.null(access_token())</code> to detect login state</li>

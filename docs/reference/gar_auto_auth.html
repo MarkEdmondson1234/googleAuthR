@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -173,7 +173,7 @@
     </div>
 
     <div class="ref-description">
-    <p>This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a></p>
+    <p>This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by gar_attach_auto_auth</p>
     </div>
 
     <pre class="usage"><span class='fu'>gar_auto_auth</span>(<span class='no'>required_scopes</span>, <span class='kw'>environment_var</span> <span class='kw'>=</span> <span class='st'>"GAR_AUTH_FILE"</span>)</pre>
@@ -188,11 +188,11 @@
     <tr>
       <th>environment_var</th>
       <td><p>Name of environment var that contains auth file path</p>
-<p>The authentication file can be a <code>.httr-oauth</code> file created via <a href='gar_auth.html'>gar_auth</a> 
+<p>The authentication file can be a <code>.httr-oauth</code> file created via gar_auth 
   or a Google service JSON file downloaded from the Google API credential console, 
   with file extension <code>.json</code>.</p>
 <p>You can use this in your code to authenticate from a file location specified in file, 
-  but it is mainly intended to be called on package load via <a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a>.</p>
+  but it is mainly intended to be called on package load via gar_attach_auto_auth.</p>
 
 <p><code>environment_var</code> This is the name that will be called via <a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a> on library load.  The environment variable will contain an absolute file path to the location of an authentication file.</p></td>
     </tr>
@@ -206,12 +206,12 @@
 
     <div class='dont-index'><p>Help files for <a href='https://rdrr.io/r/base/ns-hooks.html'>.onAttach</a></p>
 <p>Other authentication functions: 
-<code><a href='gar_attach_auto_auth.html'>gar_attach_auto_auth</a>()</code>,
-<code><a href='gar_auth_service.html'>gar_auth_service</a>()</code>,
-<code><a href='gar_auth.html'>gar_auth</a>()</code>,
-<code><a href='gar_gce_auth.html'>gar_gce_auth</a>()</code>,
-<code><a href='get_google_token.html'>get_google_token</a>()</code>,
-<code><a href='token_exists.html'>token_exists</a>()</code></p></div>
+<code>gar_attach_auto_auth()</code>,
+<code>gar_auth_service()</code>,
+<code>gar_auth()</code>,
+<code>gar_gce_auth()</code>,
+<code>get_google_token()</code>,
+<code>token_exists()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -192,7 +192,7 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When authenticating on Google Cloud Platform services, if you are using services that take the cloud scopes you can use <a href='gar_gce_auth.html'>gar_gce_auth</a> to generate authentication.</p> 
+    <p>When authenticating on Google Cloud Platform services, if you are using services that take the cloud scopes you can use gar_gce_auth to generate authentication.</p> 
 <p>However, for other services that require a user login (such as Google Analytics API), you need a method of authentication where you can use your own email login.  You have two options - create a token offline and upload it to the instance, or <code>gcloud</code> allows you to generate your own token online via <code>gcloud auth application-default login &amp;&amp; gcloud auth application-default print-access-token</code></p> 
 <p>This function will then take the returned access token and put it within R so it can be used as normal with <code>googleAuthR</code> functions.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

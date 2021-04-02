@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
       <h1 data-toc-skip>Building your own Google R library</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2021-03-24</h4>
+            <h4 class="date">2021-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/building.Rmd"><code>vignettes/building.Rmd</code></a></small>
       <div class="hidden name"><code>building.Rmd</code></div>
@@ -141,7 +141,7 @@
 <h2 class="hasAnchor">
 <a href="#generating-your-function" class="anchor"></a>Generating your function</h2>
 <p>Creating your own API should be a matter of consulting the Google API documentation, and filling in the required details.</p>
-<p><code><a href="../reference/gar_api_generator.html">gar_api_generator()</a></code> has these components:</p>
+<p><code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator()</a></code> has these components:</p>
 <ul>
 <li>
 <code>baseURI</code> - all APIs have a base for every API call</li>
@@ -155,7 +155,7 @@
 <code>data_parse_function</code> - [optional] If the API call returns data, it will be available in <code>$content</code>. You can create a parsing function that transforms it in to something you can work with (for instance, a dataframe)</li>
 </ul>
 <p>Example below for generating a function:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r">  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+<div class="sourceCode" id="cb1"><html><body><pre class="r">  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu">gar_api_generator</span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">id</span>)</pre></body></html></div>
 </div>
@@ -277,13 +277,13 @@ $body_json
 <p>From <code>0.4</code> is helper functions that use Google’s <a href="https://developers.google.com/discovery/">API Discovery service</a>.</p>
 <p>This is a meta-API which holds all the necessary details to build a supported Google API, which is all modern Google APIs. At the time of writing this is 152 libraries.</p>
 <p>These libraries aren’t intended to be submitted to CRAN or used straight away, but should take away a lot of documentation and function building work so you can concentrate on tests, examples and helper functions for your users.</p>
-<p>Get a list of the current APIs via <code><a href="../reference/gar_discovery_apis_list.html">gar_discovery_apis_list()</a></code></p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">all_apis</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_discovery_apis_list.html">gar_discovery_apis_list</a></span>()</pre></body></html></div>
-<p>To get details of a particular API, use its name and version in the <code><a href="../reference/gar_discovery_api.html">gar_discovery_api()</a></code> function:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">a_api</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_discovery_api.html">gar_discovery_api</a></span>(<span class="st">"urlshortener"</span>, <span class="st">"v1"</span>)</pre></body></html></div>
-<p>You can then pass this list to <code><a href="../reference/gar_create_package.html">gar_create_package()</a></code> along with a folder path to create all the files necessary for an R library. There are arguments to set it up with RStudio project files, do a <code>CRAN CMD check</code> and upload it to Github.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">vision_api</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_discovery_api.html">gar_discovery_api</a></span>(<span class="st">"vision"</span>, <span class="st">"v1"</span>)
-<span class="fu"><a href="../reference/gar_create_package.html">gar_create_package</a></span>(<span class="no">vision_api</span>,
+<p>Get a list of the current APIs via <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_discovery_apis_list.html">gar_discovery_apis_list()</a></code></p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">all_apis</span> <span class="kw">&lt;-</span> <span class="fu">gar_discovery_apis_list</span>()</pre></body></html></div>
+<p>To get details of a particular API, use its name and version in the <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_discovery_api.html">gar_discovery_api()</a></code> function:</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">a_api</span> <span class="kw">&lt;-</span> <span class="fu">gar_discovery_api</span>(<span class="st">"urlshortener"</span>, <span class="st">"v1"</span>)</pre></body></html></div>
+<p>You can then pass this list to <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_create_package.html">gar_create_package()</a></code> along with a folder path to create all the files necessary for an R library. There are arguments to set it up with RStudio project files, do a <code>CRAN CMD check</code> and upload it to Github.</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">vision_api</span> <span class="kw">&lt;-</span> <span class="fu">gar_discovery_api</span>(<span class="st">"vision"</span>, <span class="st">"v1"</span>)
+<span class="fu">gar_create_package</span>(<span class="no">vision_api</span>,
                    <span class="st">"/Users/mark/dev/R/autoGoogleAPI/"</span>,
                    <span class="kw">rstudio</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
                    <span class="kw">github</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
@@ -293,7 +293,7 @@ $body_json
 <p>A loop to build all the Google libraries is shown below, the results of which is available in this <a href="https://github.com/MarkEdmondson1234/autoGoogleAPI">Github repo</a>.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
 
-<span class="no">api_df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_discovery_apis_list.html">gar_discovery_apis_list</a></span>()
+<span class="no">api_df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_discovery_apis_list.html">gar_discovery_apis_list</a></span>()
 
 <span class="no">api_json_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mapply.html">mapply</a></span>(<span class="no">gar_discovery_api</span>, <span class="no">api_df</span>$<span class="no">name</span>, <span class="no">api_df</span>$<span class="no">version</span>)
 
@@ -336,7 +336,7 @@ $body_json
     <span class="kw">longUrl</span> <span class="kw">=</span> <span class="no">url</span>
   )
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">id</span>)
 
@@ -350,7 +350,7 @@ $body_json
 <span class="co">#' @return a string of the expanded URL</span>
 <span class="no">expand_url</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">shortUrl</span>){
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"GET"</span>,
                          <span class="kw">pars_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">shortUrl</span> <span class="kw">=</span> <span class="st">"shortUrl"</span>),
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>)
@@ -369,7 +369,7 @@ $body_json
 
   <span class="no">timespan</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.arg.html">match.arg</a></span>(<span class="no">timespan</span>)
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"GET"</span>,
                          <span class="kw">pars_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">shortUrl</span> <span class="kw">=</span> <span class="st">"shortUrl"</span>,
                                           <span class="kw">projection</span> <span class="kw">=</span> <span class="st">"FULL"</span>),
@@ -384,7 +384,7 @@ $body_json
 <span class="co">#' </span>
 <span class="co">#' @return a dataframe of the goo.gl user's history</span>
 <span class="no">user_history</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(){
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url/history"</span>,
                          <span class="st">"GET"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">items</span>)
 
@@ -393,7 +393,7 @@ $body_json
 <p>To use the above functions:</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
 <span class="co"># go through authentication flow</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>()
 <span class="no">s</span> <span class="kw">&lt;-</span> <span class="fu">shorten_url</span>(<span class="st">"http://markedmondson.me"</span>)
 <span class="no">s</span>
 <span class="fu">expand_url</span>(<span class="no">s</span>)
@@ -414,7 +414,7 @@ $body_json
   <span class="no">url</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"https://www.googleapis.com/calendar/v3/calendars/%s/events"</span>,
                  <span class="no">calendarId</span>)
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="kw pkg">googleAuthR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="no">url</span>, <span class="st">"GET"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="kw pkg">googleAuthR</span><span class="kw ns">::</span><span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="no">url</span>, <span class="st">"GET"</span>,
                                       <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>)
   <span class="fu">f</span>()
 
@@ -427,7 +427,7 @@ $body_json
         <span class="kw">googleAuthR.client_secret</span> <span class="kw">=</span> <span class="st">"XXXX"</span>)  <span class="co">## add your Google project client secret</span>
 
 <span class="co">## authenticate with email that has access to the calendar</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>()
 
 <span class="co">## should kick you out to Google OAuth2 flow.  Come back here when done....</span>
 

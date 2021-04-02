@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -198,7 +198,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>f</th>
-      <td><p>a function from <code><a href='gar_api_generator.html'>gar_api_generator</a></code></p></td>
+      <td><p>a function from <code>gar_api_generator</code></p></td>
     </tr>
     <tr>
       <th>walk_vector</th>
@@ -270,7 +270,7 @@
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other batch functions: 
-<code><a href='gar_batch.html'>gar_batch</a>()</code></p></div>
+<code>gar_batch()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -278,11 +278,11 @@
 
 
 <span class='co'># get a webproperty per account </span>
-<span class='no'>getAccountInfo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(
+<span class='no'>getAccountInfo</span> <span class='kw'>&lt;-</span> <span class='fu'>gar_api_generator</span>(
   <span class='st'>"https://www.googleapis.com/analytics/v3/management/accounts"</span>,
   <span class='st'>"GET"</span>, <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>$<span class='no'>items</span>$<span class='no'>id</span>))
 
-<span class='no'>getWebpropertyInfo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(
+<span class='no'>getWebpropertyInfo</span> <span class='kw'>&lt;-</span> <span class='fu'>gar_api_generator</span>(
   <span class='st'>"https://www.googleapis.com/analytics/v3/management/"</span>, <span class='co'># don't use sprintf to construct this</span>
   <span class='st'>"GET"</span>,
   <span class='kw'>path_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>accounts</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>webproperties</span> <span class='kw'>=</span> <span class='st'>""</span>),

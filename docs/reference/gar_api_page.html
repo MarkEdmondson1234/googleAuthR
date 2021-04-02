@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -189,7 +189,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>f</th>
-      <td><p>a function created by <a href='gar_api_generator.html'>gar_api_generator</a></p></td>
+      <td><p>a function created by gar_api_generator</p></td>
     </tr>
     <tr>
       <th>page_f</th>
@@ -232,7 +232,7 @@
 <span class='no'>ga_segment_list1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){
 
   <span class='co'># this URL will be modified by using the url_override argument in the generated function</span>
-  <span class='no'>segs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/analytics/v3/management/segments"</span>,
+  <span class='no'>segs</span> <span class='kw'>&lt;-</span> <span class='fu'>gar_api_generator</span>(<span class='st'>"https://www.googleapis.com/analytics/v3/management/segments"</span>,
                             <span class='st'>"GET"</span>,
                             <span class='kw'>pars_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"max-results"</span><span class='kw'>=</span><span class='fl'>10</span>),
                             <span class='kw'>data_parse_function</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>)
@@ -262,7 +262,7 @@
 <span class='co'>##  so it can be modified.    </span>
 <span class='no'>ga_segment_list2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){
 
-  <span class='no'>segs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gar_api_generator.html'>gar_api_generator</a></span>(<span class='st'>"https://www.googleapis.com/analytics/v3/management/segments"</span>,
+  <span class='no'>segs</span> <span class='kw'>&lt;-</span> <span class='fu'>gar_api_generator</span>(<span class='st'>"https://www.googleapis.com/analytics/v3/management/segments"</span>,
                            <span class='st'>"GET"</span>,
                             <span class='kw'>pars_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"start-index"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                                              <span class='st'>"max-results"</span><span class='kw'>=</span><span class='fl'>10</span>),

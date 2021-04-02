@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">googleAuthR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
       <h1 data-toc-skip>Google authentication types for R</h1>
                         <h4 class="author">Mark Edmondson</h4>
             
-            <h4 class="date">2021-03-24</h4>
+            <h4 class="date">2021-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MarkEdmondson1234/googleAuthR/blob/master/vignettes/google-authentication-types.Rmd"><code>vignettes/google-authentication-types.Rmd</code></a></small>
       <div class="hidden name"><code>google-authentication-types.Rmd</code></div>
@@ -140,7 +140,7 @@
 <p>Once setup, then you should go through the Google login flow in your browser when you run this command:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
 <span class="co"># starts auth process with defaults</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>()
 <span class="co">#&gt;The googleAuthR package is requesting access to your Google account. Select a </span>
 <span class="co">#&gt; pre-authorised account or enter '0' to obtain a new token. Press Esc/Ctrl + C to abort.</span>
 
@@ -148,7 +148,7 @@
 <span class="co">#&gt; 2: home@home.com</span></pre></body></html></div>
 <p>The authentication cache token is kept at a global level as per the <code>gargle</code> library documentation - <a href="https://gargle.r-lib.org/">see there for more details</a>.</p>
 <p>You can also specify your email to avoid the interactive menu:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="st">"your@email.com"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="st">"your@email.com"</span>)</pre></body></html></div>
 <p>These functions are usually wrapped in package specific functions when used in other packages, such as <code>googleAnalyticsR::ga_auth()</code></p>
 </div>
 <div id="client-options" class="section level2">
@@ -157,10 +157,10 @@
 <p>Most libraries will set the appropriate options for you, otherwise you will need to supply them from the Google Cloud console, in its <code>APIs &amp; services &gt; Credentials</code> section ( <code>https://console.cloud.google.com/apis/credentials</code> ).</p>
 <p>You will need as a minimum:</p>
 <ul>
-<li>A client Id and secret generated via <code>Create Credentials &gt; OAuth client ID &gt; Other</code> - these are set in <code><a href="https://rdrr.io/r/base/options.html">options(googleAuthR.client_id)</a></code> and <code><a href="https://rdrr.io/r/base/options.html">options(googleAuthR.client_secret)</a></code>, or if you download the client ID JSON using <code><a href="../reference/gar_set_client.html">gar_set_client()</a></code>
+<li>A client Id and secret generated via <code>Create Credentials &gt; OAuth client ID &gt; Other</code> - these are set in <code><a href="https://rdrr.io/r/base/options.html">options(googleAuthR.client_id)</a></code> and <code><a href="https://rdrr.io/r/base/options.html">options(googleAuthR.client_secret)</a></code>, or if you download the client ID JSON using <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html">gar_set_client()</a></code>
 </li>
 <li>An API scope for the API you want to authenticate with, found in the APIs documentation or via the <code>googleAuthR</code> RStudio addin.</li>
-<li>A user authentication file, either generated interactivily via <code><a href="../reference/gar_auth.html">gar_auth()</a></code> or via a service account file JSON file, created via <code>Create credentials &gt; Service account key</code>.</li>
+<li>A user authentication file, either generated interactivily via <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth()</a></code> or via a service account file JSON file, created via <code>Create credentials &gt; Service account key</code>.</li>
 </ul>
 <p>If creating your own library you can choose to supply some or all of the above to the end-user, as an end-user you may need to set some of the above (most usually your own user authentication).</p>
 </div>
@@ -173,12 +173,12 @@
 <p>Authentication cache tokens are kept at a global level on your computer. When you authenticate the first time with a new client.id, scope or email then you will go through the authentication process in the browser, however the next time it wil be cached and be a lot quicker.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># switching between auth scopes</span>
 <span class="co"># first time new scope manual auth, then auto if supplied email   </span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="st">"your@email.com"</span>,
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="st">"your@email.com"</span>,
          <span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/drive"</span>)
 
 <span class="co"># ... query Google Drive functions ...</span>
 
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="st">"your@email.com"</span>,
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="kw">email</span> <span class="kw">=</span> <span class="st">"your@email.com"</span>,
          <span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/bigquery"</span>)
 
 <span class="co"># ..query BigQuery functions ...</span></pre></body></html></div>
@@ -189,7 +189,7 @@
 <blockquote>
 <p>Applicable before <code>googleAuthR &lt; 1.0.0</code></p>
 </blockquote>
-<p>If you supply a filename to <code><a href="../reference/gar_auth.html">googleAuthR::gar_auth(token = "filename")</a></code> then it will save the token there. If it doesn’t exist, it will make a new one, if it does exist it will attempt to read the token from that file. Relative and absolute filenames work.</p>
+<p>If you supply a filename to <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">googleAuthR::gar_auth(token = "filename")</a></code> then it will save the token there. If it doesn’t exist, it will make a new one, if it does exist it will attempt to read the token from that file. Relative and absolute filenames work.</p>
 <p>You can use different token names to save different authentication settings such as with different scopes and client Ids.</p>
 <p>An example switching between <code>googleAnalyticsR</code> and <code>searchConsoleR</code> authentication, assuming you have previously authenticated with two tokens, one name <code>ga.httr-oauth</code> and one named <code>sc.httr-oauth</code></p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
@@ -197,13 +197,13 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">searchConsoleR</span>)
 
 <span class="co"># start with google analytics auth</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="st">"ga.httr-oauth"</span>)
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="st">"ga.httr-oauth"</span>)
 
 <span class="co"># can run Google Analytics API calls:</span>
 <span class="fu">ga_account_list</span>()
 
 <span class="co"># switch to Seach Console auth</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="st">"sc.httr-oauth"</span>)
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="st">"sc.httr-oauth"</span>)
 
 <span class="co"># can now run Search Console API calls:</span>
 <span class="fu">list_websites</span>()</pre></body></html></div>
@@ -222,7 +222,7 @@
         <span class="kw">googleAuthR.client_secret</span> <span class="kw">=</span> <span class="st">"XXXXXX"</span>)
 
 <span class="co"># authenticate and go through the OAuth2 flow first time - specify a filename to save to by passing it in</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>(<span class="kw">token</span> <span class="kw">=</span> <span class="st">"sc_ga.httr-oauth"</span>)
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>(<span class="kw">token</span> <span class="kw">=</span> <span class="st">"sc_ga.httr-oauth"</span>)
 
 <span class="co"># can run Google Analytics API calls:</span>
 <span class="fu">ga_account_list</span>()
@@ -245,10 +245,10 @@
           <span class="st">"https://www.googleapis.com/auth/webmasters"</span>)
 
 <span class="co"># set the client</span>
-<span class="fu"><a href="../reference/gar_set_client.html">gar_set_client</a></span>(<span class="st">"client-id.json"</span>, <span class="kw">scopes</span> <span class="kw">=</span> <span class="no">scopes</span>)
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html">gar_set_client</a></span>(<span class="st">"client-id.json"</span>, <span class="kw">scopes</span> <span class="kw">=</span> <span class="no">scopes</span>)
 
 <span class="co"># authenticate and go through the OAuth2 flow first time</span>
-<span class="fu"><a href="../reference/gar_auth.html">gar_auth</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth</a></span>()
 
 <span class="co"># can run Google Analytics API calls:</span>
 <span class="fu">ga_account_list</span>()
@@ -259,7 +259,7 @@
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># .Renviron</span>
 <span class="no">GAR_CLIENT_JSON</span><span class="kw">=</span><span class="st">"~/path/to/clientjson.json"</span></pre></body></html></div>
 <p>Then you just need to supply the scopes:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/gar_set_client.html">gar_set_client</a></span>(<span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/webmasters"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html">gar_set_client</a></span>(<span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/webmasters"</span>)</pre></body></html></div>
 </div>
 <div id="authentication-with-no-browser" class="section level2">
 <h2 class="hasAnchor">
@@ -271,23 +271,23 @@
 <a href="#authentication-with-a-json-file-via-service-accounts" class="anchor"></a>Authentication with a JSON file via Service Accounts</h2>
 <p>You can also authenticate single users via a server side JSON file rather than going through the online OAuth2 flow. The end user could supply this JSON file, or you can upload your own JSON file to your applications. This is generally more secure if you know its only one user on the service, such as for Cloud services.</p>
 <p>This involves downloading a secret JSON key with the authentication details. More details are available from Google here: Using OAuth2.0 for Server to Server Applications[<a href="https://developers.google.com/identity/protocols/oauth2/service-account" class="uri">https://developers.google.com/identity/protocols/oauth2/service-account</a>]</p>
-<p>To use, go to your Project in the Google Developement Console and select JSON Key type. Save the JSON file to your computer and supply the file location to the function <code><a href="../reference/gar_auth_service.html">gar_auth_service()</a></code></p>
+<p>To use, go to your Project in the Google Developement Console and select JSON Key type. Save the JSON file to your computer and supply the file location to the function <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html">gar_auth_service()</a></code></p>
 <div id="creating-service-account-and-a-key" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-service-account-and-a-key" class="anchor"></a>Creating service account and a key</h3>
 <div id="from-r" class="section level4">
 <h4 class="hasAnchor">
 <a href="#from-r" class="anchor"></a>From R</h4>
-<p>The <code><a href="../reference/gar_service_create.html">gar_service_create()</a></code> and related functions let you create service accounts from a user OAuth2 login. The user requires permission <code>iam.serviceAccounts.create</code> for the project. Most often the user is an Owner/Editor.</p>
+<p>The <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_service_create.html">gar_service_create()</a></code> and related functions let you create service accounts from a user OAuth2 login. The user requires permission <code>iam.serviceAccounts.create</code> for the project. Most often the user is an Owner/Editor.</p>
 <p>The workflow for authenticating with a new key from R is:</p>
 <ul>
 <li>Creating a new service account Id</li>
 <li>Giving that service account any roles it needs to operate</li>
 <li>Downloading a one-time only JSON key file that authenticates that account Id</li>
-<li>Using that key file in <code><a href="../reference/gar_auth_service.html">gar_auth_service()</a></code> or otherwise with the correct scopes to use the API</li>
+<li>Using that key file in <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html">gar_auth_service()</a></code> or otherwise with the correct scopes to use the API</li>
 </ul>
 <p>See this related <a href="https://cloud.google.com/iam/docs/creating-managing-service-accounts#iam-service-accounts-create-rest">Google help article or creating service accounts</a>.</p>
-<p>The above workflow is encapsulated within <code><a href="../reference/gar_service_provision.html">gar_service_provision()</a></code> which will run through them for you if you supply it with your GCP projects Client Id (another JSON file that identifies your project.)</p>
+<p>The above workflow is encapsulated within <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_service_provision.html">gar_service_provision()</a></code> which will run through them for you if you supply it with your GCP projects Client Id (another JSON file that identifies your project.)</p>
 </div>
 <div id="roles" class="section level4">
 <h4 class="hasAnchor">
@@ -307,13 +307,13 @@
 <p>An example using a service account JSON file for authentication is shown below:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">googleAuthR.scopes.selected</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/urlshortner"</span>)
-<span class="no">service_token</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_auth_service.html">gar_auth_service</a></span>(<span class="kw">json_file</span><span class="kw">=</span><span class="st">"~/location/of/the/json/secret.json"</span>)
+<span class="no">service_token</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html">gar_auth_service</a></span>(<span class="kw">json_file</span><span class="kw">=</span><span class="st">"~/location/of/the/json/secret.json"</span>)
 <span class="no">analytics_url</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">shortUrl</span>,
                           <span class="no">timespan</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"allTime"</span>, <span class="st">"month"</span>, <span class="st">"week"</span>,<span class="st">"day"</span>,<span class="st">"twoHours"</span>)){
 
   <span class="no">timespan</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.arg.html">match.arg</a></span>(<span class="no">timespan</span>)
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"GET"</span>,
                          <span class="kw">pars_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">shortUrl</span> <span class="kw">=</span> <span class="st">"shortUrl"</span>,
                                           <span class="kw">projection</span> <span class="kw">=</span> <span class="st">"FULL"</span>),
@@ -330,7 +330,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">searchConsoleR</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">googleAuthR.scopes.selected</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/webmasters"</span>)
 
-<span class="fu"><a href="../reference/gar_auth_service.html">gar_auth_service</a></span>(<span class="st">"auth.json"</span>)
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html">gar_auth_service</a></span>(<span class="st">"auth.json"</span>)
 
 <span class="fu">list_websites</span>()</pre></body></html></div>
 </div>
@@ -349,9 +349,9 @@
 <li>
 <code>gar_shiny_*</code> functions. These create a login UI before the main Shiny UI loads. Authentication occurs, and then the main UI loads but with the created unique user’s authentication. You can then use <code>httr</code> based Google authentication functions normally as you would offline.</li>
 <li>
-<code>googleAuth</code> module - this creates a reactive server side token object for your API calls. You need to wrap your <code>googleAuthR</code> functions with <code><a href="../reference/with_shiny.html">with_shiny()</a></code> to pass the reactive token.</li>
+<code>googleAuth</code> module - this creates a reactive server side token object for your API calls. You need to wrap your <code>googleAuthR</code> functions with <code><a href="https://code.markedmondson.me/googleAuthR//reference/with_shiny.html">with_shiny()</a></code> to pass the reactive token.</li>
 <li>
-<code>googleAuth_js</code> module - this creates a client side token object via JavaScript, that you can then pass to your API calls. You need to wrap your <code>googleAuthR</code> functions with <code><a href="../reference/with_shiny.html">with_shiny()</a></code> to pass the reactive token.</li>
+<code>googleAuth_js</code> module - this creates a client side token object via JavaScript, that you can then pass to your API calls. You need to wrap your <code>googleAuthR</code> functions with <code><a href="https://code.markedmondson.me/googleAuthR//reference/with_shiny.html">with_shiny()</a></code> to pass the reactive token.</li>
 <li>
 <code>googleSignIn</code> module - this is for when you just want to have a login, but do not need to make API calls. It is a lightweight JavaScript based sign in solution.</li>
 </ul>
@@ -377,10 +377,10 @@
 <p>This uses the most modern <code>gar_shiny_*</code> family of functions to create authentication. The app lists the files you have stored in Google Drive.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
-<span class="fu"><a href="../reference/gar_set_client.html">gar_set_client</a></span>(<span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/drive"</span>)
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html">gar_set_client</a></span>(<span class="kw">scopes</span> <span class="kw">=</span> <span class="st">"https://www.googleapis.com/auth/drive"</span>)
 
 <span class="no">fileSearch</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">query</span>) {
-  <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/drive/v3/files/"</span>,
+  <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/drive/v3/files/"</span>,
                     <span class="st">"GET"</span>,
                     <span class="kw">pars_args</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">q</span><span class="kw">=</span><span class="no">query</span>),
                     <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">files</span>)()
@@ -398,7 +398,7 @@
 <span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>, <span class="no">session</span>){
 
   <span class="co"># create a non-reactive access_token as we should never get past this if not authenticated</span>
-  <span class="fu"><a href="../reference/gar_shiny_auth.html">gar_shiny_auth</a></span>(<span class="no">session</span>)
+  <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_shiny_auth.html">gar_shiny_auth</a></span>(<span class="no">session</span>)
 
   <span class="no">output</span>$<span class="no">gdrive</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderTable.html">renderTable</a></span>({
     <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/req.html">req</a></span>(<span class="no">input</span>$<span class="no">query</span>)
@@ -409,7 +409,7 @@
   })
 }
 
-<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="fu"><a href="../reference/gar_shiny_ui.html">gar_shiny_ui</a></span>(<span class="no">ui</span>, <span class="kw">login_ui</span> <span class="kw">=</span> <span class="no">gar_shiny_login_ui</span>), <span class="no">server</span>)</pre></body></html></div>
+<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_shiny_ui.html">gar_shiny_ui</a></span>(<span class="no">ui</span>, <span class="kw">login_ui</span> <span class="kw">=</span> <span class="no">gar_shiny_login_ui</span>), <span class="no">server</span>)</pre></body></html></div>
 </div>
 <div id="googleauth-module-example" class="section level4">
 <h4 class="hasAnchor">
@@ -427,7 +427,7 @@
     <span class="kw">longUrl</span> <span class="kw">=</span> <span class="no">url</span>
   )
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">id</span>)
 
@@ -445,7 +445,7 @@
     <span class="co">## wrap existing function with_shiny</span>
     <span class="co">## pass the reactive token in shiny_access_token</span>
     <span class="co">## pass other named arguments</span>
-    <span class="fu"><a href="../reference/with_shiny.html">with_shiny</a></span>(<span class="kw">f</span> <span class="kw">=</span> <span class="no">shorten_url</span>,
+    <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/with_shiny.html">with_shiny</a></span>(<span class="kw">f</span> <span class="kw">=</span> <span class="no">shorten_url</span>,
                <span class="kw">shiny_access_token</span> <span class="kw">=</span> <span class="fu">access_token</span>(),
                <span class="kw">url</span><span class="kw">=</span><span class="no">input</span>$<span class="no">url</span>)
 
@@ -459,7 +459,7 @@
 }
 <span class="co">## ui.R</span>
 <span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
-  <span class="fu"><a href="../reference/googleAuthUI.html">googleAuthUI</a></span>(<span class="st">"loginButton"</span>),
+  <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/googleAuthUI.html">googleAuthUI</a></span>(<span class="st">"loginButton"</span>),
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span>(<span class="st">"url"</span>, <span class="st">"Enter URL"</span>),
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionButton</a></span>(<span class="st">"submit"</span>, <span class="st">"Shorten URL"</span>),
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textOutput.html">textOutput</a></span>(<span class="st">"short_url"</span>)
@@ -491,11 +491,11 @@
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
 
-<span class="fu"><a href="../reference/gar_set_client.html">gar_set_client</a></span>()
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_set_client.html">gar_set_client</a></span>()
 
 <span class="co">## ui.R</span>
 <span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
-  <span class="fu"><a href="../reference/googleAuth_jsUI.html">googleAuth_jsUI</a></span>(<span class="st">"js_token"</span>),
+  <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/googleAuth_jsUI.html">googleAuth_jsUI</a></span>(<span class="st">"js_token"</span>),
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span>(<span class="st">"url"</span>, <span class="st">"Enter URL"</span>),
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionButton</a></span>(<span class="st">"submit"</span>, <span class="st">"Shorten URL"</span>),
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textOutput.html">textOutput</a></span>(<span class="st">"short_url"</span>)
@@ -507,7 +507,7 @@
     <span class="kw">longUrl</span> <span class="kw">=</span> <span class="no">url</span>
   )
 
-  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
+  <span class="no">f</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_api_generator.html">gar_api_generator</a></span>(<span class="st">"https://www.googleapis.com/urlshortener/v1/url"</span>,
                          <span class="st">"POST"</span>,
                          <span class="kw">data_parse_function</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">id</span>)
 
@@ -524,7 +524,7 @@
     <span class="co">## wrap existing function with_shiny</span>
     <span class="co">## pass the reactive token in shiny_access_token</span>
     <span class="co">## pass other named arguments</span>
-    <span class="fu"><a href="../reference/with_shiny.html">with_shiny</a></span>(<span class="kw">f</span> <span class="kw">=</span> <span class="no">shorten_url</span>,
+    <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/with_shiny.html">with_shiny</a></span>(<span class="kw">f</span> <span class="kw">=</span> <span class="no">shorten_url</span>,
                <span class="kw">shiny_access_token</span> <span class="kw">=</span> <span class="fu">access_token</span>(),
                <span class="kw">url</span><span class="kw">=</span><span class="no">input</span>$<span class="no">url</span>)
 
@@ -555,7 +555,7 @@
 
     <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">sidebarLayout</a></span>(
       <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">sidebarPanel</a></span>(
-        <span class="fu"><a href="../reference/googleSignInUI.html">googleSignInUI</a></span>(<span class="st">"demo"</span>)
+        <span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/googleSignInUI.html">googleSignInUI</a></span>(<span class="st">"demo"</span>)
       ),
 
       <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">mainPanel</a></span>(
@@ -612,7 +612,7 @@ runtime: shiny</code></pre>
 <p>Below creates a button that when clicked makes a popup for Google authentication:</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">googleAuthR</span>)
 
-<span class="fu"><a href="../reference/googleAuth_jsUI.html">googleAuth_jsUI</a></span>(<span class="st">"auth_demo"</span>, <span class="kw">login_text</span> <span class="kw">=</span> <span class="st">"Click Me"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/googleAuth_jsUI.html">googleAuth_jsUI</a></span>(<span class="st">"auth_demo"</span>, <span class="kw">login_text</span> <span class="kw">=</span> <span class="st">"Click Me"</span>)</pre></body></html></div>
 <p>The authentication token is available via the server side module command:</p>
 <pre><code>auth &lt;- callModule(googleAuth_js, "auth_demo")</code></pre>
 <p>Pass the auth token to API functions. Below example using googleID to return G+ user info.</p>
@@ -642,12 +642,12 @@ renderUI({
 <h2 class="hasAnchor">
 <a href="#auto-authentication" class="anchor"></a>Auto-authentication</h2>
 <p>Auto-authentication can be performed upon a package load.</p>
-<p>This requires the setup of environment variables either in your <code>.Renviron</code> file or via <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv()</a></code> to point to a previously created authentication file. This file can be either a <code>.httr-oauth</code> file created via <code><a href="../reference/gar_auth.html">gar_auth()</a></code> or a Google service account JSON downloaded from the Google API console.</p>
+<p>This requires the setup of environment variables either in your <code>.Renviron</code> file or via <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv()</a></code> to point to a previously created authentication file. This file can be either a <code>.httr-oauth</code> file created via <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth.html">gar_auth()</a></code> or a Google service account JSON downloaded from the Google API console.</p>
 <p>This file will then be used for authentication via <code>gar_auth_auto</code>. You can call this function yourself in scripts or R sessions, but its main intention is to be called in the <code>.onAttach</code> function via <code>gar_attach_auth_auto</code>, so that you will authenticate right after you load the library via <code><a href="https://rdrr.io/pkg/yourlibrary/man">library(yourlibrary)</a></code></p>
 <p>An example from <code>googleCloudStorageR</code> is shown below:</p>
 <div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">.onAttach</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">libname</span>, <span class="no">pkgname</span>){
 
-  <span class="kw pkg">googleAuthR</span><span class="kw ns">::</span><span class="fu"><a href="../reference/gar_attach_auto_auth.html">gar_attach_auto_auth</a></span>(<span class="st">"https://www.googleapis.com/auth/devstorage.full_control"</span>,
+  <span class="kw pkg">googleAuthR</span><span class="kw ns">::</span><span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_attach_auto_auth.html">gar_attach_auto_auth</a></span>(<span class="st">"https://www.googleapis.com/auth/devstorage.full_control"</span>,
                                     <span class="kw">environment_var</span> <span class="kw">=</span> <span class="st">"GCS_AUTH_FILE"</span>)
 }</pre></body></html></div>
 <p>..which calls an environment variable set in <code>~/.Renvion</code>:</p>
@@ -656,7 +656,7 @@ renderUI({
 <div id="revoking-authentication" class="section level2">
 <h2 class="hasAnchor">
 <a href="#revoking-authentication" class="anchor"></a>Revoking Authentication</h2>
-<p>For local use, call <code><a href="../reference/gar_deauth.html">gar_deauth()</a></code> to unauthentiucate a session. To avoid cache tokens being reused delete them from the gargle cache folder, usually <code>~/.R/gargle/gargle-oauth/</code></p>
+<p>For local use, call <code><a href="https://code.markedmondson.me/googleAuthR//reference/gar_deauth.html">gar_deauth()</a></code> to unauthentiucate a session. To avoid cache tokens being reused delete them from the gargle cache folder, usually <code>~/.R/gargle/gargle-oauth/</code></p>
 <p>For service level accounts delete the JSON file.</p>
 <p>For a Shiny app, a cookie is left by Google that will mean a faster login next time a user uses the app with no Authorization screen that they get the first time through. To force this every time, activate the parameter <code>revoke=TRUE</code> within the <code>googleAuth</code> function.</p>
 </div>
