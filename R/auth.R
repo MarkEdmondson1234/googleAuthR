@@ -79,15 +79,29 @@ gar_auth <- function(token = NULL,
     make_app()
   }
   
-  token <- token_fetch(
-    email = email,
-    token = token,
-    scopes = scopes,
-    app = gar_oauth_app(),
-    package = package,
-    cache = cache,
-    use_oob = use_oob
-  )
+  if (is.token2.0(token)) {
+    # Fix for https://github.com/r-lib/gargle/issues/187, unless
+    # gargle:::gargle_env$cred_funs is reordered
+    token = gargle::credentials_byo_oauth2(
+      email = email,
+      token = token,
+      scopes = scopes,
+      app = gar_oauth_app(),
+      package = package,
+      cache = cache,
+      use_oob = use_oob
+      )
+  } else {
+    token <- token_fetch(
+      email = email,
+      token = token,
+      scopes = scopes,
+      app = gar_oauth_app(),
+      package = package,
+      cache = cache,
+      use_oob = use_oob
+    )
+  }
   
   if(!is.token2.0(token)){
     stop("Could not authenticate via any gargle cred function", call. = FALSE)
