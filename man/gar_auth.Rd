@@ -26,7 +26,7 @@ gar_auth(
 
 \item{cache}{Where to store authentication tokens}
 
-\item{use_oob}{Whther to use OOB browserless authetication}
+\item{use_oob}{Whether to use OOB browserless authentication}
 
 \item{package}{The name of the package authenticating}
 }
