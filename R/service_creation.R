@@ -68,37 +68,42 @@ gar_service_create <- function(
   candidate <- sprintf("%s@%s.iam.gserviceaccount.com",
                        accountId, projectId)
 
-  o <- tryCatch(
+  tryCatch(
+    # does the service email exist?
     gar_service_get(candidate, projectId = projectId), 
     error = function(err){
-
-         # watch out if they update the error message #197
-         need_one <- grepl(paste("Not found"), err$message)
-         if(need_one){
-           myMessage("Creating new service account: ", candidate, level = 3)
-           the_url <- sprintf(
-             "https://iam.googleapis.com/v1/projects/%s/serviceAccounts",
-             projectId
-           )
-           
-           body <- list(
-             accountId = accountId,
-             serviceAccount = list(
-               description = serviceDescription,
-               displayName = serviceName
-             )
-           )
-           
-           myMessage("Creating service accountId - ", accountId, level = 3)
-           api_call <- gar_api_generator(the_url, "POST", 
-                                         data_parse_function = function(x) x)
-           
-           api_call(the_body = body)
-         } else {
-           stop(err$message)
-         }
-      })
-  o
+      
+      # if not, lets try and make it
+      tryCatch(
+        {
+          myMessage("Creating new service account: ", candidate, level = 3)
+          the_url <- sprintf(
+            "https://iam.googleapis.com/v1/projects/%s/serviceAccounts",
+            projectId
+          )
+          
+          body <- list(
+            accountId = accountId,
+            serviceAccount = list(
+              description = serviceDescription,
+              displayName = serviceName
+            )
+          )
+          
+          myMessage("Creating service accountId - ", accountId, level = 3)
+          api_call <- gar_api_generator(the_url, "POST", 
+                                        data_parse_function = function(x) x)
+          
+          api_call(the_body = body)
+          },
+        # maybe it was a real error
+        error = function(err2){
+          stop(paste(err2$message, err$message), call. = FALSE)
+        }
+      )
+      
+    }
+  )
   
 }
 

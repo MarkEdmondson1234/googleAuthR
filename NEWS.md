@@ -1,6 +1,6 @@
 # googleAuthR 1.4.0.9000
 
-* ...
+* Fix `gar_service_create()` and dependent functions since error message changed for service email (#197)
 
 # googleAuthR 1.4.0
 
