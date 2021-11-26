@@ -210,6 +210,9 @@ gar_service_get_roles <- function(
     present <- unlist(lapply(existing_roles$members,
                              function(x) check_email %in% x))
     present_roles <- existing_roles[present, "role"]
+    if(length(present_roles) < 1){
+      stop("Could not find any roles for ", check_email, call. = FALSE)
+    }
     existing_roles <- data.frame(roles = present_roles, 
                                  members = check_email,
                                  stringsAsFactors = FALSE)
