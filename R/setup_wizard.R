@@ -203,7 +203,7 @@ add_renviron <- function(scope = c("user", "project"), line){
   )
   cli_alert_info("Writing to {the_file}")
   
-  if(!file.exists(the_file)){
+  if(!isTRUE(file.exists(the_file))){
     file.create(the_file)
   }
   
@@ -226,7 +226,7 @@ gar_setup_check_session <- function(session_user = NULL){
   }
   
   local_file <- file.path(rstudioapi::getActiveProject(), ".Renviron")
-  if(file.exists(local_file)){
+  if(isTRUE(file.exists(local_file))){
     cli_alert_info("Using local project .Renviron")
     return(2)
   }
@@ -235,7 +235,7 @@ gar_setup_check_session <- function(session_user = NULL){
     title = "Do you want to configure for all R sessions or just this project?",
     choices = c("All R sessions (Recommended)", "Project only"))
   if(session_user == 2){
-    if(!file.exists(local_file)){
+    if(!isTRUE(file.exists(local_file))){
       file.create(local_file)
       cli_alert_success(
         "Created local .Renviron file - please restart R then rerun setup.")
