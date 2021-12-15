@@ -1,6 +1,6 @@
 ## Test environments
-* local OS X install, R 3.6.3
-* Ubuntu 14.04.5 LTS (on travis-ci), R 3.6.3
+* local OS X install, R 4.1.0
+* Ubuntu 14.04.5 LTS (on Cloud Build), R 4.1.0
 * Windows Server 2008 R2 SP1, R-devel, 32/64 bit (on r-hub)
   
 ## R CMD check results
