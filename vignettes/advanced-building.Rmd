@@ -15,7 +15,7 @@ These go into more edge cases: paging API responses, no parsing content, batchin
 
 ## Setup wizard helpers
 
-If making a Google API package the trickest bit for new users is usually navigating the GCP console and files needed for authentication - client JSON or service key JSON?  Environment arguments?  Authentication after or before library load?
+If making a Google API package the trickiest bit for new users is usually navigating the GCP console and files needed for authentication - client JSON or service key JSON?  Environment arguments?  Authentication after or before library load?
 
 To help with the onboarding process, the `gar_setup_*` functions give helpers to create a startup wizard to guide users through the process.
 
@@ -379,7 +379,7 @@ Since [`googleCloudRunner`](https://code.markedmondson.me/googleCloudRunner/) ha
 One of the nicest features of continuous integration / Travis is it can be used for code coverage.  This uses your tests to find out how many lines of code are triggered within them.  This lets you see how thorough yours tests are.  Developers covert the 100% coverage badge as it shows all of your code is checked every time you push to GitHub and helps mitigate bugs.
 
 This is this package's current Codecov status:
-[![codecov](https://codecov.io/gh/MarkEdmondson1234/googleAuthR/branch/master/graph/badge.svg)](https://codecov.io/gh/MarkEdmondson1234/googleAuthR)
+[![codecov](https://codecov.io/gh/MarkEdmondson1234/googleAuthR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/MarkEdmondson1234/googleAuthR)
 
 Using code coverage is a case of adding another metafile and a command to your travis file.  [This post by Eryk has some details](https://walczak.org/2017/06/how-to-add-code-coverage-codecov-to-your-r-package/)
 

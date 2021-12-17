@@ -43,4 +43,4 @@ Suggests:
     usethis (>= 1.6.0)
 License: MIT + file LICENSE
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
