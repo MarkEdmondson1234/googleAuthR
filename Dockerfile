@@ -1,4 +1,4 @@
-FROM rocker/r-ver
+FROM rocker/r-base
 
 # install R package dependencies - 2021-09-21
 RUN apt-get update && apt-get install -y \
