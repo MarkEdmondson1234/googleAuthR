@@ -192,16 +192,11 @@ is.token2.0 <- function(x){
 #' @keywords internal
 #' @family authentication functions
 #' @importFrom httr config
-get_google_token <- function(shiny_return_token=NULL) {
+get_google_token <- function() {
   
   if(any(which(grepl("with_mock_API", as.character(sys.calls()))))){
     myMessage("Skipping token checks as using with_mock_API", level = 3)
     return(NULL)
-  }
-  
-  # shiny auth provides its own token
-  if(!is.null(shiny_return_token)){
-    return(config(token = shiny_return_token))
   }
   
   gar_token()

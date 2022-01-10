@@ -52,6 +52,7 @@
 #' @importFrom httr set_config config
 #' @importFrom digest digest
 #' @importFrom utils URLencode
+#' @importFrom assertthat assert_that is.string
 gar_api_generator <- function(baseURI,
                               http_header = c("GET","POST","PUT","DELETE", "PATCH"),
                               path_args = NULL,
@@ -83,9 +84,7 @@ gar_api_generator <- function(baseURI,
   pars <- NULL
 
   if(!is.null(path_args)) {
-    path <-
-      paste(names(path_args), path_args, sep="/", collapse="/" )
-
+    path <- paste(names(path_args), path_args, sep="/", collapse="/" )
   }
 
   if(!is.null(pars_args)){
@@ -108,25 +107,8 @@ gar_api_generator <- function(baseURI,
     # extract the shiny token from the right environments
     ## gets the environments
     all_envs <- as.character(sys.calls())
-    ## gets the one with_shiny
-    with_shiny_env <- which(grepl("with_shiny", all_envs))
-    ## gets the arguments of with_shiny
-    if(any(with_shiny_env)){
-      warning("with_shiny() will be removed soon.  Replace with new Shiny auth functions detailed on the googleAuthR website")
-      call_args <- as.list(match.call(definition = sys.function(with_shiny_env),
-                                      call = sys.call(with_shiny_env),
-                                      expand.dots = FALSE)[-1])
-      ## gets the calling function of with_shiny to evaluate the reactive token in
-      f <- do.call("parent.frame", args = list(), envir = sys.frame(with_shiny_env))
-      ## evaluates the shiny_access_token in the correct environment
-      shiny_access_token <- eval(call_args$shiny_access_token,
-                                 envir = f)
-      myMessage("Shiny Token found in environment", level=1)
-    } else {
-      shiny_access_token <- NULL
-    }
 
-    if(!checkTokenAPI(shiny_access_token)){
+    if(!checkTokenAPI()){
       stop("Invalid token", call. = FALSE)
     }
 
@@ -175,7 +157,6 @@ gar_api_generator <- function(baseURI,
     cached_call <- !is.null(gar_cache_get_loc())
     if(cached_call){
       req <- memDoHttrRequest(req_url,
-                              shiny_access_token=shiny_access_token,
                               request_type=http_header,
                               the_body=the_body,
                               customConfig=customConfig,
@@ -183,7 +164,6 @@ gar_api_generator <- function(baseURI,
 
     } else {
       req <- doHttrRequest(req_url,
-                           shiny_access_token=shiny_access_token,
                            request_type=http_header,
                            the_body=the_body,
                            customConfig=customConfig,
@@ -260,39 +240,21 @@ retryRequest <- function(f){
   if(!(grepl("^20",status_code))){
     myMessage("Request Status Code: ", status_code, level = 3)
 
-    content <- try(fromJSON(content(the_request,
-                                    as = "text",
-                                    type = "application/json",
-                                    encoding = "UTF-8")))
-    if(is.error(content)){
-
-      myMessage("No JSON content found in request", level = 1)
-      
-      # perhaps it is not JSON and a webpage with error instead
-      if(grepl("invalid char in json text",error.message(content))){
-
-        error_html <- content(the_request,
-                              as = "text",
-                              type = "text/html",
-                              encoding = "UTF-8")
-        browseURL(error_html)
-        
-        error <- "API error: returned web page that has been opened in your default browser if possible"
-        cat(error_html)
-      } else {
-        error <- "Could not fetch response"
-      }
-
-
-    } else if(exists("error", where=content)) {
-
+    content <- content(the_request, as = "text", 
+                       type = "application/json", encoding = "UTF-8")
+    
+    content <- tryCatch(fromJSON(content), error = function(err){
+      myMessage("Could not parase error content to JSON", level = 2)
+      return(content)
+    })
+    
+    if(!is.string(content) && !is.null(content$error$message)){
       error <- content$error$message
-
     } else {
-      error <- "Unspecified Error"
+      error <- "Unspecified error"
     }
 
-    myMessage("API returned error: ",paste(error), level = 2)
+    myMessage("API error: ",paste(error), level = 2)
 
     if(grepl("^5|429|408",status_code)){
       try_attempts <- getOption("googleAuthR.tryAttempts")
@@ -339,7 +301,6 @@ retryRequest <- function(f){
 #' @importFrom jsonlite fromJSON
 #' @keywords internal
 doHttrRequest <- function(url,
-                          shiny_access_token = NULL,
                           request_type="GET",
                           the_body=NULL,
                           customConfig=NULL,
@@ -349,7 +310,7 @@ doHttrRequest <- function(url,
   arg_list <- list(
     verb = request_type,
     url = url,
-    config = get_google_token(shiny_access_token),
+    config = get_google_token(),
     body = the_body,
     encode = if (!is.null(customConfig$encode)) customConfig$encode else "json",
     add_headers("Accept-Encoding" = "gzip"),

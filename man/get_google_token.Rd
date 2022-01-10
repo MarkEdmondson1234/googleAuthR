@@ -4,7 +4,7 @@
 \alias{get_google_token}
 \title{Retrieve Google token from environment and configs for httr}
 \usage{
-get_google_token(shiny_return_token = NULL)
+get_google_token()
 }
 \arguments{
 \item{shiny_return_token}{In a shiny session, this is passed instead.}

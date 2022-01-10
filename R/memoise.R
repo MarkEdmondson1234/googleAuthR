@@ -103,7 +103,6 @@ gar_cache_setup <- function(mcache=memoise::cache_memory(),
 #' @family cache functions
 #' @noRd
 memDoHttrRequest <- function(req_url,
-                             shiny_access_token,
                              request_type,
                              the_body,
                              customConfig,
@@ -115,7 +114,6 @@ memDoHttrRequest <- function(req_url,
 
   existing_cache <- has_cache(cachedHttrRequest)(
     req_url,
-    shiny_access_token=shiny_access_token,
     request_type=request_type,
     the_body=the_body,
     customConfig=customConfig,
@@ -130,7 +128,6 @@ memDoHttrRequest <- function(req_url,
   
   req <- cachedHttrRequest(
     req_url,
-    shiny_access_token=shiny_access_token,
     request_type=request_type,
     the_body=the_body,
     customConfig=customConfig,

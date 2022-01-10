@@ -6,7 +6,6 @@
 \usage{
 doHttrRequest(
   url,
-  shiny_access_token = NULL,
   request_type = "GET",
   the_body = NULL,
   customConfig = NULL,
