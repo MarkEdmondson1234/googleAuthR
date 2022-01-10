@@ -274,7 +274,12 @@ retryRequest <- function(f){
 
   ## either reraise the error or should be good now
   if(is.error(the_request)){
-    stop(error.message(the_request), call. = FALSE)
+    abort_http(status_code, error.message(the_request))
+  }
+  
+  # if not a 2XX response make a custom error
+  if(!grepl("^2", status_code)){
+    abort_http(status_code, error)
   }
 
   the_request

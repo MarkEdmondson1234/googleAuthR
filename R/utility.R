@@ -1,3 +1,12 @@
+# https://adv-r.hadley.nz/conditions.html
+abort_http <- function(status_code, msg = NULL){
+  myMessage("Custom error", status_code, msg, level = 2)
+  rlang::abort(paste0("http_",status_code), 
+               message = paste0("http_", status_code, " ", msg)
+  )
+}
+
+
 isFALSE <- function(x) identical(x, FALSE) # replicate R 3.5 function 
 
 #' @noRd
