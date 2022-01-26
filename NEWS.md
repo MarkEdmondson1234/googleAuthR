@@ -1,4 +1,4 @@
-# googleAuthR 1.4.1.9000
+# googleAuthR 1.4.2
 
 * Removed `with_shiny()`
 * Improved error handling with custom http errors
