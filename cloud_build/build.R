@@ -30,12 +30,13 @@ builds <- setNames(builds, pkgs)
 a_buildtrigger <- function(
   pkg, 
   builds, 
-  trigger = cr_buildtrigger_repo("MarkEdmondson1234/googleCloudRunner",
+  trigger = cr_buildtrigger_repo("MarkEdmondson1234/googleAuthR",
                                  branch = "master")){
   build <- builds[[pkg]]
+  cli::cli_alert_info("Creating revdep buildtrigger for {pkg}")
   cr_buildtrigger(build, 
-                  name = pkg, 
-                  description = "dependency check googleAuthR",
+                  name = paste0(pkg, "-revdepcheck-googleAuthR"), 
+                  description = Sys.time(),
                   trigger = trigger, 
                   trigger_tags = "dependency_check",
                   overwrite = TRUE)
