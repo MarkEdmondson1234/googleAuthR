@@ -14,11 +14,10 @@ pkgs <- revdep_todo()$package
 
 a_build <- function(pkg){
   
-  r_cmd <- c("install.packages('remotes')",
-             "remotes::install_github('r-lib/revdepcheck')",
-             sprintf("revdep_check('%s', quiet = FALSE)", pkg))
+  r_cmd <- sprintf("revdep_check('%s', quiet = FALSE)", pkg)
              
-  bs <- cr_buildstep_r(r_cmd)
+  bs <- cr_buildstep_r(r_cmd, 
+                       name = "gcr.io/gcer-public/packagetools")
   yml <- cr_build_yaml(bs)
   build <- cr_build_make(yml)
   
@@ -34,7 +33,7 @@ a_buildtrigger <- function(
   trigger = cr_buildtrigger_repo("MarkEdmondson1234/googleAuthR",
                                  branch = "master")){
   build <- builds[[pkg]]
-  cli::cli_alert_info("Creating revdep buildtrigger for {pkg}")
+  cli::cli_alert_info("Creating revdep buildtrigger for dependency {pkg}")
   cr_buildtrigger(build, 
                   name = paste0(pkg, "-revdepcheck-googleAuthR"), 
                   description = Sys.time(),
