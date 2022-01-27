@@ -14,7 +14,8 @@ pkgs <- revdep_todo()$package
 
 a_build <- function(pkg){
   
-  r_cmd <- c("install.packages('revdepcheck')",
+  r_cmd <- c("install.packages('remotes')",
+             "remotes::install_github('r-lib/revdepcheck')",
              sprintf("revdep_check('%s', quiet = FALSE)", pkg))
              
   bs <- cr_buildstep_r(r_cmd)
