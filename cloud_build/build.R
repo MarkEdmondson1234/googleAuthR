@@ -14,7 +14,7 @@ pkgs <- revdep_todo()$package
 
 a_build <- function(pkg){
   
-  r_cmd <- sprintf("revdepcheck::revdep_check('%s', quiet = FALSE)", 
+  r_cmd <- sprintf("list.files();revdepcheck::revdep_check('%s', quiet = FALSE)", 
                    pkg)
              
   bs <- cr_buildstep_r(r_cmd, 

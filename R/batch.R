@@ -419,7 +419,7 @@ doBatchRequest <- function(batched,
   }
   
   arg_list <- list(url = batch_endpoint, 
-                   config = get_google_token(batched$shiny_access_token), 
+                   config = get_google_token(), 
                    body = batched$parsed,
                    encode = "multipart",
                    add_headers("Accept-Encoding" = "gzip"),
