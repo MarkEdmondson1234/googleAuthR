@@ -14,7 +14,7 @@ pkgs <- revdep_todo()$package
 
 a_build <- function(pkg){
   
-  r_cmd <- sprintf("revdep_check('%s', quiet = FALSE)", pkg)
+  r_cmd <- sprintf("revdepcheck::revdep_check('%s', quiet = FALSE)", pkg)
              
   bs <- cr_buildstep_r(r_cmd, 
                        name = "gcr.io/gcer-public/packagetools")
