@@ -1,3 +1,7 @@
+# 2.0.0.9000
+
+* ...
+
 # googleAuthR 2.0.0
 
 * Removed `with_shiny()` and `googleAuth` modules that have been deprecated for a while -use `gar_shiny_*` instead.
