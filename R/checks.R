@@ -128,8 +128,6 @@ token_exists <- function() {
 
 #' Check API data token
 #'
-#' @param shiny_access_token auth token
-#'
 #' @return boolean if it works.
 #'
 #' @keywords internal

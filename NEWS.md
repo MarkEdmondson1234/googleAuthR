@@ -1,6 +1,6 @@
-# googleAuthR 1.4.2
+# googleAuthR 2.0.0
 
-* Removed `with_shiny()`
+* Removed `with_shiny()` and `googleAuth` modules that have been deprecated for a while -use `gar_shiny_*` instead.
 * Improved error handling with custom http errors
 
 # googleAuthR 1.4.1

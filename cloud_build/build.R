@@ -18,7 +18,7 @@ make_dep_build <- function(
   bs <- cr_buildstep_r(r_cmd, 
                        name = "gcr.io/gcer-public/packagetools")
   yml <- cr_build_yaml(bs)
-  build <- cr_build_make(yml)
+  build <- cr_build_make(yml, timeout = 3600)
   
   cr_buildtrigger(build, 
                   name = "revdepcheck-googleAuthR", 

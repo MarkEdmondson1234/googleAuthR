@@ -140,7 +140,6 @@ gar_api_generator <- function(baseURI,
     if(any(with_gar_batch)){
       ## batching
       req <- list(req_url = req_url,
-                  shiny_access_token = shiny_access_token,
                   http_header = http_header,
                   the_body = the_body,
                   name = digest(c(req_url, the_body)))

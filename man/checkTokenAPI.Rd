@@ -6,9 +6,6 @@
 \usage{
 checkTokenAPI()
 }
-\arguments{
-\item{shiny_access_token}{auth token}
-}
 \value{
 boolean if it works.
 }
