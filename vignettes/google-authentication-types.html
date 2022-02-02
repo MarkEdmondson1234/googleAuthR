@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2022-01-28" />
+<meta name="date" content="2022-02-02" />
 
 <title>Google authentication types for R</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Google authentication types for R</h1>
 <h4 class="author">Mark Edmondson</h4>
-<h4 class="date">2022-01-28</h4>
+<h4 class="date">2022-02-02</h4>
 
 
 
@@ -413,6 +413,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>..which calls an environment variable set in <code>~/.Renvion</code>:</p>
 <pre><code>GCS_AUTH_FILE=&quot;/Users/mark/auth/my_auth_file.json&quot;</code></pre>
+</div>
+<div id="authentication-on-google-cloud" class="section level1">
+<h1>Authentication on Google Cloud</h1>
+<p>Use <code>googleAuthR::gar_gce_auth()</code> to authenticate reusing the service keys of the Google Compute Engine instance (or other compute service).</p>
+</div>
+<div id="authentication-on-kubernetes-via-workload-identity" class="section level1">
+<h1>Authentication on Kubernetes via workload identity</h1>
+<p>Workload identity is a way of federating the authentication of a service key to Kubernetes without needing to download a service key.</p>
+<p>Its the “right” way to do authentication on K8s and other places if possible since it involves not downloading keys which is a potential security risk.</p>
+<ol style="list-style-type: decimal">
+<li>Following the <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">docs</a> you create a service account as normal and give it permissions and scopes needed to say upload to BigQuery, as you would before. eg. <code>my-service-key@my-project.iam.gserviceaccount.com</code> with <code>https://www.googleapis.com/auth/bigquery</code> scopes</li>
+<li>Instead of downloading a JSON key, you instead federate that permission by adding a policy binding to another service account within Kubernetes</li>
+<li>Create the service account within Kubernetes, ideally within a new namespace:</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create namespace</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> create namespace my-namespace</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create Kubernetes service account</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> create serviceaccount <span class="at">--namespace</span> my-namespace bq-service-account </span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Bind that Kubernetes service account to the service account outside of kubernetes you created in step 1, and assign it an annotation</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create IAM policy binding between k8s SA and GSA</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> iam service-accounts add-iam-policy-binding my-service-key@my-project.iam.gserviceaccount.com <span class="dt">\</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--role</span> roles/iam.workloadIdentityUser <span class="dt">\</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--member</span> <span class="st">&quot;serviceAccount:my-project.svc.id.goog[my-namespace/bq-service-account]&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Annotate k8s SA</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> annotate serviceaccount bq-service-account <span class="dt">\</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">--namespace</span> my-namespace <span class="dt">\</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    iam.gke.io/gcp-service-account=my-service-key@my-project.iam.gserviceaccount.com</span></code></pre></div>
+<p>This key will now be available to add to pods within the cluster. For Airflow, you can pass them in using the <code>GKEPodOperator(...., namespace=&#39;my-namespace&#39;, service_account_name=&#39;bq-service-account&#39;)</code></p>
+<ol start="5" style="list-style-type: decimal">
+<li>When calling the <code>gargle::gce_credentials()</code> within R, you need first make sure its using the right internal kubernetes endpoint (<code>options(gargle.gce.use_ip = TRUE)</code>) and then call the service email that is not “default”. <code>gargle:::list_service_accounts()</code> was helpful in debugging (maybe export this?)</li>
+</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code within the Docker container</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bigQueryR)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">gargle.gce.use_ip =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>googleAuthR<span class="sc">::</span><span class="fu">gar_gce_auth</span>(<span class="st">&quot;my-service-key@my-project.iam.gserviceaccount.com&quot;</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>... do authenticated stuff...</span></code></pre></div>
 </div>
 <div id="revoking-authentication" class="section level1">
 <h1>Revoking Authentication</h1>

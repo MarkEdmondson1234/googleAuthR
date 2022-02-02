@@ -32,6 +32,8 @@ The metadata token will refresh itself when it has about 60 seconds left.
 You can only use for scopes specified when creating the instance.
 
 If you want to use them make sure their service account email is added to accounts you want to get data from.
+
+Use \code{options(gargle.gce.use_ip = TRUE)} to activate this upon kubernetes for instance using federated identity
 }
 \seealso{
 \link{gar_gce_auth_email}

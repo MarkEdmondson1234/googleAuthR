@@ -68,14 +68,17 @@ gar_gce_auth_default <- function(scopes = getOption("googleAuthR.scopes.selected
 #' 
 #' If you want to use them make sure their service account email is added to accounts you want to get data from.
 #' 
+#' Use \code{options(gargle.gce.use_ip = TRUE)} to activate this upon kubernetes for instance using federated identity
+#' 
 #' 
 #' @return A token 
 #' @seealso \link{gar_gce_auth_email}
 #' @export
 #' @family authentication functions
 #' @importFrom gargle credentials_gce
-gar_gce_auth <- function(service_account = "default",
-                         scopes = "https://www.googleapis.com/auth/cloud-platform"){
+gar_gce_auth <- function(
+  service_account = "default",
+  scopes = "https://www.googleapis.com/auth/cloud-platform"){
   
   token <- credentials_gce(scopes = scopes,
                            service_account = service_account)
@@ -100,7 +103,7 @@ gar_gce_auth <- function(service_account = "default",
 #' @export
 gar_gce_auth_email <- function(service_account = "default"){
   
-  call_url <- sprintf("http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/", 
+  call_url <- sprintf("http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/%s", 
                       service_account)
   req <- try(httr::GET(call_url, httr::add_headers(`Metadata-Flavor` = "Google")), 
              silent = TRUE)

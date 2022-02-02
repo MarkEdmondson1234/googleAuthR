@@ -1,6 +1,6 @@
 # 2.0.0.9000
 
-* ...
+* fix `gar_gce_auth_email()`
 
 # googleAuthR 2.0.0
 
