@@ -1,9 +1,5 @@
 # googleAuthR - Google API R Client
 
-[![CRAN](http://www.r-pkg.org/badges/version/googleAuthR)](https://cran.r-project.org/package=googleAuthR)
-[![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
-[![codecov](https://codecov.io/gh/MarkEdmondson1234/googleAuthR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/MarkEdmondson1234/googleAuthR)
-
 ## gargle backend
 
 As of version `googleAuthR>=1.0.0` the OAuth2 and service JSON authentication is provided by [gargle](https://gargle.r-lib.org/index.html).  Refer to that documentation for details.

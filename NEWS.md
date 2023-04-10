@@ -1,6 +1,7 @@
-# 2.0.0.9000
+# 2.0.1
 
 * fix `gar_gce_auth_email()`
+* Remove travis links as they broke CRAN
 
 # googleAuthR 2.0.0
 
