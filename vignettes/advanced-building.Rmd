@@ -362,10 +362,7 @@ Be careful to only use caching where you know the API request won't change - if 
 
 All packages should ideally have tests to ensure that any changes do not break functionality. 
 
-If new to testing, first read this guide on using the `tidyverse`'s [testthat](https://testthat.r-lib.org/), then read this for a [beginner's guide to travis-CI for R](https://juliasilge.com/blog/beginners-guide-to-travis/), which is a continuous integration system that will run and test your code everytime it is committed to GitHub.
-
-This is this package's current Travis badge:
-[![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/googleAuthR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
+If new to testing, first read this guide on using the `tidyverse`'s [testthat](https://testthat.r-lib.org/).
 
 However, testing APIs that need authentication is more complicated, as you need to deal with the authentication token to get a correct response. 
 
@@ -376,12 +373,11 @@ Since [`googleCloudRunner`](https://code.markedmondson.me/googleCloudRunner/) ha
 
 ### Codecov
 
-One of the nicest features of continuous integration / Travis is it can be used for code coverage.  This uses your tests to find out how many lines of code are triggered within them.  This lets you see how thorough yours tests are.  Developers covert the 100% coverage badge as it shows all of your code is checked every time you push to GitHub and helps mitigate bugs.
+One of the nicest features of continuous integration is it can be used for code coverage.  This uses your tests to find out how many lines of code are triggered within them.  This lets you see how thorough yours tests are.  Developers covert the 100% coverage badge as it shows all of your code is checked every time you push to GitHub and helps mitigate bugs.
 
 This is this package's current Codecov status:
 [![codecov](https://codecov.io/gh/MarkEdmondson1234/googleAuthR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/MarkEdmondson1234/googleAuthR)
 
-Using code coverage is a case of adding another metafile and a command to your travis file.  [This post by Eryk has some details](https://walczak.org/2017/06/how-to-add-code-coverage-codecov-to-your-r-package/)
 
 #### Offline code coverage
 

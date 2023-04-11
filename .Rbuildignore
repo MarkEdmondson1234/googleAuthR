@@ -28,3 +28,4 @@ secrets\.R
 ^.github$
 ^cloud_build$
 ^cloudbuild\.yml$
+^CRAN-SUBMISSION$
