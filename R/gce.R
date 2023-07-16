@@ -39,10 +39,15 @@
 #' @seealso \href{https://cloud.google.com/sdk/gcloud/reference/auth/application-default/print-access-token}{gcloud reference}
 gar_gce_auth_default <- function(scopes = getOption("googleAuthR.scopes.selected",
                                                     "https://www.googleapis.com/auth/cloud-platform")){
-  
-  # doesn't this need the returned access token?
-  credentials_app_default(scopes = scopes)
-  
+
+  token <- credentials_app_default(scopes = scopes)
+
+  myMessage("Authenticated with Application Default Credentials", level = 2)
+
+  .auth$set_cred(token)
+  .auth$set_auth_active(TRUE)
+
+  invisible(token)
 }
 
 
