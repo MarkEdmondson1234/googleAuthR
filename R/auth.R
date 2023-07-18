@@ -194,8 +194,9 @@ is.token2.0 <- function(x){
 #' @importFrom httr config
 get_google_token <- function() {
   
-  if(any(which(grepl("with_mock_API", as.character(sys.calls()))))){
-    myMessage("Skipping token checks as using with_mock_API", level = 3)
+  if(should_skip_token_checks()){
+    myMessage("Skipping token checks as determined from the execution context and options",
+              level = 3)
     return(NULL)
   }
   

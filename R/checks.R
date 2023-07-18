@@ -134,9 +134,9 @@ token_exists <- function() {
 #' @family data fetching functions
 checkTokenAPI <- function(){
   
-  if(any(which(grepl("with_mock_API", 
-                     as.character(sys.calls()), ignore.case = FALSE)))){
-    myMessage("Skipping token checks as using with_mock_API", level = 1)
+  if(should_skip_token_checks()){
+    myMessage("Skipping token checks as determined from the execution context and options",
+              level = 1)
     return(TRUE)
   }
   
@@ -221,4 +221,40 @@ checkGoogleAPIError <- function(req){
   stop_for_status(req)
   
   TRUE
+}
+
+#' Determines whether token presence and validity checks should be skipped.
+#'
+#' Skipping checks is useful in certain special cases, such as testing. Tests
+#' might rely on mocked API responses or fake API implementations, which don't
+#' require a valid token. It wouldn't make sense to demand a valid token in that
+#' context.
+#'
+#' \code{googleAuthR} uses this function to know when the execution context is
+#' such that token checks should be skipped. This is ultimately determined by
+#' the value of the \code{googleAuthR.skip_token_checks} boolean option. Users
+#' or consumer libraries can set this option to signal that authentication is
+#' not needed.
+#'
+#' In addition, this function detects the use of \code{httptest::with_mock_API}
+#' and skips token checks in that case as well.
+#'
+#' @return boolean
+#'
+#' @keywords internal
+#' @family authentication functions
+should_skip_token_checks <- function() {
+  if(getOption("googleAuthR.skip_token_checks")) {
+    myMessage("Skipping token checks as the option `googleAuthR.skip_token_checks` is set",
+              level = 3)
+    return(TRUE)
+  }
+
+  if(any(which(grepl("with_mock_API",
+                     as.character(sys.calls()), ignore.case = FALSE)))){
+    myMessage("Skipping token checks as using with_mock_API", level = 3)
+    return(TRUE)
+  }
+
+  return(FALSE)
 }

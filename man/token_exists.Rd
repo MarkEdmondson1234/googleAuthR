@@ -19,7 +19,8 @@ Other authentication functions:
 \code{\link{gar_auth}()},
 \code{\link{gar_auto_auth}()},
 \code{\link{gar_gce_auth}()},
-\code{\link{get_google_token}()}
+\code{\link{get_google_token}()},
+\code{\link{should_skip_token_checks}()}
 }
 \concept{authentication functions}
 \keyword{internal}

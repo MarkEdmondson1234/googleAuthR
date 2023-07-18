@@ -31,6 +31,7 @@
     googleAuthR.webapp.client_id = sys_or_null("GAR_WEB_CLIENTID"),
     googleAuthR.webapp.client_secret = sys_or_null("GAR_WEB_CLIENT_SECRET"),
     googleAuthR.scopes.selected = scopes_split("GAR_SCOPES"),
+    googleAuthR.skip_token_checks = FALSE,
     googleAuthR.webapp.port = 1221,
     googleAuthR.jsonlite.simplifyVector = TRUE,
     googleAuthR.ok_content_types = c("application/json; charset=UTF-8", 
