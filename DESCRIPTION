@@ -44,3 +44,4 @@ Suggests:
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
+Encoding: UTF-8
