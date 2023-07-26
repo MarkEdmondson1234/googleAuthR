@@ -43,5 +43,5 @@ Suggests:
     usethis (>= 1.6.0)
 License: MIT + file LICENSE
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
 Encoding: UTF-8
+RoxygenNote: 7.2.1
