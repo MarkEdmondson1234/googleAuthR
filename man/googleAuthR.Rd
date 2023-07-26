@@ -24,6 +24,7 @@ These are the default options that you can override via \code{options()}
   \item \code{googleAuthR.webapp.port = 1221}
   \item \code{googleAuthR.jsonlite.simplifyVector = TRUE}
   \item \code{googleAuthR.scopes.selected = NULL}
+  \item \code{googleAuthR.skip_token_checks = FALSE}
   \item \code{googleAuthR.ok_content_types=c("application/json; charset=UTF-8", ("text/html; charset=UTF-8"))}
   \item \code{googleAuthR.securitycode = paste0(sample(c(1:9, LETTERS, letters), 20, replace = T), collapse='')}
   \item \code{googleAuthR.tryAttempts = 5}

@@ -12,8 +12,10 @@ gar_cache_empty()
 
 gar_cache_setup(
   mcache = memoise::cache_memory(),
-  invalid_func = function(req) {     tryCatch(req$status_code == 200, error =
-    function(x) FALSE) }
+  invalid_func = function(req) {
+     tryCatch(req$status_code == 200, error =
+    function(x) FALSE)
+ }
 )
 }
 \arguments{
