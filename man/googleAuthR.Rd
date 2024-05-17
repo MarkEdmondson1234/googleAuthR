@@ -41,7 +41,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mark Edmondson \email{m@sunholo.com} (\href{https://orcid.org/0000-0002-8434-3881}{ORCID})
+\strong{Maintainer}: Erik Grönroos \email{erik.gronroos@8-bit-sheep.com}
+
+Authors:
+\itemize{
+  \item Mark Edmondson \email{m@sunholo.com} (\href{https://orcid.org/0000-0002-8434-3881}{ORCID})
+}
 
 Other contributors:
 \itemize{

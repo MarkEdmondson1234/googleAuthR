@@ -6,9 +6,11 @@ Description: Create R functions that interact with OAuth2 Google APIs
     <https://developers.google.com/apis-explorer/> easily,
     with auto-refresh and Shiny compatibility.
 Authors@R: c(person("Mark", "Edmondson",email = "m@sunholo.com",
-                  role = c("aut", "cre"),
+                  role = "aut",
                   comment = c(ORCID = "0000-0002-8434-3881")),
-           person("Jennifer", "Bryan",email="jenny@stat.ubc.ca", role = "ctb"),
+           person("Erik", "Grönroos", email = "erik.gronroos@8-bit-sheep.com",
+                  role = "cre"),
+           person("Jennifer", "Bryan", email="jenny@stat.ubc.ca", role = "ctb"),
            person("Johann", "deBoer", email="johanndeboer@gmail.com", role = "ctb"),
            person("Neal", "Richardson", email="neal.p.richardson@gmail.com", role = "ctb"),
            person("David","Kulp", email="dkulp@cs.umass.edu", role = "ctb"),
