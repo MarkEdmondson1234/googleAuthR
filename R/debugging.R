@@ -32,6 +32,7 @@ is.gar_parse_error <- function(x){
   inherits(x, "gar_parse_error")
 }
 
+#' @export
 print.gar_parse_error <- function(x, ...){
   utils::str(x)
 }

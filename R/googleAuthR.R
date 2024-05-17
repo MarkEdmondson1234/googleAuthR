@@ -29,5 +29,6 @@
 #' 
 #' @docType package
 #' @name googleAuthR
+#' @aliases googleAuthR-package
 #' 
 NULL

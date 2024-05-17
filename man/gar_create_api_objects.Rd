@@ -23,7 +23,7 @@ Create the API objects from the Discovery API
 Other Google Discovery API functions: 
 \code{\link{gar_create_api_skeleton}()},
 \code{\link{gar_create_package}()},
-\code{\link{gar_discovery_apis_list}()},
-\code{\link{gar_discovery_api}()}
+\code{\link{gar_discovery_api}()},
+\code{\link{gar_discovery_apis_list}()}
 }
 \concept{Google Discovery API functions}

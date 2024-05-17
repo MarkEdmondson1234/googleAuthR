@@ -1,6 +1,6 @@
 Package: googleAuthR
 Type: Package
-Version: 2.0.1
+Version: 2.0.2
 Title: Authenticate and Create Google APIs
 Description: Create R functions that interact with OAuth2 Google APIs 
     <https://developers.google.com/apis-explorer/> easily,
@@ -44,4 +44,4 @@ Suggests:
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1

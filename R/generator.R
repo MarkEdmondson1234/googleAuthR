@@ -290,10 +290,8 @@ retryRequest <- function(f){
 #' This changes the auth type depending on if its local or on Shiny
 #'
 #' @param url the url of the page to retrieve
-#' @param session a shiny session object if in a shiny app.
 #' @param request_type the type of httr request function: GET, POST, PUT, DELETE etc.
 #' @param the_body body of POST request
-#' @param params A named character vector of other parameters to add to request.
 #' @param customConfig list of httr options such as \code{httr::use_proxy}
 #'   or \code{httr::add_headers} that will be added to the request.
 #' @param simplifyVector Passed to jsonlite::fromJSON

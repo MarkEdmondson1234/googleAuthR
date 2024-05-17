@@ -40,8 +40,8 @@ Use \code{options(gargle.gce.use_ip = TRUE)} to activate this upon kubernetes fo
 
 Other authentication functions: 
 \code{\link{gar_attach_auto_auth}()},
-\code{\link{gar_auth_service}()},
 \code{\link{gar_auth}()},
+\code{\link{gar_auth_service}()},
 \code{\link{gar_auto_auth}()},
 \code{\link{get_google_token}()},
 \code{\link{should_skip_token_checks}()},

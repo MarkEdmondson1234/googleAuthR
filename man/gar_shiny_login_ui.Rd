@@ -19,8 +19,8 @@ Use \link{gar_shiny_auth_url} to create the login URL.  You must leave the first
 }
 \seealso{
 Other pre-load shiny authentication: 
-\code{\link{gar_shiny_auth_url}()},
 \code{\link{gar_shiny_auth}()},
+\code{\link{gar_shiny_auth_url}()},
 \code{\link{gar_shiny_ui}()},
 \code{\link{silent_auth}()}
 }

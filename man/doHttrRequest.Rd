@@ -23,10 +23,6 @@ doHttrRequest(
 or \code{httr::add_headers} that will be added to the request.}
 
 \item{simplifyVector}{Passed to jsonlite::fromJSON}
-
-\item{session}{a shiny session object if in a shiny app.}
-
-\item{params}{A named character vector of other parameters to add to request.}
 }
 \description{
 This changes the auth type depending on if its local or on Shiny

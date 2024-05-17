@@ -24,7 +24,7 @@ This will create a file with the skeleton of the API functions
 Other Google Discovery API functions: 
 \code{\link{gar_create_api_objects}()},
 \code{\link{gar_create_package}()},
-\code{\link{gar_discovery_apis_list}()},
-\code{\link{gar_discovery_api}()}
+\code{\link{gar_discovery_api}()},
+\code{\link{gar_discovery_apis_list}()}
 }
 \concept{Google Discovery API functions}

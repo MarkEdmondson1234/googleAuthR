@@ -185,7 +185,6 @@ is.token2.0 <- function(x){
 #' Retrieve Google token from environment and configs for httr
 #'
 #' Get token if it's previously stored, else prompt user to get one.
-#' @param shiny_return_token In a shiny session, this is passed instead.
 #' @return a httr configured option for token
 #' For shiny the token is passed from reactive session
 #'

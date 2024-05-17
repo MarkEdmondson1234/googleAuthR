@@ -14,8 +14,8 @@ The default for logging in via \link{gar_shiny_ui}, this creates no login page a
 }
 \seealso{
 Other pre-load shiny authentication: 
-\code{\link{gar_shiny_auth_url}()},
 \code{\link{gar_shiny_auth}()},
+\code{\link{gar_shiny_auth_url}()},
 \code{\link{gar_shiny_login_ui}()},
 \code{\link{gar_shiny_ui}()}
 }

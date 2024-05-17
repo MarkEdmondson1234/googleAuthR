@@ -23,7 +23,7 @@ Other setup functions:
 \code{\link{gar_setup_auth_key}()},
 \code{\link{gar_setup_edit_renviron}()},
 \code{\link{gar_setup_env_check}()},
-\code{\link{gar_setup_menu_do}()},
-\code{\link{gar_setup_menu}()}
+\code{\link{gar_setup_menu}()},
+\code{\link{gar_setup_menu_do}()}
 }
 \concept{setup functions}
