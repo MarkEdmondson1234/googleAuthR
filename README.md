@@ -37,7 +37,7 @@ Auto-build libraries for Google APIs with OAuth2 for both local and Shiny app us
 
 Get more details at the [googleAuthR website](https://code.markedmondson.me/googleAuthR/)
 
-The [`googleAuthRverse`](https://googleauthrverse.slack.com) Slack team has been setup for support for using `googleAuthR` and the libraries it helps create.  Sign up via this [Google form](https://goo.gl/forms/d541yrJoDFMrrSJp1) to get access. 
+The [`googleAuthRverse`](https://googleauthrverse.slack.com/) Slack team has been setup for support for using `googleAuthR` and the libraries it helps create.  Sign up via this [Google form](https://goo.gl/forms/d541yrJoDFMrrSJp1) to get access. 
 
 ## R Google API libraries using googleAuthR
 
@@ -47,7 +47,7 @@ The below libraries are all cross-compatible as they use `googleAuthR` for authe
 * [googleComputeEngineR](https://cloudyr.github.io/googleComputeEngineR/) - Google Compute Engine VMs API
 * [searchConsoleR](https://code.markedmondson.me/searchConsoleR/) - Search Console API
 * [bigQueryR](https://code.markedmondson.me/bigQueryR/) - BigQuery API. Part of the cloudyr project.
-* [googleAnalyticsR](https://code.markedmondson.me/googleAnalyticsR/) - Google Analytics API
+* [googleAnalyticsR](https://github.com/8-bit-sheep/googleAnalyticsR/) - Google Analytics API
 * [googleTagManagerR](https://github.com/IronistM/googleTagManageR) - Google Tag Manager API by IronistM
 * [googleID](https://github.com/MarkEdmondson1234/googleID) - Simple user info from G+ API for Shiny app authentication flows.
 * [googleCloudStorageR](https://code.markedmondson.me/googleCloudStorageR/) - Google Cloud Storage API
@@ -63,7 +63,7 @@ Feel free to add your own via email or a pull request if you have used googleAut
 
 * Jenny Bryan and her work on the [googlesheets](https://github.com/jennybc/googlesheets) package that this work derives from.
 * Hadley Wickham for [httr's OAuth2](https://github.com/r-lib/httr) excellence
-* RStudio team for [Shiny](https://shiny.rstudio.com/)
+* RStudio team for [Shiny](https://shiny.posit.co/)
 * [Johann de Boer](https://github.com/jdeboer) for some code contributions.
 
 ## Install

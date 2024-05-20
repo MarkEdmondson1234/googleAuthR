@@ -15,7 +15,7 @@ This document hopefully helps troubleshoot authentication troubles.  If anything
 
 ### Setting your own client ID
 
-[Donal Phipps](http://donalphipps.co.uk/) has a helpful video on how to set up your own Google Project client ID and secret via [this link](https://www.youtube.com/watch?v=4B88dRbwNfc) - its for `googleAnalyticsR` but applies for all `googleAuthR` packages. 
+[Donal Phipps](https://donalphipps.co.uk/) has a helpful video on how to set up your own Google Project client ID and secret via [this link](https://www.youtube.com/watch?v=4B88dRbwNfc) - its for `googleAnalyticsR` but applies for all `googleAuthR` packages. 
 
 <iframe width="560" height="315" src="http://www.youtube.com/embed/4B88dRbwNfc?rel=0" frameborder="0" allowfullscreen></iframe>
 

@@ -59,7 +59,7 @@ If creating your own library you can choose to supply some or all of the above t
 
 ## googleAuthR > 1.0.0
 
-Authentication cache tokens are kept at a global level on your computer.  When you authenticate the first time with a new client.id, scope or email then you will go through the authentication process in the browser, however the next time it wil be cached and be a lot quicker.
+Authentication cache tokens are kept at a global level on your computer.  When you authenticate the first time with a new client_id, scope or email then you will go through the authentication process in the browser, however the next time it wil be cached and be a lot quicker.
 
 ```r
 # switching between auth scopes
@@ -273,7 +273,7 @@ shinyApp(gar_shiny_ui(ui, login_ui = gar_shiny_login_ui), server)
 
 This module is suitable if you don't need to authenticate APIs in your app, you just would like a login.  You can then reach the user email, id, name or avatar to decide which content you want to show with durther logic within your Shiny app. 
 
-You only need to set the `client.id` for this login, as no secrets are being created.
+You only need to set the `client_id` for this login, as no secrets are being created.
 
 ```r
 library(shiny)

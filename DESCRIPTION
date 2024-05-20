@@ -30,7 +30,6 @@ Imports:
     rlang,
     utils
 Suggests:
-    bigQueryR,
     covr,
     devtools (>= 1.12.0),
     formatR (>= 1.4),
