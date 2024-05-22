@@ -77,8 +77,11 @@ gar_has_token <- function() {
 #' Edit and view auth configuration
 #'
 #' @eval gargle:::PREFIX_auth_configure_description(gargle_lookup_table)
-#' @eval gargle:::PREFIX_auth_configure_params()
 #' @eval gargle:::PREFIX_auth_configure_return(gargle_lookup_table)
+#'
+#' @param app A Google OAuth client, presumably constructed via \link[gargle]{gargle_oauth_client_from_json}. Note, however, that it is preferred to specify the client with JSON, using the `path` argument.
+#' @param path JSON downloaded from \href{https://console.cloud.google.com}{Google Cloud Console}, containing a client id and secret, in one of the forms supported for the \code{txt} argument of \code{\link[jsonlite]{fromJSON}} (typically, a file path or JSON string).
+#' @param api_key API key.
 #'
 #' @family auth functions
 #' @export

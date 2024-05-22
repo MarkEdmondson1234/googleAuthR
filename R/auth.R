@@ -9,7 +9,7 @@
 #' @param app app as specified by \link{gar_auth_configure}
 #' @param package The name of the package authenticating
 #' @param cache Where to store authentication tokens
-#' @param use_oob Whther to use OOB browserless authetication
+#' @param use_oob Whether to use OOB browserless authentication
 #'
 #' @return an OAuth token object, specifically a
 #'   \code{\link[=Token-class]{Token2.0}}, invisibly

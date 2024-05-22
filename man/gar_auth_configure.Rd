@@ -13,18 +13,11 @@ gar_api_key()
 gar_oauth_app()
 }
 \arguments{
-\item{app}{`r lifecycle::badge('deprecated')` Replaced by the `client`
-argument.}
+\item{app}{A Google OAuth client, presumably constructed via \link[gargle]{gargle_oauth_client_from_json}. Note, however, that it is preferred to specify the client with JSON, using the `path` argument.}
 
-\item{path}{JSON downloaded from \href{https://console.cloud.google.com}{Google Cloud Console}, containing a client id and
-secret, in one of the forms supported for the \code{txt} argument of
-\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}} (typically, a file path or JSON string).}
+\item{path}{JSON downloaded from \href{https://console.cloud.google.com}{Google Cloud Console}, containing a client id and secret, in one of the forms supported for the \code{txt} argument of \code{\link[jsonlite]{fromJSON}} (typically, a file path or JSON string).}
 
 \item{api_key}{API key.}
-
-\item{client}{A Google OAuth client, presumably constructed via
-[gargle::gargle_oauth_client_from_json()]. Note, however, that it is
-preferred to specify the client with JSON, using the `path` argument.}
 }
 \value{
 * `gar_auth_configure()`: An object of R6 class
