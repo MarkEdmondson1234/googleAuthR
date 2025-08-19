@@ -23,7 +23,7 @@ You can use this in your code to authenticate from a file location specified in 
 }
 \value{
 an OAuth token object, specifically a
-  \code{\link[=Token-class]{Token2.0}}, invisibly
+  \code{\link[httr]{Token2.0}}, invisibly
 }
 \description{
 This helper function lets you use environment variables to auto-authenticate on package load, intended for calling by \link{gar_attach_auto_auth}
