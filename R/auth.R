@@ -12,7 +12,7 @@
 #' @param use_oob Whether to use OOB browserless authentication
 #'
 #' @return an OAuth token object, specifically a
-#'   \code{\link[=Token-class]{Token2.0}}, invisibly
+#'   \code{\link[httr:Token-class]{Token2.0}}, invisibly
 #'   
 #' @examples 
 #' 

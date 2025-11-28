@@ -20,7 +20,7 @@
 #' Help files for \link{.onAttach}
 #' 
 #' @return an OAuth token object, specifically a
-#'   \code{\link[=Token-class]{Token2.0}}, invisibly
+#'   \code{\link[httr:Token-class]{Token2.0}}, invisibly
 #'
 #' @export
 #' @family authentication functions

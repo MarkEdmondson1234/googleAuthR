@@ -14,7 +14,8 @@ Authors@R: c(person("Mark", "Edmondson",email = "m@sunholo.com",
            person("Johann", "deBoer", email="johanndeboer@gmail.com", role = "ctb"),
            person("Neal", "Richardson", email="neal.p.richardson@gmail.com", role = "ctb"),
            person("David","Kulp", email="dkulp@cs.umass.edu", role = "ctb"),
-           person("Joe","Cheng", email = "joe@rstudio.com", role = "ctb"))
+           person("Joe","Cheng", email = "joe@rstudio.com", role = "ctb"),
+           person("Cheryl Isabella","Lim", email = "cheryl.academic@gmail.com", role = "ctb"))
 URL: https://code.markedmondson.me/googleAuthR/
 BugReports: https://github.com/MarkEdmondson1234/googleAuthR/issues
 Depends:
