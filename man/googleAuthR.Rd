@@ -55,6 +55,7 @@ Other contributors:
   \item Neal Richardson \email{neal.p.richardson@gmail.com} [contributor]
   \item David Kulp \email{dkulp@cs.umass.edu} [contributor]
   \item Joe Cheng \email{joe@rstudio.com} [contributor]
+  \item Cheryl Isabella Lim \email{cheryl.academic@gmail.com} [contributor]
 }
 
 }

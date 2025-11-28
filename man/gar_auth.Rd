@@ -32,7 +32,7 @@ gar_auth(
 }
 \value{
 an OAuth token object, specifically a
-  \code{\link[httr]{Token2.0}}, invisibly
+  \code{\link[httr:Token-class]{Token2.0}}, invisibly
 }
 \description{
 Wrapper of \link[gargle]{token_fetch}
